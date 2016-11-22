@@ -252,5 +252,5 @@ paket-files/
 *.sln.iml
 
 # Web.config and App.config
-HomeAccountingSystem_WebUI/web.config
-app.config
+**/web.config
+**/app.config
