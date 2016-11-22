@@ -1,0 +1,34 @@
+﻿@model HomeAccountingSystem_WebUI.Models.ReportModel
+@{
+    ViewBag.Title = "Отчет по датам";
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="well">
+    <table class="table table-condensed table-bordered">
+        <caption>Все транзакции за период с @Model.DtFrom.ToShortDateString() до @Model.DtTo.ToShortDateString()<span class="pull-right" id="loading" style="display: none">Формирование...</span></caption>
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Счет</th>
+            <th>Категория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+        </tr>
+        </thead>
+        <tbody id="reportTable">
+        @Html.Action("GetByDatesReportPartial", new
+        {
+            dtFrom = Model.DtFrom,
+            dtTo = Model.DtTo
+        })
+        </tbody>
+    </table>
+    <p>Доход за период: @ViewBag.IncomingSum.ToString("c");</p>
+    <p>Расход за период: @ViewBag.OutgoSum.ToString("c");</p>
+    <div class="text-center">
+        @Html.Partial("ReportModelPageLinks")
+    </div>
+</div>
+
+
+

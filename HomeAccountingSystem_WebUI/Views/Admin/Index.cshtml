@@ -1,0 +1,42 @@
+﻿@model IEnumerable<HomeAccountingSystem_WebUI.Models.AccUserModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Аккаунты пользователей
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Имя</th><th>Email</th><th>Действия</th>
+        </tr>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center">Нет пользователей</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+             {
+                 <tr>
+                     <td>@item.UserName</td>
+                     <td>@item.Email</td>
+                     <td>
+                         @using (Html.BeginForm("Delete","Admin",new {id = item.Id}))
+                         {
+                             @Html.ActionLink("Изменить","Edit",new {id = item.Id},new {@class="btn btn-warning btn-raised btn-xs"})
+                             <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
+                         }
+                     </td>
+                 </tr>  
+             }
+        }
+    </table>
+</div>
+@Html.ActionLink("Добавить","Create",null,new {@class="btn btn-primary btn-raised btn-sm"})
+@Html.ActionLink("Назад","Index","AdminSection", null, new {@class= "btn btn-default btn-raised btn-sm" })
+@Html.ActionLink("На главную","Index","PayingItem",null,new {@class= "btn btn-default btn-raised pull-right btn-sm" })
+

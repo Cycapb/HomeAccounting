@@ -1,0 +1,43 @@
+﻿@model HomeAccountingSystem_WebUI.Models.TodoViewModel
+@{
+    ViewBag.Title = "Задачи";
+    Layout = "~/Views/Shared/_TodoLayout.cshtml";
+}
+@section body
+{
+ <div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">Создание задачи</h2>
+            </div>
+            <div class="panel-body" data-bind="with: addTodoViewModel">
+                @Html.Partial("CreateToDoPartial")
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">Группы задач</h2>
+            </div>
+            <div class="panel-body" data-bind="with: addGroupViewModel">
+                @Html.Partial("CreateGroupPartial")
+            </div>
+            <div class="panel-body" data-bind="with: groupListViewModel">
+                @Html.Partial("GroupPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title">Текущий список дел: <span class="badge" data-bind="text: todoListViewModel.todos().length"></span></h2>
+            </div>
+            <div class="panel-body" data-bind="with: todoListViewModel">
+                @Html.Partial("TodoPartial")
+                @Html.Partial("EditPartial")
+            </div>
+        </div>
+    </div>
+</div>
+}

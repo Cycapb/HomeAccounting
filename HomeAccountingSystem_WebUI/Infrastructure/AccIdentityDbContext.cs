@@ -1,0 +1,26 @@
+﻿using System.Data.Entity;
+using HomeAccountingSystem_WebUI.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+
+namespace HomeAccountingSystem_WebUI.Infrastructure
+{
+    public class AccIdentityDbContext:IdentityDbContext<AccUserModel>
+    {
+        public AccIdentityDbContext() : base("accounting_identity") { }
+
+        static AccIdentityDbContext()
+        {
+            System.Data.Entity.Database.SetInitializer<AccIdentityDbContext>(new AccIdentityDbInit());
+        }
+
+        public static AccIdentityDbContext Create()
+        {
+            return new AccIdentityDbContext();
+        }
+    }
+
+    public class AccIdentityDbInit : NullDatabaseInitializer<AccIdentityDbContext>
+    {
+
+    }
+}

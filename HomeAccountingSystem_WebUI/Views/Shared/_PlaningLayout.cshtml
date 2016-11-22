@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    <style>
+        .editPlanItem {
+            position: fixed;
+            height: 20%;
+            top: 43%;
+            left: 43%;
+        }
+        .container {
+            width: 500px;
+            padding-top: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        function onSuccess(result) {
+            if (result.url) {
+                window.location.href = result.url;
+            }
+        }
+    </script>
+    @Styles.Render("~/bundles/bootstrap-datetimepicker/css", "~/bundles/material-kit/css")
+    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/material-kit")
+    @RenderSection("SelectScript", false)
+</head>
+<body>
+<div>
+    @Html.Partial("NavBarPartial")
+    @RenderBody()
+</div>
+</body>
+</html>

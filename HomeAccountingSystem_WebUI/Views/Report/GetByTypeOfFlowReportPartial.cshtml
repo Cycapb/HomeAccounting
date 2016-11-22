@@ -1,0 +1,13 @@
+﻿@using HomeAccountingSystem_WebUI.Models
+@model ReportModel
+@foreach (var item in @Model.ItemsPerPage)
+            {
+    <tr>
+        <td>
+            @item.Date.ToShortDateString()
+        </td>
+        <td>@item.AccountName</td>
+        <td>@item.Summ.ToString("c")</td>
+        <td>@item.Comment</td>
+    </tr>
+}

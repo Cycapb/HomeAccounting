@@ -1,0 +1,21 @@
+﻿@model IEnumerable<HomeAccountingSystem_WebUI.Models.BalanceModel>
+<tr>
+    <td>
+        <strong>Остаток</strong>
+    </td>
+    @foreach (var balance in Model)
+    {
+        <td>@balance.OstatokPlan.ToString("c")</td>
+        <td>@balance.OstatokFact.ToString("c")</td>
+    }
+</tr>
+<tr>
+    <td>
+        <strong>Баланс</strong>
+    </td>
+    @foreach (var balance in Model)
+    {
+        <td>@balance.BalancePlan.ToString("c")</td>
+        <td>@balance.BalanceFact.ToString("c")</td>
+    }   
+</tr>

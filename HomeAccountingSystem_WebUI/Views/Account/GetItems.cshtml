@@ -1,0 +1,7 @@
+﻿@model System.Collections.Generic.IEnumerable<HomeAccountingSystem_DAL.Model.Account>
+    <select id="ToId" name="ToId" class="form-control">
+        @foreach (var item in Model)
+        {
+            <option value="@item.AccountID">@item.AccountName</option>
+        }
+    </select>

@@ -1,0 +1,10 @@
+﻿@model HomeAccountingSystem_WebUI.Models.CategoriesViewModel
+
+@for (var i = 1; i <= Model.PagingInfo.TotalPages; i++)
+{
+    @Ajax.ActionLink(i.ToString(),"GetAllCategories",new {page = i},new AjaxOptions()
+{
+    Url = Url.Action("GetAllCategories", new {page = i}),
+    UpdateTargetId = "categoryContainer"
+}, new {@class="btn btn-default btn-raised btn-round btn-sm", id = i.ToString(), onclick="onButtonClick(this.id)" });
+}

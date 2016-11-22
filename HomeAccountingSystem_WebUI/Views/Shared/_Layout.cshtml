@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")
+    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/datetime-datepicker", "~/bundles/material-kit")
+    <script src="~/Scripts/UpdateAccounts.js"></script>
+    <script src="~/Scripts/ChangeButtonColor.js"></script>
+    <script src="~/Scripts/CalendarScript.js"></script>
+    <script src="~/Scripts/Buttons.js"></script>
+</head>
+<body>
+@Html.Partial("NavBarPartial")
+<div class="panel panel-info well">
+    <div style="text-align: center">
+        Добавить @Ajax.ActionLink("доходную", "Add", "PayingItem", new {typeOfFlow = 1}, new AjaxOptions()
+                 {
+                     Url = Url.Action("Add", "PayingItem", new {typeOfFlow = 1}),
+                     UpdateTargetId = "payingDiv"
+                 }) или @Ajax.ActionLink("расходную", "Add", "PayingItem", new {typeOfFlow = 2}, new AjaxOptions()
+                        {
+                            Url = Url.Action("Add", "PayingItem", new {typeOfFlow = 2}),
+                            UpdateTargetId = "payingDiv"
+                        }) транзакции
+    </div>
+    <ul class="list-inline text-center">
+        <li class="hidden-xs">
+            @Ajax.ActionLink("Категории", "Index", new
+            {
+                controller = "Category",
+                action = "Index",
+            }, new AjaxOptions() {Url = Url.Action("Index", "Category"), UpdateTargetId = "payingDiv"},
+                new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li>
+            @Ajax.ActionLink("Счета", null, new
+            {
+                controller = "Account",
+                action = "Index"
+            }, new AjaxOptions()
+            {
+                Url = Url.Action("Index", "Account"),
+                HttpMethod = "GET",
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li>
+            @Ajax.ActionLink("Перевод денег", null, new
+            {
+                controller = "Account",
+                action = "TransferMoney"
+            }, new AjaxOptions()
+            {
+                Url = Url.Action("TransferMoney", "Account"),
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li class="hidden-xs">
+            @Html.RouteLink("Отчеты", new
+            {
+                controller = "Report",
+                action = "Index"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li class="hidden-xs">
+            @Html.RouteLink("Планирование", new
+            {
+                controller = "Planing",
+                action = "Prepare"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        @if (HttpContext.Current.User.IsInRole("Administrators"))
+        {
+            <li class="hidden-xs">
+                @Html.RouteLink("Администрирование", new
+                {
+                    controller = "AdminSection",
+                    action = "Index"
+                }, new {@class = "btn btn-raised btn-info btn-round"})
+            </li>
+        }
+        <li>
+            @Html.RouteLink("Список ToDo", new
+            {
+                controller = "Todo",
+                action = "Index"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li>
+            @Ajax.ActionLink("Список покупок", null, new
+            {
+                controller = "Order",
+                action = "Index"
+            }, new AjaxOptions()
+            {
+                Url = Url.Action("Index", "Order"),
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+    </ul>
+
+</div>
+<div class="col-xs-2 hidden-xs">
+    <div id="myAccounts">
+        @Html.Action("GetAccounts", "NavLeft")
+    </div>
+    <div id="myBudgets">
+        @Html.Action("GetBudgets", "NavLeft")
+    </div>
+    <div id="myDebts">
+        @Html.Action("Index", "Debt")
+    </div>
+</div>
+@if (Request.Browser.IsMobileDevice)
+{
+    <div id="payingDiv">
+        @RenderBody()
+    </div>
+}
+else
+{
+    <div class="col-xs-6" id="payingDiv">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        @RenderBody()
+    </div>
+}
+
+<div class="col-xs-2 hidden-xs">
+    <div id="expensiveCategories">
+        @Html.Action("ExpensiveCategories", "PayingItem")
+    </div>
+</div>
+<div class="col-xs-2 hidden-xs">
+    <div id="income">
+        @Html.Action("MenuIncoming", "NavRight")
+    </div>
+    <div id="outgo">
+        @Html.Action("MenuOutgo", "NavRight")
+    </div>
+</div>
+
+</body>
+</html>

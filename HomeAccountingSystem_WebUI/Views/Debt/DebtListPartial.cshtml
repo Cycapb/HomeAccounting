@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Debt>
+    @foreach (var debt in Model)
+    {
+        <tr>
+            <td>@debt.Summ.ToString("c")</td>
+            <td>@debt.Person</td>
+            <td>@debt.Account.AccountName</td>
+            <td>@debt.DateBegin.Date.ToShortDateString()</td>
+            <td>
+                @using (Ajax.BeginForm("Close", new { id = debt.DebtID }, new AjaxOptions()
+                {
+                    Url = Url.Action("Close", new {id = debt.DebtID}),
+                    UpdateTargetId = "payingDiv",
+                    OnSuccess = "updateAfterDebt"
+                }))
+                {
+                    <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Закрыть долг"/>
+                }
+            </td>
+        </tr>
+    }

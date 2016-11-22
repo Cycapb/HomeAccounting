@@ -1,0 +1,44 @@
+﻿@model HomeAccountingSystem_WebUI.Models.AddOrderDetailView
+<script type="text/javascript">
+    $(function() {
+
+        $('#Categories')
+            .change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubCategories")/' + id,
+                    success: function(data) {
+                        $('#OrderDetail_ProductId').replaceWith(data);
+                    }
+                });
+            });
+    })
+</script>
+<div class="pull-right">
+   @using (Ajax.BeginForm("Add", "OrderDetail", null, new AjaxOptions()
+   {
+       Url = Url.Action("Add", "OrderDetail"),
+       UpdateTargetId = "orderDetailDiv"
+   }, new { @class = "form-inline" }))
+   {
+    @Html.Hidden("OrderDetail.OrderId", Model.OrderId)
+    <div class="form-group">
+        <label>Категория</label>
+        @Html.DropDownListFor(x => x.Categories, Model.Categories.Select(x => new SelectListItem()
+   {
+       Text = x.Name,
+       Value = x.CategoryID.ToString()
+   }), new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Подкатегории</label>
+        @Html.DropDownList("OrderDetail.ProductId", Model.Products.Select(x => new SelectListItem()
+   {
+       Text = x.ProductName,
+       Value = x.ProductID.ToString()
+   }), new { @class = "form-control" })
+    </div>
+    <input type="submit" value="Добавить" class="btn btn-raised btn-success btn-xs" />
+   } 
+</div>

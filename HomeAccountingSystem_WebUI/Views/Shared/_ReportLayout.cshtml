@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")
+    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/datetime-datepicker")
+    
+    <script src="~/Scripts/CalendarScript.js"></script>
+</head>
+<body>
+    @Html.Partial("NavBarPartial")
+<div class="container">
+    <div class="col-xs-2">
+        @Html.Action("Index", "ReportMenu")
+    </div>
+    <div class="col-xs-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Отчеты</div>
+            <div id="reportPanelBody" class="panel-body">
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["message"]</div>
+                }
+                @RenderBody()
+            </div>
+        </div>
+        <p>
+            <div>
+                @Html.ActionLink("На главную", "Index", "PayingItem", null, new {@class = "btn btn-default btn-raised btn-sm pull-right"})
+            </div>
+        </p>
+    </div>
+    <div class="col-xs-3">
+        @Html.Action("OverallLastYearMonths", "Report")
+    </div>
+</div>
+</body>
+</html>

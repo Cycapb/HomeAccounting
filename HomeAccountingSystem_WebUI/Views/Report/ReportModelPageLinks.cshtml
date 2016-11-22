@@ -1,0 +1,22 @@
+﻿@using HomeAccountingSystem_WebUI.HtmlHelpers
+@model HomeAccountingSystem_WebUI.Models.ReportModel
+@if (Model.CategoryId == 0)
+{
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetByDatesReportView", new
+    {
+        catId = Model.CategoryId,
+        dtFrom = Model.DtFrom,
+        dtTo = Model.DtTo,
+        page = x
+    }))
+}
+else
+{
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetTypeOfFlowReport", new
+    {
+        catId = Model.CategoryId,
+        dtFrom = Model.DtFrom,
+        dtTo = Model.DtTo,
+        page = x
+    }))
+}

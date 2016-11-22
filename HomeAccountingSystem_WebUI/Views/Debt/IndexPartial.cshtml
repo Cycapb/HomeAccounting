@@ -1,0 +1,19 @@
+﻿@model HomeAccountingSystem_WebUI.Models.DebtsSumModel
+<div class="panel panel-default">
+    <div class="panel-heading"><b>@Ajax.ActionLink("Долги", "Index", "Debt", new AjaxOptions()
+                                  {
+                                      Url = Url.Action("DebtList"),
+                                      UpdateTargetId = "payingDiv"
+                                  })</b>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Я должен</th>
+            <td>@Model.MyDebtsSumm.ToString("c")</td>
+        </tr>
+        <tr>
+            <th>Мне должны</th>
+            <td>@Model.DebtsToMeSumm.ToString("c")</td>
+        </tr>
+    </table>
+</div>

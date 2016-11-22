@@ -1,0 +1,16 @@
+﻿<table class="table table-hover" data-bind="with: todo, visible: todo != null">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Комментарий</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input data-bind="value: Name()" class="form-control"/></td>
+            <td><textarea data-bind="value: Comment()" class="form-control"></textarea></td>
+            <td><button class="bt btn-xs btn-success btn-raised" data-bind="click: $parent.updateTodo">Сохранить</button></td>
+        </tr>
+    </tbody>
+</table>

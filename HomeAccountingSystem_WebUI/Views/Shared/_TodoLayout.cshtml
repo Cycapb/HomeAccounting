@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bundles/bootstrap-site/css", "~/bundles/material-kit/css")
+    @Scripts.Render("~/bundles/jquery", "~/bundles/material-kit", "~/bundles/bootstrap")
+    <script src="~/Scripts/knockout-3.4.0.js"></script>
+    <script src="~/Scripts/knockout.validation.js"></script>
+    <script type="text/javascript">
+        var currentUserId = "@HttpContext.Current.User.Identity.GetUserId()";
+    </script>
+    <script src="~/Models/KnockoutModels/TodoCreateViewModel.js"></script>
+</head>
+<body>
+<div>
+    @Html.Partial("NavBarPartial")
+    @RenderSection("body", false)
+</div>
+</body>
+</html>

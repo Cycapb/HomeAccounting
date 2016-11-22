@@ -1,0 +1,38 @@
+﻿@using HomeAccountingSystem_WebUI.Models
+@model LoginModel
+
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@if (TempData["message"] != null)
+{
+    <div class="registerContainer">
+        <div class="alert alert-success">@TempData["message"]</div>
+    </div>
+}
+<div class="loginContainer">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.Name, new {@class = "form-control", placeholder = "Логин"})
+                    <p>@Html.ValidationMessageFor(x => x.Name)</p>
+                </div>
+                <div class="form-group floating-label">
+                    @Html.PasswordFor(x => x.Password, new {@class = "form-control", placeholder = "Пароль"})
+                    <p>@Html.ValidationMessageFor(x => x.Password)</p>
+                </div>
+                <input type="submit" value="Войти" class="btn btn-primary btn-raised btn-sm"/>
+                @Html.ActionLink("Демо-вход", "LoginDemo", null, new {@class = "btn btn-info btn-raised btn-sm"})
+                <div style="text-align: center">
+                    @Html.ActionLink("Зарегистрироваться", "Register", null, new {@class = "btn btn-primary btn-raised btn-sm"})
+                </div>
+            }
+        </div>
+    </div>
+</div>

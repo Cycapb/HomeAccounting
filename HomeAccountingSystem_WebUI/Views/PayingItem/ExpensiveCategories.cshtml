@@ -1,0 +1,17 @@
+﻿@model IEnumerable<HomeAccountingSystem_WebUI.Models.OverAllItem>
+<div class="panel panel-primary">
+    <div class="panel-heading">Самые затратные категории месяца:</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Категория</th>
+            <th>Сумма</th>
+        </tr>
+        @foreach (var item in @Model)
+        {
+            <tr>
+                <td>@item.Category</td>
+                <td>@item.Summ.ToString("c")</td>
+            </tr>
+        }
+    </table>
+</div>

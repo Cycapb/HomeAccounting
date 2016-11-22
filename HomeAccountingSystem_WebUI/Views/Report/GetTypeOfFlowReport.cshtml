@@ -1,0 +1,30 @@
+﻿@using HomeAccountingSystem_WebUI.HtmlHelpers
+@using HomeAccountingSystem_WebUI.Models
+@model ReportModel
+@{
+    ViewBag.Title = "Отчет по категориям";
+}
+<div class="well">
+    <table class="table table-condensed table-bordered">
+        <caption>Категория: @Model.CategoryName за период: с @Model.DtFrom.ToShortDateString() по @Model.DtTo.ToShortDateString()</caption>
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Счет</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+        </tr>
+        </thead>
+        <tbody id="reportTable">
+        @Html.Action("GetByTypeOfFlowReportPartial", new
+        {
+            dtFrom = @Model.DtFrom,
+            dtTo = @Model.DtTo,
+        })
+        </tbody>
+    </table>
+    <p>Итого: @Model.AllItems.Sum(x=>x.Summ).ToString("c")</p>
+    <div class="text-center">
+        @Html.Partial("ReportModelPageLinksAjaxPartial")
+    </div>
+</div>

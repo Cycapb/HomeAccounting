@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Order>
+<div class="panel panel-primary">
+    <div class="panel-heading"> Список покупок <span class="pull-right" style="display: none" id="loading">Отправка списка...</span></div>
+    <div class="panel-body" id="orderDetailDiv">
+        @Html.Partial("_OrderList", Model)
+    </div>
+        @using (Ajax.BeginForm("Add", new AjaxOptions()
+        {
+            Url = Url.Action("Add"),
+            UpdateTargetId = "orderDetailDiv"
+        }))
+        {
+            <input type="submit" id="addOrder" value="Добавить список" class="btn btn-xs btn-raised btn-primary pull-right"/>
+        }
+</div>
+

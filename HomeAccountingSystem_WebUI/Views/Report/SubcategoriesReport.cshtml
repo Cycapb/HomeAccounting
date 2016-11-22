@@ -1,0 +1,35 @@
+﻿@model List<HomeAccountingSystem_WebUI.Models.PayItemSubcategories>
+@{
+    ViewBag.Title = "Отчет по подкатегориям";
+    decimal summ = ViewBag.Summ;
+}
+<div class="well">
+    <table class="table table-condensed table-bordered">
+        <caption>@ViewBag.TypeOfFlowName за: @ViewBag.Month <span class="pull-right">Итого: @summ.ToString("c")</span></caption>
+        <thead>
+            <tr>
+                <th>Категория</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var item in Model)
+           {
+               <tr>
+                   <td>@item.CategorySumm.Category</td>
+                   <td>@item.CategorySumm.Summ.ToString("c")</td>
+               </tr>
+               if (item.ProductPrices.Count != 0)
+               {
+                   foreach (var product in item.ProductPrices)
+                   {
+                       <tr>
+                           <td class="text-right">@product.ProductName</td>
+                           <td class="text-right">@product.Price.ToString("c")</td>
+                       </tr>
+                   }  
+               }
+           }
+        </tbody>
+    </table>
+</div>

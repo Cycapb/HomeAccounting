@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    <style>
+        .container {
+            padding-top: 10px
+        }
+        .validation-summary-errors {
+            color: #f00;
+        }
+    </style>
+    @Styles.Render("~/bundles/bootstrap/css", "~/bundles/material-kit/css")
+    @Scripts.Render("~/bundles/jqueryval", "~/bundles/bootstrap", "~/bundles/material-kit")
+</head>
+<body>
+@Html.Partial("NavBarPartial")
+<div class="container">
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["message"]</div>
+    }
+    @RenderBody()
+</div>
+</body>
+</html>

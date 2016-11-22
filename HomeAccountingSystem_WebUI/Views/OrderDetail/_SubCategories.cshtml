@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Product>
+@Html.DropDownList("OrderDetail.ProductId", Model.Select(x => new SelectListItem()
+   {
+       Text = x.ProductName,
+       Value = x.ProductID.ToString()
+   }), new { @class = "form-control" })

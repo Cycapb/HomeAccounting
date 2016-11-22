@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Product>
+
+<table class="table table-striped" id="productsTable">
+    <tr>
+        <th>Наименование</th>
+        <th>Описание</th>
+        <th>Действия</th>
+    </tr>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3" class="text-center">Нет подкатегорий</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        @using (Ajax.BeginForm("Delete", "Product", new { id = item.ProductID }, new AjaxOptions()
+                        {
+                            Url = Url.Action("Delete", new {id = item.ProductID}),
+                            UpdateTargetId = "productsTable"
+                        }))
+                        {
+                            @Ajax.ActionLink("Редактировать", "Edit", new { id = item.ProductID }, new AjaxOptions()
+                       {
+                           Url = Url.Action("Edit", new { id = item.ProductID }),
+                           UpdateTargetId = "productsDiv"
+                       }, new { @class = "btn btn-warning btn-raised btn-xs" })
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+                        }
+                    </td>
+                </tr>
+            }
+        }   
+    </tbody>
+</table>
