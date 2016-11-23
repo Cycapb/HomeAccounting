@@ -28,17 +28,14 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView(list);
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(WebUser user, int id)
         {
             var acc = await _accountService.GetItemAsync(id);
             if (acc != null)
             {
                 return PartialView(acc);
             }
-            else
-            {
-                return PartialView(new Account());
-            }
+            return PartialView(new Account() {UserId = user.Id});
         }
 
         [HttpPost]
