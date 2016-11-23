@@ -39,7 +39,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user, Account account)
+        public async Task<ActionResult> Edit(Account account)
         {
             if (account == null)
             {
@@ -53,7 +53,6 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                account.UserId = user.Id;
                 await _accountService.UpdateAsync(account);
                 return RedirectToAction("Index");
             }
