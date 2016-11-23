@@ -12,6 +12,7 @@
         @Html.ValidationSummary(true)
         <div class="panel-body">
             @Html.HiddenFor(x => x.AccountID)
+            @Html.HiddenFor(x => x.UserId)
             <div class="form-group">
                 <label class="form-group">Название:</label>
                 @Html.TextBoxFor(x => x.AccountName, new {@class = "form-control"})

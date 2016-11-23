@@ -64,9 +64,9 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView(account);
         }
 
-        public ActionResult Add()
+        public ActionResult Add(WebUser user)
         {
-            return PartialView(new Account());
+            return PartialView(new Account() {UserId = user.Id});
         }
 
         [HttpPost]
@@ -74,7 +74,6 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                account.UserId = user.Id;
                 await _accountService.Create(account);
                 return RedirectToAction("Index");
             }
