@@ -20,8 +20,9 @@
                 }), new {@class = "form-control", onchange = "changeCategoryAdd()"})
             </div>
 
-            <table class="table table-striped" id="Products">
-            </table>
+            <div id="divProducts">
+                
+            </div>
             <div class="form-group">
                 <label>Сумма:</label>
                 @Html.EditorFor(x => x.PayingItem.Summ, new
@@ -79,7 +80,7 @@
             type: 'GET',
             url: '@Url.Action("GetSubCategories")/' + id,
             success: function (data) {
-                $('#Products').replaceWith(data);
+                $('#divProducts').replaceWith(data);
             }
         });
     }
