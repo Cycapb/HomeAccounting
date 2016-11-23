@@ -81,7 +81,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             await FillViewBag(user,typeOfFlow);
             var piModel = new PayingItemModel()
             {
-                PayingItem = new PayingItem(),
+                PayingItem = new PayingItem() {UserId = user.Id},
                 Products = new List<Product>()
             };
             return PartialView(piModel);
@@ -92,7 +92,6 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                pItem.PayingItem.UserId = user.Id;
                 if (pItem.PayingItem.Date.Month > DateTime.Today.Date.Month || pItem.PayingItem.Date.Year > DateTime.Today.Year)
                 {
                     pItem.PayingItem.Date = DateTime.Today.Date;

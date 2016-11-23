@@ -17,6 +17,7 @@
         for (int i = 0; i < Model.Count(); i++)
         {
             <tr>
+                @Html.Hidden("Products[" + i +"].UserID", Model[i].UserID)
                 <td>
                     <input type="checkbox" name="Products[@i].ProductID" value="@Model[i].ProductID"/>
                 </td>
@@ -28,7 +29,7 @@
                     @Model[i].Description
                 </td>
                 <td>
-                    @Html.TextBox("Products[" + i + "].Price", Model[i].Price,new {@class = "form-control", placeholder = "Цена"})
+                    @Html.TextBox("Products[" + i + "].Price", Model[i].Price, new {@class = "form-control", placeholder = "Цена"})
                 </td>
             </tr>
         }
