@@ -23,13 +23,12 @@ namespace HomeAccountingSystem_WebUI.Controllers
         public ActionResult Add(WebUser user, int categoryId)
         {
             ViewBag.CategoryId = categoryId;
-            return PartialView(new Product());
+            return PartialView(new Product() {UserID = user.Id});
         }
 
         [HttpPost]
         public async Task<ActionResult> Add(WebUser user,Product product)
         {
-            product.UserID = user.Id;
             if (ModelState.IsValid)
             {
                 await _productRepository.CreateAsync(product);

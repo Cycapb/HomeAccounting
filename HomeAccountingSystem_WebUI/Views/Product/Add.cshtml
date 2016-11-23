@@ -10,6 +10,7 @@
     @Html.ValidationMessageFor(x => x.ProductName)
     <div class="panel-body">
         @Html.HiddenFor(x => x.ProductID)
+        @Html.HiddenFor(x => x.UserID)
         <input type="hidden" id="CategoryID" name="CategoryID" value="@ViewBag.CategoryId"/>
         <div class="form-group">
             <label class="form-group">Наименование</label>
