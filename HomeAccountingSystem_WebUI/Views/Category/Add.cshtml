@@ -13,6 +13,7 @@
             @Html.ValidationSummary(true)
             <div class="panel-body">
                 @Html.HiddenFor(x => x.CategoryID)
+                @Html.HiddenFor(x => x.UserId)
                 <div class="form-group">
                     <p>@Html.ValidationMessageFor(x => x.Name)</p>
                     <label class="form-group">Название:</label>

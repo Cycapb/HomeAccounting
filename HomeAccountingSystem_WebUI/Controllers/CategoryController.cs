@@ -132,10 +132,10 @@ namespace HomeAccountingSystem_WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult Add(WebUser user)
         {
             ViewBag.TypesOfFlow = _tofRepository.GetList().ToList();
-            return PartialView(new Category());
+            return PartialView(new Category() {UserId = user.Id});
         }
 
         [HttpPost]
@@ -143,7 +143,6 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.UserId = user.Id;
                 await _categoryService.CreateAsync(category);
                 await _planningHelper.CreatePlanItemsForCategory(user, category.CategoryID);
                 return RedirectToAction("GetCategoriesAndPages");
