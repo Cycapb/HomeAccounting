@@ -52,9 +52,9 @@ namespace HomeAccountingSystem_UnitTests
             _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v > 3))).ReturnsAsync(null);
             var target = new AccountController(_mockAccountService.Object);
 
-            var result2 = ((PartialViewResult)await target.Edit(2)).Model as Account;
-            var result0 = ((PartialViewResult)await target.Edit(0)).Model as Account;
-            var result4 = ((PartialViewResult)await target.Edit(4)).Model as Account;
+            var result2 = ((PartialViewResult)await target.Edit(new WebUser(),2)).Model as Account;
+            var result0 = ((PartialViewResult)await target.Edit(new WebUser(),0)).Model as Account;
+            var result4 = ((PartialViewResult)await target.Edit(new WebUser(),4)).Model as Account;
 
             Assert.AreEqual(result0.AccountID, 0);
             Assert.AreEqual(result4.AccountID, 0);
@@ -66,8 +66,8 @@ namespace HomeAccountingSystem_UnitTests
         {
             var target = new AccountController(null);
 
-            var resultNull = (RedirectToRouteResult)await target.Edit(new WebUser() {Id = "1"}, null);
-            var result0 = (RedirectToRouteResult)await target.Edit(new WebUser() {Id = "1"},new Account() {AccountID = 0});
+            var resultNull = (RedirectToRouteResult)await target.Edit(null);
+            var result0 = (RedirectToRouteResult)await target.Edit(new Account() {AccountID = 0});
             
             Assert.AreEqual(resultNull.RouteValues.ContainsValue("Index"),true);
             Assert.AreEqual(result0.RouteValues.ContainsValue("Index"), true);
@@ -79,7 +79,7 @@ namespace HomeAccountingSystem_UnitTests
             var target = new AccountController(null);
             target.ModelState.AddModelError("","");
 
-            var result = await target.Edit(new WebUser() {Id = "1"}, new Account() {AccountID = 1});
+            var result = await target.Edit(new Account() {AccountID = 1});
             
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsInstanceOfType(((PartialViewResult)result).Model, typeof(Account));
@@ -91,7 +91,7 @@ namespace HomeAccountingSystem_UnitTests
             
             var target = new AccountController(_mockAccountService.Object);
 
-            var result = await target.Edit(new WebUser() {Id = "1"}, new Account() {AccountID = 1});
+            var result = await target.Edit(new Account() {AccountID = 1});
 
             _mockAccountService.Verify(m => m.UpdateAsync(It.IsAny<Account>()),Times.Once);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
@@ -102,7 +102,7 @@ namespace HomeAccountingSystem_UnitTests
         {
             AccountController target = new AccountController(null);
 
-            var result = target.Add();
+            var result = target.Add(new WebUser());
             var model = ((PartialViewResult)result).ViewData.Model as Account;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
