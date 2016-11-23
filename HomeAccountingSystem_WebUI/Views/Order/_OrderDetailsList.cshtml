@@ -49,10 +49,11 @@
 </table>
 <div id="orderDetailFooter">
     @Ajax.ActionLink("Назад", "OrderList", null, new AjaxOptions()
-   {
-       Url = Url.Action("OrderList"),
-       UpdateTargetId = "orderDetailDiv"
-   }, new { @class = "btn btn-default btn-xs btn-raised pull-right" })
+{
+    Url = Url.Action("OrderList"),
+    UpdateTargetId = "orderDetailDiv",
+    OnSuccess = "enableButtons"
+}, new { @class = "btn btn-default btn-xs btn-raised pull-right" })
     @Ajax.ActionLink("Добавить", "Add", "OrderDetail", new {id = Model.OrderID}, new AjaxOptions()
     {
         Url = Url.Action("Add", "OrderDetail", new {id = Model.OrderID}),
