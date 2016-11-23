@@ -60,7 +60,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
                 var user = (WebUser)HttpContext.Session?["WebUser"];
                 categories = await GetCategories(user.Id);
             }
-            var products = categories.FirstOrDefault(x => x.CategoryID == id)?.Product;
+            var products = categories.FirstOrDefault(x => x.CategoryID == id)?.Product.OrderBy(x => x.ProductName);
             return PartialView("_SubCategories", products);
         }
 
