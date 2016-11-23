@@ -87,6 +87,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         public ActionResult Logout()
         {
             AuthManager.SignOut();
+            Session.Clear();
             return RedirectToAction("Index", "PayingItem");
         }
 
