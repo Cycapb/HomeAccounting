@@ -12,16 +12,15 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
 
         private void HandleEvent(object sender, EventArgs e)
         {
+            if (HttpContext.Current.CurrentNotification != RequestNotification.AcquireRequestState) return;
             var ctx = HttpContext.Current;
-            if (ctx.CurrentNotification == RequestNotification.AcquireRequestState)
+            var session = ctx.Session;
+            if (session == null) return;
+            if (ctx.User.Identity.IsAuthenticated && session["WebUser"] == null)
             {
-                var session = ctx.Session;
-                if (session == null)
-                {
-                    var auth = ctx.GetOwinContext().Authentication;
-                    auth.SignOut();
-                    ctx.Response.Redirect("~/", true);
-                }
+                var auth = ctx.GetOwinContext().Authentication;
+                auth.SignOut();
+                ctx.Response.Redirect("~/", true);
             }
         }
 
