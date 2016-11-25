@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Web;
+using HomeAccountingSystem_WebUI.Infrastructure.Events;
 
 namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
 {
     public class TimerModule:IHttpModule
     {
-        private readonly Stopwatch _stopwatch;
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+
+        public event EventHandler<TimerModuleEventArgs> RequestEnd; 
+
         public void Init(HttpApplication context)
         {
             context.BeginRequest += Context_BeginRequest;
@@ -17,8 +21,8 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
         {
             if (HttpContext.Current.CurrentNotification == RequestNotification.EndRequest)
             {
-                var elapsedTime = _stopwatch.ElapsedTicks / Stopwatch.Frequency;
-                HttpContext.Current.Response.Write($"<div class='alert alert-success'>Общее время: {elapsedTime}</div>");
+                float elapsedTime = (float)_stopwatch.ElapsedTicks / Stopwatch.Frequency;
+                RequestEnd?.Invoke(this, new TimerModuleEventArgs() {Duration = elapsedTime});
             }
         }
 
