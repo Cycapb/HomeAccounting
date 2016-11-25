@@ -29,9 +29,3 @@ function clickDateTo() {
         language: 'ru'
     });
 };
-
-function clickOrderDate() {
-    $('#OrderDate').datepicker({
-        language: 'ru'
-    });
-};
