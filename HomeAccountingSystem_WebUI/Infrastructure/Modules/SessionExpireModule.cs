@@ -20,7 +20,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
             {
                 var auth = ctx.GetOwinContext().Authentication;
                 auth.SignOut();
-                ctx.Response.Redirect("~/", true);
+                ctx.Response.Redirect("/", true);
             }
         }
 
