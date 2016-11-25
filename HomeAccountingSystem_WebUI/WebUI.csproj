@@ -462,6 +462,7 @@
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\Modules\ModuleRegistration.cs" />
     <Compile Include="Infrastructure\Modules\SessionExpireModule.cs" />
+    <Compile Include="Infrastructure\Modules\TimerModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
     <Compile Include="Migrations\201601140913401_FirstLastName.cs" />
