@@ -23,13 +23,13 @@
             }
         }
     </script>
-    @Styles.Render("~/bundles/bootstrap-datetimepicker/css", "~/bundles/material-kit/css")
+    @Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")
     @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/material-kit")
     @RenderSection("SelectScript", false)
 </head>
 <body>
 <div>
-    @Html.Partial("NavBarPartial")
+    @Html.Action("Index","MainBar")
     @RenderBody()
 </div>
 </body>

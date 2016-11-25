@@ -428,6 +428,8 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
+    <Compile Include="Controllers\MainBarController.cs" />
+    <Compile Include="Controllers\MenuBarController.cs" />
     <Compile Include="Controllers\NavRightController.cs" />
     <Compile Include="Controllers\NavLeftController.cs" />
     <Compile Include="Controllers\NavTypeOfFlowController.cs" />
@@ -459,8 +461,11 @@
     <Compile Include="Infrastructure\CustomErrorAttribute.cs" />
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
+    <Compile Include="Infrastructure\Events\TimerModuleEventArgs.cs" />
     <Compile Include="Infrastructure\Modules\ModuleRegistration.cs" />
     <Compile Include="Infrastructure\Modules\SessionExpireModule.cs" />
+    <Compile Include="Infrastructure\Modules\TimerModule.cs" />
+    <Compile Include="Infrastructure\Modules\TotalTimeModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
     <Compile Include="Migrations\201601140913401_FirstLastName.cs" />
@@ -580,7 +585,7 @@
     <Content Include="Views\PayingItem\PageLinksPartial.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPagesByType.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPages.cshtml" />
-    <Content Include="Views\Shared\NavBarPartial.cshtml" />
+    <Content Include="Views\MainBar\_MainBar.cshtml" />
     <Content Include="Views\Debt\IndexPartial.cshtml" />
     <Content Include="Views\Debt\DebtList.cshtml" />
     <Content Include="Views\Debt\DebtListPartial.cshtml" />
@@ -592,6 +597,7 @@
     <Content Include="Views\Order\_Add.cshtml" />
     <Content Include="Views\OrderDetail\_Add.cshtml" />
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
+    <Content Include="Views\MenuBar\_MenuBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

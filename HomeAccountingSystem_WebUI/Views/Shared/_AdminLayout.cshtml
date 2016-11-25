@@ -16,7 +16,7 @@
     @Scripts.Render("~/bundles/jqueryval", "~/bundles/bootstrap", "~/bundles/material-kit")
 </head>
 <body>
-@Html.Partial("NavBarPartial")
+@Html.Action("Index","MainBar")
 <div class="container">
     @if (TempData["message"] != null)
     {
