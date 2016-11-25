@@ -428,6 +428,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
+    <Compile Include="Controllers\MainBarController.cs" />
     <Compile Include="Controllers\NavRightController.cs" />
     <Compile Include="Controllers\NavLeftController.cs" />
     <Compile Include="Controllers\NavTypeOfFlowController.cs" />
@@ -580,7 +581,7 @@
     <Content Include="Views\PayingItem\PageLinksPartial.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPagesByType.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPages.cshtml" />
-    <Content Include="Views\Shared\NavBarPartial.cshtml" />
+    <Content Include="Views\MainBar\_MainBar.cshtml" />
     <Content Include="Views\Debt\IndexPartial.cshtml" />
     <Content Include="Views\Debt\DebtList.cshtml" />
     <Content Include="Views\Debt\DebtListPartial.cshtml" />

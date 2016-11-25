@@ -10,7 +10,7 @@
 
 </head>
 <body>
-@Html.Partial("NavBarPartial")
+@Html.Action("Index","MainBar")
 <div class="panel panel-info well">
     <div style="text-align: center">
         Добавить @Ajax.ActionLink("доходную", "Add", "PayingItem", new {typeOfFlow = 1}, new AjaxOptions()
