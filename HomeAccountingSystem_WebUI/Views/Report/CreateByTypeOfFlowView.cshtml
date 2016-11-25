@@ -49,7 +49,7 @@
         UpdateTargetId = "reportPanelBody",
         LoadingElementId = "loading",
         LoadingElementDuration = 300
-    })) 
+    }))
     {
         <div>
             @Html.Hidden("typeOfFlowId", typeOfFlowId)
@@ -75,3 +75,9 @@
         </p>
     }
 </div>
+<script type="text/javascript">
+    $(document).ready(clickDateFrom);
+    $(document).ready(clickDateTo);
+    $(document).ready(clickDtFrom);
+    $(document).ready(clickDtTo);
+</script>
