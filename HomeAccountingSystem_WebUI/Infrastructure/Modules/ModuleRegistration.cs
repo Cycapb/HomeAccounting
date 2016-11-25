@@ -11,6 +11,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
         {
             HttpApplication.RegisterModule(typeof(SessionExpireModule));
             HttpApplication.RegisterModule(typeof(TimerModule));
+            HttpApplication.RegisterModule(typeof(TotalTimeModule));
         }
     }
 }

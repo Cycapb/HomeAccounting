@@ -1,18 +1,36 @@
-﻿using System;
+﻿using System.Linq;
 using System.Web;
 
 namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
 {
     public class TotalTimeModule:IHttpModule
     {
+        private static float _time;
+
         public void Init(HttpApplication context)
         {
-            throw new NotImplementedException();
+            var moduleName = HttpContext.Current.ApplicationInstance.Modules.AllKeys.FirstOrDefault(x => x.Contains("TimerModule"));
+            var timerModule = HttpContext.Current.ApplicationInstance.Modules[moduleName];
+            if (timerModule != null)
+            {
+                var module = new TimerModule();
+                module = (TimerModule)timerModule;
+                module.RequestEnd += Module_RequestEnd; 
+            }
+        }
+
+        private void Module_RequestEnd(object sender, Events.TimerModuleEventArgs e)
+        {
+            if (HttpContext.Current.Request.RawUrl == "/")
+            {
+                _time += e.Duration;
+            }
+            HttpContext.Current.Response.Write($"<div class='alert alert-success'>Elapsed overall time: { _time}</div>");
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
