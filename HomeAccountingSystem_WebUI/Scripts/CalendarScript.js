@@ -1,4 +1,13 @@
-﻿function clickDate() {
+﻿$(document)
+    .ready(clickDate)
+    .ready(clickDtTo)
+    .ready(clickDtTo)
+    .ready(clickDateFrom)
+    .ready(clickDateTo)
+    .ready(clickOrderDate);
+;
+
+function clickDate() {
     $('#PayingItem_Date').datepicker({
         language: 'ru'
     });
