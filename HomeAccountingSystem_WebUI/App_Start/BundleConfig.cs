@@ -27,10 +27,6 @@ namespace HomeAccountingSystem_WebUI
                 "~/Scripts/jquery.validate*",
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/datetime").Include(
-                "~/Scripts/moment-with-locales.js",
-                "~/Scripts/bootstrap-datetimepicker*"));
-
             bundles.Add(new ScriptBundle("~/bundles/datetime-datepicker").Include(
                 "~/Scripts/bootstrap-datepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js"));
@@ -39,23 +35,21 @@ namespace HomeAccountingSystem_WebUI
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js",
-                "~/Scripts/respond.js"));
+                "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/material-kit").Include(
                 "~/Scripts/material.min.js",
                 "~/Scripts/material-kit.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+                "~/Scripts/UpdateAccounts.js",
+                "~/Scripts/ChangeButtonColor.js",
+                "~/Scripts/CalendarScript.js",
+                "~/Scripts/Buttons.js"));
+
             //Use the development version of Modernizr to develop with and learn from. Then, when you're
             //ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
 
-
-            bundles.Add(new StyleBundle("~/bundles/bootstrap-datetimepicker/css").Include(
-                "~/Content/bootstrap.css",
-                "~/Content/bootstrap-theme.css",
-                "~/Content/bootstrap-datetimepicker.css",
-                "~/Content/ErrorStyles.css")
-                );
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap-datepicker/css").Include(
                 "~/Content/bootstrap.css",
