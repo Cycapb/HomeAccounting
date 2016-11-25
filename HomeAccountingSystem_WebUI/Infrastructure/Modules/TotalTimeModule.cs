@@ -21,11 +21,9 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
 
         private void Module_RequestEnd(object sender, Events.TimerModuleEventArgs e)
         {
-            if (HttpContext.Current.Request.RawUrl == "/")
-            {
-                _time += e.Duration;
-            }
-            HttpContext.Current.Response.Write($"<div class='alert alert-success'>Elapsed overall time: { _time}</div>");
+            _time += e.Duration;
+            HttpContext.Current.Response.Write($"<div class='alert alert-success'>Elapsed overall time: {_time}</div>");
+            _time = 0;
         }
 
         public void Dispose()

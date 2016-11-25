@@ -22,6 +22,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
             if (HttpContext.Current.CurrentNotification == RequestNotification.EndRequest)
             {
                 float elapsedTime = (float)_stopwatch.ElapsedTicks / Stopwatch.Frequency;
+                _stopwatch.Reset();
                 RequestEnd?.Invoke(this, new TimerModuleEventArgs() {Duration = elapsedTime});
             }
         }

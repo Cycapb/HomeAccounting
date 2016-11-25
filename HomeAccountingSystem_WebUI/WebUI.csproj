@@ -429,6 +429,7 @@
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
     <Compile Include="Controllers\MainBarController.cs" />
+    <Compile Include="Controllers\MenuBarController.cs" />
     <Compile Include="Controllers\NavRightController.cs" />
     <Compile Include="Controllers\NavLeftController.cs" />
     <Compile Include="Controllers\NavTypeOfFlowController.cs" />
@@ -596,6 +597,7 @@
     <Content Include="Views\Order\_Add.cshtml" />
     <Content Include="Views\OrderDetail\_Add.cshtml" />
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
+    <Content Include="Views\MenuBar\_MenuBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
