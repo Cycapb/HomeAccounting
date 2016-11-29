@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
 {
@@ -20,7 +22,10 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
             {
                 var auth = ctx.GetOwinContext().Authentication;
                 auth.SignOut();
-                ctx.Response.Redirect("/", true);
+                var values = ctx.Request.RequestContext.RouteData.Values;
+                var url = UrlHelper.GenerateUrl("", "List", "PayingItem", values, RouteTable.Routes, ctx.Request.RequestContext,
+                    false);
+                ctx.Response.Redirect(url, true);
             }
         }
 
