@@ -85,10 +85,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201611220515135_InitCreate.cs" />
-    <Compile Include="Migrations\201611220515135_InitCreate.Designer.cs">
-      <DependentUpon>201611220515135_InitCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountingContext.cs" />
@@ -115,11 +111,6 @@
     <Compile Include="PartialModel\PlanItem.cs" />
     <Compile Include="PartialModel\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611220515135_InitCreate.resx">
-      <DependentUpon>201611220515135_InitCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
