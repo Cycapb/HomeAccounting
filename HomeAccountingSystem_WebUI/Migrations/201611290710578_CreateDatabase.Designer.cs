@@ -7,13 +7,13 @@ namespace HomeAccountingSystem_WebUI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class FirstLastName : IMigrationMetadata
+    public sealed partial class CreateDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FirstLastName));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601140913401_FirstLastName"; }
+            get { return "201611290710578_CreateDatabase"; }
         }
         
         string IMigrationMetadata.Source

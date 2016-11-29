@@ -10,7 +10,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
 
         static AccIdentityDbContext()
         {
-            System.Data.Entity.Database.SetInitializer<AccIdentityDbContext>(new AccIdentityDbInit());
+            System.Data.Entity.Database.SetInitializer<AccIdentityDbContext>(new MigrateDatabaseToLatestVersion<AccIdentityDbContext,Migrations.Configuration>());
         }
 
         public static AccIdentityDbContext Create()
