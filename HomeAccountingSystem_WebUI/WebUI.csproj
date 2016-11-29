@@ -462,7 +462,6 @@
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\Events\TimerModuleEventArgs.cs" />
-    <Compile Include="Infrastructure\Modules\ErrorModule.cs" />
     <Compile Include="Infrastructure\Modules\ModuleRegistration.cs" />
     <Compile Include="Infrastructure\Modules\SessionExpireModule.cs" />
     <Compile Include="Infrastructure\Modules\TimerModule.cs" />
