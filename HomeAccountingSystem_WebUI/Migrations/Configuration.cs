@@ -9,6 +9,9 @@ namespace HomeAccountingSystem_WebUI.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext>
     {
+        private AccUserManager _userManager;
+        private AccRoleManager _roleManager;
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -17,29 +20,34 @@ namespace HomeAccountingSystem_WebUI.Migrations
 
         protected override void Seed(HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext context)
         {
-            AccUserManager userManager = new AccUserManager(new UserStore<AccUserModel>(context));
-            AccRoleManager roleManager = new AccRoleManager(new RoleStore<AccRoleModel>(context));
+            _userManager = new AccUserManager(new UserStore<AccUserModel>(context));
+            _roleManager = new AccRoleManager(new RoleStore<AccRoleModel>(context));
 
             var roleName = "Administrators";
             var userName = "Admin";
             var email = "admin@local.com";
             var password = "23we45rt";
 
-            if (!roleManager.RoleExists(roleName))
+            CreateUser(roleName,userName,email,password);
+        }
+
+        private void CreateUser(string roleName, string userName, string email, string password)
+        {
+            if (!_roleManager.RoleExists(roleName))
             {
-                roleManager.Create(new AccRoleModel(roleName));
+                _roleManager.Create(new AccRoleModel(roleName));
             }
 
-            var user = userManager.FindByName(userName);
+            var user = _userManager.FindByName(userName);
             if (user == null)
             {
-                userManager.Create(new AccUserModel() { UserName = userName, Email = email }, password);
-                user = userManager.FindByName(userName);
+                _userManager.Create(new AccUserModel() { UserName = userName, Email = email }, password);
+                user = _userManager.FindByName(userName);
             }
 
-            if (!userManager.IsInRole(user.Id, roleName))
+            if (!_userManager.IsInRole(user.Id, roleName))
             {
-                userManager.AddToRole(user.Id, roleName);
+                _userManager.AddToRole(user.Id, roleName);
             }
         }
     }
