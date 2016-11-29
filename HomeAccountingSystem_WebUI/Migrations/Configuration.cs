@@ -23,12 +23,8 @@ namespace HomeAccountingSystem_WebUI.Migrations
             _userManager = new AccUserManager(new UserStore<AccUserModel>(context));
             _roleManager = new AccRoleManager(new RoleStore<AccRoleModel>(context));
 
-            var roleName = "Administrators";
-            var userName = "Admin";
-            var email = "admin@local.com";
-            var password = "23we45rt";
-
-            CreateUser(roleName,userName,email,password);
+            CreateUser("Administrators", "Admin", "admin@local.com", "23we45rt");
+            CreateUser("Users", "Demo", "demo@mail.ru", "12qw34er");
         }
 
         private void CreateUser(string roleName, string userName, string email, string password)

@@ -7,6 +7,7 @@ namespace HomeAccountingSystem_DAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            ContextKey = "HomeAccountingSystem_DAL.Model.AccountingContext";
         }
 
         protected override void Seed(HomeAccountingSystem_DAL.Model.AccountingContext context)
