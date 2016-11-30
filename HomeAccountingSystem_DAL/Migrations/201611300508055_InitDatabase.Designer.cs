@@ -7,13 +7,13 @@ namespace HomeAccountingSystem_DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CreateDatabase : IMigrationMetadata
+    public sealed partial class InitDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateDatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611290734277_CreateDatabase"; }
+            get { return "201611300508055_InitDatabase"; }
         }
         
         string IMigrationMetadata.Source
