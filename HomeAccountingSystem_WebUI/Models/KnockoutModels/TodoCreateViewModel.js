@@ -51,11 +51,9 @@ function GroupList() {
 
     self.getGroups = function () {
         self.allGroups.removeAll();
-        $.getJSON("/api/group/", function (data) {
+        $.getJSON("/api/group/" + currentUserId, function (data) {
             $.each(data, function (key, value) {
-                if (value.UserId === currentUserId) {
-                    self.allGroups.push(new Group(value.GroupId, value.Name, value.UserId));
-                }
+                                    self.allGroups.push(new Group(value.GroupId, value.Name, value.UserId));                
             });
         });
     }
@@ -141,11 +139,9 @@ function Todo(noteId, name, comment, statusId, groupId, groupName, userId) {
 
     self.getGroups = function() {
         self.groups.removeAll();
-        $.getJSON("/api/group/", function (data) {
+        $.getJSON("/api/group/" + currentUserId, function (data) {
             $.each(data, function (key, value) {
-                if (value.UserId === currentUserId) {
-                    self.groups.push(new Group(value.GroupId, value.Name, value.UserId));
-                }
+                                    self.groups.push(new Group(value.GroupId, value.Name, value.UserId));                
             });
         });
     }
@@ -159,9 +155,9 @@ function TodoList() {
 
     self.getTodos = function () {
         self.todos.removeAll();
-        $.getJSON("/api/todo/", function (data) {
+        $.getJSON("/api/todo/" + currentUserId, function (data) {
             $.each(data, function(key,value) {
-                if (value.StatusId == false && value.UserId == currentUserId) {
+                if (value.StatusId == false) {
                     self.todos.push(new Todo(value.NoteId, value.Name, value.Comment, value.StatusId, value.GroupId, value.GroupName, value.UserId));
                 }
             });
