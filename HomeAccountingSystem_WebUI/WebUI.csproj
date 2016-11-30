@@ -469,6 +469,10 @@
     <Compile Include="Infrastructure\Modules\TotalTimeModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
+    <Compile Include="Migrations\201611300528457_InitDatabase.cs" />
+    <Compile Include="Migrations\201611300528457_InitDatabase.Designer.cs">
+      <DependentUpon>201611300528457_InitDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccRoleModel.cs" />
     <Compile Include="Models\AccUserModel.cs" />
@@ -622,6 +626,11 @@
       <Project>{40dece90-1099-4a35-b057-738a44a65bf0}</Project>
       <Name>Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611300528457_InitDatabase.resx">
+      <DependentUpon>201611300528457_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
