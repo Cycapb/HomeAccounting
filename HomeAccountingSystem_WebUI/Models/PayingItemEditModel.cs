@@ -13,8 +13,6 @@ namespace HomeAccountingSystem_WebUI.Models
         public List<PriceAndIdForEdit> PricesAndIdsInItem { get; set; }
         public List<PriceAndIdForEdit> PricesAndIdsNotInItem { get; set; } 
         public List<PaiyngItemProduct> PayingItemProducts { get; set; }
-        [HiddenInput(DisplayValue = false)]
-        public string UserId { get; set; }
     }
 
     public class IdNamePrice

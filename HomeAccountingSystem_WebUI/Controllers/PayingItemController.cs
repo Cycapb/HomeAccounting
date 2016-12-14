@@ -134,8 +134,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             var pItemEditModel = new PayingItemEditModel()
             {
                 PayingItem = pItem,
-                PayingItemProducts = new List<PaiyngItemProduct>(),
-                UserId = user.Id
+                PayingItemProducts = new List<PaiyngItemProduct>()
             };
             PayingItemEditModel.OldCategoryId = pItem.CategoryID;
 
@@ -143,11 +142,8 @@ namespace HomeAccountingSystem_WebUI.Controllers
             {
                 return PartialView(pItemEditModel);
             }
-            else
-            {
-                _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
-                return PartialView(pItemEditModel);
-            }
+            _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
+            return PartialView(pItemEditModel);
         }
 
         [HttpPost]
