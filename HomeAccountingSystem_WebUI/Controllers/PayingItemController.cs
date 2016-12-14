@@ -135,6 +135,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             {
                 PayingItem = pItem,
                 PayingItemProducts = new List<PaiyngItemProduct>(),
+                UserId = user.Id
             };
             PayingItemEditModel.OldCategoryId = pItem.CategoryID;
 
@@ -154,7 +155,6 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                pItem.PayingItem.UserId = user.Id;
                 if (pItem.PricesAndIdsInItem == null)
                 {
                     await _payingItemService.UpdateAsync(pItem.PayingItem);

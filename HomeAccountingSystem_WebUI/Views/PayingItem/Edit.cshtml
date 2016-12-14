@@ -17,6 +17,7 @@
         <div class="panel-body">
             <div class="form-group">
                 @Html.HiddenFor(x => x.PayingItem.ItemID)
+                @Html.HiddenFor(x => x.UserId)
                 <label>Категория:</label>
                 @Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
                 {
