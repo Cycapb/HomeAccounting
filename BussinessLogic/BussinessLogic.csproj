@@ -70,6 +70,7 @@
     <Compile Include="Services\PayingItemProductService.cs" />
     <Compile Include="Services\PayingItemService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\TypeOfFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj">
