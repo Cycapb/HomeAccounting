@@ -112,7 +112,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            ViewBag.TypesOfFlow = _tofRepository.GetList().ToList();
+            ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
             var item = await _categoryService.GetItemAsync(id);
             return PartialView(item);
         }
@@ -127,15 +127,15 @@ namespace HomeAccountingSystem_WebUI.Controllers
             }
             else
             {
-                ViewBag.TypesOfFlow = _tofRepository.GetList().ToList();
+                ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
                 return PartialView(category);
             }
         }
 
         [HttpGet]
-        public ActionResult Add(WebUser user)
+        public async Task<ActionResult> Add(WebUser user)
         {
-            ViewBag.TypesOfFlow = _tofRepository.GetList().ToList();
+            ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
             return PartialView(new Category() {UserId = user.Id});
         }
 
@@ -150,7 +150,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             }
             else
             {
-                ViewBag.TypesOfFlow = _tofRepository.GetList().ToList();
+                ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
                 return PartialView(category);
             }
         }
