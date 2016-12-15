@@ -89,6 +89,10 @@
     <Compile Include="Migrations\201611300508055_InitDatabase.Designer.cs">
       <DependentUpon>201611300508055_InitDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612150502240_AddActiveToCategory.cs" />
+    <Compile Include="Migrations\201612150502240_AddActiveToCategory.Designer.cs">
+      <DependentUpon>201612150502240_AddActiveToCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountingContext.cs" />
@@ -126,6 +130,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611300508055_InitDatabase.resx">
       <DependentUpon>201611300508055_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612150502240_AddActiveToCategory.resx">
+      <DependentUpon>201612150502240_AddActiveToCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

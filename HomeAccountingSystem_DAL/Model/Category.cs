@@ -1,10 +1,8 @@
 namespace HomeAccountingSystem_DAL.Model
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Category")]
     public partial class Category
@@ -30,6 +28,7 @@ namespace HomeAccountingSystem_DAL.Model
         public string UserId { get; set; }
 
         public bool ViewInPlan { get; set; }
+        public bool Active { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PayingItem> PayingItem { get; set; }

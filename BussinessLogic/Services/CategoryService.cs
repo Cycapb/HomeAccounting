@@ -54,5 +54,11 @@ namespace BussinessLogic.Services
             var cat = await _categoryRepository.GetItemAsync(id);
             return cat.PayingItem.Any();
         }
+
+        public async Task<IEnumerable<Category>> GetActiveGategoriesByUser(string userId)
+        {
+            var cats = await _categoryRepository.GetListAsync();
+            return cats.Where(x => x.Active == true && x.UserId == userId);
+        }
     }
 }
