@@ -221,8 +221,8 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         private async Task FillViewBag(WebUser user, int typeOfFlowId)
         {
-            ViewBag.Categories = (await _categoryService.GetListAsync())
-                .Where(i => i.UserId == user.Id && i.TypeOfFlowID == typeOfFlowId)
+            ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUser(user.Id))
+                .Where(i => i.TypeOfFlowID == typeOfFlowId)
                 .ToList();
             ViewBag.Accounts = (await _accountService.GetListAsync())
                 .Where(x => x.UserId == user.Id)

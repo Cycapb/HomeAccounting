@@ -41,8 +41,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
-                    TotalItems = categories
-                        .Count,
+                    TotalItems = categories.Count,
                     ItemsPerPage = _pagesize
                 }
             };
