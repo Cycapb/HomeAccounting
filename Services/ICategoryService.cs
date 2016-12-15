@@ -13,5 +13,6 @@ namespace Services
         Task UpdateAsync(Category item);
         Task<IEnumerable<Product>> GetProducts(int id);
         Task<bool> HasDependencies(int id);
+        Task<IEnumerable<Category>> GetActiveGategoriesByUser(string userId);
     }
 }
