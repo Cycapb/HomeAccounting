@@ -29,18 +29,20 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> Index(WebUser user, int page = 1)
         {
+            var categories = (await _categoryService.GetListAsync())
+                .Where(x => x.UserId == user.Id)
+                .ToList();
             var catView = new CategoriesViewModel()
             {
-                Categories = (await _categoryService.GetListAsync())
-                    .Where(x => x.UserId == user.Id)
+                Categories = categories
                     .Skip((page - 1)*_pagesize)
                     .Take(_pagesize)
                     .ToList(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
-                    TotalItems = (await _categoryService.GetListAsync())
-                        .Count(x => x.UserId == user.Id),
+                    TotalItems = categories
+                        .Count,
                     ItemsPerPage = _pagesize
                 }
             };
