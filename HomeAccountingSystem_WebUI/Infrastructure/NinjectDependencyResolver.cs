@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
@@ -58,6 +57,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _kernel.Bind<IEmailSender>().To<EmailSenderService>();
             _kernel.Bind<IOrderService>().To<OrderService>();
             _kernel.Bind<IOrderDetailService>().To<OrderDetailService>();
+            _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
         }
 
         public object GetService(Type serviceType)
