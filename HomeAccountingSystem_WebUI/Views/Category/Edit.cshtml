@@ -28,6 +28,10 @@
                     Value = x.TypeID.ToString()
                 }), new {@class = "form-control"})
             </div>
+            <div class="form-group">
+                <label class="form-group">Активная:</label>
+                @Html.CheckBoxFor(x => x.Active, new {@class="form-control"})
+            </div>
         </div>
         <div class="panel-footer">
             <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
