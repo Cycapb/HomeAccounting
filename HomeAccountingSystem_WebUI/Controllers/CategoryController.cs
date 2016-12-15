@@ -14,15 +14,15 @@ namespace HomeAccountingSystem_WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class CategoryController : Controller
     {
-        private readonly IRepository<TypeOfFlow> _tofRepository;
+        private readonly ITypeOfFlowService _tofService;
         private readonly IPlanningHelper _planningHelper;
         private readonly ICategoryService _categoryService;
         private readonly int _pagesize = 7;
 
-        public CategoryController(IRepository<TypeOfFlow> tofRepo, 
+        public CategoryController( ITypeOfFlowService tofService,
             IPlanningHelper planningHelper, ICategoryService categoryService)
         {
-            _tofRepository = tofRepo;
+            _tofService = tofService;
             _planningHelper = planningHelper;
             _categoryService = categoryService;
         }
