@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -112,7 +113,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
+            ViewBag.TypesOfFlow = await GetTypesOfFlow();
             var item = await _categoryService.GetItemAsync(id);
             return PartialView(item);
         }
@@ -127,7 +128,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             }
             else
             {
-                ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
+                ViewBag.TypesOfFlow =await GetTypesOfFlow();
                 return PartialView(category);
             }
         }
@@ -135,7 +136,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult> Add(WebUser user)
         {
-            ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
+            ViewBag.TypesOfFlow = await GetTypesOfFlow();
             return PartialView(new Category() {UserId = user.Id});
         }
 
@@ -150,7 +151,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             }
             else
             {
-                ViewBag.TypesOfFlow = (await _tofService.GetListAsync()).ToList();
+                ViewBag.TypesOfFlow = await GetTypesOfFlow();
                 return PartialView(category);
             }
         }
@@ -163,6 +164,11 @@ namespace HomeAccountingSystem_WebUI.Controllers
                 await _categoryService.DeleteAsync(id);
             }
             return RedirectToAction("GetCategoriesAndPages");
+        }
+
+        private async Task<IEnumerable<TypeOfFlow>> GetTypesOfFlow()
+        {
+            return (await _tofService.GetListAsync()).ToList();
         }
     }
 }
