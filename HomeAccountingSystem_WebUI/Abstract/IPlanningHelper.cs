@@ -13,6 +13,6 @@ namespace HomeAccountingSystem_WebUI.Abstract
         Task SpreadPlanItems(IWorkingUser user, PlanItem item);
         Task ActualizePlanItems(string userId);
         BalanceModel GetBalanceModel(int month, List<PlanItem> planItems);
-        ViewPlaningModel GetUserBalance(IWorkingUser user, bool showAll);
+        Task<ViewPlaningModel> GetUserBalance(IWorkingUser user, bool showAll);
     }
 }

@@ -6,31 +6,30 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
-using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
+using Services;
 
 namespace HomeAccountingSystem_WebUI.Helpers
 {
     [Authorize]
     public class PlaningControllerHelper:IPlanningHelper
     {
-        private readonly IRepository<PlanItem> _planItemRepository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<PayingItem> _payingItemRepository; 
+        private readonly IPlanItemService _planItemService;
+        private readonly ICategoryService _categoryService;
+        private readonly IPayingItemService _pItemService;
 
-        public PlaningControllerHelper(IRepository<PlanItem> planItemRepo, 
-            IRepository<Category> catRepo,
-            IRepository<PayingItem> payingItemRepo )
+        public PlaningControllerHelper(IPlanItemService planItemService, 
+            ICategoryService categoryService, IPayingItemService pItemService)
         {
-            _planItemRepository = planItemRepo;
-            _categoryRepository = catRepo;
-            _payingItemRepository = payingItemRepo;
+            _planItemService = planItemService;
+            _categoryService = categoryService;
+            _pItemService = pItemService;
         }
 
         public async Task CreatePlanItems(IWorkingUser user)
         {
-            var categories = _categoryRepository.GetList()
+            var categories = (await _categoryService.GetListAsync())
                 .Where(x => x.UserId == user.Id)
                 .ToList();
 
@@ -41,15 +40,15 @@ namespace HomeAccountingSystem_WebUI.Helpers
                     if (j == 0)
                     {
                         var planItem = CreatePlanItem(user, categories[i].CategoryID, DateTime.Today);
-                        await _planItemRepository.CreateAsync(planItem);
+                        await _planItemService.CreateAsync(planItem);
                     }
                     else
                     {
                         var planItem = CreatePlanItem(user, categories[i].CategoryID, DateTime.Today.AddMonths(j));
-                        await _planItemRepository.CreateAsync(planItem);
+                        await _planItemService.CreateAsync(planItem);
                     }
                 }
-                await _planItemRepository.SaveAsync();
+                await _planItemService.SaveAsync();
             }
         }
 
@@ -60,47 +59,47 @@ namespace HomeAccountingSystem_WebUI.Helpers
                 if (i == 0)
                 {
                     var planItem = CreatePlanItem(user, categoryId, DateTime.Today);
-                    await _planItemRepository.CreateAsync(planItem);
+                    await _planItemService.CreateAsync(planItem);
                 }
                 else
                 {
                     var planItem = CreatePlanItem(user, categoryId, DateTime.Today.AddMonths(i));
-                    await _planItemRepository.CreateAsync(planItem);
+                    await _planItemService.CreateAsync(planItem);
                 }
             }
-            await _planItemRepository.SaveAsync();
+            await _planItemService.SaveAsync();
         }
 
         public async Task SpreadPlanItems(IWorkingUser user, PlanItem item)
         {
-            var planItems = _planItemRepository.GetList()
-                .Where(x => x.UserId == user.Id && x.Closed == false 
+            var planItems = (await _planItemService.GetListAsync(user.Id))
+                .Where(x => x.Closed == false 
                 && x.Month.Date >= item.Month.Date
                 && x.CategoryId == item.CategoryId)
                 .ToList();
                 foreach (var planItem in planItems)
                 {
                     planItem.SummPlan = item.SummPlan;
-                    await _planItemRepository.UpdateAsync(planItem);
+                    await _planItemService.UpdateAsync(planItem);
                 }
-                await _planItemRepository.SaveAsync();
+                await _planItemService.SaveAsync();
         }
 
         public async Task ActualizePlanItems(string userId)
         {
-            var items = _payingItemRepository.GetList()
+            var items = _pItemService.GetList()
                 .Where(x => x.UserId == userId && x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
                 .ToList();
-            var planItems = _planItemRepository.GetList()
-                .Where(x => x.UserId == userId && x.Month.Month == DateTime.Today.Month && x.Month.Year == DateTime.Today.Year)
+            var planItems = (await _planItemService.GetListAsync(userId))
+                .Where(x => x.Month.Month == DateTime.Today.Month && x.Month.Year == DateTime.Today.Year)
                 .ToList();
 
             foreach (var planItem in planItems)
             {
                 planItem.SummFact = 0;
-                await _planItemRepository.UpdateAsync(planItem);
+                await _planItemService.UpdateAsync(planItem);
             }
-            await _planItemRepository.SaveAsync();
+            await _planItemService.SaveAsync();
 
             foreach (var payingItem in items)
             {
@@ -109,10 +108,10 @@ namespace HomeAccountingSystem_WebUI.Helpers
                     if (planItem.CategoryId == payingItem.CategoryID)
                     {
                         planItem.SummFact += payingItem.Summ;
-                        await _planItemRepository.UpdateAsync(planItem);
+                        await _planItemService.UpdateAsync(planItem);
                     }
                 }
-                await _planItemRepository.SaveAsync();
+                await _planItemService.SaveAsync();
             }
         }
 
@@ -135,25 +134,25 @@ namespace HomeAccountingSystem_WebUI.Helpers
             return balance;
         }
 
-        public ViewPlaningModel GetUserBalance(IWorkingUser user, bool showAll = true)
+        public async Task<ViewPlaningModel> GetUserBalance(IWorkingUser user, bool showAll = true)
         {
             var model = new ViewPlaningModel() { Balances = new List<BalanceModel>() };
             IEnumerable<Category> categories = new List<Category>();
             if (showAll)
             {
-                categories = _categoryRepository.GetList().Where(x => x.UserId == user.Id).ToList();
+                categories = (await _categoryService.GetListAsync()).Where(x => x.UserId == user.Id).ToList();
             }
             else
             {
-                categories = _categoryRepository.GetList().Where(x => x.UserId == user.Id && x.ViewInPlan == true).ToList();
+                categories = (await _categoryService.GetListAsync()).Where(x => x.UserId == user.Id && x.ViewInPlan == true).ToList();
             }
            
 
             model.CategoryPlanItemsIncome = categories.Where(x => x.TypeOfFlowID == 1).OrderBy(x => x.Name).ToList();
             model.CategoryPlanItemsOutgo = categories.Where(x => x.TypeOfFlowID == 2).OrderBy(x => x.Name).ToList();
 
-            var planItems = _planItemRepository.GetList()
-                .Where(x => x.UserId == user.Id && x.Closed == false).ToList();
+            var planItems = (await _planItemService.GetListAsync(user.Id))
+                .Where(x => x.Closed == false).ToList();
 
             model.Months = planItems
                 .GroupBy(x => x.Month.ToString("Y", CultureInfo.CurrentCulture))

@@ -58,6 +58,7 @@
     <Compile Include="IOrderService.cs" />
     <Compile Include="IPayingItemProductService.cs" />
     <Compile Include="IPayingItemService.cs" />
+    <Compile Include="IPlanItemService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="ITypeOfFlowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
