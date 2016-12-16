@@ -15,10 +15,10 @@ namespace HomeAccountingSystem_WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class DebtController : Controller
     {
-        private readonly IDebtManager _debtManager;
+        private readonly IDebtService _debtManager;
         private readonly IRepository<Account> _accRepo;
 
-        public DebtController(IDebtManager debtManager, IRepository<Account> accRepo)
+        public DebtController(IDebtService debtManager, IRepository<Account> accRepo)
         {
             _debtManager = debtManager;
             _accRepo = accRepo;

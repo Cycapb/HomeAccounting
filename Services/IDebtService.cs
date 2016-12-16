@@ -4,7 +4,7 @@ using HomeAccountingSystem_DAL.Model;
 
 namespace Services
 {
-    public interface IDebtManager
+    public interface IDebtService
     {
         Task CreateAsync(Debt debt);
         Task CloseAsync(int id);

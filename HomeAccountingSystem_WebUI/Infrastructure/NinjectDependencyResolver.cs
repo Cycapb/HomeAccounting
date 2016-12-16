@@ -46,7 +46,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _kernel.Bind<IReportModelCreator>().To<ReportModelCreator>();
             _kernel.Bind<IDbHelper>().To<DbHelper>();
             _kernel.Bind<IPagingInfoCreator>().To<PagingInfoCreator>();
-            _kernel.Bind<IDebtManager>().To<DebtManager>();
+            _kernel.Bind<IDebtService>().To<DebtService>();
             _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt>>();
             _kernel.Bind<IPayingItemService>().To<PayingItemService>();
             _kernel.Bind<ICategoryService>().To<CategoryService>();

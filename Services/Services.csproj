@@ -51,7 +51,7 @@
     <Compile Include="IAccountService.cs" />
     <Compile Include="ICategoryService.cs" />
     <Compile Include="IDbHelper.cs" />
-    <Compile Include="IDebtManager.cs" />
+    <Compile Include="IDebtService.cs" />
     <Compile Include="IEmailSender.cs" />
     <Compile Include="IMailSettingsProvider.cs" />
     <Compile Include="IOrderDetailService.cs" />

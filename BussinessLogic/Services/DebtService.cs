@@ -8,12 +8,12 @@ using Services;
 
 namespace BussinessLogic.Services
 {
-    public class DebtManager:IDebtManager
+    public class DebtService:IDebtService
     {
         private readonly IRepository<Debt> _debtRepo;
         private readonly IRepository<Account> _accRepo;
 
-        public DebtManager(IRepository<Debt> deptRepo, IRepository<Account> accRepo)
+        public DebtService(IRepository<Debt> deptRepo, IRepository<Account> accRepo)
         {
             _debtRepo = deptRepo;
             _accRepo = accRepo;
