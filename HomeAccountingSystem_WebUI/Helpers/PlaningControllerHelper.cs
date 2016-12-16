@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
@@ -27,7 +26,7 @@ namespace HomeAccountingSystem_WebUI.Helpers
             _pItemService = pItemService;
         }
 
-        public async Task CreatePlanItems(IWorkingUser user)
+        public async Task CreatePlanItems(WebUser user)
         {
             var categories = (await _categoryService.GetListAsync())
                 .Where(x => x.UserId == user.Id)
@@ -52,7 +51,7 @@ namespace HomeAccountingSystem_WebUI.Helpers
             }
         }
 
-        public async Task CreatePlanItemsForCategory(IWorkingUser user, int categoryId)
+        public async Task CreatePlanItemsForCategory(WebUser user, int categoryId)
         {
             for (int i = 0; i < 12; i++)
             {
@@ -70,7 +69,7 @@ namespace HomeAccountingSystem_WebUI.Helpers
             await _planItemService.SaveAsync();
         }
 
-        public async Task SpreadPlanItems(IWorkingUser user, PlanItem item)
+        public async Task SpreadPlanItems(WebUser user, PlanItem item)
         {
             var planItems = (await _planItemService.GetListAsync(user.Id))
                 .Where(x => x.Closed == false 
@@ -134,7 +133,7 @@ namespace HomeAccountingSystem_WebUI.Helpers
             return balance;
         }
 
-        public async Task<ViewPlaningModel> GetUserBalance(IWorkingUser user, bool showAll = true)
+        public async Task<ViewPlaningModel> GetUserBalance(WebUser user, bool showAll = true)
         {
             var model = new ViewPlaningModel() { Balances = new List<BalanceModel>() };
             IEnumerable<Category> categories = new List<Category>();
@@ -178,7 +177,7 @@ namespace HomeAccountingSystem_WebUI.Helpers
             return model;
         }
 
-        private PlanItem CreatePlanItem(IWorkingUser user,int catId, DateTime date)
+        private PlanItem CreatePlanItem(WebUser user,int catId, DateTime date)
         {
             return new PlanItem()
             {

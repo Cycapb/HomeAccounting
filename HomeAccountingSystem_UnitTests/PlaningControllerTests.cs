@@ -125,7 +125,7 @@ namespace HomeAccountingSystem_UnitTests
             Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
             Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
             Mock<IRepository<PayingItem>> mockPayingItem = new Mock<IRepository<PayingItem>>();
-            helperMock.Setup(m => m.GetUserBalance(It.IsAny<IWorkingUser>(),It.IsAny<bool>())).ReturnsAsync(new ViewPlaningModel());
+            helperMock.Setup(m => m.GetUserBalance(It.IsAny<WebUser>(),It.IsAny<bool>())).ReturnsAsync(new ViewPlaningModel());
             var target = new PlaningController(mockCategory.Object,mockPlanItem.Object,mockPayingItem.Object,helperMock.Object);
 
             var result = target.ViewPlan(user);

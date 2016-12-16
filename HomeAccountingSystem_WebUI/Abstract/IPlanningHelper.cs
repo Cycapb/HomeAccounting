@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Models;
 
@@ -8,11 +7,11 @@ namespace HomeAccountingSystem_WebUI.Abstract
 {
     public interface IPlanningHelper
     {
-        Task CreatePlanItems(IWorkingUser user);
-        Task CreatePlanItemsForCategory(IWorkingUser user, int categoryId);
-        Task SpreadPlanItems(IWorkingUser user, PlanItem item);
+        Task CreatePlanItems(WebUser user);
+        Task CreatePlanItemsForCategory(WebUser user, int categoryId);
+        Task SpreadPlanItems(WebUser user, PlanItem item);
         Task ActualizePlanItems(string userId);
         BalanceModel GetBalanceModel(int month, List<PlanItem> planItems);
-        Task<ViewPlaningModel> GetUserBalance(IWorkingUser user, bool showAll);
+        Task<ViewPlaningModel> GetUserBalance(WebUser user, bool showAll);
     }
 }
