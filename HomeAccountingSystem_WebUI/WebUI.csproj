@@ -402,7 +402,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IDebtManager.cs" />
     <Compile Include="Abstract\IPagingInfoCreator.cs" />
     <Compile Include="Abstract\IPayingItemHelper.cs" />
     <Compile Include="Abstract\IPayingItemProductHelper.cs" />
@@ -419,7 +418,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Concrete\DebtManager.cs" />
     <Compile Include="Concrete\EmailUserReporter.cs" />
     <Compile Include="Concrete\PagingInfoCreator.cs" />
     <Compile Include="Concrete\ReportMenu.cs" />

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using HomeAccountingSystem_DAL.Model;
 
-namespace HomeAccountingSystem_WebUI.Abstract
+namespace Services
 {
     public interface IDebtManager
     {

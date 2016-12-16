@@ -64,6 +64,7 @@
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\DbHelper.cs" />
+    <Compile Include="Services\DebtManager.cs" />
     <Compile Include="Services\EmailSenderService.cs" />
     <Compile Include="Services\OrderDetailService.cs" />
     <Compile Include="Services\OrderService.cs" />

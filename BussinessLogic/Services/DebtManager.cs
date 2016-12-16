@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_DAL.Repositories;
-using HomeAccountingSystem_WebUI.Abstract;
+using Services;
 
-namespace HomeAccountingSystem_WebUI.Concrete
+namespace BussinessLogic.Services
 {
     public class DebtManager:IDebtManager
     {
