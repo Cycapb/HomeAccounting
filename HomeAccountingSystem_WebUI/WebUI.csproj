@@ -411,7 +411,6 @@
     <Compile Include="Abstract\IReportMenu.cs" />
     <Compile Include="Abstract\IReportMenuItem.cs" />
     <Compile Include="Abstract\IReportModelCreator.cs" />
-    <Compile Include="Abstract\ITaskHelper.cs" />
     <Compile Include="Abstract\IUserReporter.cs" />
     <Compile Include="App_Start\AccIdentityConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
