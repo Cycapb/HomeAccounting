@@ -8,6 +8,7 @@ using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
+using Services;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
@@ -15,21 +16,21 @@ namespace HomeAccountingSystem_WebUI.Controllers
     [SessionState(SessionStateBehavior.Default)]
     public class PlaningController : Controller
     {
-        private readonly IRepository<Category> _catRepository;
+        private readonly ICategoryService _categoryService;
         private readonly IRepository<PlanItem> _planItemRepository;
         private readonly IPlanningHelper _planningHelper;
 
-        public PlaningController(IRepository<Category> catRepository,IRepository<PlanItem> planItemRepository, 
+        public PlaningController(ICategoryService categoryService,IRepository<PlanItem> planItemRepository, 
             IRepository<PayingItem> payingItemRepository, IPlanningHelper planningHelper)
         {
-            _catRepository = catRepository;
+            _categoryService = categoryService;
             _planItemRepository = planItemRepository;
             _planningHelper = planningHelper;
         }
 
-        public RedirectToRouteResult Prepare(WebUser user)
+        public async Task<ActionResult> Prepare(WebUser user)
         {
-            var categories = _catRepository.GetList().Any(x => x.UserId == user.Id);
+            var categories = (await _categoryService.GetActiveGategoriesByUser(user.Id)).Any();
             if (categories)
             {
                 var planItems = _planItemRepository.GetList().Any(x => x.UserId == user.Id);
@@ -48,16 +49,16 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return RedirectToAction("ViewPlan");
         }
 
-        public ActionResult ViewPlan(WebUser user)
+        public async Task<ActionResult> ViewPlan(WebUser user)
         {
             if(_catRepository.GetList().Any(x => x.UserId == user.Id && x.ViewInPlan == true))
             {
-                var model = _planningHelper.GetUserBalance(user, false);
+                var model = await _planningHelper.GetUserBalance(user, false);
                 return View(model);
             }
             else
             {
-                var model = _planningHelper.GetUserBalance(user, true);
+                var model = await _planningHelper.GetUserBalance(user, true);
                 return View(model);
             }
 
