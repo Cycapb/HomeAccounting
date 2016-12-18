@@ -51,7 +51,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> ViewPlan(WebUser user)
         {
-            if(_catRepository.GetList().Any(x => x.UserId == user.Id && x.ViewInPlan == true))
+            if((await _categoryService.GetActiveGategoriesByUser(user.Id)).Any(x => x.ViewInPlan == true))
             {
                 var model = await _planningHelper.GetUserBalance(user, false);
                 return View(model);
@@ -113,9 +113,9 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return RedirectToAction("ViewPlan");
         }
 
-        public ActionResult SelectCategories(WebUser user)
+        public async Task<ActionResult> SelectCategories(WebUser user)
         {
-            var cats = GetUserCategories(user);
+            var cats = await GetUserCategories(user);
             return View(cats);
         }
 
@@ -123,15 +123,14 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             foreach (var id in ids)
             {
-                var cat = await _catRepository.GetItemAsync(id);
+                var cat = await _categoryService.GetItemAsync(id);
                 cat.ViewInPlan = true;
-                await _catRepository.UpdateAsync(cat);
+                await _categoryService.UpdateAsync(cat);
             }
-            _catRepository.GetList()
+            (await _categoryService.GetListAsync())
                 .Where(x => !ids.Contains(x.CategoryID))
                 .ToList()
                 .ForEach(x=> { x.ViewInPlan = false; });
-            await _catRepository.SaveAsync();
             return Json(new {url = Url.Action("ViewPlan")});
         }
 
@@ -144,9 +143,9 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return editPlanModel;
         }
 
-        private IList<Category> GetUserCategories(IWorkingUser user)
+        private async Task<IList<Category>> GetUserCategories(IWorkingUser user)
         {
-            return _catRepository.GetList().Where(x=>x.UserId == user.Id).ToList();
+            return (await _categoryService.GetActiveGategoriesByUser(user.Id)).ToList();
         }
     }
 }
