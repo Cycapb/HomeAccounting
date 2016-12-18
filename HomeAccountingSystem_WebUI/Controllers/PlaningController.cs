@@ -28,7 +28,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> Prepare(WebUser user)
         {
-            var categories = (await _categoryService.GetListAsync()).Any();
+            var categories = (await _categoryService.GetListAsync()).Any(x => x.UserId == user.Id);
             if (categories)
             {
                 var planItems = (await _planItemService.GetListAsync(user.Id)).Any();
