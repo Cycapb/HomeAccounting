@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeAccountingSystem_DAL.Model;
@@ -18,6 +19,7 @@ namespace BussinessLogic.Services
 
         public async Task CreateAsync(Category item)
         {
+            item.Active = true;
             await _categoryRepository.CreateAsync(item);
             await _categoryRepository.SaveAsync();
         }
