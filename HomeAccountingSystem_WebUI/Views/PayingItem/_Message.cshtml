@@ -1,0 +1,11 @@
+﻿@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["message"]
+        <span class="pull-right">@Ajax.ActionLink("На главную","List","PayingItem",new AjaxOptions()
+                            {
+                                Url = Url.Action("List"),
+                                UpdateTargetId = "payingDiv"
+                            }, new { @class = "btn btn-default btn-raised btn-sm pull-right" })</span>
+    </div>
+}

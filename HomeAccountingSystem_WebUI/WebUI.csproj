@@ -596,6 +596,7 @@
     <Content Include="Views\OrderDetail\_Add.cshtml" />
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
     <Content Include="Views\MenuBar\_MenuBar.cshtml" />
+    <Content Include="Views\PayingItem\_Message.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
