@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
-using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Services;
 
 namespace HomeAccountingSystem_UnitTests
 {
@@ -57,61 +57,60 @@ namespace HomeAccountingSystem_UnitTests
             new PayingItem() {ItemID = 5,CategoryID = 3,UserId = "3"},
         };
 
-        private void Prepare_UserWithNoCategories_PayingItemListReturned(WebUser user)
+        private async Task Prepare_UserWithNoCategories_PayingItemListReturned(WebUser user)
         {
-            Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
-            Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
-            mockPlanItem.Setup(m => m.GetList()).Returns(new List<PlanItem>());
-            mockCategory.Setup(m => m.GetList()).Returns(new List<Category>());
-            var target = new PlaningController(mockCategory.Object,mockPlanItem.Object, null,null);
+            Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
+            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
+            mockPlanItem.Setup(m => m.GetListAsync(It.IsAny<string>())).ReturnsAsync(new List<PlanItem>());
+            mockCategory.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>());
+            var target = new PlaningController(mockCategory.Object,mockPlanItem.Object, null);
             
-            var result = target.Prepare(user);
+            var result = await target.Prepare(user);
 
-            var controller = result.RouteValues["controller"];
-            var action = result.RouteValues["action"];
+            var controller = ((RedirectToRouteResult)result).RouteValues["controller"];
+            var action = ((RedirectToRouteResult)result).RouteValues["action"];
 
             Assert.AreEqual("Index",action);
             Assert.AreEqual("PayingItem",controller);
         }
 
-        private void MethodPrepare_UserWithCategoriesWithNoPlanItems_CreatePlanReturned(WebUser user)
+        private async Task MethodPrepare_UserWithCategoriesWithNoPlanItems_CreatePlanReturned(WebUser user)
         {
-            Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
-            Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
-            mockCategory.Setup(m => m.GetList()).Returns(_categories);
-            var target = new PlaningController(mockCategory.Object, mockPlanItem.Object, null,null);
+            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
+            Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
+            mockCategory.Setup(m => m.GetListAsync()).ReturnsAsync(_categories);
+            var target = new PlaningController(mockCategory.Object, mockPlanItem.Object, null);
 
-            var result = target.Prepare(user);
-            var controller = result.RouteValues["controller"];
-            var action = result.RouteValues["action"];
+            var result = await target.Prepare(user);
+            var controller = ((RedirectToRouteResult)result).RouteValues["controller"];
+            var action = ((RedirectToRouteResult)result).RouteValues["action"];
 
             Assert.IsNull(controller);
             Assert.AreEqual("CreatePlan",action);
         }
 
-        private void MethodPrepare_WithCategories_WithPlanItems(WebUser user)
+        private async Task MethodPrepare_WithCategories_WithPlanItems(WebUser user)
         {
-            Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
-            Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
-            mockCategory.Setup(m => m.GetList()).Returns(_categories);
-            mockPlanItem.Setup(m => m.GetList()).Returns(_planItems);
-            var target = new PlaningController(mockCategory.Object, mockPlanItem.Object, null,null);
+            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
+            Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
+            mockCategory.Setup(m => m.GetListAsync()).ReturnsAsync(_categories);
+            mockPlanItem.Setup(m => m.GetListAsync(It.IsAny<string>())).ReturnsAsync(_planItems);
+            var target = new PlaningController(mockCategory.Object, mockPlanItem.Object, null);
 
-            var result = target.Prepare(user);
-            var controller = result.RouteValues["controller"];
-            var action = result.RouteValues["action"];
+            var result = await target.Prepare(user);
+            var controller = ((RedirectToRouteResult)result).RouteValues["controller"];
+            var action = ((RedirectToRouteResult)result).RouteValues["action"];
 
             Assert.IsNull(controller);
             Assert.AreEqual("ViewPlan", action);
         }
 
-        private async void CreatePlan_RedirectToViewPlanReturned(WebUser user)
+        private async Task CreatePlan_RedirectToViewPlanReturned(WebUser user)
         {
             Mock<IPlanningHelper> helperMock = new Mock<IPlanningHelper>();
-            Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
-            Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
-            Mock<IRepository<PayingItem>> mockPayingItem = new Mock<IRepository<PayingItem>>();
-            var target = new PlaningController(mockCategory.Object,mockPlanItem.Object,mockPayingItem.Object,helperMock.Object);
+            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
+            Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
+            var target = new PlaningController(mockCategory.Object,mockPlanItem.Object,helperMock.Object);
 
             var result = await target.CreatePlan(user);
 
@@ -119,16 +118,15 @@ namespace HomeAccountingSystem_UnitTests
             Assert.AreEqual(result.RouteValues["action"],"ViewPlan");
         }
 
-        private void ViewPlan_ViewResultReturned(WebUser user)
+        private async Task ViewPlan_ViewResultReturned(WebUser user)
         {
             Mock<IPlanningHelper> helperMock = new Mock<IPlanningHelper>();
-            Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
-            Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
-            Mock<IRepository<PayingItem>> mockPayingItem = new Mock<IRepository<PayingItem>>();
+            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
+            Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
             helperMock.Setup(m => m.GetUserBalance(It.IsAny<WebUser>(),It.IsAny<bool>())).ReturnsAsync(new ViewPlaningModel());
-            var target = new PlaningController(mockCategory.Object,mockPlanItem.Object,mockPayingItem.Object,helperMock.Object);
+            var target = new PlaningController(mockCategory.Object,mockPlanItem.Object,helperMock.Object);
 
-            var result = target.ViewPlan(user);
+            var result = await target.ViewPlan(user);
             
             Assert.IsNotNull(target.ViewData.Model);
             Assert.IsInstanceOfType(result,typeof(ViewResult));
@@ -136,9 +134,9 @@ namespace HomeAccountingSystem_UnitTests
 
         private async void Edit_IdInput_PartialViewResulEditPlaningModeltReturned()
         {
-            Mock<IRepository<PlanItem>> mockPlanItem = new Mock<IRepository<PlanItem>>();
+            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
             mockPlanItem.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PlanItem() {PlanItemID = 1});
-            var target = new PlaningController(null, mockPlanItem.Object, null, null);
+            var target = new PlaningController(null, mockPlanItem.Object, null);
             var user = new WebUser() {Id = "1"};
 
             var result = await target.Edit(1);
@@ -152,7 +150,7 @@ namespace HomeAccountingSystem_UnitTests
         {
             var model = new EditPlaningModel();
             var user = new WebUser() {Id = "1"};
-            var target = new PlaningController(null,null,null,null);
+            var target = new PlaningController(null,null,null);
             target.ModelState.AddModelError("","");
 
             var result = await target.Edit(user, model);
@@ -164,14 +162,14 @@ namespace HomeAccountingSystem_UnitTests
 
         private async void Edit_UserEditPlaningModelInput_NoModelSpread_RedirectToAction()
         {
-            Mock<IRepository<PlanItem>> mockPlan = new Mock<IRepository<PlanItem>>();       
+            Mock<IPlanItemService> mockPlan = new Mock<IPlanItemService>();       
             var user = new WebUser();
             var model = new EditPlaningModel()
             {
                 PlanItem = new PlanItem(),
                 Spread = false
             };
-            var target = new PlaningController(null,mockPlan.Object,null,null);
+            var target = new PlaningController(null,mockPlan.Object,null);
             target.ControllerContext = GetControllerContext(target);
 
             var result = await target.Edit(user, model);
@@ -184,7 +182,7 @@ namespace HomeAccountingSystem_UnitTests
 
         private async void Edit_UserEditPlaningModelInput_ModelSpread_RedirectToAction()
         {
-            Mock<IRepository<PlanItem>> mockPlan = new Mock<IRepository<PlanItem>>();
+            Mock<IPlanItemService> mockPlan = new Mock<IPlanItemService>();
             Mock<IPlanningHelper> mockHelper = new Mock<IPlanningHelper>();
             var user = new WebUser();
             var model = new EditPlaningModel()
@@ -192,7 +190,7 @@ namespace HomeAccountingSystem_UnitTests
                 PlanItem = new PlanItem(),
                 Spread = true
             };
-            var target = new PlaningController(null, mockPlan.Object, null, mockHelper.Object);
+            var target = new PlaningController(null, mockPlan.Object, mockHelper.Object);
             target.ControllerContext = GetControllerContext(target);
 
             var result = await target.Edit(user, model);
@@ -206,7 +204,7 @@ namespace HomeAccountingSystem_UnitTests
         private async void Actualize_WebUserInput_RedirectToActionReturned()
         {
             Mock<IPlanningHelper> mock = new Mock<IPlanningHelper>();
-            var target = new PlaningController(null,null,null,mock.Object);
+            var target = new PlaningController(null,null,mock.Object);
 
             var result = await target.Actualize(new WebUser() {Id = "1"});
             var model = ((RedirectToRouteResult) result).RouteValues["model"];
@@ -215,10 +213,10 @@ namespace HomeAccountingSystem_UnitTests
             Assert.AreEqual(routeValues["action"],"ViewPlan");
         }
 
-        private async void EditView_IdInput_ViewReturned()
+        private async Task EditView_IdInput_ViewReturned()
         {
-            Mock<IRepository<PlanItem>> mock = new Mock<IRepository<PlanItem>>();
-            var target = new PlaningController(null,mock.Object,null,null);
+            Mock<IPlanItemService> mock = new Mock<IPlanItemService>();
+            var target = new PlaningController(null,mock.Object,null);
 
             var result = await target.EditView(1);
             var model = ((ViewResult) result).Model;
@@ -228,19 +226,19 @@ namespace HomeAccountingSystem_UnitTests
         }
 
         [TestMethod]
-        public void PlanItemsTests()
+        public async Task PlanItemsTests()
         {
             var user = new WebUser() {Id = "1"};
-            Prepare_UserWithNoCategories_PayingItemListReturned(user);    
-            MethodPrepare_UserWithCategoriesWithNoPlanItems_CreatePlanReturned(user);
-            MethodPrepare_WithCategories_WithPlanItems(user);
-            CreatePlan_RedirectToViewPlanReturned(user);
-            ViewPlan_ViewResultReturned(user);
+            await Prepare_UserWithNoCategories_PayingItemListReturned(user);    
+            await MethodPrepare_UserWithCategoriesWithNoPlanItems_CreatePlanReturned(user);
+            await MethodPrepare_WithCategories_WithPlanItems(user);
+            await CreatePlan_RedirectToViewPlanReturned(user);
+            await ViewPlan_ViewResultReturned(user);
             Edit_IdInput_PartialViewResulEditPlaningModeltReturned();
             Edit_UserEditPlaningModelInput_ViewResult();
             Edit_UserEditPlaningModelInput_NoModelSpread_RedirectToAction();
             Edit_UserEditPlaningModelInput_ModelSpread_RedirectToAction();
-            EditView_IdInput_ViewReturned();
+            await EditView_IdInput_ViewReturned();
             Actualize_WebUserInput_RedirectToActionReturned();
         }
 
