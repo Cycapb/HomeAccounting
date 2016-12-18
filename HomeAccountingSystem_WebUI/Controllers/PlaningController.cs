@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
@@ -142,7 +141,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return editPlanModel;
         }
 
-        private async Task<IList<Category>> GetUserCategories(IWorkingUser user)
+        private async Task<IList<Category>> GetUserCategories(WebUser user)
         {
             return (await _categoryService.GetActiveGategoriesByUser(user.Id)).ToList();
         }
