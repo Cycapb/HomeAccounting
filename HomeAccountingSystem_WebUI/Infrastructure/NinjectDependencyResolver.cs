@@ -58,7 +58,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _kernel.Bind<IOrderService>().To<OrderService>();
             _kernel.Bind<IOrderDetailService>().To<OrderDetailService>();
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
-            
+            _kernel.Bind<IPlanItemService>().To<PlanItemService>();
         }
 
         public object GetService(Type serviceType)
