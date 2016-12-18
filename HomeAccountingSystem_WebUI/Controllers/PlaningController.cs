@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using HomeAccountingSystem_DAL.Abstract;
 using HomeAccountingSystem_DAL.Model;
-using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
@@ -17,14 +16,14 @@ namespace HomeAccountingSystem_WebUI.Controllers
     public class PlaningController : Controller
     {
         private readonly ICategoryService _categoryService;
-        private readonly IRepository<PlanItem> _planItemRepository;
+        private readonly IPlanItemService _planItemService;
         private readonly IPlanningHelper _planningHelper;
 
-        public PlaningController(ICategoryService categoryService,IRepository<PlanItem> planItemRepository, 
-            IRepository<PayingItem> payingItemRepository, IPlanningHelper planningHelper)
+        public PlaningController(ICategoryService categoryService,IPlanItemService planItemService, 
+             IPlanningHelper planningHelper)
         {
             _categoryService = categoryService;
-            _planItemRepository = planItemRepository;
+            _planItemService = planItemService;
             _planningHelper = planningHelper;
         }
 
@@ -33,7 +32,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             var categories = (await _categoryService.GetActiveGategoriesByUser(user.Id)).Any();
             if (categories)
             {
-                var planItems = _planItemRepository.GetList().Any(x => x.UserId == user.Id);
+                var planItems = (await _planItemService.GetListAsync(user.Id)).Any();
                 return RedirectToAction(planItems ? "ViewPlan" : "CreatePlan");
             }
             else
@@ -81,8 +80,8 @@ namespace HomeAccountingSystem_WebUI.Controllers
             {
                 if (!model.Spread)
                 {
-                    await _planItemRepository.UpdateAsync(model.PlanItem);
-                    await _planItemRepository.SaveAsync();
+                    await _planItemService.UpdateAsync(model.PlanItem);
+                    await _planItemService.SaveAsync();
                 }
                 else
                 {
@@ -138,7 +137,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             var editPlanModel = new EditPlaningModel()
             {
-                PlanItem = await _planItemRepository.GetItemAsync(id)
+                PlanItem = await _planItemService.GetItemAsync(id)
             };
             return editPlanModel;
         }
