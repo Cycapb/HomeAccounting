@@ -123,6 +123,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             if (ModelState.IsValid)
             {
                 await _categoryService.UpdateAsync(category);
+                await _categoryService.SaveAsync();
                 return RedirectToAction("GetCategoriesAndPages");
             }
             else
