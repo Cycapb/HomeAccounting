@@ -43,6 +43,10 @@ namespace BussinessLogic.Services
         public async Task UpdateAsync(Category item)
         {
             await _categoryRepository.UpdateAsync(item);
+        }
+
+        public async Task SaveAsync()
+        {
             await _categoryRepository.SaveAsync();
         }
 

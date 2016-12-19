@@ -11,6 +11,7 @@ namespace Services
         Task<IEnumerable<Category>> GetListAsync();
         Task DeleteAsync(int id);
         Task UpdateAsync(Category item);
+        Task SaveAsync();
         Task<IEnumerable<Product>> GetProducts(int id);
         Task<bool> HasDependencies(int id);
         Task<IEnumerable<Category>> GetActiveGategoriesByUser(string userId);
