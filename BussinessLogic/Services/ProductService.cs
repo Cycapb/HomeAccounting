@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_DAL.Repositories;
@@ -38,6 +39,11 @@ namespace BussinessLogic.Services
 
         public async Task DeleteAsync(int id)
         {
+            var dependencies = (await _productRepository.GetItemAsync(id)).PaiyngItemProduct.Any();
+            if (dependencies)
+            {
+                return;
+            }
             await _productRepository.DeleteAsync(id);
             await _productRepository.SaveAsync();
         }
