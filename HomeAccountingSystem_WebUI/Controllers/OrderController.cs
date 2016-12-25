@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using BussinessLogic.Services;
+using HomeAccountingSystem_WebUI.Infrastructure;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
 
@@ -20,6 +21,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             _orderService = orderService;
         }
 
+        
         public async Task<ActionResult> Index(WebUser user)
         {
             var orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();

@@ -468,6 +468,7 @@
     <Compile Include="Infrastructure\Modules\TotalTimeModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
+    <Compile Include="Infrastructure\UserHasAnyCategoriesAttribute.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.Designer.cs">
       <DependentUpon>201611300528457_InitDatabase.cs</DependentUpon>
@@ -608,6 +609,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="lib\" />
+    <Folder Include="sqlScripts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">
