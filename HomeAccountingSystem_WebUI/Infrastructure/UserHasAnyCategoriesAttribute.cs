@@ -19,6 +19,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _categoryService = new CategoryService(new EntityRepository<Category>());
         }
 
+        //Todo Дописать аттрибут и навесить его на OrderController
         public override async void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var session = filterContext.HttpContext.Session;
@@ -30,13 +31,10 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             }
             if (!userHasCategories)
             {
-                
-                //filterContext.Result = new ContentResult()
-                //{
-                //    Content = "<div class='alert alert-danger'>У вас нет ни одной категории.Сначала необходимо добавить хотя бы одну.</div>"
-                //};
                 var url = UrlHelper.GenerateUrl("", "List", "PayingItem", filterContext.RequestContext.RouteData.Values,
                     RouteTable.Routes, filterContext.RequestContext, false);
+                filterContext.HttpContext.Response.Write("<div class='alert alert-danger'>У вас нет ни одной категории.Сначала необходимо добавить хотя бы одну.</div");
+                
                 filterContext.HttpContext.Response.Redirect(url);
     }
         }

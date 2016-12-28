@@ -7,6 +7,7 @@ using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Services;
 
 namespace HomeAccountingSystem_UnitTests
 {
@@ -16,13 +17,13 @@ namespace HomeAccountingSystem_UnitTests
         [TestMethod]
         public async Task Can_Add_Valid_Product()
         {
-            Mock<IRepository<Product>> mock = new Mock<IRepository<Product>>();
+            Mock<IProductService> mock = new Mock<IProductService>();
             Product product = new Product() {CategoryID = 1,Description = "Prod1",ProductID = 1};
             var target = new ProductController(mock.Object);
 
             var result = await target.Add(new WebUser() {Id = "1"}, product);
 
-            mock.Verify(m=>m.CreateAsync(product));
+            mock.Verify(m=>m.Create(product));
             mock.Verify(m=>m.SaveAsync());
             Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
         }

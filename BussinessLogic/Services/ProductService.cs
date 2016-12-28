@@ -16,7 +16,7 @@ namespace BussinessLogic.Services
             _productRepository = productRepository;
         }
 
-        public async Task Create(Product product)
+        public async Task CreateAsync(Product product)
         {
             await _productRepository.CreateAsync(product);
             await _productRepository.SaveAsync();
@@ -51,6 +51,11 @@ namespace BussinessLogic.Services
         public async Task UpdateAsync(Product item)
         {
             await _productRepository.UpdateAsync(item);
+            await _productRepository.SaveAsync();
+        }
+
+        public async Task SaveAsync()
+        {
             await _productRepository.SaveAsync();
         }
     }
