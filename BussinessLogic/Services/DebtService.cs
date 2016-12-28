@@ -63,6 +63,7 @@ namespace BussinessLogic.Services
         public async Task DeleteAsync(int id)
         {
             await _debtRepo.DeleteAsync(id);
+            await _debtRepo.SaveAsync();
         }
 
         private async Task CreateDebt(Debt debt)
