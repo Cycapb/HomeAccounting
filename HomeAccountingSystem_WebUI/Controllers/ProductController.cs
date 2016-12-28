@@ -31,7 +31,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productService.Create(product);
+                await _productService.CreateAsync(product);
                 return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
             }
             ViewBag.CategoryId = product.CategoryID;
