@@ -428,6 +428,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MainBarController.cs" />
     <Compile Include="Controllers\MenuBarController.cs" />
     <Compile Include="Controllers\NavRightController.cs" />
@@ -600,6 +601,7 @@
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
     <Content Include="Views\MenuBar\_MenuBar.cshtml" />
     <Content Include="Views\PayingItem\_Message.cshtml" />
+    <Content Include="Views\Error\UserHasNoCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

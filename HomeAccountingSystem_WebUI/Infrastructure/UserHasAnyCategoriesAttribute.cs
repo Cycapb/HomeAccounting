@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using BussinessLogic.Services;
@@ -10,7 +9,7 @@ using Services;
 
 namespace HomeAccountingSystem_WebUI.Infrastructure
 {
-    public class UserHasAnyCategoriesAttribute:ActionFilterAttribute
+    public class UserHasAnyCategoriesAttribute:FilterAttribute,IActionFilter
     {
         private readonly ICategoryService _categoryService;
 
@@ -19,24 +18,26 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _categoryService = new CategoryService(new EntityRepository<Category>());
         }
 
-        //Todo Дописать аттрибут и навесить его на OrderController
-        public override async void OnActionExecuting(ActionExecutingContext filterContext)
+        public async void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var session = filterContext.HttpContext.Session;
             var userHasCategories = false;
-            var curUser = (WebUser) session?["WebUser"];
+            var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
             {
                 userHasCategories = (await _categoryService.GetListAsync()).Any(x => x.UserId == curUser.Id);
             }
             if (!userHasCategories)
             {
-                var url = UrlHelper.GenerateUrl("", "List", "PayingItem", filterContext.RequestContext.RouteData.Values,
+                var url = UrlHelper.GenerateUrl("", "UserHasNoCategory", "Error", filterContext.RequestContext.RouteData.Values,
                     RouteTable.Routes, filterContext.RequestContext, false);
-                filterContext.HttpContext.Response.Write("<div class='alert alert-danger'>У вас нет ни одной категории.Сначала необходимо добавить хотя бы одну.</div");
-                
                 filterContext.HttpContext.Response.Redirect(url);
-    }
+            }
+        }
+
+        public void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            
         }
     }
 }
