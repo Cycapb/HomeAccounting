@@ -20,6 +20,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             _orderService = orderService;
         }
 
+        
         public async Task<ActionResult> Index(WebUser user)
         {
             var orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();

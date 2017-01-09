@@ -60,6 +60,12 @@ namespace BussinessLogic.Services
             return _debtRepo.GetList().Where(x => x.UserId == userId && x.DateEnd == null);
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            await _debtRepo.DeleteAsync(id);
+            await _debtRepo.SaveAsync();
+        }
+
         private async Task CreateDebt(Debt debt)
         {
             var acc = await _accRepo.GetItemAsync(debt.AccountId);

@@ -298,6 +298,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\Accounting_Release.pubxml" />
+    <None Include="Properties\PublishProfiles\Accounting_Test.pubxml" />
     <None Include="Properties\PublishProfiles\HomeAccountingSite.pubxml" />
     <Content Include="Models\KnockoutModels\TodoCreateViewModel.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -427,6 +428,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MainBarController.cs" />
     <Compile Include="Controllers\MenuBarController.cs" />
     <Compile Include="Controllers\NavRightController.cs" />
@@ -467,6 +469,7 @@
     <Compile Include="Infrastructure\Modules\TotalTimeModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
+    <Compile Include="Infrastructure\UserHasAnyCategoriesAttribute.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.Designer.cs">
       <DependentUpon>201611300528457_InitDatabase.cs</DependentUpon>
@@ -598,6 +601,7 @@
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
     <Content Include="Views\MenuBar\_MenuBar.cshtml" />
     <Content Include="Views\PayingItem\_Message.cshtml" />
+    <Content Include="Views\Error\UserHasNoCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -607,6 +611,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="lib\" />
+    <Folder Include="sqlScripts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">

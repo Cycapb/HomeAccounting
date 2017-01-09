@@ -129,6 +129,7 @@
     <Compile Include="AccountTests.cs" />
     <Compile Include="ReportTest.cs" />
     <Compile Include="ProductTests.cs" />
+    <Compile Include="DebtServiceTests.cs" />
     <Compile Include="UrlsAndRoutesTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +138,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">
+      <Project>{E1EC4533-FF70-440F-860F-BB7060EF7EF7}</Project>
+      <Name>BussinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj">
       <Project>{c1f90f9e-6661-4d72-a4a5-d3ea32c9fedc}</Project>
       <Name>DomainModels.EntityORM</Name>

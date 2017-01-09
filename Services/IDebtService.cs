@@ -12,5 +12,6 @@ namespace Services
         Task<Debt> GetItemAsync(int id);
         IEnumerable<Debt> GetItems(string userId);
         IEnumerable<Debt> GetOpenUserDebts(string userId);
+        Task DeleteAsync(int id);
     }
 }

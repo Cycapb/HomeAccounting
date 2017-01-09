@@ -9,7 +9,8 @@
                 <th>Кому</th>
                 <th>Какой счет</th>
                 <th>Дата займа</th>
-                <th>Действия</th>
+                <th colspan="2" class="text-center">Действия</th>
+                <th></th>
             </tr>
             <tbody id="myDebtsTable">
             @Html.Partial("DebtListPartial", Model.MyDebts)
@@ -22,7 +23,8 @@
                 <th>Кто</th>
                 <th>Счет</th>
                 <th>Дата займа</th>
-                <th>Действия</th>
+                <th colspan="2" class="text-center">Действия</th>
+                <th></th>
             </tr>
             <tbody id="debtsToMeTable">
             @Html.Partial("DebtListPartial", Model.DebtsToMe)

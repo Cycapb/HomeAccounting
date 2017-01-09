@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeAccountingSystem_DAL.Model;
@@ -43,6 +42,10 @@ namespace BussinessLogic.Services
         public async Task UpdateAsync(Category item)
         {
             await _categoryRepository.UpdateAsync(item);
+        }
+
+        public async Task SaveAsync()
+        {
             await _categoryRepository.SaveAsync();
         }
 

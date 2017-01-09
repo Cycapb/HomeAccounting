@@ -128,7 +128,12 @@ namespace HomeAccountingSystem_WebUI.Controllers
             (await _categoryService.GetListAsync())
                 .Where(x => !ids.Contains(x.CategoryID))
                 .ToList()
-                .ForEach(x=> { x.ViewInPlan = false; });
+                .ForEach(x =>
+                {
+                    x.ViewInPlan = false;
+                });
+            await _categoryService.SaveAsync();
+            
             return Json(new {url = Url.Action("ViewPlan")});
         }
 

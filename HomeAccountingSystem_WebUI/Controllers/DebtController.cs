@@ -83,6 +83,12 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return RedirectToAction("DebtList");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _debtManager.DeleteAsync(id);
+            return RedirectToAction("DebtList");
+        }
         private async Task<IEnumerable<Account>> AccountList(string userId)
         {
             return (await _accService.GetListAsync()).Where(x => x.UserId == userId).ToList();

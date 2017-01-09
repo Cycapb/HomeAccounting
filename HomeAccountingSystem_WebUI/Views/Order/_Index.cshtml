@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<Order>
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-danger">@TempData["message"]</div>
+    }
 <div class="panel panel-primary">
     <div class="panel-heading"> Список покупок <span class="pull-right" style="display: none" id="loading">Отправка списка...</span></div>
     <div class="panel-body" id="orderDetailDiv">

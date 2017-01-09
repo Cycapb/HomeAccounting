@@ -7,14 +7,24 @@
             <td>@debt.Account.AccountName</td>
             <td>@debt.DateBegin.Date.ToShortDateString()</td>
             <td>
-                @using (Ajax.BeginForm("Close", new { id = debt.DebtID }, new AjaxOptions()
+                @using (Ajax.BeginForm("Close", new {id = debt.DebtID}, new AjaxOptions()
                 {
                     Url = Url.Action("Close", new {id = debt.DebtID}),
                     UpdateTargetId = "payingDiv",
                     OnSuccess = "updateAfterDebt"
                 }))
                 {
-                    <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Закрыть долг"/>
+                    <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг"/>
+                }
+            </td>
+            <td>
+                @using (Ajax.BeginForm("Delete", new { id = debt.DebtID }, new AjaxOptions()
+                {
+                    Url = Url.Action("Delete", new { id = debt.DebtID }),
+                    UpdateTargetId = "payingDiv"
+                }))
+                {
+                    <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Удалить" />
                 }
             </td>
         </tr>
