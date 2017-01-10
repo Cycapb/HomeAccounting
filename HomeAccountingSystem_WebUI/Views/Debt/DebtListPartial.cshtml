@@ -21,7 +21,8 @@
                 @using (Ajax.BeginForm("Delete", new { id = debt.DebtID }, new AjaxOptions()
                 {
                     Url = Url.Action("Delete", new { id = debt.DebtID }),
-                    UpdateTargetId = "payingDiv"
+                    UpdateTargetId = "payingDiv",
+                    OnSuccess = "updateAfterDebt"
                 }))
                 {
                     <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Удалить" />
