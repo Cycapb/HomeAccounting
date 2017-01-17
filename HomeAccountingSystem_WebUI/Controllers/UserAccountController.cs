@@ -84,6 +84,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return View(model);
         }
 
+        [HttpPost]
         [Authorize]
         public ActionResult Logout()
         {

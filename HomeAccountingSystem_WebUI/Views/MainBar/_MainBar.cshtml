@@ -1,6 +1,11 @@
 ﻿<div class="navbar navbar-info text-center">
     <h3>
         Добро пожаловать, @Html.ActionLink(HttpContext.Current.User.Identity.Name, "ViewCredentials", "UserAccount")
-        <span class="pull-right">@Html.ActionLink("Выход", "Logout", "UserAccount", null, new {@class = "btn btn-raised btn-danger btn-xs"})</span>
+        <span class="pull-right">
+        @using (Html.BeginForm("Logout","UserAccount"))
+        {
+            <input type="submit" value="Выход" class="btn btn-raised btn-danger btn-xs"/>
+        }
+        </span>
     </h3>
 </div>
