@@ -6,6 +6,7 @@ using System.Web.SessionState;
 using BussinessLogic.Services;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
+using HomeAccountingSystem_WebUI.Infrastructure;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
@@ -46,7 +47,9 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView("_OrderDetailsList", order);
         }
 
+        
         [HttpPost]
+        [UserHasAnyCategories]
         public async Task<ActionResult> Add(WebUser user)
         {
             await _orderService.CreateOrderAsync(DateTime.Today, user.Id);

@@ -9,6 +9,7 @@ namespace Services
         Task CreateAsync(Category item);
         Task<Category> GetItemAsync(int id);
         Task<IEnumerable<Category>> GetListAsync();
+        IEnumerable<Category> GetList();
         Task DeleteAsync(int id);
         Task UpdateAsync(Category item);
         Task SaveAsync();

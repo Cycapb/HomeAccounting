@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using BussinessLogic.Services;
 using DomainModels.EntityORM;
 using HomeAccountingSystem_DAL.Model;
@@ -18,20 +17,18 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _categoryService = new CategoryService(new EntityRepository<Category>());
         }
 
-        public async void OnActionExecuting(ActionExecutingContext filterContext)
+        public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var session = filterContext.HttpContext.Session;
             var userHasCategories = false;
             var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
             {
-                userHasCategories = (await _categoryService.GetListAsync()).Any(x => x.UserId == curUser.Id);
+                userHasCategories = ( _categoryService.GetList()).Any(x => x.UserId == curUser.Id);
             }
             if (!userHasCategories)
             {
-                var url = UrlHelper.GenerateUrl("", "UserHasNoCategory", "Error", filterContext.RequestContext.RouteData.Values,
-                    RouteTable.Routes, filterContext.RequestContext, false);
-                filterContext.HttpContext.Response.Redirect(url);
+                filterContext.Result = new UserHasNoCategoriesActionResult();
             }
         }
 

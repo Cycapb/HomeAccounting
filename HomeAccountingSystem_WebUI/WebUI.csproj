@@ -470,6 +470,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
     <Compile Include="Infrastructure\UserHasAnyCategoriesAttribute.cs" />
+    <Compile Include="Infrastructure\UserHasNoCategoriesActionResult.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.Designer.cs">
       <DependentUpon>201611300528457_InitDatabase.cs</DependentUpon>
