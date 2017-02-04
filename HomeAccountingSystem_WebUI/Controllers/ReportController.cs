@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
+using HomeAccountingSystem_WebUI.Infrastructure;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
@@ -46,18 +47,11 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView(reportModel);
         }
 
+        [UserHasAnyCategories]
         public ActionResult GetTypeOfFlowReport(TempReportModel model, WebUser user, int page = 1)
         {
-            if (model.CatId == 0)
-            {
-                TempData["message"] = "Сначала необходимо завести хотя бы одну категорию";
-            }
-            else
-            {
-                var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
-                return PartialView(reportModel);
-            }
-            return PartialView("_ErrorView");
+            var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
+            return PartialView(reportModel);
         }
 
         public ActionResult CreateByDatesView()
