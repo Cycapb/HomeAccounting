@@ -470,7 +470,7 @@
     <Compile Include="Infrastructure\Modules\TotalTimeModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
-    <Compile Include="Infrastructure\UserHasAnyCategoriesAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\UserHasAnyCategoriesAttribute.cs" />
     <Compile Include="Infrastructure\UserHasNoAccountsActiontResult.cs" />
     <Compile Include="Infrastructure\UserHasNoCategoriesActionResult.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.cs" />

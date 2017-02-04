@@ -6,7 +6,7 @@ using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure
+namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
 {
     public class UserHasAnyCategoriesAttribute:FilterAttribute,IActionFilter
     {

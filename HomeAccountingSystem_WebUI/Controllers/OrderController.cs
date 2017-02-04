@@ -6,7 +6,7 @@ using System.Web.SessionState;
 using BussinessLogic.Services;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
-using HomeAccountingSystem_WebUI.Infrastructure;
+using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {

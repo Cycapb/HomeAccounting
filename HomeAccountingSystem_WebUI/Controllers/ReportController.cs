@@ -8,7 +8,7 @@ using System.Web.SessionState;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
-using HomeAccountingSystem_WebUI.Infrastructure;
+using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
