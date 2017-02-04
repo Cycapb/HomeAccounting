@@ -46,14 +46,14 @@ namespace HomeAccountingSystem_WebUI.Controllers
             var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
             return PartialView(reportModel);
         }
-
+        
         [UserHasAnyCategories]
         public ActionResult GetTypeOfFlowReport(TempReportModel model, WebUser user, int page = 1)
         {
             var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
             return PartialView(reportModel);
         }
-
+        
         public ActionResult CreateByDatesView()
         {
             return View();
@@ -66,6 +66,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return View(reportModel);
         }
 
+        [UserHasAnyCategories]
         public ActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
             FillViewBag(dtFrom, dtTo, user);
@@ -79,6 +80,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView(reportModel);
         }
 
+        [UserHasAnyCategories]
         public PartialViewResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo,
             int typeOfFlowId)
         {
