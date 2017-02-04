@@ -1,4 +1,4 @@
-namespace HomeAccountingSystem_DAL.Model
+namespace DomainModels.Model
 {
     using System;
     using System.Collections.Generic;
