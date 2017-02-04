@@ -7,6 +7,7 @@ using System.Web.SessionState;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
+using HomeAccountingSystem_WebUI.Infrastructure;
 using Services;
 
 namespace HomeAccountingSystem_WebUI.Controllers
@@ -76,13 +77,9 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView("PayingItemsPartial",items);
         }
 
+        [UserHasAnyCategories]
         public async Task<ActionResult> Add(WebUser user, int typeOfFlow)
         {
-            if (!(await _categoryService.GetListAsync()).Any(x => x.UserId == user.Id && x.Active == true && x.TypeOfFlowID == typeOfFlow))
-            {
-               TempData["message"] = "Сначала необходимо добавить хотя бы одну категорию";
-                return PartialView("_Message");
-            }
             await FillViewBag(user,typeOfFlow);
             var piModel = new PayingItemModel()
             {

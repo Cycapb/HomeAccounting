@@ -24,7 +24,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
             {
-                userHasCategories = ( _categoryService.GetList()).Any(x => x.UserId == curUser.Id);
+                userHasCategories = ( _categoryService.GetList()).Any(x => x.UserId == curUser.Id && x.Active == true);
             }
             if (!userHasCategories)
             {
