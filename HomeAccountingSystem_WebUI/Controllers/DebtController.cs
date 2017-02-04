@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using HomeAccountingSystem_DAL.Model;
 using HomeAccountingSystem_WebUI.Models;
+using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
 using Services;
 
 namespace HomeAccountingSystem_WebUI.Controllers
@@ -46,6 +47,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             return PartialView("DebtList",model);
         }
 
+        [UserHasAnyAccount]
         public async Task<ActionResult> Add(WebUser user)
         {
             var model = new DebtsAddModel()

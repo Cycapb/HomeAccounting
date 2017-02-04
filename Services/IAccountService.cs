@@ -9,6 +9,7 @@ namespace Services
         Task Create(Account item);
         Task<Account> GetItemAsync(int id);
         Task<IEnumerable<Account>> GetListAsync();
+        IEnumerable<Account> GetList();
         Task DeleteAsync(int id);
         Task UpdateAsync(Account item);
         bool HasAnyDependencies(int accountId);

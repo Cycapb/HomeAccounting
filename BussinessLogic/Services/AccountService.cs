@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeAccountingSystem_DAL.Model;
@@ -53,6 +54,11 @@ namespace BussinessLogic.Services
         {
             var accSumm = summ;
             return account.Cash > 0 && (account.Cash - accSumm >= 0);
+        }
+
+        public IEnumerable<Account> GetList()
+        {
+            return _accountRepository.GetList();
         }
     }
 }

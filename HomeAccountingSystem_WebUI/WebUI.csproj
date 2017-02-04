@@ -458,6 +458,7 @@
     <Compile Include="Infrastructure\AccIdentityDbContext.cs" />
     <Compile Include="Infrastructure\AccRoleManager.cs" />
     <Compile Include="Infrastructure\AccUserManager.cs" />
+    <Compile Include="Infrastructure\Attributes\UserHasAnyAccountAttribute.cs" />
     <Compile Include="Infrastructure\Binders\WebUserModelBinder.cs" />
     <Compile Include="Infrastructure\CustomErrorAttribute.cs" />
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
@@ -470,6 +471,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
     <Compile Include="Infrastructure\UserHasAnyCategoriesAttribute.cs" />
+    <Compile Include="Infrastructure\UserHasNoAccountsActiontResult.cs" />
     <Compile Include="Infrastructure\UserHasNoCategoriesActionResult.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.cs" />
     <Compile Include="Migrations\201611300528457_InitDatabase.Designer.cs">
