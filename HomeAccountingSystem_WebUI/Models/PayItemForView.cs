@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 
 namespace HomeAccountingSystem_WebUI.Models
 {

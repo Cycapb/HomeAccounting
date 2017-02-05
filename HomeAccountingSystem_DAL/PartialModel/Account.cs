@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace HomeAccountingSystem_DAL.Model
+namespace DomainModels.Model
 {
     [MetadataType(typeof(AccountMetaData))]
     public partial class Account

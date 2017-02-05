@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;

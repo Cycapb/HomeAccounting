@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;

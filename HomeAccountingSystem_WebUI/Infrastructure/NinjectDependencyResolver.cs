@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Concrete;

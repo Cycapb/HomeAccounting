@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
-namespace HomeAccountingSystem_DAL.Model
+namespace DomainModels.Model
 {
     [MetadataType(typeof(ProductMetaData))]
     public partial class Product

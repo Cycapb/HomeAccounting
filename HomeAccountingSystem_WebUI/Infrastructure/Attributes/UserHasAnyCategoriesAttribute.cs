@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using BussinessLogic.Services;
 using DomainModels.EntityORM;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
 

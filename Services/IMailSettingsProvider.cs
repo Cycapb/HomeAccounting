@@ -1,4 +1,4 @@
-﻿using HomeAccountingSystem_DAL.Model;
+﻿using DomainModels.Model;
 
 namespace Services
 {

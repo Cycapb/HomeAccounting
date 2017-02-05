@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HomeAccountingSystem_DAL.Model
+namespace DomainModels.Model
 {
     public class PayItem
     {

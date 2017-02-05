@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

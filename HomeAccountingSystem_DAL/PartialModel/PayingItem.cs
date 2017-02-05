@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using HomeAccountingSystem_DAL.Infrastructure;
 
-namespace HomeAccountingSystem_DAL.Model
+namespace DomainModels.Model
 {
     [MetadataType(typeof(PayingItemMetaData))]
     public partial class PayingItem

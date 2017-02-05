@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HomeAccountingSystem_DAL</RootNamespace>
-    <AssemblyName>HomeAccountingSystem_DAL</AssemblyName>
+    <AssemblyName>DomainModels</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -85,13 +85,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201611300508055_InitDatabase.cs" />
-    <Compile Include="Migrations\201611300508055_InitDatabase.Designer.cs">
-      <DependentUpon>201611300508055_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612150502240_AddActiveToCategory.cs" />
-    <Compile Include="Migrations\201612150502240_AddActiveToCategory.Designer.cs">
-      <DependentUpon>201612150502240_AddActiveToCategory.cs</DependentUpon>
+    <Compile Include="Migrations\201702051117379_InitialCreate.cs" />
+    <Compile Include="Migrations\201702051117379_InitialCreate.Designer.cs">
+      <DependentUpon>201702051117379_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Account.cs" />
@@ -128,11 +124,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611300508055_InitDatabase.resx">
-      <DependentUpon>201611300508055_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612150502240_AddActiveToCategory.resx">
-      <DependentUpon>201612150502240_AddActiveToCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702051117379_InitialCreate.resx">
+      <DependentUpon>201702051117379_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

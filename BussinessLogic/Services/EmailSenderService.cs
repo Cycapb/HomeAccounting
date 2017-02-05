@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using Services;
 using NLog;
 

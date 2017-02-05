@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using HomeAccountingSystem_WebUI.Abstract;
 
 namespace HomeAccountingSystem_WebUI.Concrete

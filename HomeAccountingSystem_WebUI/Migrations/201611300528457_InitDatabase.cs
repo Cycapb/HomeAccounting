@@ -1,8 +1,7 @@
 namespace HomeAccountingSystem_WebUI.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class InitDatabase : DbMigration
     {
         public override void Up()

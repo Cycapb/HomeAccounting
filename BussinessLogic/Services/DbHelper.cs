@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.EntityORM;
 using HomeAccountingSystem_DAL.Abstract;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using HomeAccountingSystem_DAL.Repositories;
 using Services;
 

@@ -4,7 +4,7 @@ using HomeAccountingSystem_WebUI.Models;
 using Services;
 using BussinessLogic.Services;
 using DomainModels.EntityORM;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 
 namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
 {

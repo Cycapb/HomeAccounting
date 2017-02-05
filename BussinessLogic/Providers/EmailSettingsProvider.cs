@@ -1,5 +1,5 @@
 ﻿using System.Configuration;
-using HomeAccountingSystem_DAL.Model;
+using DomainModels.Model;
 using Services;
 
 namespace BussinessLogic.Providers

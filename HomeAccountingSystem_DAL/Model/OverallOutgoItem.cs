@@ -1,4 +1,4 @@
-﻿namespace HomeAccountingSystem_DAL.Model
+﻿namespace DomainModels.Model
 {
     public class OverallOutgoItem
     {
