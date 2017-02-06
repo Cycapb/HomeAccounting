@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.WebPages;
 using DomainModels.Abstract;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;

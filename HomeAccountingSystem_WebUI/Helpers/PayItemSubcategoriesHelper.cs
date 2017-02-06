@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Abstract;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
 

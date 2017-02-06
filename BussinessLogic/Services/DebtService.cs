@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using Services;
 
 namespace BussinessLogic.Services

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

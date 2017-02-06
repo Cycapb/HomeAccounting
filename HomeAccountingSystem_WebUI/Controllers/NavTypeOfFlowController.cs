@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using DomainModels.Model;
 
 namespace HomeAccountingSystem_WebUI.Controllers

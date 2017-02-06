@@ -7,7 +7,7 @@
     <ProjectGuid>{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HomeAccountingSystem_DAL</RootNamespace>
+    <RootNamespace>DomainModels</RootNamespace>
     <AssemblyName>DomainModels</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

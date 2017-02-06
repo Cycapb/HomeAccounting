@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HomeAccountingSystem_DAL.Repositories
+namespace DomainModels.Repositories
 {
     public interface IRepository<T>:IDisposable where T:class
     {

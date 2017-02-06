@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using DomainModels.EntityORM;
 using DomainModels.Abstract;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using Services;
 
 namespace BussinessLogic.Services

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using BussinessLogic.Services;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

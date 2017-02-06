@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Concrete;
 using HomeAccountingSystem_WebUI.Helpers;

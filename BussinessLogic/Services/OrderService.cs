@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BussinessLogic.Exceptions;
 using DomainModels.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Repositories;
 using Services;
 
 namespace BussinessLogic.Services
