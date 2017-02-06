@@ -1,4 +1,4 @@
-﻿using HomeAccountingSystem_DAL.Abstract;
+﻿using DomainModels.Abstract;
 
 namespace HomeAccountingSystem_WebUI.Models
 {

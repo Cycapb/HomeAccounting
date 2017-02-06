@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HomeAccountingSystem_DAL.Abstract;
+using DomainModels.Abstract;
 using DomainModels.Model;
 
 namespace Services

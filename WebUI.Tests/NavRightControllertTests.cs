@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using HomeAccountingSystem_DAL.Abstract;
+using DomainModels.Abstract;
 using DomainModels.Model;
 using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;

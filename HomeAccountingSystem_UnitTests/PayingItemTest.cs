@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using HomeAccountingSystem_DAL.Abstract;
+using DomainModels.Abstract;
 using DomainModels.Model;
 using HomeAccountingSystem_DAL.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;

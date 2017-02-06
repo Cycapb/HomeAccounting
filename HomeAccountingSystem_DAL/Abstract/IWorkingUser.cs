@@ -1,4 +1,4 @@
-﻿namespace HomeAccountingSystem_DAL.Abstract
+﻿namespace DomainModels.Abstract
 {
     public interface IWorkingUser
     {
