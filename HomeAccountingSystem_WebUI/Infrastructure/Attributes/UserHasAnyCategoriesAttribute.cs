@@ -4,6 +4,8 @@ using BussinessLogic.Services;
 using DomainModels.EntityORM;
 using DomainModels.Model;
 using HomeAccountingSystem_WebUI.Models;
+using HomeAccountingSystem_WebUI.Abstract;
+using HomeAccountingSystem_WebUI.Concrete;
 using Services;
 
 namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
@@ -11,10 +13,12 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
     public class UserHasAnyCategoriesAttribute:FilterAttribute,IActionFilter
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMessageProvider _messageProvider;
 
         public UserHasAnyCategoriesAttribute()
         {
             _categoryService = new CategoryService(new EntityRepository<Category>());
+            _messageProvider = new MessageProvider();
         }
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
@@ -28,7 +32,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
             }
             if (!userHasCategories)
             {
-                filterContext.Result = new UserHasNoCategoriesActionResult();
+                filterContext.Result = new UserHasNoCategoriesActionResult(_messageProvider);
             }
         }
 

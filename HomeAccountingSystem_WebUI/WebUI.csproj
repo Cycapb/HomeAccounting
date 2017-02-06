@@ -404,6 +404,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IMessageProvider.cs" />
     <Compile Include="Abstract\IPagingInfoCreator.cs" />
     <Compile Include="Abstract\IPayingItemHelper.cs" />
     <Compile Include="Abstract\IPayingItemProductHelper.cs" />
@@ -420,6 +421,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Concrete\EmailUserReporter.cs" />
+    <Compile Include="Concrete\MessageProvider.cs" />
     <Compile Include="Concrete\PagingInfoCreator.cs" />
     <Compile Include="Concrete\ReportMenu.cs" />
     <Compile Include="Concrete\ReportMenuItem.cs" />
@@ -464,6 +466,7 @@
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\Events\TimerModuleEventArgs.cs" />
+    <Compile Include="Infrastructure\MessagesEnum.cs" />
     <Compile Include="Infrastructure\Modules\ModuleRegistration.cs" />
     <Compile Include="Infrastructure\Modules\SessionExpireModule.cs" />
     <Compile Include="Infrastructure\Modules\TimerModule.cs" />
