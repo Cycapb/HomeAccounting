@@ -23,7 +23,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
                 var auth = ctx.GetOwinContext().Authentication;
                 auth.SignOut();
                 var values = ctx.Request.RequestContext.RouteData.Values;
-                var url = UrlHelper.GenerateUrl("", "List", "PayingItem", values, RouteTable.Routes, ctx.Request.RequestContext,
+                var url = UrlHelper.GenerateUrl("", "Index", "PayingItem", values, RouteTable.Routes, ctx.Request.RequestContext,
                     false);
                 ctx.Response.Redirect(url, true);
             }
