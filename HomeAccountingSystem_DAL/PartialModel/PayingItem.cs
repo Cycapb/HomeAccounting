@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using HomeAccountingSystem_DAL.Infrastructure;
+using DomainModels.Infrastructure;
 
 namespace DomainModels.Model
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HomeAccountingSystem_DAL.Infrastructure
+namespace DomainModels.Infrastructure
 {
     public class AccountModelAttribute : ValidationAttribute
     {
