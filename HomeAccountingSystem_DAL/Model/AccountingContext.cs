@@ -20,7 +20,7 @@ namespace DomainModels.Model
         public virtual DbSet<PlanItem> PlanItem { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<TypeOfFlow> TypeOfFlow { get; set; }
-
+        public virtual DbSet<NotificationMailBox> NotificationMailBox { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()

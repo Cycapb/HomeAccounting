@@ -2,7 +2,7 @@ namespace DomainModels.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Model.AccountingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DomainModels.Model.AccountingContext>
     {
         public Configuration()
         {

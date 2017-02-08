@@ -7,13 +7,13 @@ namespace DomainModels.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class NotificationMailBox : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NotificationMailBox));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702051117379_InitialCreate"; }
+            get { return "201702071858217_NotificationMailBox"; }
         }
         
         string IMigrationMetadata.Source
