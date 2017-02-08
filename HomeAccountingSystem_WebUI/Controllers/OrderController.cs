@@ -59,7 +59,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         [HttpPost]
         public async Task SendEmail(int id)
         {
-            EmailSenderService.MailTo = ((WebUser)Session["WebUser"]).Email;
+            OrderSenderService.MailTo = ((WebUser)Session["WebUser"]).Email;
             await Task.Run(() => _orderService.SendByEmail(id));   
         }
 

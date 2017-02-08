@@ -53,12 +53,13 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _kernel.Bind<IAccountService>().To<AccountService>();
             _kernel.Bind<IPayingItemProductService>().To<PayingItemProductService>();
             _kernel.Bind<IProductService>().To<ProductService>();
-            _kernel.Bind<IMailSettingsProvider>().To<EmailSettingsProvider>();
-            _kernel.Bind<IEmailSender>().To<EmailSenderService>();
+            _kernel.Bind<IMailSettingsProvider>().To<AccountingNotificationMailBoxProvider>();
+            _kernel.Bind<IEmailSender>().To<OrderSenderService>();
             _kernel.Bind<IOrderService>().To<OrderService>();
             _kernel.Bind<IOrderDetailService>().To<OrderDetailService>();
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();
+            _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();
         }
 
         public object GetService(Type serviceType)

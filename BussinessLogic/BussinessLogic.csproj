@@ -61,11 +61,12 @@
     <Compile Include="Exceptions\SendEmailException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\EmailSettingsProvider.cs" />
+    <Compile Include="Providers\AccountingNotificationMailBoxProvider.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\DbHelper.cs" />
     <Compile Include="Services\DebtService.cs" />
-    <Compile Include="Services\EmailSenderService.cs" />
+    <Compile Include="Services\OrderSenderService.cs" />
     <Compile Include="Services\OrderDetailService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PayingItemProductService.cs" />
