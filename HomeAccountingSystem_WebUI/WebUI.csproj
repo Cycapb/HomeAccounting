@@ -431,6 +431,7 @@
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\MailboxController.cs" />
     <Compile Include="Controllers\MainBarController.cs" />
     <Compile Include="Controllers\MenuBarController.cs" />
     <Compile Include="Controllers\NavRightController.cs" />
@@ -616,6 +617,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="lib\" />
     <Folder Include="sqlScripts\" />
+    <Folder Include="Views\Mailbox\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">
