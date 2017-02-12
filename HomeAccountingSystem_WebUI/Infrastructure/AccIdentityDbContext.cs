@@ -19,8 +19,4 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
         }
     }
 
-    public class AccIdentityDbInit : NullDatabaseInitializer<AccIdentityDbContext>
-    {
-
-    }
 }
