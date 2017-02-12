@@ -39,5 +39,14 @@ namespace BussinessLogic.Tests.ServicesTests
             
             var result = await _service.AddAsync(new NotificationMailBox());            
         }
+
+        [TestMethod]
+        public async Task DeleteAsync()
+        {
+            await _service.DeleteAsync(It.IsAny<int>());
+
+            _repository.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
+            _repository.Verify(m => m.SaveAsync(), Times.Exactly(1));
+        }
     }
 }

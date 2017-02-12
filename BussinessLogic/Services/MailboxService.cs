@@ -34,16 +34,7 @@ namespace BussinessLogic.Services
                 _logManager.Error(message);
             }
             return box;
-        }
-
-        private string CreateMessage(Exception ex)
-        {
-            var errorMessage = new StringBuilder();
-            errorMessage.AppendLine("\r\n");
-            errorMessage.AppendLine($"Ошибка: {ex.Message}");
-            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
-            return errorMessage.ToString();
-        }
+        }        
 
         public Task DeleteAsync(int id)
         {
@@ -63,6 +54,15 @@ namespace BussinessLogic.Services
         public void SaveAsync()
         {
             throw new NotImplementedException();
+        }
+
+        private string CreateMessage(Exception ex)
+        {
+            var errorMessage = new StringBuilder();
+            errorMessage.AppendLine("\r\n");
+            errorMessage.AppendLine($"Ошибка: {ex.Message}");
+            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
+            return errorMessage.ToString();
         }
     }
 }
