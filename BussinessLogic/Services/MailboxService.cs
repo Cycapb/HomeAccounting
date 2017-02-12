@@ -36,9 +36,10 @@ namespace BussinessLogic.Services
             return box;
         }        
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _repository.DeleteAsync(id);
+            await _repository.SaveAsync();
         }
 
         public Task GetItemAsync(int id)
