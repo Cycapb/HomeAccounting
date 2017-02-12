@@ -130,6 +130,7 @@
     <Compile Include="ReportTest.cs" />
     <Compile Include="ProductTests.cs" />
     <Compile Include="DebtServiceTests.cs" />
+    <Compile Include="MailboxServiceTests.cs" />
     <Compile Include="UrlsAndRoutesTest.cs" />
   </ItemGroup>
   <ItemGroup>

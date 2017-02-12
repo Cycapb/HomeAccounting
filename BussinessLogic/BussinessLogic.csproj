@@ -66,6 +66,7 @@
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\DbHelper.cs" />
     <Compile Include="Services\DebtService.cs" />
+    <Compile Include="Services\MailboxService.cs" />
     <Compile Include="Services\OrderSenderService.cs" />
     <Compile Include="Services\OrderDetailService.cs" />
     <Compile Include="Services\OrderService.cs" />
