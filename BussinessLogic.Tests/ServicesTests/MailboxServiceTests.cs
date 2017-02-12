@@ -64,6 +64,17 @@ namespace BussinessLogic.Tests.ServicesTests
             var result = await _service.GetItemAsync(1);
 
             Assert.AreEqual(result.Id, 1);
+            Assert.AreEqual(result.MailBoxName, "M1");
+        }
+
+        [TestMethod]
+        public async Task GetItemAsync_ReturnsNull()
+        {
+            _repository.Setup(m => m.GetItemAsync(5)).ReturnsAsync(null);
+
+            var result = await _service.GetItemAsync(5);
+
+            Assert.IsNull(result);
         }
     }
 }
