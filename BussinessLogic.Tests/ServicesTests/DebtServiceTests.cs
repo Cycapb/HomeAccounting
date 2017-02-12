@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 
-namespace HomeAccountingSystem_UnitTests
+namespace BussinessLogic.Tests.ServicesTests
 {
     [TestClass]
     public class DebtServiceTests
