@@ -47,9 +47,9 @@ namespace BussinessLogic.Services
             return await _repository.GetItemAsync(id);
         }
 
-        public Task<IEnumerable<NotificationMailBox>> GetListAsync()
+        public async Task<IEnumerable<NotificationMailBox>> GetListAsync()
         {
-            throw new NotImplementedException();
+            return await  _repository.GetListAsync();
         }
 
         public Task SaveAsync()
