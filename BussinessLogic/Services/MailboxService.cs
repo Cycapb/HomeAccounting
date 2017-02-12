@@ -52,11 +52,6 @@ namespace BussinessLogic.Services
             return await  _repository.GetListAsync();
         }
 
-        public Task SaveAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         private string CreateMessage(Exception ex)
         {
             var errorMessage = new StringBuilder();
