@@ -5,6 +5,8 @@ using DomainModels.Model;
 using Moq;
 using BussinessLogic.Services;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BussinessLogic.Tests.ServicesTests
 {
@@ -12,7 +14,12 @@ namespace BussinessLogic.Tests.ServicesTests
     public class MailboxServiceTests
     {
         private readonly Mock<IRepository<NotificationMailBox>> _repository;
-        private readonly MailboxService _service;        
+        private readonly MailboxService _service;
+        private readonly List<NotificationMailBox> _mailboxList = new List<NotificationMailBox>()
+        {
+            new NotificationMailBox() { Id = 1, MailBoxName = "M1"},
+            new NotificationMailBox() { Id = 2, MailBoxName = "M2"}
+        };
 
         public MailboxServiceTests()
         {
@@ -47,6 +54,16 @@ namespace BussinessLogic.Tests.ServicesTests
 
             _repository.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
             _repository.Verify(m => m.SaveAsync(), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public async Task GetItemAsync()
+        {
+            _repository.Setup(m => m.GetItemAsync(1)).ReturnsAsync(_mailboxList.Single(m => m.Id == 1));
+
+            var result = await _service.GetItemAsync(1);
+
+            Assert.AreEqual(result.Id, 1);
         }
     }
 }

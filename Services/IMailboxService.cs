@@ -9,9 +9,9 @@ namespace Services
     public interface IMailboxService
     {
         Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox);
-        Task GetItemAsync(int id);
+        Task<NotificationMailBox> GetItemAsync(int id);
         Task<IEnumerable<NotificationMailBox>> GetListAsync();
         Task DeleteAsync(int id);
-        void SaveAsync();
+        Task SaveAsync();
     }
 }

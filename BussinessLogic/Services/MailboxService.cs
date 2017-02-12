@@ -42,7 +42,7 @@ namespace BussinessLogic.Services
             await _repository.SaveAsync();
         }
 
-        public Task GetItemAsync(int id)
+        public Task<NotificationMailBox> GetItemAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace BussinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public void SaveAsync()
+        public Task SaveAsync()
         {
             throw new NotImplementedException();
         }
