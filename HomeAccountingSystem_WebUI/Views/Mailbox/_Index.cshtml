@@ -1,0 +1,36 @@
+﻿@model IEnumerable<NotificationMailBox>
+<div class="panel panel-info">
+    <div class="panel-heading">Электронные ящики для уведомлений от сервисов</div>
+    <table class="table table-hover">
+        <tr>
+            <th>Название ящика</th>
+            <th>От кого</th>
+            <th>Логин</th>
+            <th>Пароль</th>
+            <th>Smtp-сервер</th>
+            <th>Порт</th>
+            <th>Использовать SSL</th>
+        </tr>
+        @if (Model.Count() == 0 || Model == null)
+        {
+            <tr>
+                <td colspan="7" class="text-center">Нет ни одного ящика для рассылки уведомлений</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MailBoxName</td>
+                    <td>@item.MailFrom</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Password</td>
+                    <td>@item.Server</td>
+                    <td>@item.Port</td>
+                    <td><input type="checkbox" checked="@item.UseSsl" readonly="readonly"/></td>
+                </tr>
+            }
+        }
+    </table>
+</div>

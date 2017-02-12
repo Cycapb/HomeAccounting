@@ -60,6 +60,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();
             _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();
+            _kernel.Bind<IMailboxService>().To<MailboxService>();
         }
 
         public object GetService(Type serviceType)

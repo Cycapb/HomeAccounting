@@ -19,7 +19,7 @@ namespace BussinessLogic.Providers
 
         private EmailSettings GetMailSettings()
         {
-            EmailSettings mailSettings = null;
+            var mailSettings = new EmailSettings();
             var mailBox = _repository.GetList().SingleOrDefault(x => x.MailBoxName == "Accounting");
 
             if (mailBox != null)
@@ -30,9 +30,12 @@ namespace BussinessLogic.Providers
                 mailSettings.UserName = mailBox.UserName;
                 mailSettings.Password = mailBox.Password;
                 mailSettings.UseSsl = mailBox.UseSsl;
+                return mailSettings;
             }
-
-            return mailSettings;
+            else
+            {
+                return null;
+            }            
         }
 
         public virtual EmailSettings GetEmailSettings()

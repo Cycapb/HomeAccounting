@@ -606,6 +606,7 @@
     <Content Include="Views\OrderDetail\_Add.cshtml" />
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
     <Content Include="Views\MenuBar\_MenuBar.cshtml" />
+    <Content Include="Views\Mailbox\_Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -617,7 +618,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="lib\" />
     <Folder Include="sqlScripts\" />
-    <Folder Include="Views\Mailbox\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">
