@@ -76,5 +76,16 @@ namespace BussinessLogic.Tests.ServicesTests
 
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public async Task GetListAsync()
+        {
+            _repository.Setup(m => m.GetListAsync()).ReturnsAsync(_mailboxList);
+
+            var result = await _service.GetListAsync();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.ToList()[0].Id, 1);
+        }
     }
 }
