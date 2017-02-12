@@ -50,7 +50,7 @@ namespace BussinessLogic.Services
             {
                 var errorMessage = new StringBuilder();
                 errorMessage.AppendLine("\r\n");
-                errorMessage.AppendLine($"Ошибка: Невозможно получить учетные данные почтового ящика для отправки!");
+                errorMessage.AppendLine($"Ошибка: Невозможно получить учетные данные почтового ящика для отправки списка покупок!");
                 Logger.Error(errorMessage.ToString);
             }          
 
