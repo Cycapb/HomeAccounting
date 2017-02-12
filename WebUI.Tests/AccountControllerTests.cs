@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 
-namespace HomeAccountingSystem_UnitTests
+namespace WebUI.Tests
 {
     [TestClass]
     public class AccountTests

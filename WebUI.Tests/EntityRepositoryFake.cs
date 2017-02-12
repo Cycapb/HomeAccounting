@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DomainModels.EntityORM;
 using DomainModels.Model;
 
-namespace HomeAccountingSystem_UnitTests
+namespace WebUI.Tests
 {
     public class EntityRepositoryFake<T> : EntityRepository<T> where T : class
     {

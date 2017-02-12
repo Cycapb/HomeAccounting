@@ -13,7 +13,7 @@ using HomeAccountingSystem_WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace HomeAccountingSystem_UnitTests
+namespace WebUI.Tests
 {
     //public class TestMockObject
     //{

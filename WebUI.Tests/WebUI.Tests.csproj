@@ -43,6 +43,15 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +61,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -93,14 +103,26 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccountControllerTests.cs" />
     <Compile Include="CategoryControllerTests.cs" />
+    <Compile Include="EntityRepositoryFake.cs" />
+    <Compile Include="NavLeftControllerTests.cs" />
     <Compile Include="NavRightControllertTests.cs" />
+    <Compile Include="PayingItemControllerTests.cs" />
+    <Compile Include="PlaningControllerTests.cs" />
+    <Compile Include="ProductControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrderControllerTests.cs" />
     <Compile Include="OrderDetailControllerTests.cs" />
     <Compile Include="DebtControllerTests.cs" />
+    <Compile Include="ReportControllerTests.cs" />
+    <Compile Include="UrlsAndRoutesTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj">
+      <Project>{c1f90f9e-6661-4d72-a4a5-d3ea32c9fedc}</Project>
+      <Name>DomainModels.EntityORM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HomeAccountingSystem_DAL\DomainModels.csproj">
       <Project>{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}</Project>
       <Name>DomainModels</Name>

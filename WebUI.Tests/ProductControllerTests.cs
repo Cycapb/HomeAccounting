@@ -8,15 +8,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 
-namespace HomeAccountingSystem_UnitTests
+namespace WebUI.Tests
 {
     [TestClass]
-    public class ProductTests
+    public class ProductControllerTests
     {
         private readonly Mock<IProductService> _productServiceMock;
         private readonly Mock<ICategoryService> _categoryServiceMock;
 
-        public ProductTests()
+        public ProductControllerTests()
         {
             _productServiceMock = new Mock<IProductService>();
             _categoryServiceMock = new Mock<ICategoryService>();

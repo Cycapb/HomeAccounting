@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "HomeAccountingSystem_DAL\DomainModels.csproj", "{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "HomeAccountingSystem_UnitTests\Tests.csproj", "{A2404DDC-F187-4F67-8B94-23D78253C67B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "HomeAccountingSystem_WebUI\WebUI.csproj", "{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessLogic", "BussinessLogic\BussinessLogic.csproj", "{E1EC4533-FF70-440F-860F-BB7060EF7EF7}"
@@ -29,10 +27,6 @@ Global
 		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2404DDC-F187-4F67-8B94-23D78253C67B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2404DDC-F187-4F67-8B94-23D78253C67B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2404DDC-F187-4F67-8B94-23D78253C67B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2404DDC-F187-4F67-8B94-23D78253C67B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}.Release|Any CPU.ActiveCfg = Release|Any CPU
