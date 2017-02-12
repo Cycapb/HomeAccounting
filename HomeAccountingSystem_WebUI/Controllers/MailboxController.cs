@@ -19,8 +19,8 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var mailboxes = await _mailboxService.GetListAsync();
-            return PartialView();
+            var mailboxes = (await _mailboxService.GetListAsync()).ToList();
+            return PartialView(mailboxes);
         }
     }
 }

@@ -116,6 +116,7 @@
     <Compile Include="OrderDetailControllerTests.cs" />
     <Compile Include="DebtControllerTests.cs" />
     <Compile Include="ReportControllerTests.cs" />
+    <Compile Include="MailboxControllerTests.cs" />
     <Compile Include="UrlsAndRoutesTest.cs" />
   </ItemGroup>
   <ItemGroup>
