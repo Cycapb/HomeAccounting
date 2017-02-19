@@ -34,9 +34,9 @@ namespace WebUI.Tests
             _mailboxService.Setup(m => m.GetListAsync()).ReturnsAsync(_list);
 
             var result = await _controller.Index();
-            var model = ((PartialViewResult)result).Model as List<NotificationMailBox>;
+            var model = ((ViewResult)result).Model as List<NotificationMailBox>;
 
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
             Assert.AreEqual(2,model.Count);
         }
     }

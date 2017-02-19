@@ -1,4 +1,9 @@
 ﻿@model IEnumerable<NotificationMailBox>
+@{
+    ViewBag.Title = "Ящики уведомлений";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
 <div class="panel panel-info">
     <div class="panel-heading">Электронные ящики для уведомлений от сервисов</div>
     <table class="table table-hover">
@@ -34,3 +39,6 @@
         }
     </table>
 </div>
+@Html.ActionLink("Создать", "Create", null, new { @class = "btn btn-primary btn-raised btn-sm" })
+@Html.ActionLink("Назад", "Index", "AdminSection", null, new { @class = "btn btn-default btn-raised btn-sm" })
+@Html.ActionLink("На главную", "Index", "PayingItem", null, new { @class = "btn btn-default btn-raised btn-sm pull-right" })

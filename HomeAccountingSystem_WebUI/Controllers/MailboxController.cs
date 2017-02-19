@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Services;
 using System.Threading.Tasks;
@@ -10,7 +7,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
 {
     public class MailboxController : Controller
     {
-        private IMailboxService _mailboxService;
+        private readonly IMailboxService _mailboxService;
 
         public MailboxController(IMailboxService mailboxService)
         {
@@ -20,7 +17,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         public async Task<ActionResult> Index()
         {
             var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-            return PartialView("_Index",mailboxes);
+            return View(mailboxes);
         }
     }
 }
