@@ -1,9 +1,9 @@
 ﻿function disableButtons() {
-    $("#addOrder").hide();
+    $("#addBtn").hide();
     $("#returnBtn").hide();
 }
 
 function enableButtons() {
-    $("#addOrder").show();
+    $("#addBtn").show();
     $("#returnBtn").show();
 }

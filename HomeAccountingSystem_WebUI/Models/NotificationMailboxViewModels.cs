@@ -16,9 +16,9 @@ namespace HomeAccountingSystem_WebUI.Models
         [Required(ErrorMessage = "Не указан пароль")]
         [StringLength(1024)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "Подтврдите пароль")]
+        [Required(ErrorMessage = "Подтвердите пароль")]
         [Compare("Password",ErrorMessage = "Пароли не совпадают")]
-        [StringLength(50)]
+        [StringLength(1024)]
         public string PasswordConfirmation { get; set; }
         [Required(ErrorMessage = "Не указана smtp-сервер")]
         [StringLength(50)]

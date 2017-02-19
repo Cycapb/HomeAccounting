@@ -18,6 +18,9 @@ namespace HomeAccountingSystem_WebUI
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-val").Include(
+                "~/Scripts/jquery.validate*"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.validate*"));

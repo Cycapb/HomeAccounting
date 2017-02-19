@@ -45,7 +45,7 @@ namespace WebUI.Tests
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
-            var model = ((ViewResult) result).Model as MailboxAddViewModel;
+            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
 
             Assert.IsNotNull(model);
         }

@@ -3,42 +3,13 @@
     ViewBag.Title = "Ящики уведомлений";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<div class="panel panel-info">
-    <div class="panel-heading">Электронные ящики для уведомлений от сервисов</div>
-    <table class="table table-hover">
-        <tr>
-            <th>Название ящика</th>
-            <th>От кого</th>
-            <th>Логин</th>
-            <th>Пароль</th>
-            <th>Smtp-сервер</th>
-            <th>Порт</th>
-            <th>Использовать SSL</th>
-        </tr>
-        @if (Model.Count() == 0 || Model == null)
-        {
-            <tr>
-                <td colspan="7" class="text-center">Нет ни одного ящика для рассылки уведомлений</td>
-            </tr>
-        }
-        else
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.MailBoxName</td>
-                    <td>@item.MailFrom</td>
-                    <td>@item.UserName</td>
-                    <td>@item.Password</td>
-                    <td>@item.Server</td>
-                    <td>@item.Port</td>
-                    <td><input type="checkbox" checked="@item.UseSsl" readonly="readonly"/></td>
-                </tr>
-            }
-        }
-    </table>
+<div id="mailBoxes">
+    @Html.Partial("_List")
 </div>
-@Html.ActionLink("Создать", "Create", null, new { @class = "btn btn-primary btn-raised btn-sm" })
-@Html.ActionLink("Назад", "Index", "AdminSection", null, new { @class = "btn btn-default btn-raised btn-sm" })
+@Ajax.ActionLink("Создать", "Add", null, new AjaxOptions()
+{
+    Url = Url.Action("Add"),
+    UpdateTargetId = "mailBoxes"
+}, new { @class = "btn btn-primary btn-raised btn-sm", id = "addBtn" })
+@Html.ActionLink("Назад", "Index", "AdminSection", null, new { @class = "btn btn-default btn-raised btn-sm", id = "returnBtn" })
 @Html.ActionLink("На главную", "Index", "PayingItem", null, new { @class = "btn btn-default btn-raised btn-sm pull-right" })

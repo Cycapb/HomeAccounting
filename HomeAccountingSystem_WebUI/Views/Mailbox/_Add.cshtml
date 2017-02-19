@@ -1,0 +1,48 @@
+﻿@model MailboxAddViewModel
+<div class="panel panel-primary">
+    <div class="panel-heading">Добавление почтового ящика</div>
+    @using (Ajax.BeginForm("Add",new AjaxOptions()
+    {
+        Url = Url.Action("Add"),
+        UpdateTargetId = "mailBoxes"
+    }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+                
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.MailBoxName, new {@class = "form-control", placeholder = "Название ящика"})
+                @Html.ValidationMessageFor(x => x.MailBoxName)
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.MailFrom, new {@class = "form-control", placeholder = "От кого"})
+                @Html.ValidationMessageFor(x => x.MailFrom)
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.UserName, new {@class = "form-control", placeholder = "Логин"})
+                @Html.ValidationMessageFor(x => x.UserName)
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(x => x.Password, new {@class = "form-control", placeholder = "Пароль"})
+                @Html.ValidationMessageFor(x => x.Password)
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(x => x.PasswordConfirmation, new {@class = "form-control", placeholder = "Подтверждение пароля"})
+                @Html.ValidationMessageFor(x => x.PasswordConfirmation)
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(x => x.Server, new { @class = "form-control", placeholder = "Smtp-сервер" })
+                @Html.ValidationMessageFor(x => x.Server)
+            </div>
+            <div class="form-group">
+                <label>Использовать SSL</label>
+                @Html.CheckBoxFor(x => x.UseSsl, new {placeholder = "Использовать SSL"})
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-raised btn-sm btn-success"/>
+            @Html.ActionLink("Назад", "Index", "Mailbox", null, new { @class = "btn btn-default btn-raised btn-sm" })
+        </div>
+    }
+</div>
+@Scripts.Render("~/bundles/jquery-val")
