@@ -8,6 +8,7 @@ using Moq;
 using System.Collections.Generic;
 using DomainModels.Model;
 using System.Threading.Tasks;
+using HomeAccountingSystem_WebUI.Models;
 
 namespace WebUI.Tests
 {
@@ -38,6 +39,15 @@ namespace WebUI.Tests
 
             Assert.IsInstanceOfType(result, typeof(ViewResult));
             Assert.AreEqual(2,model.Count);
+        }
+
+        [TestMethod]
+        public void Add_ReturnsAddViewWithGET()
+        {
+            var result = _controller.Add();
+            var model = ((ViewResult) result).Model as MailboxAddViewModel;
+
+            Assert.IsNotNull(model);
         }
     }
 }

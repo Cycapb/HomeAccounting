@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Services;
 using System.Threading.Tasks;
+using HomeAccountingSystem_WebUI.Models;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
@@ -18,6 +19,12 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             var mailboxes = (await _mailboxService.GetListAsync()).ToList();
             return View(mailboxes);
+        }
+
+        public ActionResult Add()
+        {
+            var model = new MailboxAddViewModel();
+            return View(model);
         }
     }
 }

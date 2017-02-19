@@ -488,6 +488,7 @@
     <Compile Include="Models\BudgetModel.cs" />
     <Compile Include="Models\CategoryToView.cs" />
     <Compile Include="Models\DebtModel.cs" />
+    <Compile Include="Models\NotificationMailbox.cs" />
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\OverAllItem.cs" />
     <Compile Include="Models\PagingInfo.cs" />
