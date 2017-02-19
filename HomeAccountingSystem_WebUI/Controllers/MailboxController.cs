@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
-using Services;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
 using HomeAccountingSystem_WebUI.Models;
+using Services;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
@@ -42,7 +42,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var box = new NotificationMailBox()
+                var box = new NotificationMailBox
                 {
                   MailBoxName  = model.MailBoxName,
                   MailFrom = model.MailFrom,
