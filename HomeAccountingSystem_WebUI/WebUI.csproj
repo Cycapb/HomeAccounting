@@ -430,7 +430,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminSectionController.cs" />
     <Compile Include="Controllers\DebtController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MailboxController.cs" />
     <Compile Include="Controllers\MainBarController.cs" />
     <Compile Include="Controllers\MenuBarController.cs" />

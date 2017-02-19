@@ -11,8 +11,8 @@ namespace BussinessLogic.Services
 {
     public class MailboxService : IMailboxService
     {
-        private IRepository<NotificationMailBox> _repository;
-        private static readonly Logger _logManager = LogManager.GetCurrentClassLogger();
+        private readonly IRepository<NotificationMailBox> _repository;
+        private static readonly Logger LogManager = NLog.LogManager.GetCurrentClassLogger();
 
         public MailboxService(IRepository<NotificationMailBox> repository)
         {
@@ -30,7 +30,7 @@ namespace BussinessLogic.Services
             catch (Exception ex)
             {
                 var message = CreateMessage(ex);
-                _logManager.Error(message);
+                LogManager.Error(message);
             }
             return box;
         }        

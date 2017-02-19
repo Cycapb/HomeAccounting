@@ -41,7 +41,7 @@ namespace BussinessLogic.Providers
         public virtual EmailSettings GetEmailSettings()
         {
             var mailSettings = GetMailSettings();
-            return mailSettings == null ? null : mailSettings;
+            return mailSettings;
         }
     }
 }
