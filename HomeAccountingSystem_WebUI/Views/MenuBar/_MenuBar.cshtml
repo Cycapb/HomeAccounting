@@ -49,13 +49,13 @@
            action = "Index"
        }, new { @class = "btn btn-raised btn-info btn-round" })
             </li>
-            <li class="hidden-xs">
+            @*<li class="hidden-xs">
                 @Html.RouteLink("Планирование", new
        {
            controller = "Planing",
            action = "Prepare"
        }, new { @class = "btn btn-raised btn-info btn-round" })
-            </li>
+            </li>*@
             @if (HttpContext.Current.User.IsInRole("Administrators"))
             {
                 <li class="hidden-xs">
