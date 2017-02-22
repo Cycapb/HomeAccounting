@@ -11,6 +11,7 @@
                 <th>Smtp-сервер</th>
                 <th>Порт</th>
                 <th>Использовать SSL</th>
+                <th>Действия</th>
             </tr>
             @if (Model.Count() == 0 || Model == null)
             {
@@ -32,6 +33,7 @@
                         <td>
                             <input type="checkbox" checked="@item.UseSsl" readonly="readonly" />
                         </td>
+                        <td>@using (Ajax.BeginForm(){})</ td >
                     </tr>
                 }
             }

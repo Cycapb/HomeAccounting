@@ -4,7 +4,8 @@
     @using (Ajax.BeginForm("Add",new AjaxOptions()
     {
         Url = Url.Action("Add"),
-        UpdateTargetId = "mailBoxes"
+        UpdateTargetId = "mailBoxes",
+        OnSuccess = "enableButtons"
     }))
     {
         @Html.ValidationSummary(true)
