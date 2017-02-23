@@ -460,6 +460,7 @@
     <Compile Include="Infrastructure\AccIdentityDbContext.cs" />
     <Compile Include="Infrastructure\AccRoleManager.cs" />
     <Compile Include="Infrastructure\AccUserManager.cs" />
+    <Compile Include="Infrastructure\Attributes\IsUniqueAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\UserHasAnyAccountAttribute.cs" />
     <Compile Include="Infrastructure\Binders\WebUserModelBinder.cs" />
     <Compile Include="Infrastructure\CustomErrorAttribute.cs" />

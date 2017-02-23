@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
 
 namespace HomeAccountingSystem_WebUI.Models
 {
@@ -8,6 +9,7 @@ namespace HomeAccountingSystem_WebUI.Models
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
         [Required(ErrorMessage = "Не задано Имя")]
+        [IsUnique]
         [StringLength(50)]
         public string MailBoxName { get; set; }
         [Required(ErrorMessage = "Не указано От кого")]

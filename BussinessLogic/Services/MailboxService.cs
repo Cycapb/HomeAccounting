@@ -65,5 +65,10 @@ namespace BussinessLogic.Services
             await _repository.UpdateAsync(item);
             await _repository.SaveAsync();
         }
+
+        public IEnumerable<NotificationMailBox> GetList()
+        {
+            return _repository.GetList();
+        }
     }
 }

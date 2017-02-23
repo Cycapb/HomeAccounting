@@ -1,5 +1,3 @@
-using Ninject.Web.Mvc;
-
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(HomeAccountingSystem_WebUI.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(HomeAccountingSystem_WebUI.App_Start.NinjectWebCommon), "Stop")]
 
@@ -16,6 +14,8 @@ namespace HomeAccountingSystem_WebUI.App_Start
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+
+        public static IKernel Kernel { get; private set; }
 
         /// <summary>
         /// Starts the application
@@ -48,6 +48,7 @@ namespace HomeAccountingSystem_WebUI.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+                Kernel = kernel;
                 return kernel;
             }
             catch
