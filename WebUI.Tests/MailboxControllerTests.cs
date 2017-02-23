@@ -60,5 +60,19 @@ namespace WebUI.Tests
             Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
             Assert.AreEqual(routeResults["action"],"List");
         }
+
+        [TestMethod]
+        public async Task Edit_ReturnsMailboxViewWithModel()
+        {
+            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() {Id = 1,MailBoxName = "M1"});
+
+            var result = await _controller.Edit(1);
+            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
+
+            _mailboxService.Verify(x => x.GetItemAsync(It.IsAny<int>()), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsNotNull(model);
+            Assert.AreEqual(model.MailBoxName, "M1");
+        }
     }
 }

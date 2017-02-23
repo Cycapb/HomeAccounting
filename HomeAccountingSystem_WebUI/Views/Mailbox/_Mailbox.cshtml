@@ -1,6 +1,6 @@
 ﻿@model MailboxAddViewModel
 <div class="panel panel-primary">
-    <div class="panel-heading">Добавление почтового ящика</div>
+    <div class="panel-heading">@ViewBag.PanelTitle</div>
     @using (Ajax.BeginForm("Add",new AjaxOptions()
     {
         Url = Url.Action("Add"),

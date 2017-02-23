@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -34,7 +35,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         public ActionResult Add()
         {
             var model = new MailboxAddViewModel();
-            return PartialView("_Add", model);
+            return PartialView("_Mailbox", model);
         }
 
         [HttpPost]
@@ -63,6 +64,11 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             await _mailboxService.DeleteAsync(id);
             return RedirectToAction("List");
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            throw new NotImplementedException();
         }
     }
     }
