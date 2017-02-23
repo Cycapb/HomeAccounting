@@ -1,16 +1,20 @@
 ﻿@model MailboxAddViewModel
+@{
+    var routeAction = Context.Request.RequestContext.RouteData.Values["action"];
+    var action = routeAction.ToString() == "Add" ? "Add" : "Edit";
+}
 <div class="panel panel-primary">
     <div class="panel-heading">@ViewBag.PanelTitle</div>
-    @using (Ajax.BeginForm("Add",new AjaxOptions()
+    @using (Ajax.BeginForm(action,new AjaxOptions()
     {
-        Url = Url.Action("Add"),
+        Url = Url.Action(action),
         UpdateTargetId = "mailBoxes",
         OnSuccess = "enableButtons"
     }))
     {
         @Html.ValidationSummary(true)
         <div class="panel-body">
-                
+                @Html.HiddenFor(x => x.Id)
             <div class="form-group">
                 @Html.TextBoxFor(x => x.MailBoxName, new {@class = "form-control", placeholder = "Название ящика"})
                 @Html.ValidationMessageFor(x => x.MailBoxName)
@@ -46,7 +50,7 @@
         </div>
         <div class="panel-footer">
             <input type="submit" value="Сохранить" class="btn btn-raised btn-sm btn-success"/>
-            @Html.ActionLink("Назад", "Index", "Mailbox", null, new { @class = "btn btn-default btn-raised btn-sm" })
+             @Html.ActionLink("Назад", "Index", "Mailbox", null, new { @class = "btn btn-default btn-raised btn-sm" })
         </div>
     }
 </div>

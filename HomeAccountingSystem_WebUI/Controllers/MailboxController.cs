@@ -35,6 +35,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         public ActionResult Add()
         {
             var model = new MailboxAddViewModel();
+            ViewBag.PanelTitle = "Добавление почтового ящика";
             return PartialView("_Mailbox", model);
         }
 
@@ -77,6 +78,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
             var mailBoxModel = new MailboxAddViewModel()
             {
+                Id = model.Id,
                 MailBoxName = model.MailBoxName,
                 MailFrom = model.MailFrom,
                 Password = model.Password,
@@ -87,13 +89,30 @@ namespace HomeAccountingSystem_WebUI.Controllers
                 UseSsl = model.UseSsl
             };
 
+            ViewBag.PanelTitle = "Редактирование почтового ящика";
             return PartialView("_Mailbox", mailBoxModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> Edit(MailboxAddViewModel model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+            {
+                return RedirectToAction("List");
+            }
+            var itemToUpdate = await _mailboxService.GetItemAsync(model.Id);
+
+            itemToUpdate.MailBoxName = model.MailBoxName;
+            itemToUpdate.MailFrom = model.MailFrom;
+            itemToUpdate.Password = model.Password;
+            itemToUpdate.UserName = model.UserName;
+            itemToUpdate.Server = model.Server;
+            itemToUpdate.Port = model.Port;
+            itemToUpdate.UseSsl = model.UseSsl;
+
+            await _mailboxService.UpdateAsync(itemToUpdate);
+
+            return RedirectToAction("List");
         }
     }
     }

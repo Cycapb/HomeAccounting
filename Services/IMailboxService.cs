@@ -12,5 +12,6 @@ namespace Services
         Task<NotificationMailBox> GetItemAsync(int id);
         Task<IEnumerable<NotificationMailBox>> GetListAsync();
         Task DeleteAsync(int id);
+        Task UpdateAsync(NotificationMailBox item);
     }
 }

@@ -59,5 +59,11 @@ namespace BussinessLogic.Services
             errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
             return errorMessage.ToString();
         }
+
+        public async Task UpdateAsync(NotificationMailBox item)
+        {
+            await _repository.UpdateAsync(item);
+            await _repository.SaveAsync();
+        }
     }
 }

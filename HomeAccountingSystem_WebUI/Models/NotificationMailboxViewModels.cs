@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace HomeAccountingSystem_WebUI.Models
 {
     public class MailboxAddViewModel
     {
+        [HiddenInput(DisplayValue = false)]
+        public int Id { get; set; }
         [Required(ErrorMessage = "Не задано Имя")]
         [StringLength(50)]
         public string MailBoxName { get; set; }
@@ -17,7 +20,7 @@ namespace HomeAccountingSystem_WebUI.Models
         [StringLength(1024)]
         public string Password { get; set; }
         [Required(ErrorMessage = "Подтвердите пароль")]
-        [Compare("Password",ErrorMessage = "Пароли не совпадают")]
+        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage = "Пароли не совпадают")]
         [StringLength(1024)]
         public string PasswordConfirmation { get; set; }
         [Required(ErrorMessage = "Не указана smtp-сервер")]
