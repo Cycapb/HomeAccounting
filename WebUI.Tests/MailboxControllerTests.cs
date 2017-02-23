@@ -49,5 +49,16 @@ namespace WebUI.Tests
 
             Assert.IsNotNull(model);
         }
+
+        [TestMethod]
+        public async Task Delete()
+        {
+            var result = await _controller.Delete(It.IsAny<int>());
+            var routeResults = ((RedirectToRouteResult) result).RouteValues;
+
+            _mailboxService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
+            Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
+            Assert.AreEqual(routeResults["action"],"List");
+        }
     }
 }

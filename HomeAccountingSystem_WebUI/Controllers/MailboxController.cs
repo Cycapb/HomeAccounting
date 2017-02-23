@@ -57,5 +57,12 @@ namespace HomeAccountingSystem_WebUI.Controllers
             }
             return RedirectToAction("Add");
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _mailboxService.DeleteAsync(id);
+            return RedirectToAction("List");
+        }
     }
-}
+    }

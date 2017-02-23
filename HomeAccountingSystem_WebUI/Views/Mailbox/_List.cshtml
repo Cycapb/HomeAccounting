@@ -31,9 +31,17 @@
                         <td>@item.Server</td>
                         <td>@item.Port</td>
                         <td>
-                            <input type="checkbox" checked="@item.UseSsl" readonly="readonly" />
+                            <input type="checkbox" checked="@item.UseSsl" readonly="readonly"/>
                         </td>
-                        <td>@using (Ajax.BeginForm(){})</ td >
+                        <td>
+                            @using (Ajax.BeginForm("Delete", new {id = item.Id},new AjaxOptions()
+                            {
+                                Url = Url.Action("Delete", new {id = item.Id}),
+                                UpdateTargetId = "mailBoxes"
+                            }))
+                            {
+                                <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
+                            }</td>
                     </tr>
                 }
             }

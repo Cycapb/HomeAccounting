@@ -32,8 +32,12 @@
                 @Html.ValidationMessageFor(x => x.PasswordConfirmation)
             </div>
             <div class="form-group">
-                @Html.PasswordFor(x => x.Server, new { @class = "form-control", placeholder = "Smtp-сервер" })
+                @Html.TextBoxFor(x => x.Server, new { @class = "form-control", placeholder = "Smtp-сервер" })
                 @Html.ValidationMessageFor(x => x.Server)
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Port, new { @class = "form-control", placeholder = "Smtp-сервер" })
+                @Html.ValidationMessageFor(x => x.Port)
             </div>
             <div class="form-group">
                 <label>Использовать SSL</label>
