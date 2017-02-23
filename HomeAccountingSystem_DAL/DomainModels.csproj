@@ -93,6 +93,10 @@
     <Compile Include="Migrations\201702071858217_NotificationMailBox.Designer.cs">
       <DependentUpon>201702071858217_NotificationMailBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702230809116_AddUniqueConstraintToMailBoxName.cs" />
+    <Compile Include="Migrations\201702230809116_AddUniqueConstraintToMailBoxName.Designer.cs">
+      <DependentUpon>201702230809116_AddUniqueConstraintToMailBoxName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountingContext.cs" />
@@ -134,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702071858217_NotificationMailBox.resx">
       <DependentUpon>201702071858217_NotificationMailBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702230809116_AddUniqueConstraintToMailBoxName.resx">
+      <DependentUpon>201702230809116_AddUniqueConstraintToMailBoxName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
