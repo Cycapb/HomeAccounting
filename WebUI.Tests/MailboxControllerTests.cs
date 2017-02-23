@@ -74,5 +74,17 @@ namespace WebUI.Tests
             Assert.IsNotNull(model);
             Assert.AreEqual(model.MailBoxName, "M1");
         }
+
+        [TestMethod]
+        public async Task Edit_ReturnsRedirectToList_NullModel()
+        {
+            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
+
+            var result = await _controller.Edit(It.IsAny<int>());
+            var redirectResult = ((RedirectToRouteResult) result);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(redirectResult.RouteValues["action"], "List");
+        }
     }
 }

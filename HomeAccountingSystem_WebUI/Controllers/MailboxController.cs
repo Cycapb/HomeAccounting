@@ -68,6 +68,31 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
+            var model = await _mailboxService.GetItemAsync(id);
+
+            if (model == null)
+            {
+                return RedirectToAction("List");
+            }
+
+            var mailBoxModel = new MailboxAddViewModel()
+            {
+                MailBoxName = model.MailBoxName,
+                MailFrom = model.MailFrom,
+                Password = model.Password,
+                PasswordConfirmation = string.Empty,
+                Port = model.Port,
+                Server = model.Server,
+                UserName = model.UserName,
+                UseSsl = model.UseSsl
+            };
+
+            return PartialView("_Mailbox", mailBoxModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(MailboxAddViewModel model)
+        {
             throw new NotImplementedException();
         }
     }
