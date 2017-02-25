@@ -9,7 +9,7 @@ namespace HomeAccountingSystem_WebUI.Models
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
         [Required(ErrorMessage = "Не задано Имя")]
-        [IsUnique]
+        [IsUnique(ErrorMessage = "Такой почтовый ящик уже существует")]
         [StringLength(50)]
         public string MailBoxName { get; set; }
         [Required(ErrorMessage = "Не указано От кого")]

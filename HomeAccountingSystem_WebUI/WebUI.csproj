@@ -608,7 +608,7 @@
     <Content Include="Views\OrderDetail\_SubCategories.cshtml" />
     <Content Include="Views\MenuBar\_MenuBar.cshtml" />
     <Content Include="Views\Mailbox\Index.cshtml" />
-    <Content Include="Views\Mailbox\_Mailbox.cshtml" />
+    <Content Include="Views\Mailbox\Mailbox.cshtml" />
     <Content Include="Views\Mailbox\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

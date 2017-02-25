@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
-using System.Web;
 using HomeAccountingSystem_WebUI.Controllers;
 using Services;
 using Moq;
@@ -45,7 +43,7 @@ namespace WebUI.Tests
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
-            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
+            var model = ((ViewResult) result).Model as MailboxAddViewModel;
 
             Assert.IsNotNull(model);
         }
@@ -67,10 +65,10 @@ namespace WebUI.Tests
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() {Id = 1,MailBoxName = "M1"});
 
             var result = await _controller.Edit(1);
-            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
+            var model = ((ViewResult) result).Model as MailboxAddViewModel;
 
             _mailboxService.Verify(x => x.GetItemAsync(It.IsAny<int>()), Times.Exactly(1));
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
             Assert.IsNotNull(model);
             Assert.AreEqual(model.MailBoxName, "M1");
         }
@@ -84,7 +82,7 @@ namespace WebUI.Tests
             var redirectResult = ((RedirectToRouteResult) result);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"], "List");
+            Assert.AreEqual(redirectResult.RouteValues["action"], "Index");
         }
 
         [TestMethod]
@@ -105,7 +103,7 @@ namespace WebUI.Tests
             var redirectResult = ((RedirectToRouteResult) result);
 
             Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"],"List");
+            Assert.AreEqual(redirectResult.RouteValues["action"],"Index");
             _mailboxService.Verify(x => x.UpdateAsync(It.IsAny<NotificationMailBox>()),Times.Exactly(1));
         }
     }

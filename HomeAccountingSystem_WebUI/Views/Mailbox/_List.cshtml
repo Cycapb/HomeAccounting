@@ -24,12 +24,9 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Ajax.ActionLink(item.MailBoxName,"Edit",new {id = item.Id}, new AjaxOptions()
-                            {
-                                Url = Url.Action("Edit",new {id = item.Id}),
-                                UpdateTargetId = "mailBoxes",
-                                OnSuccess = "disableButtons"
-                            })</td>
+                        <td>
+                            @Html.ActionLink(item.MailBoxName, "Edit", new {id = item.Id})
+                        </td>
                         <td>@item.MailFrom</td>
                         <td>@item.UserName</td>
                         <td>@item.Password</td>

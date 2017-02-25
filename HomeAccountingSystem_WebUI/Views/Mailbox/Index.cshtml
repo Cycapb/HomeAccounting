@@ -6,11 +6,6 @@
 <div id="mailBoxes">
     @Html.Partial("_List")
 </div>
-@Ajax.ActionLink("Создать", "Add", null, new AjaxOptions()
-{
-    Url = Url.Action("Add"),
-    UpdateTargetId = "mailBoxes",
-    OnSuccess = "disableButtons"
-}, new { @class = "btn btn-primary btn-raised btn-sm", id = "addBtn" })
+@Html.ActionLink("Создать","Add",null, new { @class = "btn btn-primary btn-raised btn-sm", id = "addBtn" })
 @Html.ActionLink("Назад", "Index", "AdminSection", null, new { @class = "btn btn-default btn-raised btn-sm", id = "returnBtn" })
 @Html.ActionLink("На главную", "Index", "PayingItem", null, new { @class = "btn btn-default btn-raised btn-sm pull-right" })

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -36,7 +35,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             var model = new MailboxAddViewModel();
             ViewBag.PanelTitle = "Добавление почтового ящика";
-            return PartialView("_Mailbox", model);
+            return View("Mailbox", model);
         }
 
         [HttpPost]
@@ -57,7 +56,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
                 await _mailboxService.AddAsync(box);
                 return RedirectToAction("List");
             }
-            return RedirectToAction("Add");
+            return View("Mailbox");
         }
 
         [HttpPost]
@@ -73,7 +72,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
             if (model == null)
             {
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
 
             var mailBoxModel = new MailboxAddViewModel()
@@ -90,7 +89,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             };
 
             ViewBag.PanelTitle = "Редактирование почтового ящика";
-            return PartialView("_Mailbox", mailBoxModel);
+            return View("Mailbox", mailBoxModel);
         }
 
         [HttpPost]
@@ -98,21 +97,25 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             if (model == null)
             {
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
-            var itemToUpdate = await _mailboxService.GetItemAsync(model.Id);
+            if (ModelState.IsValid)
+            {
+                var itemToUpdate = await _mailboxService.GetItemAsync(model.Id);
 
-            itemToUpdate.MailBoxName = model.MailBoxName;
-            itemToUpdate.MailFrom = model.MailFrom;
-            itemToUpdate.Password = model.Password;
-            itemToUpdate.UserName = model.UserName;
-            itemToUpdate.Server = model.Server;
-            itemToUpdate.Port = model.Port;
-            itemToUpdate.UseSsl = model.UseSsl;
+                itemToUpdate.MailBoxName = model.MailBoxName;
+                itemToUpdate.MailFrom = model.MailFrom;
+                itemToUpdate.Password = model.Password;
+                itemToUpdate.UserName = model.UserName;
+                itemToUpdate.Server = model.Server;
+                itemToUpdate.Port = model.Port;
+                itemToUpdate.UseSsl = model.UseSsl;
 
-            await _mailboxService.UpdateAsync(itemToUpdate);
+                await _mailboxService.UpdateAsync(itemToUpdate);
 
-            return RedirectToAction("List");
+                return RedirectToAction("Index");
+            }
+            return View("Mailbox");
         }
     }
     }

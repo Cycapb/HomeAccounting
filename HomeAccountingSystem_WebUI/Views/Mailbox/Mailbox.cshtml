@@ -1,16 +1,13 @@
 ﻿@model MailboxAddViewModel
 @{
+    ViewBag.Title = ViewBag.PanelTitle;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var routeAction = Context.Request.RequestContext.RouteData.Values["action"];
     var action = routeAction.ToString() == "Add" ? "Add" : "Edit";
 }
 <div class="panel panel-primary">
     <div class="panel-heading">@ViewBag.PanelTitle</div>
-    @using (Ajax.BeginForm(action,new AjaxOptions()
-    {
-        Url = Url.Action(action),
-        UpdateTargetId = "mailBoxes",
-        OnSuccess = "enableButtons"
-    }))
+    @using (Html.BeginForm(action))
     {
         @Html.ValidationSummary(true)
         <div class="panel-body">
@@ -54,4 +51,3 @@
         </div>
     }
 </div>
-@Scripts.Render("~/bundles/jquery-val")
