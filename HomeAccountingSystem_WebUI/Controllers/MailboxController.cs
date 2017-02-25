@@ -54,7 +54,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
                   UseSsl  = model.UseSsl
                 };
                 await _mailboxService.AddAsync(box);
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
             return View("Mailbox");
         }
