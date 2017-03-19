@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using DomainModels.Model;
 
 namespace HomeAccountingSystem_WebUI.Models
@@ -20,6 +21,7 @@ namespace HomeAccountingSystem_WebUI.Models
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
     }
 
@@ -27,6 +29,7 @@ namespace HomeAccountingSystem_WebUI.Models
     {
         public int PayingItemProductId { get; set; }
         public int Id { get; set; }
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
     }
 
