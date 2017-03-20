@@ -6,7 +6,7 @@ using System.Web.SessionState;
 using DomainModels.Model;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
-//rtr
+
 namespace HomeAccountingSystem_WebUI.Controllers
 {
     [Authorize]
