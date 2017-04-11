@@ -13,7 +13,6 @@ namespace HomeAccountingSystem_WebUI.Controllers
         public NavTypeOfFlowController(ITypeOfFlowService tofService)
         {
             _tofService = tofService;
-            //comment
         }
         
         public PartialViewResult List()
