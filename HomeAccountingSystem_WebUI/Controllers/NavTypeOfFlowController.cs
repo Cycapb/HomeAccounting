@@ -1,24 +1,23 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Repositories;
-using DomainModels.Model;
+using Services;
 
 namespace HomeAccountingSystem_WebUI.Controllers
 {
     [SessionState(SessionStateBehavior.Disabled)]
     public class NavTypeOfFlowController : Controller
     {
-        private readonly IRepository<TypeOfFlow> _tofRepository;
+        private readonly ITypeOfFlowService _tofService;
 
-        public NavTypeOfFlowController(IRepository<TypeOfFlow> tofRepository)
+        public NavTypeOfFlowController(ITypeOfFlowService tofService)
         {
-            _tofRepository = tofRepository;
+            _tofService = tofService;
         }
         
         public PartialViewResult List()
         {
-            var types = _tofRepository.GetList()
+            var types = _tofService.GetList()
                 .ToList();
             return PartialView(types);
         }
