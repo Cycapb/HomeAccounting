@@ -22,6 +22,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderControllerTests")]
         public async Task CloseOrder()
         {
             var target = new OrderController(_orderService.Object);
@@ -33,6 +34,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderControllerTests")]
         public async Task CloseOrderReturnsRedirectToRouteResult()
         {
             var target = new OrderController(_orderService.Object);

@@ -25,6 +25,7 @@ namespace WebUI.Tests
 
 
         [TestMethod]
+        [TestCategory("NavRightControllertTests")]
         public void GetIncomingBudget()
         {
             _service.Setup(m => m.GetListByTypeOfFlow(It.IsAny<IWorkingUser>(),It.IsAny<int>())).Returns(new List<PayingItem>());
@@ -41,6 +42,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("NavRightControllertTests")]
         public void GetOutgoBudget()
         {
             _service.Setup(m => m.GetListByTypeOfFlow(It.IsAny<IWorkingUser>(),It.IsAny<int>())).Returns(new List<PayingItem>());

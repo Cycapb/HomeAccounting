@@ -15,7 +15,7 @@ using Moq;
 namespace WebUI.Tests
 {
     [TestClass]
-    public class ReportTest
+    public class ReportControllerTests
     {
         private readonly List<PayingItem> _payingItems = new List<PayingItem>()
         {
@@ -52,6 +52,7 @@ namespace WebUI.Tests
 
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void OverallLastYearMonths_PartialViewReturned()
         {
             Mock<IReportControllerHelper> mockReportHelper = new Mock<IReportControllerHelper>();
@@ -69,6 +70,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void Index_ViewResultReturned()
         {
             var target = new ReportController(null, null, null);
@@ -79,6 +81,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void CreateByTypeOfFlowView_WebUserIntInput_ViewReturned()
         {
             Mock<IReportControllerHelper> mockReportHelper = new Mock<IReportControllerHelper>();
@@ -96,6 +99,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetByTypeOfFlowReportPartial_PartialViewReportModelReturned()
         {
             Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
@@ -114,6 +118,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetTypeOfFlowReport_CatId0_RedrectToRouteResultReturned()
         {
             var tempReportModel = new TempReportModel() {CatId = 0, TypeOfFlowId = 1};
@@ -128,6 +133,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetTypeOfFlowReport_CatIdNot0_ViewResultReturned()
         {
             Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
@@ -148,6 +154,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void CreateByDatesView_ViewReturned()
         {
             var target = new ReportController(null, null, null);
@@ -158,6 +165,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetByDatesReportView_ViewResultReturned()
         {
             Mock<IReportControllerHelper> mockHelper = new Mock<IReportControllerHelper>();   
@@ -183,6 +191,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetByDatesReportView_PartialViewResultReturned()
         {
             Mock<IReportControllerHelper> mockHelper = new Mock<IReportControllerHelper>();
@@ -208,6 +217,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetByDatesReportPartial_PartialReportModeltReturned()
         {
             Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
@@ -225,6 +235,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetAllCategoriesReport_PartialOverAllItemListReturned()
         {
             Mock<IReportControllerHelper> mockHelper = new Mock<IReportControllerHelper>();
@@ -245,6 +256,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetItemsByMonth_RedirectToGetByDatesReportReturned()
         {
             var user = new WebUser();
@@ -260,6 +272,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public void GetItemsByMonth_AjaxRedirectToGetByDatesReportReturned()
         {
             var user = new WebUser();
@@ -275,6 +288,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public async Task SubcategoriesReportView_WebUserIntDateTimeInput_ViewReturned()
         {
             Mock<IPayItemSubcategoriesHelper> mockHelper = new Mock<IPayItemSubcategoriesHelper>();
@@ -297,6 +311,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ReportControllerTests")]
         public async Task SubcategoriesReport_WebUserIntDateTimeInput_PartialViewReturned()
         {
             Mock<IPayItemSubcategoriesHelper> mockHelper = new Mock<IPayItemSubcategoriesHelper>();
@@ -317,7 +332,5 @@ namespace WebUI.Tests
             Assert.AreEqual(((PartialViewResult)result).ViewBag.Summ, 0);
             Assert.AreEqual(((PartialViewResult)result).ViewBag.Month, DateTime.Today.Date.ToString("MMMMM"));
         }
-
-
     }
 }

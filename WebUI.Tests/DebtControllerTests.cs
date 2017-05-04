@@ -22,6 +22,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("DebtControllerTests")]
         public async Task Delete_ReturnsRedirectToRouteResult()
         { 
             var result = await _debtController.Delete(It.IsAny<int>());
@@ -33,6 +34,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("DebtControllerTests")]
         public async Task Delete_DeleteAsyncExactlyOnce()
         {
             await _debtController.Delete(It.IsAny<int>());

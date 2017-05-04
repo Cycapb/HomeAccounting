@@ -23,6 +23,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("DebtServiceTests")]
         public async Task DeleteAsync()
         {
             await _service.DeleteAsync(It.IsAny<int>());

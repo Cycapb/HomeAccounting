@@ -22,6 +22,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("CategoryServiceTests")]
         public async Task GetActiveGategoriesByUser_ReturnsNull()
         {
             _catRepository.Setup(m => m.GetListAsync()).ReturnsAsync(null);
@@ -32,6 +33,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("CategoryServiceTests")]
         public async Task GetActiveGategoriesByUser_ReturnsListOfCategories()
         {
             _catRepository.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()

@@ -9,7 +9,7 @@ using Moq;
 namespace BussinessLogic.Tests.ServicesTests
 {
     [TestClass]
-    public class OrderDetailTests
+    public class OrderDetailServiceTests
     {
         private readonly OrderDetailService _orderDetailService;
         private readonly Mock<IRepository<PaiyngItemProduct>> _pItemProductRepo;
@@ -23,7 +23,7 @@ namespace BussinessLogic.Tests.ServicesTests
             new OrderDetail() {ID = 4, OrderId = 2}
         };
 
-    public OrderDetailTests()
+    public OrderDetailServiceTests()
         {
             _pItemProductRepo = new Mock<IRepository<PaiyngItemProduct>>();
             _orderDetailRepo = new Mock<IRepository<OrderDetail>>();
@@ -31,6 +31,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("OrderDetailServiceTests")]
         public async Task GetItemAsync()
         {
             var id = 1;

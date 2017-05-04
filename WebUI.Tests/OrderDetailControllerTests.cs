@@ -23,6 +23,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderDetailControllerTests")]
         public async Task DeleteReturnsRedirectToAction()
         {
             _orderDetailService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new OrderDetail());
@@ -33,6 +34,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderDetailControllerTests")]
         public async Task Delete()
         {
             _orderDetailService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new OrderDetail());
@@ -43,6 +45,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderDetailControllerTests")]
         public async Task DeleteReturnsRedirectWithParameterId()
         {
             _orderDetailService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new OrderDetail() {OrderId = 1});

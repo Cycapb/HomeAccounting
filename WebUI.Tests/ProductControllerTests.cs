@@ -23,6 +23,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public async Task Can_Add_Valid_Product()
         {
             Product product = new Product() {CategoryID = 1,Description = "Prod1",ProductID = 1};
@@ -35,6 +36,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public async Task Cannot_Add_Invalid_Product()
         {
             Product product = new Product() { CategoryID = 1, Description = "Prod1", ProductID = 1 };
@@ -48,6 +50,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public void Can_List_Products()
         {
             _productServiceMock.Setup(m => m.GetList()).Returns(new List<Product>
@@ -69,6 +72,7 @@ namespace WebUI.Tests
 
 
         [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public async Task Can_Create_Valid_ProductModel_For_Edit()
         {
             _productServiceMock.Setup(m => m.GetList()).Returns(new List<Product>
@@ -91,11 +95,13 @@ namespace WebUI.Tests
             var result = await target.Edit(new WebUser(),productId);
             var productToEdit = target.ViewData.Model as ProductToEdit;
 
+            Assert.IsNotNull(productToEdit);
             Assert.AreEqual(productToEdit.Product.ProductID,productId);
             Assert.IsInstanceOfType(result,typeof(PartialViewResult));
         }
 
         [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public async Task Can_Edit_Valid_Product()
         {
             ProductToEdit productToEdit = new ProductToEdit()
@@ -111,6 +117,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public async Task Cannot_Edit_Invalid_Product()
         {
             var target = new ProductController(_productServiceMock.Object);

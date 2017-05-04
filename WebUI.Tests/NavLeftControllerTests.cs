@@ -11,9 +11,10 @@ using Moq;
 namespace WebUI.Tests
 {
     [TestClass]
-    public class NavLeftTests
+    public class NavLeftControllerTests
     {
         [TestMethod]
+        [TestCategory("NavLeftControllerTests")]
         public void Can_Get_Accounts()
         {
             Mock<IRepository<Account>> mock = new Mock<IRepository<Account>>();

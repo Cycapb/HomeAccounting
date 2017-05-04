@@ -226,6 +226,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("PlaningControllerTests")]
         public async Task PlanItemsTests()
         {
             var user = new WebUser() {Id = "1"};
