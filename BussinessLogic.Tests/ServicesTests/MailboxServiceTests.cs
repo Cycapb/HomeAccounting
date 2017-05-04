@@ -28,6 +28,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("MailboxServiceTests")]
         public async Task AddAsync()
         {
             _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).ReturnsAsync(new NotificationMailBox() { Id = 1});
@@ -39,6 +40,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("MailboxServiceTests")]
         public async Task AddAsync_ThrowsException()
         {
             _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>()))
@@ -48,6 +50,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("MailboxServiceTests")]
         public async Task DeleteAsync()
         {
             await _service.DeleteAsync(It.IsAny<int>());
@@ -57,6 +60,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("MailboxServiceTests")]
         public async Task GetItemAsync()
         {
             _repository.Setup(m => m.GetItemAsync(1)).ReturnsAsync(_mailboxList.Single(m => m.Id == 1));
@@ -68,6 +72,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("MailboxServiceTests")]
         public async Task GetItemAsync_ReturnsNull()
         {
             _repository.Setup(m => m.GetItemAsync(5)).ReturnsAsync(null);
@@ -78,6 +83,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
+        [TestCategory("MailboxServiceTests")]
         public async Task GetListAsync()
         {
             _repository.Setup(m => m.GetListAsync()).ReturnsAsync(_mailboxList);

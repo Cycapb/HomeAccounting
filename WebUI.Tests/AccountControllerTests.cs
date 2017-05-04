@@ -12,7 +12,7 @@ using Services;
 namespace WebUI.Tests
 {
     [TestClass]
-    public class AccountTests
+    public class AccountControllerTests
     {
         private readonly List<Account> _accounts = new List<Account>()
         {
@@ -23,7 +23,7 @@ namespace WebUI.Tests
 
         private readonly Mock<IAccountService> _mockAccountService;
 
-        public AccountTests()
+        public AccountControllerTests()
         {
             _mockAccountService = new Mock<IAccountService>();
         }
@@ -106,6 +106,7 @@ namespace WebUI.Tests
             var model = ((PartialViewResult)result).ViewData.Model as Account;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsNotNull(model);
             Assert.AreEqual(model.AccountID, 0);
             Assert.IsNotNull(model);
         }
