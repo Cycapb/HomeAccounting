@@ -26,6 +26,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("CategoryControllerTests")]
         public void Can_Create_TypesOfFlow()
         {
             _tofService.Setup(m => m.GetList()).Returns(new List<TypeOfFlow>()
@@ -43,6 +44,8 @@ namespace WebUI.Tests
             Assert.AreEqual(result[1].TypeID,2);
         }
 
+
+        [TestCategory("CategoryControllerTests")]
         [TestMethod]
         public void Indicates_Selected_TypeOfFlow()
         {
@@ -59,6 +62,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("CategoryControllerTests")]
         public async Task Can_Save_Valid_Category_Changes()
         {
             Category category = new Category() { CategoryID = 1, Name = "Test" };
@@ -72,6 +76,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("CategoryControllerTests")]
         public async Task Cannot_Save_Invalid_Category_Changes()
         {
             _tofService.Setup(m => m.GetList()).Returns(new List<TypeOfFlow>()
@@ -90,6 +95,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("CategoryControllerTests")]
         public async Task Can_Add_Valid_Category()
         {
             Category category = new Category() { CategoryID = 1, Name = "Cat1" };
@@ -102,24 +108,23 @@ namespace WebUI.Tests
             Assert.AreNotEqual(result, typeof(ViewResult));
         }
 
-        //[TestMethod]
-        //public async Task Cannot_Add_Invalid_Category()
-        //{
-        //    Mock<IRepository<Category>> mock = new Mock<IRepository<Category>>();
-        //    Category category = new Category() {CategoryID = 1,Name = "Cat1"};
-        //    Mock<IRepository<TypeOfFlow>> mockTof = new Mock<IRepository<TypeOfFlow>>();
-        //    mockTof.Setup(m => m.GetList()).Returns(new List<TypeOfFlow>()
-        //    {
-        //        new TypeOfFlow() {TypeID = 1, TypeName = "Type1"},
-        //        new TypeOfFlow() {TypeID = 2, TypeName = "Type2"}
-        //    });
-        //    CategoryController target = new CategoryController(mock.Object,mockTof.Object,null,null);
-        //    target.ModelState.AddModelError("error","error");
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task Cannot_Add_Invalid_Category()
+        {
+            Category category = new Category() { CategoryID = 1, Name = "Cat1" };
+            _tofService.Setup(m => m.GetList()).Returns(new List<TypeOfFlow>()
+            {
+                new TypeOfFlow() {TypeID = 1, TypeName = "Type1"},
+                new TypeOfFlow() {TypeID = 2, TypeName = "Type2"}
+            });
+            CategoryController target = new CategoryController(_tofService.Object, _planningHelper.Object, null);
+            target.ModelState.AddModelError("error", "error");
 
-        //    var result = await target.Add(new WebUser() {Id = "1"}, category);
+            var result = await target.Add(new WebUser() { Id = "1" }, category);
 
-        //    mock.Verify(m=>m.SaveAsync(),Times.Never);
-        //    Assert.IsInstanceOfType(result,typeof(PartialViewResult));
-        //}
+            _catService.Verify(m => m.SaveAsync(), Times.Never);
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public async Task Index()
         {
             _mailboxService.Setup(m => m.GetListAsync()).ReturnsAsync(_list);
@@ -36,10 +37,12 @@ namespace WebUI.Tests
             var model = ((ViewResult)result).Model as List<NotificationMailBox>;
 
             Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsNotNull(model);
             Assert.AreEqual(2,model.Count);
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
@@ -49,6 +52,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public async Task Delete()
         {
             var result = await _controller.Delete(It.IsAny<int>());
@@ -60,6 +64,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public async Task Edit_ReturnsMailboxViewWithModel()
         {
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() {Id = 1,MailBoxName = "M1"});
@@ -74,6 +79,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public async Task Edit_ReturnsRedirectToList_NullModel()
         {
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
@@ -86,6 +92,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public async Task Edit_InputMailboxAddViewModelNull_ReturnsRedirectToList()
         {
             var result = await _controller.Edit(null);
@@ -94,6 +101,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public async Task Edit_InputmailboxAddViewModel_ReturnsRedirectToList()
         {
             var model = new MailboxAddViewModel() {Id = 2, MailBoxName = "M2"};
