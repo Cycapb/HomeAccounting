@@ -29,6 +29,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task IndexReturnsPartialView()
         {
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
@@ -38,6 +39,7 @@ namespace WebUI.Tests
             var model = ((PartialViewResult)result).ViewData.Model as List<Account>;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.IsNotNull(model);
             Assert.AreEqual(model.Count, 2);
             Assert.AreEqual(model[0].AccountID, 1);
             Assert.AreEqual(model[1].AccountID, 3);
@@ -45,6 +47,7 @@ namespace WebUI.Tests
 
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputIdReturnsNewAccount()
         {
             _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v == 2))).ReturnsAsync(_accounts.Find(x => x.AccountID == 2));
@@ -62,6 +65,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputAccountNullReturnsRedirectToIndex()
         {
             var target = new AccountController(null);
@@ -74,6 +78,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputModelInvalidReturnsPartial()
         {
             var target = new AccountController(null);
@@ -86,6 +91,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputModelValidReturnsRedirectToIndex()
         {
             
@@ -98,6 +104,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public void AddReturnsPartialView()
         {
             AccountController target = new AccountController(null);
@@ -112,6 +119,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task AddModelStateValidReturnsRedirectToIndex()
         {
             Account account = new Account() { AccountID = 1, AccountName = "Acc1" };
@@ -124,6 +132,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task Cannot_Add_Invalid_Account()
         {
             Account account = new Account() { AccountID = 1, AccountName = "Acc1" };
@@ -136,6 +145,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task DeleteInput6ReturnsRedirectToIndex()
         {
             _mockAccountService.Setup(m => m.HasAnyDependencies(It.Is<int>(v => v >= 6 && v <= 10))).Returns(false);
@@ -147,6 +157,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task DeleteInput3ReturnsRedirectAfterDelete()
         {
             _mockAccountService.Setup(m => m.HasAnyDependencies(It.Is<int>(v => v >= 1 && v <= 5))).Returns(true);
@@ -159,6 +170,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task TransferMoneyReturnPartialView()
         {
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
@@ -170,6 +182,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task TransferMoneyIfAccountHasNotEnoughMoney()
         {
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
@@ -185,6 +198,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task TransferMoneyModelStateInvalid()
         {
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
@@ -204,6 +218,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task TransferMoneyIfAccountHasEnoughMoney()
         {
             _mockAccountService.Setup(m => m.HasEnoughMoney(It.IsAny<Account>(), It.IsAny<decimal>())).Returns(true);
@@ -220,6 +235,7 @@ namespace WebUI.Tests
         }
 
         [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task GetItemsReturnsListofAccounts()
         {
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
@@ -228,6 +244,7 @@ namespace WebUI.Tests
 
             var result = (await target.GetItems(id, new WebUser() { Id = "1" })).ViewData.Model as List<Account>;
 
+            Assert.IsNotNull(result);
             Assert.IsTrue(result.Count == 1);
             Assert.AreEqual(result[0].AccountID, 1);
         }
