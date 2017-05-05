@@ -114,6 +114,10 @@ namespace HomeAccountingSystem_WebUI.Controllers
         {
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
             var item = await _categoryService.GetItemAsync(id);
+            if (item == null)
+            {
+                return RedirectToAction("Index");
+            }
             return PartialView(item);
         }
 
@@ -128,7 +132,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
             }
             else
             {
-                ViewBag.TypesOfFlow =await GetTypesOfFlow();
+                ViewBag.TypesOfFlow = await GetTypesOfFlow();
                 return PartialView(category);
             }
         }

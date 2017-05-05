@@ -96,16 +96,52 @@ namespace WebUI.Tests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Can_Add_Valid_Category()
+        public async Task Edit_CategoryNull_ReturnsRedirectToIndex()
         {
-            Category category = new Category() { CategoryID = 1, Name = "Cat1" };
-            CategoryController target = new CategoryController(null, _planningHelper.Object, _catService.Object);
+            var target = new CategoryController(_tofService.Object, null, _catService.Object);
+            _catService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
 
-            var result = await target.Add(new WebUser() { Id = "1" }, category);
+            var result = await target.Edit(It.IsAny<int>());
+
+            _tofService.Verify(m => m.GetListAsync(), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task Edit_CategoryNotNull_ReturnsPartialView()
+        {
+            var target = new CategoryController(_tofService.Object, null, _catService.Object);
+            _catService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category());
+
+            var result = await target.Edit(It.IsAny<int>());
+
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task Add_InputWebUser_ReturnsPArtialView()
+        {
+            var target = new CategoryController(_tofService.Object,null, null);
+
+            var result = await target.Add(new WebUser() { Id = "1" });
+
+            _tofService.Verify(m => m.GetListAsync(), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task Can_Add_Valid_Category_Rerurns_RedirectToAction()
+        {
+            var target = new CategoryController(null, _planningHelper.Object, _catService.Object);
+
+            var result = await target.Add(new WebUser() { Id = "1" }, new Category() { CategoryID = 1, Name = "Cat1" });
 
             _catService.Verify(m => m.CreateAsync(It.IsAny<Category>()), Times.Exactly(1));
             _planningHelper.Verify(m => m.CreatePlanItemsForCategory(It.IsAny<WebUser>(), It.IsAny<int>()),Times.Exactly(1));
-            Assert.AreNotEqual(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));            
         }
 
         [TestMethod]
@@ -118,13 +154,38 @@ namespace WebUI.Tests
                 new TypeOfFlow() {TypeID = 1, TypeName = "Type1"},
                 new TypeOfFlow() {TypeID = 2, TypeName = "Type2"}
             });
-            CategoryController target = new CategoryController(_tofService.Object, _planningHelper.Object, null);
+            var target = new CategoryController(_tofService.Object, _planningHelper.Object, null);
             target.ModelState.AddModelError("error", "error");
 
             var result = await target.Add(new WebUser() { Id = "1" }, category);
 
             _catService.Verify(m => m.SaveAsync(), Times.Never);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task Delete_CannotDeleteIfHasAnyDependencies()
+        {
+            var target = new CategoryController(null, null, _catService.Object);
+            _catService.Setup(m => m.HasDependencies(It.IsAny<int>())).ReturnsAsync(true);
+
+            var result = await target.Delete(It.IsAny<int>());
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task Delete_CanDeleteIfHasNoDependencies()
+        {
+            var target = new CategoryController(null, null, _catService.Object);
+            _catService.Setup(m => m.HasDependencies(It.IsAny<int>())).ReturnsAsync(false);
+
+            var result = await target.Delete(It.IsAny<int>());
+
+            _catService.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
     }
 }
