@@ -406,6 +406,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICategoryHelper.cs" />
     <Compile Include="Abstract\IMessageProvider.cs" />
     <Compile Include="Abstract\IPagingInfoCreator.cs" />
     <Compile Include="Abstract\IPayingItemHelper.cs" />
