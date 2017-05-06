@@ -72,22 +72,9 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> GetCategoriesAndPagesByType(WebUser user, int typeOfFlowId, int page)
         {
-            var model = new CategoriesViewModel()
-            {
-                Categories = (await _categoryService.GetListAsync())
-                    .Where(x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId)
-                    .Skip((page - 1)*_pagesize)
-                    .Take(_pagesize)
-                    .ToList(),
-                PagingInfo = new PagingInfo()
-                {
-                    CurrentPage = page,
-                    TotalItems = (await _categoryService.GetListAsync())
-                        .Count(x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId),
-                    ItemsPerPage = _pagesize
-                },
-                TypeOfFlowId = typeOfFlowId
-            };
+            var model = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+            model.TypeOfFlowId = typeOfFlowId;
+
             return PartialView(model);
         }
 

@@ -19,18 +19,19 @@ namespace HomeAccountingSystem_WebUI.Helpers
 
         public async Task<CategoriesViewModel> CreateCategoriesViewModel(int page, int itemsPerPage, Func<Category, bool> predicate)
         {
+            var categories = (await _categoryService.GetListAsync())
+                    .Where(predicate)
+                    .ToList();
             return  new CategoriesViewModel()
             {
-                Categories = (await _categoryService.GetListAsync())
-                    .Where(predicate)
+                Categories = categories
                     .Skip((page - 1) * itemsPerPage)
                     .Take(itemsPerPage)
                     .ToList(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
-                    TotalItems = (await _categoryService.GetListAsync())
-                        .Count(predicate),
+                    TotalItems = categories.Count(),
                     ItemsPerPage = itemsPerPage
                 }
             };
