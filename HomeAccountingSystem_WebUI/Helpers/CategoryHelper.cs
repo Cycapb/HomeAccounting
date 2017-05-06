@@ -5,6 +5,7 @@ using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
 using Services;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace HomeAccountingSystem_WebUI.Helpers
 {
@@ -35,6 +36,15 @@ namespace HomeAccountingSystem_WebUI.Helpers
                     ItemsPerPage = itemsPerPage
                 }
             };
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoriesToShowOnPage(int page, int itemsPerPage, Func<Category, bool> predicate)
+        {
+            return (await _categoryService.GetListAsync())
+                .Where(predicate)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToList();
         }
     }
 }

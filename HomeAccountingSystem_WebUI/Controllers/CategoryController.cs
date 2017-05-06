@@ -37,21 +37,13 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> GetAllCategories(WebUser user, int page = 1)
         {
-            var categories = (await _categoryService.GetListAsync())
-                .Where(x => x.UserId == user.Id)
-                .Skip((page - 1)*_pagesize)
-                .Take(_pagesize)
-                .ToList();
+            var categories = await _categoryHelper.GetCategoriesToShowOnPage(page,_pagesize, x => x.UserId == user.Id);
             return PartialView("CategorySummaryPartial",categories);
         }
 
         public async Task<ActionResult> GetCategoriesByType(WebUser user, int typeOfFlowId, int page)
         {
-            var categories = (await _categoryService.GetListAsync())
-                .Where(x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId)
-                .Skip((page - 1)*_pagesize)
-                .Take(_pagesize)
-                .ToList();
+            var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
             return PartialView("CategorySummaryPartial",categories);
         }
 
