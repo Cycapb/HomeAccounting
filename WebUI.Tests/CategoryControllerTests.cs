@@ -121,13 +121,15 @@ namespace WebUI.Tests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Add_InputWebUser_ReturnsPArtialView()
+        public async Task Add_InputWebUser_ReturnsPartialView()
         {
             var target = new CategoryController(_tofService.Object,null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" });
+            var model = (result as PartialViewResult).ViewBag.TypesOfFlow;
 
             _tofService.Verify(m => m.GetListAsync(), Times.Exactly(1));
+            Assert.IsInstanceOfType(model, typeof(IEnumerable<TypeOfFlow>));
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
@@ -186,6 +188,13 @@ namespace WebUI.Tests
 
             _catService.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task GetCategoriesAndPages_ReturnsPartialView()
+        {
+
         }
     }
 }

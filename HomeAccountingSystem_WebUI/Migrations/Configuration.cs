@@ -5,9 +5,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HomeAccountingSystem_WebUI.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext>,IDisposable
     {
         private AccUserManager _userManager;
         private AccRoleManager _roleManager;
@@ -46,5 +47,29 @@ namespace HomeAccountingSystem_WebUI.Migrations
                 _userManager.AddToRole(user.Id, roleName);
             }
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _userManager.Dispose();
+                    _roleManager.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }  
+
+        public void Dispose()
+        {            
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }
