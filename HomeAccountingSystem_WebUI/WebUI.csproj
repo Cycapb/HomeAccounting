@@ -453,6 +453,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\PayingItemHelper.cs" />
     <Compile Include="Helpers\PayingItemProductHelper.cs" />
     <Compile Include="Helpers\PayItemSubcategoriesHelper.cs" />

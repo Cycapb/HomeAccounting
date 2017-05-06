@@ -61,6 +61,7 @@ namespace HomeAccountingSystem_WebUI.Infrastructure
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();
             _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();
             _kernel.Bind<IMailboxService>().To<MailboxService>();
+            _kernel.Bind<ICategoryHelper>().To<CategoryHelper>();
         }
 
         public object GetService(Type serviceType)

@@ -17,14 +17,16 @@ namespace HomeAccountingSystem_WebUI.Controllers
         private readonly ITypeOfFlowService _tofService;
         private readonly IPlanningHelper _planningHelper;
         private readonly ICategoryService _categoryService;
+        private readonly ICategoryHelper _categoryHelper;
         private readonly int _pagesize = 7;
 
         public CategoryController( ITypeOfFlowService tofService,
-            IPlanningHelper planningHelper, ICategoryService categoryService)
+            IPlanningHelper planningHelper, ICategoryService categoryService, ICategoryHelper categoryHelper)
         {
             _tofService = tofService;
             _planningHelper = planningHelper;
             _categoryService = categoryService;
+            _categoryHelper = categoryHelper;
         }
 
         public async Task<ActionResult> Index(WebUser user, int page = 1)
@@ -91,21 +93,7 @@ namespace HomeAccountingSystem_WebUI.Controllers
 
         public async Task<ActionResult> GetCategoriesAndPages(WebUser user, int page = 1)
         {
-            var model = new CategoriesViewModel()
-            {
-                Categories = (await _categoryService.GetListAsync())
-                    .Where(x => x.UserId == user.Id)
-                    .Skip((page - 1) * _pagesize)
-                    .Take(_pagesize)
-                    .ToList(),
-                PagingInfo = new PagingInfo()
-                {
-                    CurrentPage = page,
-                    TotalItems = (await _categoryService.GetListAsync())
-                        .Count(x => x.UserId == user.Id),
-                    ItemsPerPage = _pagesize
-                }
-            };
+            var model = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, c => c.UserId == user.Id);
             return PartialView(model);
         }
 
