@@ -10,7 +10,7 @@ using Moq;
 using Services;
 using System;
 
-namespace WebUI.Tests
+namespace WebUI.Tests.ControllerTests
 {
     [TestClass]
     public class CategoryControllerTests

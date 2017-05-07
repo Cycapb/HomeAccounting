@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 
-namespace WebUI.Tests
+namespace WebUI.Tests.ControllerTests
 {
     [TestClass]
     public class DebtControllerTests

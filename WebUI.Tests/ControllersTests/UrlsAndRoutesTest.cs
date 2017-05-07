@@ -6,7 +6,7 @@ using HomeAccountingSystem_WebUI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace WebUI.Tests
+namespace WebUI.Tests.ControllerTests
 {
     [TestClass]
     public class UrlsAndRoutesTest

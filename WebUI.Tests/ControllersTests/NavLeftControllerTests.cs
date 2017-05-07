@@ -8,7 +8,7 @@ using HomeAccountingSystem_WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace WebUI.Tests
+namespace WebUI.Tests.ControllerTests
 {
     [TestClass]
     public class NavLeftControllerTests

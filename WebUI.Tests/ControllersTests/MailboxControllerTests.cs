@@ -8,7 +8,7 @@ using DomainModels.Model;
 using System.Threading.Tasks;
 using HomeAccountingSystem_WebUI.Models;
 
-namespace WebUI.Tests
+namespace WebUI.Tests.ControllerTests
 {
     [TestClass]
     public class MailboxControllerTests
