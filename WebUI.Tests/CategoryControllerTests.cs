@@ -255,5 +255,21 @@ namespace WebUI.Tests
             Assert.IsNotNull(model);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        public async Task GetAllCategories_ReturnsPartialViewresult()
+        {
+            var target = new CategoryController(null, null, null, _categoryHelper.Object);
+            _categoryHelper.Setup(m => m.GetCategoriesToShowOnPage(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Func<Category, bool>>())).ReturnsAsync(new List<Category>());
+
+            var result = await target.GetAllCategories(new WebUser(), 1);
+            var viewName = (result as PartialViewResult).ViewName;
+            var model = (result as PartialViewResult).Model as IEnumerable<Category>;
+
+            Assert.IsNotNull(model);
+            Assert.AreEqual(viewName, "CategorySummaryPartial");
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
     }
 }
