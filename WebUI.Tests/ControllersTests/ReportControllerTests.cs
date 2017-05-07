@@ -32,6 +32,12 @@ namespace WebUI.Tests.ControllerTests
             new OverAllItem() {Category = "Cat3",Summ = 150M},
             new OverAllItem() {Category = "Cat4",Summ = 200M}
         };
+        private readonly Mock<IReportModelCreator> _reportModelCreator;
+
+        public ReportControllerTests()
+        {
+            _reportModelCreator = new Mock<IReportModelCreator>();
+        }
 
         private ControllerContext GetControllerContext(Controller target, bool isAjax)
         {
@@ -121,14 +127,13 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("ReportControllerTests")]
         public void GetTypeOfFlowReport_CatId0_RedrectToRouteResultReturned()
         {
-            var tempReportModel = new TempReportModel() {CatId = 0, TypeOfFlowId = 1};
-            var user = new WebUser() {Id = "1"};
-            var page = 1;
-            var target = new ReportController(null, null, null);
+            var target = new ReportController(null, null, _reportModelCreator.Object);
+            _reportModelCreator.Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>())).Returns(new ReportModel());
 
-            var result = target.GetTypeOfFlowReport(tempReportModel, user, page);
+            var result = target.GetTypeOfFlowReport(new TempReportModel(), new WebUser(), 1);
+            var model = (result as PartialViewResult).Model;
 
-            Assert.IsTrue(target.TempData.Keys.Count == 1);
+            Assert.IsNotNull(model);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
