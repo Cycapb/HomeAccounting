@@ -13,7 +13,7 @@ namespace HomeAccountingSystem_WebUI.Helpers
     {
         private ICategoryService _categoryService;
 
-        public CategoryHelper(ICategoryService categoryService) => _categoryService = categoryService;
+        public CategoryHelper(ICategoryService categoryService) { _categoryService = categoryService; }
 
         public async Task<CategoriesViewModel> CreateCategoriesViewModel(int page, int itemsPerPage, Func<Category, bool> predicate)
         {
