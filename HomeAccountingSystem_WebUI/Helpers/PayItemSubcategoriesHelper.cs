@@ -4,29 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Abstract;
 using DomainModels.Model;
-using DomainModels.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Models;
+using Services;
 
 namespace HomeAccountingSystem_WebUI.Helpers
 {
     public class PayItemSubcategoriesHelper:IPayItemSubcategoriesHelper
-    {
-        private readonly IRepository<PayingItem> _payingItemRepository;
+    {        
+        private readonly IPayingItemService _payingItemService;
 
-        public PayItemSubcategoriesHelper(IRepository<PayingItem> repo)
+        public PayItemSubcategoriesHelper(IPayingItemService payingItemService)
         {
-            _payingItemRepository = repo;
+            _payingItemService = payingItemService;
         }
 
         public async Task<List<PayItemSubcategories>> GetPayItemsWithSubcategoriesInDatesWeb(DateTime dateFrom, DateTime dateTo,
             IWorkingUser user, int typeOfFlowId)
         {
-            var pItems = _payingItemRepository.GetList() //Отфильтрованный по дате,юзеру,типу список транзакций
+            var pItems = _payingItemService.GetList() //Отфильтрованный по дате,юзеру,типу список транзакций
                 .Where(x => x.UserId == user.Id &&
                             ((x.Date >= dateFrom.Date) && (x.Date <= dateTo.Date))
-                            && x.Category.TypeOfFlowID == typeOfFlowId)
+                            && x.Category.TypeOfFlowID == typeOfFlowId)    
                 .ToList();
+
             var payItemSubcategoriesList = new List<PayItemSubcategories>();
 
             var ids = pItems.GroupBy(x => x.CategoryID) //Список ИД категорий за выбранный период
