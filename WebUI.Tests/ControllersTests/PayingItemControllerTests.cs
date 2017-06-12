@@ -202,25 +202,25 @@ namespace WebUI.Tests.ControllerTests
             Assert.AreEqual(0, viewBag.Accounts.Count);
         }
 
-        //[TestCategory("PayingItemControllerTests")]
-        //[TestMethod]
-        //public async Task Add_InvalidModel_ReturnsPartialView()
-        //{
-        //    _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>())).ReturnsAsync(new List<Category>());
-        //    _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-        //    var target = new PayingItemController(null, null, null, _categoryService.Object, _accountService.Object);
-        //    target.ModelState.AddModelError("", "");
+        [TestCategory("PayingItemControllerTests")]
+        [TestMethod]
+        public async Task Add_InvalidModel_ReturnsPartialView()
+        {
+            _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>())).ReturnsAsync(new List<Category>());
+            _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
+            var target = new PayingItemController(null, null, null, _categoryService.Object, _accountService.Object);
+            target.ModelState.AddModelError("", "");
 
-        //    var result = await target.Add(new WebUser(), new PayingItemModel(), 1);
-        //    var viewBag = ((PartialViewResult)result).ViewBag;
-        //    var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
+            var result = await target.Add(new WebUser(), new PayingItemModel() { PayingItem = new PayingItem(), Products = new List<Product>()}, 1);
+            var viewBag = ((PartialViewResult)result).ViewBag;
+            var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
 
-        //    Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-        //    Assert.AreEqual(model.Products.Count, 0);
-        //    Assert.IsNotNull(model.PayingItem);
-        //    Assert.AreEqual(0, viewBag.Categories.Count);
-        //    Assert.AreEqual(0, viewBag.Accounts.Count);
-        //}
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.AreEqual(model.Products.Count, 0);
+            Assert.IsNotNull(model.PayingItem);
+            Assert.AreEqual(0, viewBag.Categories.Count);
+            Assert.AreEqual(0, viewBag.Accounts.Count);
+        }
 
         //    [TestMethod]
         //    public async Task Can_Add_Valid_PayingItem_()
