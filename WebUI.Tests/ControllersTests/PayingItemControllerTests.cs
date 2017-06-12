@@ -15,159 +15,11 @@ using Moq;
 using Services;
 
 namespace WebUI.Tests.ControllerTests
-{
-    //public class TestMockObject
-    //{
-    //    private readonly int _payingItemId;
-
-    //    public IRepository<Product> MockProductObject { get; private set; }
-    //    public IRepository<PayingItem> MockPayingItemObject { get; private set; }
-    //    public IRepository<Account> MockAccountObject { get; private set; }
-    //    public IRepository<Category> MockCategoryObject { get; private set; }
-    //    public IRepository<PaiyngItemProduct> MockPayingItemProductObject { get; set; }
-    //    public IRepository<PlanItem> MockPlanItemObject { get; private set; } 
-
-    //    public Mock<IRepository<PayingItem>> MockPayingItem { get; private set; } 
-    //    public Mock<IRepository<PaiyngItemProduct>> MockPayingItemProduct { get; set; }
-    //    public Mock<IRepository<Product>> MockProduct { get; set; }
-
-    //    public TestMockObject (int payingItemId = 1)
-    //    {
-    //        _payingItemId = payingItemId;
-    //        FillMockAccount();
-    //        FillMockCategory();
-    //        FillMockPayingItem();
-    //        FillMockProduct();
-    //        FillMockPayingItemProduct();
-    //        FillMockPlanItem();
-    //    }
-
-    //    private void FillMockProduct()
-    //    {
-    //        var mockProduct = new Mock<IRepository<Product>>();
-    //        mockProduct.Setup(m => m.GetList()).Returns(new List<Product>()
-    //        {
-    //            new Product() {CategoryID = 1, Description = "Prod1",ProductID = 1,UserID = "1"},
-    //            new Product() {CategoryID = 1, Description = "Prod2",ProductID = 2,UserID = "1"},
-    //            new Product() {CategoryID = 2, Description = "Prod3",ProductID = 3,UserID = "2"},
-    //            new Product() {CategoryID = 2, Description = "Prod5",ProductID = 5,UserID = "2"},
-    //            new Product() {CategoryID = 2, Description = "Prod6",ProductID = 6,UserID = "2"},
-    //            new Product() {CategoryID = 2, Description = "Prod7",ProductID = 7,UserID = "2"}
-    //        });
-    //        MockProduct = mockProduct;
-    //        MockProductObject = mockProduct.Object;
-    //    }
-
-    //    private void FillMockPayingItem()
-    //    {
-    //        var mockPayingItem = new Mock<IRepository<PayingItem>>();
-    //        mockPayingItem.Setup(m => m.GetList()).Returns(new List<PayingItem>()
-    //        {
-    //            new PayingItem() {ItemID = 1, AccountID = 1, CategoryID = 1, UserId = "1"},
-    //            new PayingItem() {ItemID = 2, AccountID = 1, CategoryID = 1, UserId = "1"},
-    //            new PayingItem() {ItemID = 3, AccountID = 1, CategoryID = 1, UserId = "1"},
-    //            new PayingItem() {ItemID = 4, AccountID = 1, CategoryID = 1, UserId = "2"},
-    //            new PayingItem() {ItemID = 6, AccountID = 1, CategoryID = 3, UserId = "2"}
-    //        });
-    //        MockPayingItem = mockPayingItem;
-    //        MockPayingItemObject = mockPayingItem.Object;
-    //            mockPayingItem.Setup(m => m.GetItemAsync(_payingItemId))
-    //                .ReturnsAsync(MockPayingItemObject.GetList().Single(x => x.ItemID == _payingItemId) as PayingItem);
-
-    //    }
-
-    //    private void FillMockAccount()
-    //    {
-    //        var mockAccount = new Mock<IRepository<Account>>();
-    //        mockAccount.Setup(m => m.GetList()).Returns(new List<Account>
-    //        {
-    //            new Account() {AccountID = 1, UserId = "1"},
-    //            new Account() {AccountID = 2, UserId = "1"},
-    //        });
-    //        MockAccountObject = mockAccount.Object;
-
-    //    }
-
-    //    private void FillMockCategory()
-    //    {
-    //        var mockCategory = new Mock<IRepository<Category>>();
-    //        mockCategory.Setup(m => m.GetList()).Returns(new List<Category>()
-    //        {
-    //            new Category() {CategoryID = 1,Name = "Cat1",TypeOfFlowID = 1, UserId = "1"},
-    //            new Category() {CategoryID = 2,Name = "Cat2",TypeOfFlowID = 1, UserId = "1"},
-    //        });
-
-    //        MockCategoryObject = mockCategory.Object;
-    //        mockCategory.Setup(m => m.GetItem(1)).Returns(new Category() {CategoryID = 1, TypeOfFlowID = 1});
-    //    }
-
-    //    private void FillMockPlanItem()
-    //    {
-    //        var mock = new Mock<IRepository<PlanItem>>();
-    //        mock.Setup(m => m.GetList()).Returns(new List<PlanItem>
-    //        {
-    //            new PlanItem() { CategoryId = 1,Closed = false,Month = DateTime.Today},
-    //            new PlanItem() { CategoryId = 2,Closed = false,Month = DateTime.Today}
-    //        });
-    //        MockPlanItemObject = mock.Object;
-    //    }
-
-    //    private void FillMockPayingItemProduct()
-    //    {
-    //        var list = new List<PaiyngItemProduct>()
-    //        {
-    //            new PaiyngItemProduct() {ItemID = 1, PayingItemID = 1, ProductID = 1},
-    //            new PaiyngItemProduct() {ItemID = 2, PayingItemID = 1, ProductID = 3},
-    //            new PaiyngItemProduct() {ItemID = 3, PayingItemID = 2, ProductID = 1},
-    //            new PaiyngItemProduct() {ItemID = 4, PayingItemID = 3, ProductID = 1},
-    //        };
-    //        var mockPayingItemProduct = new Mock<IRepository<PaiyngItemProduct>>();
-    //        mockPayingItemProduct.Setup(m => m.GetList()).Returns(list);
-    //        MockPayingItemProductObject = mockPayingItemProduct.Object;
-    //        MockPayingItemProduct = mockPayingItemProduct;
-    //        mockPayingItemProduct.Setup(m => m.GetItemAsync(It.IsAny<int>()))
-    //.ReturnsAsync(this.MockPayingItemProductObject.GetList().Single(x => x.ItemID == 1));
-    //    }
-    //}
+{   
 
     [TestClass]
     public class PayingItemTest
     {
-        //    private PayingItemEditModel CreatePayingItemEditModel(bool pricesAndIdsNotInItem)
-        //    {
-        //        var pItemEditModel = new PayingItemEditModel()
-        //        {
-        //         PayingItem   = new PayingItem()
-        //         {
-        //             AccountID = 1,
-        //             CategoryID = 1,
-        //             ItemID = 1,
-        //             UserId = "1"
-        //         },
-        //         PricesAndIdsInItem = new List<PriceAndIdForEdit>()
-        //         {
-        //             new PriceAndIdForEdit() {Id = 5,PayingItemProductId = 1,Price = 100M},
-        //             new PriceAndIdForEdit() {Id = 6,PayingItemProductId = 2,Price = 200M},
-        //             new PriceAndIdForEdit() {Id = 0,PayingItemProductId = 0,Price = 100M},
-        //             new PriceAndIdForEdit() {Id = 7,PayingItemProductId = 1,Price = 200M},
-        //             new PriceAndIdForEdit() {Id = 0,PayingItemProductId = 0,Price = 200M}
-        //         }
-        //        };
-        //        if (pricesAndIdsNotInItem)
-        //        {
-        //            pItemEditModel.PricesAndIdsNotInItem = new List<PriceAndIdForEdit>()
-        //            {
-        //                new PriceAndIdForEdit() {Id = 2, PayingItemProductId = 0, Price = 200M},
-        //                new PriceAndIdForEdit() {Id = 0, PayingItemProductId = 0, Price = 200M}
-        //            };
-        //        }
-        //        else
-        //        {
-        //            pItemEditModel.PricesAndIdsNotInItem = null;
-        //        }
-        //        return pItemEditModel;
-        //    }
-
         private readonly Mock<IPayingItemProductHelper> _pItemProductHelper;
         private readonly Mock<IPayingItemHelper> _payingItemHelper;
         private readonly Mock<IPayingItemService> _payingItemService;
@@ -222,29 +74,29 @@ namespace WebUI.Tests.ControllerTests
             Assert.AreEqual(0, viewBag.Accounts.Count);
         }
 
-        //    [TestMethod]
-        //    public async Task Can_Add_Valid_PayingItem_()
-        //    {
-        //        DateTime date = DateTime.Now - TimeSpan.FromDays(2);
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Can_Add_Valid_PayingItem_()
+        {
+            DateTime date = DateTime.Now - TimeSpan.FromDays(2);
 
-        //        //Arrange
-        //        Mock<IRepository<PayingItem>> mock = new Mock<IRepository<PayingItem>>();
-        //        var testmock = new TestMockObject();
-        //        PayingItemModel pItemModel = new PayingItemModel()
-        //        {
-        //            PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1,Date = date,UserId = "1", ItemID = 1},
-        //            Products = null,
-        //        };
-        //        int typeOfFlow = 1;
-        //        var user = new WebUser() {Id = "1"};
-        //        var target = new PayingItemController(mock.Object,testmock.MockCategoryObject,testmock.MockAccountObject,null,null,null);
+            //Arrange
 
-        //        //Action
-        //        var tmpResult = await target.Add(user, pItemModel, typeOfFlow);
+            PayingItemModel pItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = date, UserId = "1", ItemID = 1 },
+                Products = null,
+            };
+            int typeOfFlow = 1;
+            var user = new WebUser() { Id = "1" };
+            var target = new PayingItemController(mock.Object, testmock.MockCategoryObject, testmock.MockAccountObject, null, null, null);
 
-        //        //Assert
-        //        Assert.IsNotInstanceOfType(tmpResult,typeof(ViewResult));
-        //    }
+            //Action
+            var tmpResult = await target.Add(user, pItemModel, typeOfFlow);
+
+            //Assert
+            Assert.IsNotInstanceOfType(tmpResult, typeof(ViewResult));
+        }
 
         //    [TestMethod]
         //    public async Task Can_Add_Valid_PayingItem_With_PayingItemProduct()
