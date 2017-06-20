@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.WebPages;
-using DomainModels.Abstract;
 using DomainModels.Model;
-using DomainModels.Repositories;
 using HomeAccountingSystem_WebUI.Abstract;
 using HomeAccountingSystem_WebUI.Controllers;
 using HomeAccountingSystem_WebUI.Models;
@@ -15,7 +11,7 @@ using Moq;
 using Services;
 
 namespace WebUI.Tests.ControllerTests
-{   
+{
 
     [TestClass]
     public class PayingItemTest
@@ -73,8 +69,7 @@ namespace WebUI.Tests.ControllerTests
             Assert.AreEqual(0, viewBag.Categories.Count);
             Assert.AreEqual(0, viewBag.Accounts.Count);
         }
-
-        //Todo Дописать тетовый метод
+        
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
         public async Task Add_ValidModel_DateGreaterThanNow_ProductsNull_ReturnsRedirect()
@@ -90,34 +85,31 @@ namespace WebUI.Tests.ControllerTests
             var target = new PayingItemController(null, null, _payingItemService.Object, null, null);
 
             //Act
-            var tmpResult = await target.Add(new WebUser() { Id = "1" }, pItemModel, 1);
+            var tmpResult = await target.Add(new WebUser() { Id = "1" }, pItemModel, 1);            
 
             //Assert
             _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));
             Assert.IsInstanceOfType(tmpResult, typeof(RedirectToRouteResult));
         }
 
-        //    [TestMethod]
-        //    public async Task Can_Add_Valid_PayingItem_With_PayingItemProduct()
-        //    {
-        //        var mock = new TestMockObject();
-        //        Mock<IRepository<PayingItem>> mockPayingItem = new Mock<IRepository<PayingItem>>();
-        //        Mock<IPayingItemHelper> mockPayingItemHelper = new Mock<IPayingItemHelper>();
-        //        Mock<IPayingItemProductHelper> mockPAyingItemProductHelper = new Mock<IPayingItemProductHelper>();
-        //        PayingItemModel pItemModel = new PayingItemModel()
-        //        {
-        //            PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = DateTime.Today, UserId = "1", ItemID = 1 },
-        //            Products = new List<Product>()
-        //        };
-        //        WebUser user = new WebUser() {Id = "1"};
-        //        var target = new PayingItemController(mockPayingItem.Object,null,mock.MockAccountObject,mock.MockProductObject,mockPAyingItemProductHelper.Object, mockPayingItemHelper.Object);
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Add_ValidModel_ProductsNotNull_ReturnsRedirect()
+        {
+            PayingItemModel pItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = DateTime.Today, UserId = "1", ItemID = 1 },
+                Products = new List<Product>()
+            };            
+            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object, _payingItemService.Object, null, null);
 
-        //        var result = await target.Add(user, pItemModel, 2);
+            var result = await target.Add(new WebUser() { Id = "1" }, pItemModel, 2);
 
-        //        mockPayingItem.Verify(m=>m.SaveAsync());
-        //        mockPAyingItemProductHelper.Verify(m=>m.CreatePayingItemProduct(pItemModel));
-        //        Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
-        //    }
+            _payingItemHelper.Verify(m => m.CreateCommentWhileAdd(pItemModel),Times.Exactly(1));
+            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));
+            _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
 
         //    [TestMethod]
         //    public async Task Cannot_Add_Invalid_PayingItem()
