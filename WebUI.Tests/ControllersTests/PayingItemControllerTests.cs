@@ -74,28 +74,27 @@ namespace WebUI.Tests.ControllerTests
             Assert.AreEqual(0, viewBag.Accounts.Count);
         }
 
+        //Todo Дописать тетовый метод
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Can_Add_Valid_PayingItem_()
+        public async Task Add_ValidModel_DateGreaterThanNow_ProductsNull_ReturnsRedirect()
         {
-            DateTime date = DateTime.Now - TimeSpan.FromDays(2);
-
             //Arrange
-
+            var month = DateTime.Today.Month + 1;
+            var year = DateTime.Today.Year;            
             PayingItemModel pItemModel = new PayingItemModel()
             {
-                PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = date, UserId = "1", ItemID = 1 },
+                PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = new DateTime(year, month, 1), UserId = "1", ItemID = 1 },
                 Products = null,
-            };
-            int typeOfFlow = 1;
-            var user = new WebUser() { Id = "1" };
-            var target = new PayingItemController(mock.Object, testmock.MockCategoryObject, testmock.MockAccountObject, null, null, null);
+            };           
+            var target = new PayingItemController(null, null, _payingItemService.Object, null, null);
 
-            //Action
-            var tmpResult = await target.Add(user, pItemModel, typeOfFlow);
+            //Act
+            var tmpResult = await target.Add(new WebUser() { Id = "1" }, pItemModel, 1);
 
             //Assert
-            Assert.IsNotInstanceOfType(tmpResult, typeof(ViewResult));
+            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));
+            Assert.IsInstanceOfType(tmpResult, typeof(RedirectToRouteResult));
         }
 
         //    [TestMethod]
