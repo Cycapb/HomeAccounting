@@ -110,39 +110,7 @@ namespace WebUI.Tests.ControllerTests
             _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
-
-        //    [TestMethod]
-        //    public async Task Cannot_Add_Invalid_PayingItem()
-        //    {
-        //        var mockPlanItem = new TestMockObject();
-        //        Mock<IRepository<PayingItem>> mock = new Mock<IRepository<PayingItem>>();
-        //        Mock<IRepository<Category>> mockCategory = new Mock<IRepository<Category>>();
-        //        Mock<IRepository<Account>> mockAccount = new Mock<IRepository<Account>>();
-        //        mockAccount.Setup(m => m.GetList()).Returns(new List<Account>
-        //        {
-        //            new Account() {AccountID = 1, UserId = "1"},
-        //            new Account() {AccountID = 2, UserId = "1"},
-        //        });
-        //        mockCategory.Setup(m => m.GetList()).Returns(new List<Category>()
-        //        {
-        //            new Category() {CategoryID = 1,Name = "Cat1",TypeOfFlowID = 1},
-        //            new Category() {CategoryID = 2,Name = "Cat2",TypeOfFlowID = 1},
-        //        });
-        //        PayingItemModel pItemModel = new PayingItemModel()
-        //        {
-        //            PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = DateTime.Today, UserId = "1", ItemID = 1 },
-        //            Products = null,
-        //        };
-        //        int typeOfFlow = 1;
-        //        var user = new WebUser() { Id = "1" };
-        //        var target = new PayingItemController(mock.Object, mockCategory.Object, mockAccount.Object, null, null,null);
-
-        //        target.ModelState.AddModelError("error","error");
-        //        var result = await target.Add(user, pItemModel, typeOfFlow);
-
-        //        mock.Verify(m=>m.SaveAsync(),Times.Never);
-        //        Assert.IsInstanceOfType(result,typeof(PartialViewResult));
-        //    }
+       
 
         //    [TestMethod]
         //    public void Can_Get_PayingItems_By_Date()
