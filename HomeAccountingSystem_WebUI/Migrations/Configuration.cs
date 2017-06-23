@@ -8,7 +8,7 @@ namespace WebUI.Migrations
     using System;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<WebUI.Infrastructure.AccIdentityDbContext>,IDisposable
+    internal sealed class Configuration : DbMigrationsConfiguration<AccIdentityDbContext>,IDisposable
     {
         private AccUserManager _userManager;
         private AccRoleManager _roleManager;
@@ -19,7 +19,7 @@ namespace WebUI.Migrations
             ContextKey = "WebUI.Infrastructure.AccIdentityDbContext";
         }
 
-        protected override void Seed(WebUI.Infrastructure.AccIdentityDbContext context)
+        protected override void Seed(AccIdentityDbContext context)
         {
             _userManager = new AccUserManager(new UserStore<AccUserModel>(context));
             _roleManager = new AccRoleManager(new RoleStore<AccRoleModel>(context));
