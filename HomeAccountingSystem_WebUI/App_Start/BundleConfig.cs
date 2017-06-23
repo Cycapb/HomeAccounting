@@ -1,7 +1,7 @@
 ﻿using System.Web.Optimization;
 
 
-namespace HomeAccountingSystem_WebUI
+namespace WebUI
 {
     public class BundleConfig
     {

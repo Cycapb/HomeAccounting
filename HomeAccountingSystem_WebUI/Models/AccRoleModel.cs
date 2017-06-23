@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class AccRoleModel:IdentityRole
     {

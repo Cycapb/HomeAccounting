@@ -1,4 +1,4 @@
-namespace HomeAccountingSystem_WebUI.Migrations
+namespace WebUI.Migrations
 {
     using System.Data.Entity.Migrations;
 

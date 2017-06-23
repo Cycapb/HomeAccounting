@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using NLog;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class CustomErrorAttribute:FilterAttribute,IExceptionFilter
     {

@@ -1,4 +1,4 @@
-﻿@model HomeAccountingSystem_WebUI.Models.PagingInfo
+﻿@model WebUI.Models.PagingInfo
 @for (var i = 1; i <= Model.TotalPages; i++)
 {
     @Ajax.ActionLink(i.ToString(), "List", new { page = i }, new AjaxOptions()

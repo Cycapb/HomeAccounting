@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Infrastructure;
+using WebUI.Infrastructure;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class TransferModel
     {

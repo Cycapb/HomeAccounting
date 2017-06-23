@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
+using WebUI.Infrastructure.Attributes;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class MailboxAddViewModel
     {

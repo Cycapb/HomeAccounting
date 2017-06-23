@@ -5,11 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Helpers
+namespace WebUI.Helpers
 {
     [Authorize]
     public class PlaningControllerHelper:IPlanningHelper

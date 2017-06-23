@@ -1,10 +1,10 @@
-﻿using HomeAccountingSystem_WebUI.Infrastructure;
+﻿using WebUI.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
-namespace HomeAccountingSystem_WebUI
+namespace WebUI
 {
     public class AccIdentityConfig
     {

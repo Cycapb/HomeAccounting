@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using DomainModels.Model;
 using DomainModels.Repositories;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Concrete
+namespace WebUI.Concrete
 {
     public class ReportModelCreator:IReportModelCreator
     {

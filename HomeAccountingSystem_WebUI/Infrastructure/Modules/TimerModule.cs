@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Web;
-using HomeAccountingSystem_WebUI.Infrastructure.Events;
+using WebUI.Infrastructure.Events;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
+namespace WebUI.Infrastructure.Modules
 {
     public class TimerModule:IHttpModule
     {

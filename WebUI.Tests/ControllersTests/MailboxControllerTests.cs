@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Controllers;
+using WebUI.Controllers;
 using Services;
 using Moq;
 using System.Collections.Generic;
 using DomainModels.Model;
 using System.Threading.Tasks;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 
 namespace WebUI.Tests.ControllerTests
 {

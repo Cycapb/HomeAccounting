@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Abstract;
+using WebUI.Abstract;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     public class ReportMenuController : Controller
     {

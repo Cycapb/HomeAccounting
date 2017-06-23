@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Helpers
+namespace WebUI.Helpers
 {
     public class PayingItemProductHelper:IPayingItemProductHelper
     {

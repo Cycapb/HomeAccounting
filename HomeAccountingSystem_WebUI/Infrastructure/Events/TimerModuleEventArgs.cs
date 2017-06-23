@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Events
+namespace WebUI.Infrastructure.Events
 {
     public class TimerModuleEventArgs:EventArgs
     {

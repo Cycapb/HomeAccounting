@@ -1,14 +1,14 @@
-using HomeAccountingSystem_WebUI.Infrastructure;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Infrastructure;
+using WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace HomeAccountingSystem_WebUI.Migrations
+namespace WebUI.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext>,IDisposable
+    internal sealed class Configuration : DbMigrationsConfiguration<WebUI.Infrastructure.AccIdentityDbContext>,IDisposable
     {
         private AccUserManager _userManager;
         private AccRoleManager _roleManager;
@@ -16,10 +16,10 @@ namespace HomeAccountingSystem_WebUI.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext";
+            ContextKey = "WebUI.Infrastructure.AccIdentityDbContext";
         }
 
-        protected override void Seed(HomeAccountingSystem_WebUI.Infrastructure.AccIdentityDbContext context)
+        protected override void Seed(WebUI.Infrastructure.AccIdentityDbContext context)
         {
             _userManager = new AccUserManager(new UserStore<AccUserModel>(context));
             _roleManager = new AccRoleManager(new RoleStore<AccRoleModel>(context));

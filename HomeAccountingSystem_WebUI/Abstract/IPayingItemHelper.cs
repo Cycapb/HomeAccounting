@@ -1,6 +1,6 @@
-﻿using HomeAccountingSystem_WebUI.Models;
+﻿using WebUI.Models;
 
-namespace HomeAccountingSystem_WebUI.Abstract
+namespace WebUI.Abstract
 {
     public interface IPayingItemHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class TransferModelAttribute:ValidationAttribute
     {

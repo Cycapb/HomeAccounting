@@ -1,7 +1,7 @@
-﻿using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
+﻿using WebUI.Abstract;
+using WebUI.Models;
 
-namespace HomeAccountingSystem_WebUI.Concrete
+namespace WebUI.Concrete
 {
     public class PagingInfoCreator:IPagingInfoCreator
     {

@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
+namespace WebUI.Infrastructure.Modules
 {
     public class SessionExpireModule:IHttpModule
     {

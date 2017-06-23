@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Helpers
+namespace WebUI.Helpers
 {
     public class PayingItemHelper:IPayingItemHelper
     {

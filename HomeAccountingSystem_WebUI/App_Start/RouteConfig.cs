@@ -2,7 +2,7 @@
 using System.Web.Mvc.Routing.Constraints;
 using System.Web.Routing;
 
-namespace HomeAccountingSystem_WebUI
+namespace WebUI
 {
     public class RouteConfig
     {

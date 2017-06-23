@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class CreateModel
     {

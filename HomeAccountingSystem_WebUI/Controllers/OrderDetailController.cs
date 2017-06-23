@@ -6,10 +6,10 @@ using System.Web.Mvc;
 using System.Web.Caching;
 using System.Web.SessionState;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]

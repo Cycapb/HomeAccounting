@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     public class MenuBarController : Controller
     {

@@ -1,9 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Infrastructure;
+using WebUI.Infrastructure;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace HomeAccountingSystem_WebUI.HtmlHelpers
+namespace WebUI.HtmlHelpers
 {
     public static class IdentityHelpers
     {

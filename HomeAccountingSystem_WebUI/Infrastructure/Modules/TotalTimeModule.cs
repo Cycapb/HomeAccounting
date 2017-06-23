@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
+namespace WebUI.Infrastructure.Modules
 {
     public class TotalTimeModule:IHttpModule
     {

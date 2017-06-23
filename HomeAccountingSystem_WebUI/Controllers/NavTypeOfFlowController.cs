@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [SessionState(SessionStateBehavior.Disabled)]
     public class NavTypeOfFlowController : Controller

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Models;
 using NLog;
 
-namespace HomeAccountingSystem_WebUI.Concrete
+namespace WebUI.Concrete
 {
     public class EmailUserReporter:IReporter
     {

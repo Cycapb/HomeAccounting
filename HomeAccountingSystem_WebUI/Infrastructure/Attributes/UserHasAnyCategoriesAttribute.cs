@@ -3,12 +3,12 @@ using System.Web.Mvc;
 using BussinessLogic.Services;
 using DomainModels.EntityORM;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Models;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Concrete;
+using WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Concrete;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
+namespace WebUI.Infrastructure.Attributes
 {
     public class UserHasAnyCategoriesAttribute:FilterAttribute,IActionFilter
     {

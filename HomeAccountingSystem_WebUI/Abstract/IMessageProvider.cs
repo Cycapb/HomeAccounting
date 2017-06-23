@@ -1,6 +1,6 @@
-﻿using HomeAccountingSystem_WebUI.Infrastructure;
+﻿using WebUI.Infrastructure;
 
-namespace HomeAccountingSystem_WebUI.Abstract
+namespace WebUI.Abstract
 {
     public interface IMessageProvider
     {

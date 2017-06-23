@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Models;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Concrete;
+using WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Concrete;
 using Services;
 using BussinessLogic.Services;
 using DomainModels.EntityORM;
 using DomainModels.Model;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
+namespace WebUI.Infrastructure.Attributes
 {
     public class UserHasAnyAccountAttribute : FilterAttribute, IActionFilter
     {

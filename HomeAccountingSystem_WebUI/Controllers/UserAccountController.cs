@@ -3,15 +3,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Infrastructure;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Abstract;
+using WebUI.Infrastructure;
+using WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Runtime.Caching;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [Authorize]
     public class UserAccountController : Controller

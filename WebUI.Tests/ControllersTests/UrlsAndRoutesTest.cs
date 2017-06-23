@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Web;
 using System.Web.Routing;
-using HomeAccountingSystem_WebUI;
+using WebUI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

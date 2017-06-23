@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Models;
-using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
+using WebUI.Abstract;
+using WebUI.Models;
+using WebUI.Infrastructure.Attributes;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]

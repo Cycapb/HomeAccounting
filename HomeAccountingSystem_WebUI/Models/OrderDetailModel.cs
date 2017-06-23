@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DomainModels.Model;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class AddOrderDetailView
     {

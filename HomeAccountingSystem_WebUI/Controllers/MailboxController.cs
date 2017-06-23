@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [Authorize(Roles = "Administrators")]
     [SessionState(SessionStateBehavior.Disabled)]

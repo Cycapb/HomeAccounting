@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using Microsoft.AspNet.Identity;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class CustomUserValidator:UserValidator<AccUserModel>
     {

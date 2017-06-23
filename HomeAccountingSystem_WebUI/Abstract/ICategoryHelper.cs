@@ -1,10 +1,10 @@
 ﻿using System;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using DomainModels.Model;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace HomeAccountingSystem_WebUI.Abstract
+namespace WebUI.Abstract
 {
     public interface ICategoryHelper
     {

@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class AccIdentityDbContext:IdentityDbContext<AccUserModel>
     {

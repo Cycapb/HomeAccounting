@@ -1,7 +1,7 @@
 ﻿using System;
-using HomeAccountingSystem_WebUI.Abstract;
+using WebUI.Abstract;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class PagingInfo
     {

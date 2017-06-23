@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using BussinessLogic.Services;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using Services;
-using HomeAccountingSystem_WebUI.Infrastructure.Attributes;
+using WebUI.Infrastructure.Attributes;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]

@@ -1,4 +1,4 @@
-﻿namespace HomeAccountingSystem_WebUI.Infrastructure
+﻿namespace WebUI.Infrastructure
 {
     public enum MessagesEnum
     {

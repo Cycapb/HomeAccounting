@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 
-namespace HomeAccountingSystem_WebUI.Abstract
+namespace WebUI.Abstract
 {
     public interface IPlanningHelper
     {

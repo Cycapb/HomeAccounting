@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services;
 using Moq;
-using HomeAccountingSystem_WebUI.Helpers;
+using WebUI.Helpers;
 using DomainModels.Model;
 using System.Collections.Generic;
 using System.Linq;

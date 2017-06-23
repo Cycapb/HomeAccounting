@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Infrastructure;
+using WebUI.Infrastructure;
 
-namespace HomeAccountingSystem_WebUI
+namespace WebUI
 {
     public class FilterConfig
     {

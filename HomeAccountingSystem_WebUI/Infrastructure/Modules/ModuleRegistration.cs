@@ -1,9 +1,9 @@
 ﻿using System.Web;
-using HomeAccountingSystem_WebUI.Infrastructure.Modules;
+using WebUI.Infrastructure.Modules;
 
 [assembly: PreApplicationStartMethod(typeof(ModuleRegistration),"RegisterModule")]
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Modules
+namespace WebUI.Infrastructure.Modules
 {
     public class ModuleRegistration
     {

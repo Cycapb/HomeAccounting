@@ -2,8 +2,8 @@
 using System.Web.Mvc;
 using DomainModels.Abstract;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Controllers;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Controllers;
+using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;

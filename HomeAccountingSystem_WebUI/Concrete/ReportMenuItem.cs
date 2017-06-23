@@ -1,6 +1,6 @@
-﻿using HomeAccountingSystem_WebUI.Abstract;
+﻿using WebUI.Abstract;
 
-namespace HomeAccountingSystem_WebUI.Concrete
+namespace WebUI.Concrete
 {
     public class ReportMenuItem:IReportMenuItem
     {

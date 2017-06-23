@@ -1,4 +1,4 @@
-﻿namespace HomeAccountingSystem_WebUI.Models
+﻿namespace WebUI.Models
 {
     public class TodoViewModel
     {

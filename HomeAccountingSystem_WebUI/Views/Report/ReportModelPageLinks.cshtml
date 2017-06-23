@@ -1,5 +1,5 @@
-﻿@using HomeAccountingSystem_WebUI.HtmlHelpers
-@model HomeAccountingSystem_WebUI.Models.ReportModel
+﻿@using WebUI.HtmlHelpers
+@model WebUI.Models.ReportModel
 @if (Model.CategoryId == 0)
 {
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetByDatesReportView", new

@@ -1,10 +1,10 @@
 ﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using HomeAccountingSystem_WebUI.Infrastructure.Binders;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Infrastructure.Binders;
+using WebUI.Models;
 
-namespace HomeAccountingSystem_WebUI
+namespace WebUI
 {
     public class MvcApplication : System.Web.HttpApplication
     {

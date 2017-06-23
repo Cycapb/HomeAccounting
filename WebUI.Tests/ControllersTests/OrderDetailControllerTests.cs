@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using DomainModels.Model;
-using HomeAccountingSystem_WebUI.Controllers;
+using WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;

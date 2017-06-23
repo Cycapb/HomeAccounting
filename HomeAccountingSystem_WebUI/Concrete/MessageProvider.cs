@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Infrastructure;
+using WebUI.Abstract;
+using WebUI.Infrastructure;
 
-namespace HomeAccountingSystem_WebUI.Concrete
+namespace WebUI.Concrete
 {
     public class MessageProvider : IMessageProvider
     {

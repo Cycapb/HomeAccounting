@@ -1,6 +1,6 @@
 ﻿using DomainModels.Abstract;
 
-namespace HomeAccountingSystem_WebUI.Models
+namespace WebUI.Models
 {
     public class WebUser : IWorkingUser
     {

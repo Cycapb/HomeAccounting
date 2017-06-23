@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 
-namespace HomeAccountingSystem_WebUI.HtmlHelpers
+namespace WebUI.HtmlHelpers
 {
     public static class PagingHelpers
     {

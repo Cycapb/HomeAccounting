@@ -5,14 +5,14 @@ using BussinessLogic.Providers;
 using BussinessLogic.Services;
 using DomainModels.Model;
 using DomainModels.Repositories;
-using HomeAccountingSystem_WebUI.Abstract;
-using HomeAccountingSystem_WebUI.Concrete;
-using HomeAccountingSystem_WebUI.Helpers;
+using WebUI.Abstract;
+using WebUI.Concrete;
+using WebUI.Helpers;
 using Ninject;
 using Services;
 using DomainModels.EntityORM;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class NinjectDependencyResolver:IDependencyResolver
     {

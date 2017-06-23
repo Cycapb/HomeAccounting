@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using HomeAccountingSystem_WebUI.Infrastructure;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Infrastructure;
+using WebUI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace HomeAccountingSystem_WebUI.Controllers
+namespace WebUI.Controllers
 {
     [Authorize(Roles = "Administrators")]
     [SessionState(SessionStateBehavior.Disabled)]

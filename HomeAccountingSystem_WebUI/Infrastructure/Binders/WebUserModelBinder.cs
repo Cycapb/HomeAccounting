@@ -1,9 +1,9 @@
 ﻿using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.Models;
+using WebUI.Models;
 using IModelBinder = System.Web.Mvc.IModelBinder;
 using ModelBindingContext = System.Web.Mvc.ModelBindingContext;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Binders
+namespace WebUI.Infrastructure.Binders
 {
     public class WebUserModelBinder:IModelBinder
     {

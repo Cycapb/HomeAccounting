@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
-using HomeAccountingSystem_WebUI.App_Start;
+using WebUI.App_Start;
 using Ninject;
 using Services;
 
-namespace HomeAccountingSystem_WebUI.Infrastructure.Attributes
+namespace WebUI.Infrastructure.Attributes
 {
     public class IsUniqueAttribute: ValidationAttribute
     {
