@@ -133,6 +133,20 @@ namespace WebUI.Tests.ControllerTests
             _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_Cannot_Get_PayingItem_Returns_RedirectToRouteResult()
+        {
+            _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
+            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+
+            var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
+            var routes = (result as RedirectToRouteResult).RouteValues;
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(routes["action"], "ListAjax");
+        }
         //    [TestMethod]
         //    public void Can_Get_PayingItems_By_Date()
         //    {
