@@ -104,7 +104,11 @@ namespace WebUI.Controllers
                 }
                 else
                 {
-                    pItem.PayingItem.Summ = pItem.Products.Sum(x => x.Price);
+                    var summ = pItem.Products.Sum(x => x.Price);
+                    if (summ != 0)
+                    {
+                        pItem.PayingItem.Summ = summ;
+                    }
                     _payingItemHelper.CreateCommentWhileAdd(pItem);
                     await _payingItemService.CreateAsync(pItem.PayingItem);
                     await _pItemProductHelper.CreatePayingItemProduct(pItem);
