@@ -300,6 +300,7 @@
     </None>
     <None Include="Properties\PublishProfiles\Accounting_Release.pubxml" />
     <None Include="Properties\PublishProfiles\Accounting_Test.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HomeAccountingSite.pubxml" />
     <Content Include="Models\KnockoutModels\TodoCreateViewModel.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
