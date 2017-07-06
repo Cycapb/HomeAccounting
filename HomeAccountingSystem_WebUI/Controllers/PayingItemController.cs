@@ -102,7 +102,7 @@ namespace WebUI.Controllers
                 {
                     await _payingItemService.CreateAsync(pItem.PayingItem);
                 }
-                else
+                else 
                 {
                     var summ = pItem.Products.Sum(x => x.Price);
                     if (summ != 0)
