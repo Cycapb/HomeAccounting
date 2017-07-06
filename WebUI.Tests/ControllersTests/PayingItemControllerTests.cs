@@ -110,8 +110,29 @@ namespace WebUI.Tests.ControllerTests
             _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
-       
 
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Add_ValidModel_ProductsHaveSumm_ReturnsRedirect()
+        {
+            PayingItemModel pItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = DateTime.Today, UserId = "1", ItemID = 1 },
+                Products = new List<Product>()
+                {
+                    new Product(){Price = 100},
+                    new Product(){ Price = 200}
+                }
+            };
+            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object, _payingItemService.Object, null, null);
+
+            var result = await target.Add(new WebUser() { Id = "1" }, pItemModel, 2);
+
+            _payingItemHelper.Verify(m => m.CreateCommentWhileAdd(pItemModel), Times.Exactly(1));
+            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));
+            _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
         //    [TestMethod]
         //    public void Can_Get_PayingItems_By_Date()
         //    {
