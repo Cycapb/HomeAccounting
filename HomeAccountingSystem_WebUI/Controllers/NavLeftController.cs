@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
@@ -39,12 +38,8 @@ namespace WebUI.Controllers
         {
             var budget = new Budget();
 
-            var t1 = _dbHelper.GetBudgetInFactWeb(user);
-            var t2 = _dbHelper.GetBudgetOverAllWeb(user);
-            var awaiter = Task.WhenAll(t1, t2).GetAwaiter();
-
-            budget.BudgetInFact = t1.Result;
-            budget.BudgetOverAll = t2.Result;
+            budget.BudgetInFact = _dbHelper.GetBudgetInFactWeb(user).Result;
+            budget.BudgetOverAll = _dbHelper.GetBudgetOverAllWeb(user).Result;
 
             return budget;
         }
