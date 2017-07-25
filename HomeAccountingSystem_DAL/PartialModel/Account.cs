@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace DomainModels.Model
 {
@@ -10,8 +9,7 @@ namespace DomainModels.Model
     }
 
     public class AccountMetaData
-    {
-         [HiddenInput(DisplayValue = false)]
+    {         
          public int AccountID { get; set; }
 
         [Required(ErrorMessage = "Необходимо указать название счета")]

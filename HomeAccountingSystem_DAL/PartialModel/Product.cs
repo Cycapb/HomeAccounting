@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Mvc;
 
 namespace DomainModels.Model
 {
@@ -12,8 +11,7 @@ namespace DomainModels.Model
     }
 
     public class ProductMetaData
-    {
-        [HiddenInput(DisplayValue = false)]
+    {        
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Необходимо ввести наименование")]
