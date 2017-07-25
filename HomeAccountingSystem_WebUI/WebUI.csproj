@@ -627,10 +627,6 @@
       <Project>{e1ec4533-ff70-440f-860f-bb7060ef7ef7}</Project>
       <Name>BussinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj">
-      <Project>{c1f90f9e-6661-4d72-a4a5-d3ea32c9fedc}</Project>
-      <Name>DomainModels.EntityORM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HomeAccountingSystem_DAL\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>
