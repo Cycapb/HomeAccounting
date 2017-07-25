@@ -2,11 +2,8 @@
 using System.Web.Mvc;
 using WebUI.Models;
 using WebUI.Abstract;
-using WebUI.Concrete;
 using Services;
-using BussinessLogic.Services;
-using DomainModels.EntityORM;
-using DomainModels.Model;
+using WebUI.App_Start;
 
 namespace WebUI.Infrastructure.Attributes
 {
@@ -17,8 +14,8 @@ namespace WebUI.Infrastructure.Attributes
 
         public UserHasAnyAccountAttribute()
         {
-            _accService = new AccountService(new EntityRepository<Account>());
-            _messageProvider = new MessageProvider();
+            _accService = (IAccountService)NinjectWebCommon.Kernel.GetService(typeof(IAccountService));
+            _messageProvider = (IMessageProvider)NinjectWebCommon.Kernel.GetService(typeof(IMessageProvider));
         }
 
         public void OnActionExecuted(ActionExecutedContext filterContext)

@@ -16,8 +16,7 @@ namespace WebUI.Infrastructure
 {
     public class NinjectDependencyResolver:IDependencyResolver
     {
-        private readonly IKernel _kernel;
-
+        private readonly IKernel _kernel;        
         public NinjectDependencyResolver(IKernel kernel)
         {
             _kernel = kernel;
@@ -62,6 +61,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();
             _kernel.Bind<IMailboxService>().To<MailboxService>();
             _kernel.Bind<ICategoryHelper>().To<CategoryHelper>();
+            _kernel.Bind<IMessageProvider>().To<MessageProvider>();
         }
 
         public object GetService(Type serviceType)
