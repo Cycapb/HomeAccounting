@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DomainModels.Abstract;
+using DomainModels.Model;
 using WebUI.Models;
 
 namespace WebUI.Abstract

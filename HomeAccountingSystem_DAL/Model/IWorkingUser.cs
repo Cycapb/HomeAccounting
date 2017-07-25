@@ -1,4 +1,4 @@
-﻿namespace DomainModels.Abstract
+﻿namespace DomainModels.Model
 {
     public interface IWorkingUser
     {

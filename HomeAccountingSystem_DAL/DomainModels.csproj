@@ -73,7 +73,7 @@
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\TypeOfFlow.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Abstract\IWorkingUser.cs" />
+    <Compile Include="Model\IWorkingUser.cs" />
     <Compile Include="Infrastructure\AccountModelAttribute.cs" />
     <Compile Include="Infrastructure\CategoryModelAttribute.cs" />
     <Compile Include="Model\OverallOutgoItem.cs" />

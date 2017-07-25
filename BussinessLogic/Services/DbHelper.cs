@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DomainModels.EntityORM;
-using DomainModels.Abstract;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
@@ -12,30 +10,36 @@ namespace BussinessLogic.Services
 {
     public class DbHelper:IDbHelper
     {
+        private readonly IRepository<PayingItem> _pItemRepo;
+        private readonly IRepository<Account> _accRepo;
+
+        public DbHelper(IRepository<PayingItem> pItemRepo, IRepository<Account> accRepo)
+        {
+            _accRepo = accRepo;
+            _pItemRepo = pItemRepo;
+        }
+
         #region Methods for the WEB
 
         //--------Here are the methods for the WEB--------------------
         public IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user)
-        {
-            IRepository<PayingItem> pRepository = new EntityRepository<PayingItem>();
-            return pRepository.GetList()
+        {            
+            return _pItemRepo.GetList()
                 .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date) && d.UserId == user.Id)
                 .OrderBy(d => d.Date)
                 .ToList();
         }
 
         public IEnumerable<PayingItem> GetPayingItemsByDateWeb(DateTime date, IWorkingUser user)
-        {
-            IRepository<PayingItem> pRepository = new EntityRepository<PayingItem>();
-            return pRepository.GetList()
+        {            
+            return _pItemRepo.GetList()
                 .Where(d => d.Date == date.Date && d.UserId == user.Id)
                 .ToList();
         }
 
         public IEnumerable<PayItem> GetPayItemsByDateWeb(DateTime date, IWorkingUser user)
-        {
-            var context = new AccountingContext();
-            var list = (from pItem in context.PayingItem
+        {            
+            return (from pItem in _pItemRepo.GetList()
                 where pItem.UserId == user.Id
                 select new PayItem()
                 {
@@ -47,15 +51,12 @@ namespace BussinessLogic.Services
                     ItemId = pItem.ItemID
                 })
                 .Where(d => d.Date == date.Date)
-                .ToList();
-            context.Dispose();
-            return list;
+                .ToList();                        
         }
 
         public IEnumerable<PayItem> GetPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user)
-        {
-            var context = new AccountingContext();
-            var list = (from pItem in context.PayingItem
+        {            
+            return (from pItem in _pItemRepo.GetList()
                 where pItem.UserId == user.Id
                 select new PayItem()
                 {
@@ -70,14 +71,11 @@ namespace BussinessLogic.Services
                 .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date))
                 .OrderBy(d => d.Date)
                 .ToList();
-            context.Dispose();
-            return list;
         }
 
         public IEnumerable<PayItem> GetCategoryPayItemsByDateWeb(DateTime date, int categoryId, IWorkingUser user)
         {
-            var context = new AccountingContext();
-            var list = (from pItem in context.PayingItem
+            return (from pItem in _pItemRepo.GetList()
                 where pItem.CategoryID == categoryId && pItem.UserId == user.Id
                 select new PayItem()
                 {
@@ -90,15 +88,12 @@ namespace BussinessLogic.Services
                 })
                 .Where(d => d.Date == date.Date)
                 .ToList();
-            context.Dispose();
-            return list;
         }
 
         public IEnumerable<PayItem> GetCategoryPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, int categoryId,
             IWorkingUser user)
         {
-            var context = new AccountingContext();
-            var list = (from pItem in context.PayingItem
+            return  (from pItem in _pItemRepo.GetList()
                 where pItem.CategoryID == categoryId && pItem.UserId == user.Id
                 select new PayItem()
                 {
@@ -112,15 +107,12 @@ namespace BussinessLogic.Services
                 .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date))
                 .OrderBy(d => d.Date)
                 .ToList();
-            context.Dispose();
-            return list;
         }
 
         public IEnumerable<PayItem> GetPayItemsInDatesByTypeOfFlowWeb(DateTime dateFrom, DateTime dateTo,
             int typeOfFlowId, IWorkingUser user)
         {
-            var context = new AccountingContext();
-            var list = (from pItem in context.PayingItem
+            return (from pItem in _pItemRepo.GetList()
                 where pItem.Category.TypeOfFlowID == typeOfFlowId && pItem.UserId == user.Id
                 select new PayItem()
                 {
@@ -134,34 +126,22 @@ namespace BussinessLogic.Services
                 .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date))
                 .OrderBy(d => d.Date)
                 .ToList();
-            context.Dispose();
-            return list;
         }
 
-        public Task<string> GetBudgetOverAllWeb(IWorkingUser user)
+        public async Task<string> GetBudgetOverAllWeb(IWorkingUser user)
         {
-            IRepository<Account> accRepository = new EntityRepository<Account>();
-            return Task.Run((() =>
-            {
-                return accRepository
-                    .GetList()
+                return (await _accRepo.GetListAsync())
                     .Where(i => i.UserId == user.Id)
                     .Sum(s => s.Cash)
                     .ToString("c");
-            }));
         }
 
-        public Task<string> GetBudgetInFactWeb(IWorkingUser user)
-        {
-            IRepository<Account> accRepository = new EntityRepository<Account>();
-            return Task.Run((() =>
-            {
-                return accRepository
-                    .GetList()
+        public async Task<string> GetBudgetInFactWeb(IWorkingUser user)
+        {            
+                return (await _accRepo.GetListAsync())
                     .Where(b => b.Use == true && b.UserId == user.Id)
                     .Sum(s => s.Cash)
-                    .ToString("c");
-            }));
+                    .ToString("c");            
         }
 
         public decimal GetSummForMonth(List<PayingItem> collection)
