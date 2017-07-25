@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using BussinessLogic.Services;
 using WebUI.Models;
 using Services;
 using WebUI.Infrastructure.Attributes;
@@ -15,10 +14,12 @@ namespace WebUI.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly IEmailSender _emailSender;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IEmailSender emailSender)
         {
             _orderService = orderService;
+            _emailSender = emailSender;
         }
 
         
@@ -59,7 +60,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task SendEmail(int id)
         {
-            OrderSenderService.MailTo = ((WebUser)Session["WebUser"]).Email;
+            _emailSender.MailTo = ((WebUser)Session["WebUser"]).Email;
             await Task.Run(() => _orderService.SendByEmail(id));   
         }
 

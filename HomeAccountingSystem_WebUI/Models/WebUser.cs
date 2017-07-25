@@ -1,4 +1,4 @@
-﻿using DomainModels.Abstract;
+﻿using DomainModels.Model;
 
 namespace WebUI.Models
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace DomainModels.Model
 {
@@ -10,8 +9,7 @@ namespace DomainModels.Model
     }
 
     public class DebtMetadata
-    {
-        [HiddenInput(DisplayValue = false)]
+    {        
         public int DebtID { get; set; }
 
         [Required]
@@ -28,8 +26,7 @@ namespace DomainModels.Model
 
         [Required(ErrorMessage = "Не выбрана дата займа")]
         public System.DateTime DateBegin { get; set; }
-
-        [HiddenInput(DisplayValue = false)]
+        
         public string UserId { get; set; }
     }
 }

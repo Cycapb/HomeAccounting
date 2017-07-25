@@ -1,12 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using BussinessLogic.Services;
-using DomainModels.EntityORM;
-using DomainModels.Model;
 using WebUI.Models;
 using WebUI.Abstract;
-using WebUI.Concrete;
 using Services;
+using WebUI.App_Start;
 
 namespace WebUI.Infrastructure.Attributes
 {
@@ -17,8 +14,8 @@ namespace WebUI.Infrastructure.Attributes
 
         public UserHasAnyCategoriesAttribute()
         {
-            _categoryService = new CategoryService(new EntityRepository<Category>());
-            _messageProvider = new MessageProvider();
+            _categoryService = (ICategoryService)NinjectWebCommon.Kernel.GetService(typeof(ICategoryService));
+            _messageProvider = (IMessageProvider)NinjectWebCommon.Kernel.GetService(typeof(IMessageProvider));
         }
 
         public void OnActionExecuting(ActionExecutingContext filterContext)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using DomainModels.Abstract;
 using DomainModels.Model;
 using WebUI.Controllers;
 using WebUI.Models;

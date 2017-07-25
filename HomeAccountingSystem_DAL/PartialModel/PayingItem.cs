@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using DomainModels.Infrastructure;
 
 namespace DomainModels.Model
@@ -12,8 +11,7 @@ namespace DomainModels.Model
     }
 
     public class PayingItemMetaData
-    {
-        [HiddenInput(DisplayValue = false)]
+    {        
         public int ItemID { get; set; }
 
         [Required(ErrorMessage = "Необходимо ввести сумму")]
