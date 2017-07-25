@@ -17,7 +17,7 @@ namespace BussinessLogic.Services
         private readonly IMailSettingsProvider _mailSettingsProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static string MailTo { get; set; }
+        public string MailTo { get; set; }
 
         public OrderSenderService(IMailSettingsProvider mailSettingsProvider)
         {

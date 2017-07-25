@@ -629,10 +629,6 @@
     <Folder Include="sqlScripts\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">
-      <Project>{e1ec4533-ff70-440f-860f-bb7060ef7ef7}</Project>
-      <Name>BussinessLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj">
       <Project>{C1F90F9E-6661-4D72-A4A5-D3EA32C9FEDC}</Project>
       <Name>DomainModels.EntityORM</Name>

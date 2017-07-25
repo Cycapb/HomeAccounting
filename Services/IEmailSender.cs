@@ -6,5 +6,6 @@
     public interface IEmailSender
     {
         void Send(string message);
+        string MailTo { get; set; }
     }
 }
