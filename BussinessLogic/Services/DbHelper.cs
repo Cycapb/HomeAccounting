@@ -128,20 +128,27 @@ namespace BussinessLogic.Services
                 .ToList();
         }
 
-        public async Task<string> GetBudgetOverAllWeb(IWorkingUser user)
+        public Task<string> GetBudgetOverAllWeb(IWorkingUser user)
         {
-                return (await _accRepo.GetListAsync())
+            return Task.Run(() =>
+            {
+                return _accRepo.GetList()
                     .Where(i => i.UserId == user.Id)
                     .Sum(s => s.Cash)
                     .ToString("c");
+            });
         }
 
-        public async Task<string> GetBudgetInFactWeb(IWorkingUser user)
-        {            
-                return (await _accRepo.GetListAsync())
-                    .Where(b => b.Use == true && b.UserId == user.Id)
-                    .Sum(s => s.Cash)
-                    .ToString("c");            
+        public Task<string> GetBudgetInFactWeb(IWorkingUser user)
+        {
+            return Task.Run(() =>
+            {
+                return _accRepo.GetList()
+                 .Where(b => b.Use == true && b.UserId == user.Id)
+                 .Sum(s => s.Cash)
+                 .ToString("c");
+            }
+            );
         }
 
         public decimal GetSummForMonth(List<PayingItem> collection)
