@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using DomainModels.Model;
-using DomainModels.Repositories;
 using WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -12,21 +10,18 @@ namespace WebUI.Tests.ControllerTests
     [TestClass]
     public class OrderControllerTests
     {
-        private readonly Mock<IOrderService> _orderService;
-        private readonly Mock<IRepository<Order>> _orderRepo;
+        private readonly Mock<IOrderService> _orderService;        
 
         public OrderControllerTests()
         {
             _orderService = new Mock<IOrderService>();
-            _orderRepo = new Mock<IRepository<Order>>();
         }
 
         [TestMethod]
         [TestCategory("OrderControllerTests")]
         public async Task CloseOrder()
         {
-            var target = new OrderController(_orderService.Object);
-            _orderRepo.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Order());
+            var target = new OrderController(_orderService.Object, null);            
 
             await target.CloseOrder(1);
 
@@ -37,8 +32,7 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("OrderControllerTests")]
         public async Task CloseOrderReturnsRedirectToRouteResult()
         {
-            var target = new OrderController(_orderService.Object);
-            _orderRepo.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Order());
+            var target = new OrderController(_orderService.Object, null);            
 
             var result = await target.CloseOrder(1);
 
