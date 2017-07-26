@@ -50,9 +50,10 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("AccountControllerTests")]
         public async Task EditInputIdReturnsNewAccount()
         {
+            Account acc = null;
             _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v == 2))).ReturnsAsync(_accounts.Find(x => x.AccountID == 2));
-            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v < 1))).ReturnsAsync(null);
-            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v > 3))).ReturnsAsync(null);
+            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v < 1))).ReturnsAsync(acc);
+            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v > 3))).ReturnsAsync(acc);
             var target = new AccountController(_mockAccountService.Object);
 
             var result2 = ((PartialViewResult)await target.Edit(new WebUser(),2)).Model as Account;
