@@ -225,6 +225,7 @@ namespace WebUI.Controllers
         {
             ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUser(user.Id))
                 .Where(i => i.TypeOfFlowID == typeOfFlowId)
+                .OrderBy(x => x.Name)
                 .ToList();
             ViewBag.Accounts = (await _accountService.GetListAsync())
                 .Where(x => x.UserId == user.Id)
