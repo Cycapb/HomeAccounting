@@ -138,7 +138,8 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_Cannot_Get_PayingItem_Returns_RedirectToRouteResult()
         {
-            _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
+            PayingItem pItem = null;
+            _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(pItem);
             var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);

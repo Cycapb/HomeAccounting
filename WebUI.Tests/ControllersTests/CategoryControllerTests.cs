@@ -96,8 +96,9 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("CategoryControllerTests")]
         public async Task Edit_CategoryNull_ReturnsRedirectToIndex()
         {
+            Category category = null;
             var target = new CategoryController(_tofService.Object, null, _catService.Object, null);
-            _catService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
+            _catService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(category);
 
             var result = await target.Edit(It.IsAny<int>());
 
