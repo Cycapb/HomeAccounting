@@ -7,6 +7,7 @@ using WebUI.Controllers;
 using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Services;
 
 namespace WebUI.Tests.ControllerTests
 {
@@ -17,7 +18,7 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("NavLeftControllerTests")]
         public void Can_Get_Accounts()
         {
-            Mock<IRepository<Account>> mock = new Mock<IRepository<Account>>();
+            Mock<IAccountService> mock = new Mock<IAccountService>();
             mock.Setup(m => m.GetList()).Returns(new List<Account>()
             {
                 new Account() {AccountID = 1,AccountName = "Acc 1", Cash = 100M,UserId = "1"},
