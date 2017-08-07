@@ -21,7 +21,7 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("OrderControllerTests")]
         public async Task CloseOrder()
         {
-            var target = new OrderController(_orderService.Object, null);            
+            var target = new OrderController(_orderService.Object);            
 
             await target.CloseOrder(1);
 
@@ -32,7 +32,7 @@ namespace WebUI.Tests.ControllerTests
         [TestCategory("OrderControllerTests")]
         public async Task CloseOrderReturnsRedirectToRouteResult()
         {
-            var target = new OrderController(_orderService.Object, null);            
+            var target = new OrderController(_orderService.Object);            
 
             var result = await target.CloseOrder(1);
 
