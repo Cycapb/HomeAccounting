@@ -58,7 +58,11 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task SendEmail(int id)
         {
-            await Task.Run(() => _orderService.SendByEmail(id));   
+            var mailTo = ((WebUser)Session["WebUser"]).Email;
+            if (mailTo != null)
+            {
+                await Task.Run(() => _orderService.SendByEmail(id, ((WebUser)Session["WebUser"]).Email));
+            }             
         }
 
         [HttpPost]

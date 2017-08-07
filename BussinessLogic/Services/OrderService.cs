@@ -53,7 +53,7 @@ namespace BussinessLogic.Services
                 .Where(x => x.UserId == userId);
         }
 
-        public void SendByEmail(int orderId)
+        public void SendByEmail(int orderId, string mailTo)
         {
             var order = _orderRepository.GetItem(orderId);
 
@@ -72,8 +72,8 @@ namespace BussinessLogic.Services
             }
 
             try
-            {
-                _emailSender.Send(message.ToString());
+            {                
+                _emailSender.Send(message.ToString(), mailTo);
             }
             catch (Exception)
             {
