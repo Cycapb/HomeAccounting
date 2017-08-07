@@ -5,7 +5,7 @@
     /// </summary>
     public interface IEmailSender
     {
-        void Send(string message);
-        string MailTo { get; set; }
+        void Send(string message, string mailTo);
+        string MailTo { get; }
     }
 }
