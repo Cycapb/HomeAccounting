@@ -13,13 +13,11 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class OrderController : Controller
     {
-        private readonly IOrderService _orderService;
-        private readonly IEmailSender _emailSender;
+        private readonly IOrderService _orderService;        
 
-        public OrderController(IOrderService orderService, IEmailSender emailSender)
+        public OrderController(IOrderService orderService)
         {
-            _orderService = orderService;
-            _emailSender = emailSender;
+            _orderService = orderService;            
         }
 
         
@@ -60,8 +58,11 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task SendEmail(int id)
         {
-            _emailSender.MailTo = ((WebUser)Session["WebUser"]).Email;
-            await Task.Run(() => _orderService.SendByEmail(id));   
+            var mailTo = ((WebUser)Session["WebUser"]).Email;
+            if (mailTo != null)
+            {
+                await Task.Run(() => _orderService.SendByEmail(id, ((WebUser)Session["WebUser"]).Email));
+            }             
         }
 
         [HttpPost]

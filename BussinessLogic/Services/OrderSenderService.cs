@@ -17,15 +17,16 @@ namespace BussinessLogic.Services
         private readonly IMailSettingsProvider _mailSettingsProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public string MailTo { get; set; }
+        public string MailTo { get; private set; }
 
         public OrderSenderService(IMailSettingsProvider mailSettingsProvider)
         {
             _mailSettingsProvider = mailSettingsProvider;
         }
 
-        public async void Send(string message)
+        public async void Send(string message, string mailTo)
         {
+            MailTo = mailTo;
             var mailSettings = _mailSettingsProvider.GetEmailSettings();
             if (mailSettings != null)
             {

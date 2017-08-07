@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using DomainModels.Repositories;
 using WebUI.Models;
 using Services;
 
@@ -12,18 +10,18 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class NavLeftController : Controller
     {
-        private readonly IRepository<Account> _repository;
+        private readonly IAccountService _accService;
         private readonly IDbHelper _dbHelper;
 
-        public NavLeftController(IRepository<Account> repository, IDbHelper dbHelper)
+        public NavLeftController(IAccountService accService, IDbHelper dbHelper)
         {
-            _repository = repository;
+            _accService = accService;
             _dbHelper = dbHelper;
         }
 
         public ActionResult GetAccounts(WebUser user)
         {
-            var accounts = _repository.GetList()
+            var accounts = _accService.GetList()
                 .Where(u=>u.UserId == user.Id)
                 .ToList();
             return PartialView(accounts);
