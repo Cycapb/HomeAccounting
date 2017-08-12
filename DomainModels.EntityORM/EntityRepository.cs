@@ -54,13 +54,20 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {                
-                throw new DomainModelsException("", ex);
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", ex);
             }            
         }
 
         public virtual Task<IEnumerable<T>> GetListAsync()
         {
-            return Task.Run(() =>  _dbSet.AsEnumerable());
+            try
+            {
+                return Task.Run(() => _dbSet.AsEnumerable());
+            }
+            catch (Exception ex)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", ex);
+            }            
         }
 
         public void Create(T item)

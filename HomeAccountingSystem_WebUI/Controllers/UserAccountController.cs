@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Runtime.Caching;
+using System;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -57,28 +59,35 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
                     AccUserModel user = await UserManager.FindAsync(model.Name, model.Password);
                     if (user != null)
                     {
                         ClaimsIdentity identity =
                             await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                         AuthManager.SignOut();
-                        AuthManager.SignIn(new AuthenticationProperties() {IsPersistent = false}, identity);
+                        AuthManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
                         if (user.UserName == "demo")
-                            {
-                                var address = HttpContext.Request.UserHostAddress;
-                                new Thread(() => _userReporter.Report(user, address)).Start();
-                            }
+                        {
+                            var address = HttpContext.Request.UserHostAddress;
+                            new Thread(() => _userReporter.Report(user, address)).Start();
+                        }
                         new Thread(() => ActualizePlanItems(user)).Start();
-                        
-                        Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email};
 
-                    return Redirect(returnUrl);
+                        Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email };
+
+                        return Redirect(returnUrl);
                     }
                     else
                     {
                         ModelState.AddModelError("", "Неверные имя пользователя или пароль");
                     }
+                }
+                catch (Exception ex)
+                {
+                    throw new WebUIException("Невозможно подключиться к базе авторизации", ex);
+                }                   
             }
             ViewBag.returnUrl = returnUrl;
             return View(model);

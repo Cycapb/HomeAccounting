@@ -445,6 +445,7 @@
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
+    <Compile Include="Exceptions\WebUIException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
