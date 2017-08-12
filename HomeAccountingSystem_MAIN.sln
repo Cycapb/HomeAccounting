@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "HomeAccountingSystem_DAL\DomainModels.csproj", "{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI.Tests", "WebUI.Tests\WebUI.Tests.csproj", "{D17BF1A0-8663-48E1-A0E0-F47F000D24AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessLogic.Tests", "BussinessLogic.Tests\BussinessLogic.Tests.csproj", "{5C083224-AD61-49BF-93D2-0740A368A9C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels.EntityORM.Tests", "DomainModels.EntityORM.Tests\DomainModels.EntityORM.Tests.csproj", "{6A074593-51D7-4BD7-8166-DBB66810A09A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{5C083224-AD61-49BF-93D2-0740A368A9C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C083224-AD61-49BF-93D2-0740A368A9C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C083224-AD61-49BF-93D2-0740A368A9C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A074593-51D7-4BD7-8166-DBB66810A09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A074593-51D7-4BD7-8166-DBB66810A09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A074593-51D7-4BD7-8166-DBB66810A09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A074593-51D7-4BD7-8166-DBB66810A09A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
