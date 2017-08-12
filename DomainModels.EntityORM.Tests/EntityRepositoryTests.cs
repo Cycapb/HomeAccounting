@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DomainModels.Model;
+using Moq;
+using System.Data.Entity;
 
 namespace DomainModels.EntityORM.Tests
 {
@@ -11,8 +13,9 @@ namespace DomainModels.EntityORM.Tests
         [TestCategory("EntityRepositoryTests")]
         public void GetListRaiseEception()
         {
-            
-            var repo = new EntityRepository<Account>();
+            var mockContext = new Mock<AccountingContext>();
+            var repo = new EntityRepository<Account>(mockContext.Object);
+            //mockContext.Setup(x => x.Account).Throws(new excep)
             
         }
     }

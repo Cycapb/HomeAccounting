@@ -13,6 +13,12 @@ namespace DomainModels.EntityORM
         private readonly DbSet<T> _dbSet;
         private readonly AccountingContext _context;
 
+        public EntityRepository(AccountingContext context)
+        {
+            _context = context;
+            _dbSet = _context.Set<T>();
+        }
+
         public EntityRepository()
         {
             _context = new AccountingContext();
