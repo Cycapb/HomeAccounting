@@ -6,7 +6,12 @@ namespace DomainModels.EntityORM.Exceptions
     {
         public DomainModelsException() : base("Возникла ошибка на уровне доступа к данным")
         {
+            
+        }
 
+        public DomainModelsException(string message, Exception innerException):base(message, innerException)
+        {
+            
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using DomainModels.Repositories;
+using DomainModels.EntityORM.Exceptions;
 
 namespace DomainModels.EntityORM
 {
@@ -47,7 +48,14 @@ namespace DomainModels.EntityORM
 
         public IEnumerable<T> GetList()
         {
-            return _dbSet;
+            try
+            {
+                return _dbSet;
+            }
+            catch (Exception ex)
+            {                
+                throw new DomainModelsException("", ex);
+            }            
         }
 
         public virtual Task<IEnumerable<T>> GetListAsync()
