@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BussinessLogic.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using DomainModels.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -18,12 +21,27 @@ namespace BussinessLogic.Services
 
         public IEnumerable<PayingItem> GetList()
         {
-            return _repository.GetList();
+            try
+            {
+                return _repository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
 
         public async Task<PayingItem> GetItemAsync(int id)
         {
-            return await _repository.GetItemAsync(id);
+            try
+            {
+                return await _repository.GetItemAsync(id);
+            }
+            catch (Exception e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
+            
         }
 
         public async Task<IEnumerable<PayingItem>> GetListAsync()
