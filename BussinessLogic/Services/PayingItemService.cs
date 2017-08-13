@@ -71,20 +71,43 @@ namespace BussinessLogic.Services
 
         public async Task UpdateAsync(PayingItem item)
         {
-            await _repository.UpdateAsync(item);
-            await _repository.SaveAsync();
+            try
+            {
+
+                await _repository.UpdateAsync(item);
+                await _repository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task CreateAsync(PayingItem item)
         {
-            await _repository.CreateAsync(item);
-            await _repository.SaveAsync();
+            try
+            {
+                await _repository.CreateAsync(item);
+                await _repository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<PayingItem> GetListByTypeOfFlow(IWorkingUser user, int typeOfFlow)
         {
-            return _repository.GetList()
+            try
+            {
+                return _repository.GetList()
                 .Where(u => u.UserId == user.Id && u.Category.TypeOfFlowID == typeOfFlow);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetListByTypeOfFlow)} при обращении к БД", e);
+            }
+            
         }
     }
 }
