@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using DomainModels.Repositories;
-using DomainModels.EntityORM.Exceptions;
+using DomainModels.Exceptions;
 
 namespace DomainModels.EntityORM
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainModels.EntityORM.Exceptions
+namespace DomainModels.Exceptions
 {
     public class DomainModelsException:Exception
     {
