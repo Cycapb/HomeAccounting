@@ -74,6 +74,7 @@
     <Compile Include="ServicesTests\MailboxServiceTests.cs" />
     <Compile Include="ServicesTests\OrderDetailServiceTests.cs" />
     <Compile Include="ServicesTests\CategoryServiceTests.cs" />
+    <Compile Include="ServicesTests\PayingItemServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

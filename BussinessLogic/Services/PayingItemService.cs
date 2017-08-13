@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BussinessLogic.Exceptions;
@@ -73,7 +72,6 @@ namespace BussinessLogic.Services
         {
             try
             {
-
                 await _repository.UpdateAsync(item);
                 await _repository.SaveAsync();
             }
