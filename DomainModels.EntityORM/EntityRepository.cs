@@ -72,72 +72,155 @@ namespace DomainModels.EntityORM
 
         public void Create(T item)
         {
-            _dbSet.Add(item);
+            try
+            {
+                _dbSet.Add(item);
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
+            
         }
 
         public virtual Task<T> CreateAsync(T item)
         {
-            return Task.Run((() => _dbSet.Add(item)));
+            try
+            {
+                return Task.Run((() => _dbSet.Add(item)));
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
+            
         }
 
         public void Delete(int id)
         {
-            T item = _dbSet.Find(id);
-            if (item != null)
+            try
             {
-                _dbSet.Remove(item);
+                T item = _dbSet.Find(id);
+                if (item != null)
+                {
+                    _dbSet.Remove(item);
+                }
             }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
+
         }
 
         public virtual async Task DeleteAsync(int id)
         {
-            T item = await _dbSet.FindAsync(id);
-            if (item != null)
+            try
             {
-                await Task.Run((() => _dbSet.Remove(item)));
+                T item = await _dbSet.FindAsync(id);
+                if (item != null)
+                {
+                    await Task.Run((() => _dbSet.Remove(item)));
+                }
             }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
+            
         }
 
         public void Update(T item)
         {
-            _context.Entry(item).State = EntityState.Modified;
+            try
+            {
+                _context.Entry(item).State = EntityState.Modified;
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
+            
         }
 
         public virtual Task UpdateAsync(T item)
         {
-            return Task.Run((() =>
+            try
             {
-                _context.Entry(item).State = EntityState.Modified;
-            }));
+                return Task.Run((() =>
+                {
+                    _context.Entry(item).State = EntityState.Modified;
+                }));
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
+            
         }
 
         public void Save()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
         }
 
         public virtual Task SaveAsync()
         {
-            return Task.Run(() => _context.SaveChanges());
+            try
+            {
+                return Task.Run(() => _context.SaveChanges());
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
         }
 
         public Task SaveAsync(IProgress<string> onComplete)
         {
-            return Task.Run(() =>
+            try
             {
-                _context.SaveChanges();
-                onComplete.Report("Данные сохранены в базе");
-           });
+                return Task.Run(() =>
+                {
+                    _context.SaveChanges();
+                    onComplete.Report("Данные сохранены в базе");
+                });
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
         }
 
         public T GetItem(int id)
         {
-            return _dbSet.Find(id);
+            try
+            {
+                return _dbSet.Find(id);
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
         }
 
         public virtual async Task<T> GetItemAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            try
+            {
+                return await _dbSet.FindAsync(id);
+            }
+            catch (Exception e)
+            {
+                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+            }
         }
     }
 }
