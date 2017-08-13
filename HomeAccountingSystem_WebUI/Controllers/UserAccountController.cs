@@ -87,7 +87,7 @@ namespace WebUI.Controllers
                 catch (Exception ex)
                 {
                     throw new WebUIException("Невозможно подключиться к базе авторизации", ex);
-                }                   
+                }
             }
             ViewBag.returnUrl = returnUrl;
             return View(model);
