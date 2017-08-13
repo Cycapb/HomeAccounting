@@ -37,7 +37,7 @@ namespace BussinessLogic.Services
             {
                 return await _repository.GetItemAsync(id);
             }
-            catch (Exception e)
+            catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
             }
@@ -46,13 +46,27 @@ namespace BussinessLogic.Services
 
         public async Task<IEnumerable<PayingItem>> GetListAsync()
         {
-            return await _repository.GetListAsync();
+            try
+            {
+                return await _repository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id);
-            await _repository.SaveAsync();
+            try
+            {
+                await _repository.DeleteAsync(id);
+                await _repository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task UpdateAsync(PayingItem item)
