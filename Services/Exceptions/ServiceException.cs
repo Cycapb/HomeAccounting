@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BussinessLogic.Exceptions
+namespace Services.Exceptions
 {
     public class ServiceException:Exception
     {

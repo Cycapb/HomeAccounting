@@ -54,7 +54,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {                
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T>)}", ex);
             }            
         }
 
@@ -66,7 +66,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }            
         }
 
@@ -76,9 +76,9 @@ namespace DomainModels.EntityORM
             {
                 _dbSet.Add(item);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Create)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
             
         }
@@ -89,9 +89,9 @@ namespace DomainModels.EntityORM
             {
                 return Task.Run((() => _dbSet.Add(item)));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(CreateAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
             
         }
@@ -106,9 +106,9 @@ namespace DomainModels.EntityORM
                     _dbSet.Remove(item);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Delete)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
 
         }
@@ -123,9 +123,9 @@ namespace DomainModels.EntityORM
                     await Task.Run((() => _dbSet.Remove(item)));
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
             
         }
@@ -136,9 +136,9 @@ namespace DomainModels.EntityORM
             {
                 _context.Entry(item).State = EntityState.Modified;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Update)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
             
         }
@@ -152,9 +152,9 @@ namespace DomainModels.EntityORM
                     _context.Entry(item).State = EntityState.Modified;
                 }));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(UpdateAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
             
         }
@@ -165,9 +165,9 @@ namespace DomainModels.EntityORM
             {
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Save)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
 
@@ -177,9 +177,9 @@ namespace DomainModels.EntityORM
             {
                 return Task.Run(() => _context.SaveChanges());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
 
@@ -193,9 +193,9 @@ namespace DomainModels.EntityORM
                     onComplete.Report("Данные сохранены в базе");
                 });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
 
@@ -205,9 +205,9 @@ namespace DomainModels.EntityORM
             {
                 return _dbSet.Find(id);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItem)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
 
@@ -217,9 +217,9 @@ namespace DomainModels.EntityORM
             {
                 return await _dbSet.FindAsync(id);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new DomainModelsException("Возникла ошибка на уровне доступа к данным", e);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItemAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
     }

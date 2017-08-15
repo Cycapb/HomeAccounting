@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BussinessLogic.Exceptions
+namespace Services.Exceptions
 {
     [Serializable]
     public class SendEmailException:Exception

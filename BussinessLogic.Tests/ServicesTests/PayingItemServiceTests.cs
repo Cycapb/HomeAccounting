@@ -1,4 +1,4 @@
-﻿using BussinessLogic.Exceptions;
+﻿using Services.Exceptions;
 using BussinessLogic.Services;
 using DomainModels.Exceptions;
 using DomainModels.Model;
