@@ -7,6 +7,7 @@ using DomainModels.Model;
 using DomainModels.Repositories;
 using DomainModels.Exceptions;
 using Services;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -28,7 +29,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(Create)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(Create)} при обращении к БД", e);
             }
         }
 
@@ -40,7 +41,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
             }
         }
 
@@ -52,7 +53,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
             }
         }
 
@@ -65,7 +66,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
             }
         }
 
@@ -78,7 +79,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
             }
         }
 
@@ -90,7 +91,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(HasAnyDependencies)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(HasAnyDependencies)} при обращении к БД", e);
             }
         }
 
@@ -108,7 +109,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServerException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetList)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
     }
