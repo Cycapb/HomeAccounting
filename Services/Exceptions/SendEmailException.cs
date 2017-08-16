@@ -9,5 +9,7 @@ namespace Services.Exceptions
         {
             
         }
+
+        public SendEmailException(string message, Exception innerException) : base(message, innerException) { }
     }
 }
