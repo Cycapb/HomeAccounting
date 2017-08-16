@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using DomainModels.Repositories;
+using DomainModels.Exceptions;
+using Services.Exceptions;
 using Services;
 
 namespace BussinessLogic.Services
@@ -18,27 +20,62 @@ namespace BussinessLogic.Services
 
         public async Task<IEnumerable<PlanItem>> GetListAsync(string userId)
         {
-            return (await _pItemRepository.GetListAsync()).Where(x => x.UserId == userId);
+            try
+            {
+                return (await _pItemRepository.GetListAsync()).Where(x => x.UserId == userId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<PlanItem> GetItemAsync(int id)
         {
-            return await _pItemRepository.GetItemAsync(id);
+            try
+            {
+                return await _pItemRepository.GetItemAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task CreateAsync(PlanItem planItem)
         {
-            await _pItemRepository.CreateAsync(planItem);
+            try
+            {
+                await _pItemRepository.CreateAsync(planItem);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task UpdateAsync(PlanItem planItem)
         {
-            await _pItemRepository.UpdateAsync(planItem);
+            try
+            {
+                await _pItemRepository.UpdateAsync(planItem);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task SaveAsync()
         {
-            await _pItemRepository.SaveAsync();
+            try
+            {
+                await _pItemRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
+            }
         }
     }
 }
