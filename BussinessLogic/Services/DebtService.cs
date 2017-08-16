@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -20,80 +22,142 @@ namespace BussinessLogic.Services
         }
         public Task CreateAsync(Debt debt)
         {
-            return Task.Run(async () =>
+            try
             {
-                await _debtRepo.CreateAsync(debt);
-                await _debtRepo.SaveAsync();
-                await CreateDebt(debt);
-            });
+                return Task.Run(async () =>
+                {
+                    await _debtRepo.CreateAsync(debt);
+                    await _debtRepo.SaveAsync();
+                    await CreateDebt(debt);
+                });
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task CloseAsync(int id)
         {
-            var item = await _debtRepo.GetItemAsync(id);
-            item.DateEnd = DateTime.Now;
-            await _debtRepo.UpdateAsync(item);
-            await _debtRepo.SaveAsync();
-            await CloseDebt(item);
-
+            try
+            {
+                var item = await _debtRepo.GetItemAsync(id);
+                item.DateEnd = DateTime.Now;
+                await _debtRepo.UpdateAsync(item);
+                await _debtRepo.SaveAsync();
+                await CloseDebt(item);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CloseAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<Debt>> GetItemsAsync(string userId)
         {
-            return (await _debtRepo.GetListAsync())
+            try
+            {
+                return (await _debtRepo.GetListAsync())
                     .Where(x => x.UserId == userId)
                     .ToList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetItemsAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<Debt> GetItemAsync(int id)
         {
-            return await _debtRepo.GetItemAsync(id);
+            try
+            {
+                return await _debtRepo.GetItemAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<Debt> GetItems(string userId)
         {
-            return _debtRepo.GetList().Where(x => x.UserId == userId);
+            try
+            {
+                return _debtRepo.GetList().Where(x => x.UserId == userId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetItems)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<Debt> GetOpenUserDebts(string userId)
         {
-            return _debtRepo.GetList().Where(x => x.UserId == userId && x.DateEnd == null);
+            try
+            {
+                return _debtRepo.GetList().Where(x => x.UserId == userId && x.DateEnd == null);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetOpenUserDebts)} при обращении к БД", e);
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _debtRepo.DeleteAsync(id);
-            await _debtRepo.SaveAsync();
+            try
+            {
+                await _debtRepo.DeleteAsync(id);
+                await _debtRepo.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
         }
 
         private async Task CreateDebt(Debt debt)
         {
-            var acc = await _accRepo.GetItemAsync(debt.AccountId);
-            if (debt.TypeOfFlowId == 1)
+            try
             {
-                acc.Cash += debt.Summ;
+                var acc = await _accRepo.GetItemAsync(debt.AccountId);
+                if (debt.TypeOfFlowId == 1)
+                {
+                    acc.Cash += debt.Summ;
+                }
+                else
+                {
+                    acc.Cash -= debt.Summ;
+                }
+                await _accRepo.UpdateAsync(acc);
+                await _accRepo.SaveAsync();
             }
-            else
+            catch (DomainModelsException e)
             {
-                acc.Cash -= debt.Summ;
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CreateDebt)} при обращении к БД", e);
             }
-            await _accRepo.UpdateAsync(acc);
-            await _accRepo.SaveAsync();
         }
 
         private async Task CloseDebt(Debt debt)
         {
-            var acc = await _accRepo.GetItemAsync(debt.AccountId);
-            if (debt.TypeOfFlowId == 1)
+            try
             {
-                acc.Cash -= debt.Summ;
+                var acc = await _accRepo.GetItemAsync(debt.AccountId);
+                if (debt.TypeOfFlowId == 1)
+                {
+                    acc.Cash -= debt.Summ;
+                }
+                else
+                {
+                    acc.Cash += debt.Summ;
+                }
+                await _accRepo.UpdateAsync(acc);
+                await _accRepo.SaveAsync();
             }
-            else
+            catch (DomainModelsException e)
             {
-                acc.Cash += debt.Summ;
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CloseDebt)} при обращении к БД", e);
             }
-            await _accRepo.UpdateAsync(acc);
-            await _accRepo.SaveAsync();
         }
     }
 }
