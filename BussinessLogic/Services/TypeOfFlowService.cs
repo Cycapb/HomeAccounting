@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -17,22 +19,50 @@ namespace BussinessLogic.Services
 
         public IEnumerable<TypeOfFlow> GetList()
         {
-            return _tofRepository.GetList();
+            try
+            {
+                return _tofRepository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<Category> GetCategories(int typeOfFlowId)
         {
-            return _tofRepository.GetItem(typeOfFlowId).Category;
+            try
+            {
+                return _tofRepository.GetItem(typeOfFlowId).Category;
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetCategories)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<TypeOfFlow>> GetListAsync()
         {
-            return await _tofRepository.GetListAsync();
+            try
+            {
+                return await _tofRepository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync(int typeOfFlowId)
         {
-            return (await _tofRepository.GetItemAsync(typeOfFlowId)).Category;
+            try
+            {
+                return (await _tofRepository.GetItemAsync(typeOfFlowId)).Category;
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetCategoriesAsync)} при обращении к БД", e);
+            }
         }
     }
 }
