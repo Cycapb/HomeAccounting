@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using Services.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
@@ -30,33 +31,70 @@ namespace BussinessLogic.Services
                 Active = true
             };
 
-            var newOrder = await _orderRepository.CreateAsync(order);
-            await _orderRepository.SaveAsync();
-            return newOrder;
+            try
+            {
+                var newOrder = await _orderRepository.CreateAsync(order);
+                await _orderRepository.SaveAsync();
+                return newOrder;
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CreateOrderAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _orderRepository.DeleteAsync(id);
-            await _orderRepository.SaveAsync();
+            try
+            {
+                await _orderRepository.DeleteAsync(id);
+                await _orderRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
+            
         }
 
         public async Task UpdateAsync(Order order)
         {
-            await _orderRepository.UpdateAsync(order);
-            await _orderRepository.SaveAsync();
+            try
+            {
+                await _orderRepository.UpdateAsync(order);
+                await _orderRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<Order>> GetList(string userId)
         {
-            return (await _orderRepository.GetListAsync())
-                .Where(x => x.UserId == userId);
+            try
+            {
+                return (await _orderRepository.GetListAsync())
+                    .Where(x => x.UserId == userId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
 
         public void SendByEmail(int orderId, string mailTo)
         {
-            var order = _orderRepository.GetItem(orderId);
-
+            Order order = null;
+            try
+            {
+                order = _orderRepository.GetItem(orderId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при обращении к БД", e);
+            }
+            
             if (order == null)
             {
                 return;
@@ -75,26 +113,41 @@ namespace BussinessLogic.Services
             {                
                 _emailSender.Send(message.ToString(), mailTo);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw  new SendEmailException();
+                throw  new SendEmailException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", ex);
             }
         }
 
         public async Task CloseOrder(int id)
         {
-            var order = await _orderRepository.GetItemAsync(id);
-            if (order != null)
+            try
             {
-                order.Active = false;
-                await _orderRepository.UpdateAsync(order);
-                await _orderRepository.SaveAsync();
+                var order = await _orderRepository.GetItemAsync(id);
+                if (order != null)
+                {
+                    order.Active = false;
+                    await _orderRepository.UpdateAsync(order);
+                    await _orderRepository.SaveAsync();
+                }
             }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CloseOrder)} при обращении к БД", e);
+            }
+            
         }
 
         public async Task<Order> GetOrderAsync(int id)
         {
-            return await _orderRepository.GetItemAsync(id);
+            try
+            {
+                return await _orderRepository.GetItemAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetOrderAsync)} при обращении к БД", e);
+            }
         }
     }
 }
