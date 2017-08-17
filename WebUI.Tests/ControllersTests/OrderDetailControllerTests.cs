@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 
-namespace WebUI.Tests.ControllerTests
+namespace WebUI.Tests.ControllersTests
 {
     [TestClass]
     public class OrderDetailControllerTests

@@ -2,11 +2,10 @@
 using System.Reflection;
 using System.Web;
 using System.Web.Routing;
-using WebUI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace WebUI.Tests.ControllerTests
+namespace WebUI.Tests.ControllersTests
 {
     [TestClass]
     public class UrlsAndRoutesTest
