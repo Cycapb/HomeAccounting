@@ -25,10 +25,12 @@ namespace WebUI.Tests.ControllersTests
         };
 
         private readonly Mock<IAccountService> _mockAccountService;
+        private readonly AccountController _target;
 
         public AccountControllerTests()
         {
             _mockAccountService = new Mock<IAccountService>();
+            _target = new AccountController(_mockAccountService.Object);
         }
 
         [TestMethod]
@@ -71,6 +73,31 @@ namespace WebUI.Tests.ControllersTests
             try
             {
                 await target.Index(new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_InputWebUser_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            var target = new AccountController(_mockAccountService.Object);
+
+            await target.Edit(new WebUser(), 1);
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Edit_InputWebUser_RaiseWebuiExceptionWithInnerException()
+        {
+            try
+            {
+                await _target.Edit(new WebUser(), 1);
             }
             catch (WebUiException e)
             {

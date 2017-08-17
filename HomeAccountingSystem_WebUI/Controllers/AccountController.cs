@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -41,12 +42,19 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Edit(WebUser user, int id)
         {
-            var acc = await _accountService.GetItemAsync(id);
-            if (acc != null)
+            try
             {
-                return PartialView(acc);
+                var acc = await _accountService.GetItemAsync(id);
+                if (acc != null)
+                {
+                    return PartialView(acc);
+                }
+                return PartialView(new Account() { UserId = user.Id });
             }
-            return PartialView(new Account() {UserId = user.Id});
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Edit)}", e);
+            }
         }
 
         [HttpPost]
