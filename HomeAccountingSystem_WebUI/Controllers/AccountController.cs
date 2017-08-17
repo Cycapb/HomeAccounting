@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
+using NLog;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -14,6 +18,7 @@ namespace WebUI.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public AccountController(IAccountService accountService)
         {
@@ -22,10 +27,17 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Index(WebUser user)
         {
-            var list = (await _accountService.GetListAsync())
+            try
+            {
+                var list = (await _accountService.GetListAsync())
                 .Where(x => x.UserId == user.Id)
                 .ToList();
-            return PartialView(list);
+                return PartialView(list);
+            }
+            catch (ServiceException e)
+            {
+                throw  new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
+            }
         }
 
         public async Task<ActionResult> Edit(WebUser user, int id)
