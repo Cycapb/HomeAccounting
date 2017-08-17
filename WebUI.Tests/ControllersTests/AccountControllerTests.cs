@@ -8,6 +8,8 @@ using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -45,9 +47,17 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(model[1].AccountID, 3);
         }
 
-        //[TestMethod]
-        //[TestCategory("AccountControllerTests")]
-        //public async Task IndexRaise
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task IndexRaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            var target = new AccountController(_mockAccountService.Object);
+
+            await target.Index(new WebUser());
+        }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
