@@ -93,7 +93,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task Edit_InputWebUser_RaiseWebuiExceptionWithInnerException()
+        public async Task Edit_InputWebUser_RaiseWebuiExceptionWithInnerServiceException()
         {
             try
             {
@@ -103,6 +103,16 @@ namespace WebUI.Tests.ControllersTests
             {
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_InputAccount_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            await _target.Edit(new Account());
         }
 
         [TestMethod]
