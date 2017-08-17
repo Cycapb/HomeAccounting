@@ -110,9 +110,9 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public async Task Edit_InputAccount_RaiseWebUiException()
         {
-            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _mockAccountService.Setup(x => x.UpdateAsync(It.IsAny<Account>())).Throws<ServiceException>();
 
-            await _target.Edit(new Account());
+            await _target.Edit(new Account(){AccountID = 1});
         }
 
         [TestMethod]

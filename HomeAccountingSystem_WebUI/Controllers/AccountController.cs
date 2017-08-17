@@ -72,8 +72,16 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                await _accountService.UpdateAsync(account);
-                return RedirectToAction("Index");
+                try
+                {
+                    await _accountService.UpdateAsync(account);
+                    return RedirectToAction("Index");
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Edit)}", e);
+                }
+                
             }
 
             return PartialView(account);
