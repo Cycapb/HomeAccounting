@@ -34,7 +34,7 @@ namespace WebUI.Infrastructure
                 message.AppendLine(ex.InnerException?.Message);
                 message.AppendLine(ex.StackTrace);
                 _logger.Error(message.ToString());
-                throw new WebUIException("Ошибка подключения к базе авторизации", ex);
+                throw new WebUiException("Ошибка подключения к базе авторизации", ex);
             }
             
         }

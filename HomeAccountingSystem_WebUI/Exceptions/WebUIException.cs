@@ -2,9 +2,14 @@
 
 namespace WebUI.Exceptions
 {
-    public class WebUIException:Exception
+    public class WebUiException:Exception
     {
-        public WebUIException(string message, Exception innerException):base(message, innerException)
+        public WebUiException():base("Ошибка в контроллере")
+        {
+            
+        }
+
+        public WebUiException(string message, Exception innerException):base(message, innerException)
         {
                 
         }
