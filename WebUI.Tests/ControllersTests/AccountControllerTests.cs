@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -57,6 +58,24 @@ namespace WebUI.Tests.ControllersTests
             var target = new AccountController(_mockAccountService.Object);
 
             await target.Index(new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task IndexRaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            var target = new AccountController(_mockAccountService.Object);
+
+            try
+            {
+                await target.Index(new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
         }
 
         [TestMethod]
