@@ -143,6 +143,32 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Delete_InputInt_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            await _target.Delete(new WebUser(), 1);
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Delete_InputInt_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            try
+            {
+                await _target.Delete(new WebUser(), 1);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputIdReturnsNewAccount()
         {
             Account acc = null;

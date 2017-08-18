@@ -111,9 +111,16 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Delete(WebUser user,int id)
         {
-            if (!_accountService.HasAnyDependencies(id))
+            try
             {
-                await _accountService.DeleteAsync(id);
+                if (!_accountService.HasAnyDependencies(id))
+                {
+                    await _accountService.DeleteAsync(id);
+                }
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Delete)}", e);
             }
             return RedirectToAction("Index");
         }
