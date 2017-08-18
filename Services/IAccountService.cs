@@ -6,7 +6,7 @@ namespace Services
 {
     public interface IAccountService
     {
-        Task Create(Account item);
+        Task CreateAsync(Account item);
         Task<Account> GetItemAsync(int id);
         Task<IEnumerable<Account>> GetListAsync();
         IEnumerable<Account> GetList();

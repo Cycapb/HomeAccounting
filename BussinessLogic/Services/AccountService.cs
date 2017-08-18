@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using DomainModels.Repositories;
@@ -20,7 +18,7 @@ namespace BussinessLogic.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task Create(Account item)
+        public async Task CreateAsync(Account item)
         {
             try
             {
@@ -29,7 +27,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(Create)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
             }
         }
 

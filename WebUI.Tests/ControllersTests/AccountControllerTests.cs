@@ -117,6 +117,16 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Add_InputAccount_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.CreateAsync(It.IsAny<Account>())).Throws<ServiceException>();
+
+            await _target.Add(new WebUser(), new Account());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputIdReturnsNewAccount()
         {
             Account acc = null;
@@ -197,7 +207,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = await target.Add(new WebUser() { Id = "1" }, account);
 
-            _mockAccountService.Verify(m => m.Create(account),Times.Once);
+            _mockAccountService.Verify(m => m.CreateAsync(account),Times.Once);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
 

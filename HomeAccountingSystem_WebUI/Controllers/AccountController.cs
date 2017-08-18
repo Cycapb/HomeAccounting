@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -81,7 +80,6 @@ namespace WebUI.Controllers
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Edit)}", e);
                 }
-                
             }
 
             return PartialView(account);
@@ -97,7 +95,7 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _accountService.Create(account);
+                await _accountService.CreateAsync(account);
                 return RedirectToAction("Index");
             }
             return PartialView(account);
