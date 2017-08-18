@@ -142,21 +142,28 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> TransferMoney(WebUser user, TransferModel tModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var accFrom = await _accountService.GetItemAsync(tModel.FromId);
-                if (!_accountService.HasEnoughMoney(accFrom, decimal.Parse(tModel.Summ)))
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("", "Недостаточно средств на исходном счету");
-                    await FillTransferModel(user, tModel);
-                    return PartialView(tModel);
+                    var accFrom = await _accountService.GetItemAsync(tModel.FromId);
+                    if (!_accountService.HasEnoughMoney(accFrom, decimal.Parse(tModel.Summ)))
+                    {
+                        ModelState.AddModelError("", "Недостаточно средств на исходном счету");
+                        await FillTransferModel(user, tModel);
+                        return PartialView(tModel);
+                    }
+                    var accTo = await _accountService.GetItemAsync(tModel.ToId);
+                    await TransferMoney(accFrom, accTo, tModel.Summ);
+                    return RedirectToAction("TransferMoney");
                 }
-                var accTo = await _accountService.GetItemAsync(tModel.ToId);
-                await TransferMoney(accFrom, accTo, tModel.Summ);
-                return RedirectToAction("TransferMoney");
+                await FillTransferModel(user, tModel);
+                return PartialView(tModel);
             }
-            await FillTransferModel(user, tModel);
-            return PartialView(tModel);
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
+            }
         }
 
         public async Task<PartialViewResult> GetItems(int id, WebUser user)
