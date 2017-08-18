@@ -221,6 +221,32 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task GetItems_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            await _target.GetItems(1, new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task GetItems_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            try
+            {
+                await _target.GetItems(1, new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
         public async Task EditInputIdReturnsNewAccount()
         {
             Account acc = null;

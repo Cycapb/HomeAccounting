@@ -168,10 +168,17 @@ namespace WebUI.Controllers
 
         public async Task<PartialViewResult> GetItems(int id, WebUser user)
         {
-            var list = (await _accountService.GetListAsync())
+            try
+            {
+                var list = (await _accountService.GetListAsync())
                 .Where(x => x.AccountID != id && x.UserId == user.Id)
                 .ToList();
-            return PartialView(list);
+                return PartialView(list);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(GetItems)}", e);
+            }
         }
 
         private async Task FillTransferModel(WebUser user, TransferModel tModel)
