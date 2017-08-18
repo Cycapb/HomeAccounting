@@ -127,9 +127,16 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> TransferMoney(WebUser user)
         {
-            var transfer = new TransferModel();
-            await FillTransferModel(user, transfer);
-            return PartialView(transfer);
+            try
+            {
+                var transfer = new TransferModel();
+                await FillTransferModel(user, transfer);
+                return PartialView(transfer);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
+            }
         }
 
         [HttpPost]

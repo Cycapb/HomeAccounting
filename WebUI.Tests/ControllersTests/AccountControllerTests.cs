@@ -167,6 +167,32 @@ namespace WebUI.Tests.ControllersTests
             }
         }
 
+        [TestCategory("AccountControllerTests")]
+        [TestMethod]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task TransferMoney_InputWebUser_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            await _target.TransferMoney(new WebUser());
+        }
+
+        [TestCategory("AccountControllerTests")]
+        [TestMethod]
+        public async Task TransferMoney_InputWebUser_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            try
+            {
+                await _target.TransferMoney(new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
         [TestMethod]
         [TestCategory("AccountControllerTests")]
         public async Task EditInputIdReturnsNewAccount()
