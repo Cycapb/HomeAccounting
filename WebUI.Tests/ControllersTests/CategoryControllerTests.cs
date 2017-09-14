@@ -9,6 +9,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 using System;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -271,6 +273,36 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsNotNull(model);
             Assert.AreEqual(viewName, "CategorySummaryPartial");
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
+
+        [TestCategory("CategoryControllerTests")]
+        [TestMethod]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_ThrowsWebuiException()
+        {
+            _catService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _tofService.Setup(x => x.GetListAsync()).ReturnsAsync(new List<TypeOfFlow>());
+            var target = new CategoryController(_tofService.Object, null, _catService.Object, null);
+
+            await target.Edit(1);
+        }
+
+        [TestCategory("CategoryControllerTests")]
+        [TestMethod]
+        public async Task Edit_ThrowsWebuiException_WithInnerServiceException()
+        {
+            _catService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _tofService.Setup(x => x.GetListAsync()).ReturnsAsync(new List<TypeOfFlow>());
+            var target = new CategoryController(_tofService.Object, null, _catService.Object, null);
+
+            try
+            {
+                await target.Edit(1);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
         }
     }
 }

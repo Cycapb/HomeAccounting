@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -7,6 +8,8 @@ using DomainModels.Model;
 using WebUI.Abstract;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -65,7 +68,16 @@ namespace WebUI.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
-            var item = await _categoryService.GetItemAsync(id);
+            Category item = null;
+            try
+            {
+                item = await _categoryService.GetItemAsync(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Edit)}", e);
+            }
+            
             if (item == null)
             {
                 return RedirectToAction("Index");
@@ -82,11 +94,8 @@ namespace WebUI.Controllers
                 await _categoryService.SaveAsync();
                 return RedirectToAction("GetCategoriesAndPages");
             }
-            else
-            {
-                ViewBag.TypesOfFlow = await GetTypesOfFlow();
-                return PartialView(category);
-            }
+            ViewBag.TypesOfFlow = await GetTypesOfFlow();
+            return PartialView(category);
         }
 
         [HttpGet]
