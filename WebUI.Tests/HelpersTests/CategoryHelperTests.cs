@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services;
 using Moq;
@@ -6,6 +7,8 @@ using WebUI.Helpers;
 using DomainModels.Model;
 using System.Collections.Generic;
 using System.Linq;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -83,28 +86,71 @@ namespace WebUI.Tests.HelpersTests
 
         }
 
+        [TestCategory("CategoryHelperTests")]
+        [TestMethod]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task CreateCategoriesViewModel_ThrowsWebUIException()
+        {
+            _categoryService.Setup(x => x.GetListAsync()).Throws<WebUiException>();
+
+            var target = new CategoryHelper(_categoryService.Object);
+            await target.CreateCategoriesViewModel(1, 1, null);
+        }
+
+        [TestCategory("CategoryHelperTests")]
+        [TestMethod]
+        public async Task CreateCategoriesViewModel_ThrowsWebUiException_WithInnerServcieException()
+        {
+            try
+            {
+                _categoryService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+                var target = new CategoryHelper(_categoryService.Object);
+                await target.CreateCategoriesViewModel(1, 1, null);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+            
+        }
+
+        [TestCategory("CategoryHelperTests")]
+        [TestMethod]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task GetCategoriesToShowOnPage_ThrowsWebUiException()
+        {
+            _categoryService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            var target = new CategoryHelper(_categoryService.Object);
+            await target.GetCategoriesToShowOnPage(1, 1, null);
+        }
+
+        [TestCategory("CategoryHelperTests")]
+        [TestMethod]
+        public async Task GetCategoriesToShowOnPage_ThrowsWebUiException_WithInnerServiceException()
+        {
+            _categoryService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            try
+            {
+                var target = new CategoryHelper(_categoryService.Object);
+                await target.GetCategoriesToShowOnPage(1, 1, null);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
         private bool CheckByUserId(Category category)
         {
-            if (category.UserId == "1")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return category.UserId == "1";
         }
 
         private bool CheckByUserIdTypeOfFlowId(Category category)
         {
-            if (category.UserId == "1" && category.TypeOfFlowID == 2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return category.UserId == "1" && category.TypeOfFlowID == 2;
         }
     }
 }
