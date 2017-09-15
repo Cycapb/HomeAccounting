@@ -90,9 +90,16 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.UpdateAsync(category);
-                await _categoryService.SaveAsync();
-                return RedirectToAction("GetCategoriesAndPages");
+                try
+                {
+                    await _categoryService.UpdateAsync(category);
+                    await _categoryService.SaveAsync();
+                    return RedirectToAction("GetCategoriesAndPages");
+                }
+                catch (Exception e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Edit)}", e);
+                }
             }
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
             return PartialView(category);
@@ -110,30 +117,51 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.CreateAsync(category);
-                await _planningHelper.CreatePlanItemsForCategory(user, category.CategoryID);
+                try
+                {
+                    await _categoryService.CreateAsync(category);
+                    await _planningHelper.CreatePlanItemsForCategory(user, category.CategoryID);
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Add)}", e);
+                }
+                
                 return RedirectToAction("GetCategoriesAndPages");
             }
-            else
-            {
-                ViewBag.TypesOfFlow = await GetTypesOfFlow();
-                return PartialView(category);
-            }
+
+            ViewBag.TypesOfFlow = await GetTypesOfFlow();
+            return PartialView(category);
         }
 
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            if (! await _categoryService.HasDependencies(id))
+            try
             {
-                await _categoryService.DeleteAsync(id);
+                if (!await _categoryService.HasDependencies(id))
+                {
+                    await _categoryService.DeleteAsync(id);
+                }
             }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Delete)}", e);
+            }
+
             return RedirectToAction("GetCategoriesAndPages");
         }
 
         private async Task<IEnumerable<TypeOfFlow>> GetTypesOfFlow()
         {
-            return (await _tofService.GetListAsync()).ToList();
+            try
+            {
+                return (await _tofService.GetListAsync()).ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetTypesOfFlow)}", e);
+            }
         }
     }
 }
