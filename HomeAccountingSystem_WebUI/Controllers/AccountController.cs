@@ -38,7 +38,7 @@ namespace WebUI.Controllers
             }
             catch (Exception e)
             {
-                throw  new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
+                throw  new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
             }
         }
 
@@ -103,7 +103,7 @@ namespace WebUI.Controllers
                     await _accountService.CreateAsync(account);
                     return RedirectToAction("Index");
                 }
-                catch (Exception e)
+                catch (ServiceException e)
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Add)}", e);
                 }
@@ -129,16 +129,17 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> TransferMoney(WebUser user)
         {
+            var transfer = new TransferModel();
             try
             {
-                var transfer = new TransferModel();
                 await FillTransferModel(user, transfer);
-                return PartialView(transfer);
             }
-            catch (ServiceException e)
+            catch (Exception e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
+                throw new WebUiException(
+                    $"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
             }
+            return PartialView(transfer);
         }
 
         [HttpPost]
@@ -162,9 +163,13 @@ namespace WebUI.Controllers
                 await FillTransferModel(user, tModel);
                 return PartialView(tModel);
             }
-            catch (Exception e)
+            catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
             }
         }
 
@@ -180,6 +185,10 @@ namespace WebUI.Controllers
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(GetItems)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(GetItems)}", e);
             }
         }
 

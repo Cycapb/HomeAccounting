@@ -210,7 +210,7 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public async Task TransferMoney_InputTransferModel_RaiseWebUiException()
         {
-            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<Exception>();
 
             await _target.TransferMoney(new WebUser(), new TransferModel());
         }
