@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -18,57 +21,125 @@ namespace BussinessLogic.Services
 
         public async Task CreateAsync(Category item)
         {
-            item.Active = true;
-            await _categoryRepository.CreateAsync(item);
-            await _categoryRepository.SaveAsync();
+            try
+            {
+                item.Active = true;
+                await _categoryRepository.CreateAsync(item);
+                await _categoryRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<Category> GetItemAsync(int id)
         {
-            return await _categoryRepository.GetItemAsync(id);
+            try
+            {
+                return await _categoryRepository.GetItemAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<Category>> GetListAsync()
         {
-            return await _categoryRepository.GetListAsync();
+            try
+            {
+                return await _categoryRepository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _categoryRepository.DeleteAsync(id);
-            await _categoryRepository.SaveAsync();
+            try
+            {
+                await _categoryRepository.DeleteAsync(id);
+                await _categoryRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task UpdateAsync(Category item)
         {
-            await _categoryRepository.UpdateAsync(item);
+            try
+            {
+                await _categoryRepository.UpdateAsync(item);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task SaveAsync()
         {
-            await _categoryRepository.SaveAsync();
+            try
+            {
+                await _categoryRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<Product>> GetProducts(int id)
         {
-            return (await _categoryRepository.GetItemAsync(id)).Product;
+            try
+            {
+                return (await _categoryRepository.GetItemAsync(id)).Product;
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetProducts)} при обращении к БД", e);
+            }
         }
 
         public async Task<bool> HasDependencies(int id)
         {
-            var cat = await _categoryRepository.GetItemAsync(id);
-            return cat.PayingItem.Any();
+            try
+            {
+                return (await _categoryRepository.GetItemAsync(id)).PayingItem.Any();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(HasDependencies)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<Category>> GetActiveGategoriesByUser(string userId)
         {
-            var cats = await _categoryRepository.GetListAsync();
-            return cats?.Where(x => x.Active && x.UserId == userId);
+            try
+            {
+                return (await _categoryRepository.GetListAsync())?.Where(x => x.Active && x.UserId == userId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetActiveGategoriesByUser)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<Category> GetList()
         {
-            return _categoryRepository.GetList();
+            try
+            {
+                return _categoryRepository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -8,8 +9,10 @@ using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
-namespace WebUI.Tests.ControllerTests
+namespace WebUI.Tests.ControllersTests
 {
     [TestClass]
     public class AccountControllerTests
@@ -22,10 +25,12 @@ namespace WebUI.Tests.ControllerTests
         };
 
         private readonly Mock<IAccountService> _mockAccountService;
+        private readonly AccountController _target;
 
         public AccountControllerTests()
         {
             _mockAccountService = new Mock<IAccountService>();
+            _target = new AccountController(_mockAccountService.Object);
         }
 
         [TestMethod]
@@ -45,6 +50,212 @@ namespace WebUI.Tests.ControllerTests
             Assert.AreEqual(model[1].AccountID, 3);
         }
 
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Index_RaiseWebUiExceptionIfException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<Exception>();
+
+            var target = new AccountController(_mockAccountService.Object);
+
+            await target.Index(new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Index_RaiseWebUiExceptionIfServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            var target = new AccountController(_mockAccountService.Object);
+
+            await target.Index(new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Index_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            var target = new AccountController(_mockAccountService.Object);
+
+            try
+            {
+                await target.Index(new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_InputWebUser_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            var target = new AccountController(_mockAccountService.Object);
+
+            await target.Edit(new WebUser(), 1);
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Edit_InputWebUser_RaiseWebuiExceptionWithInnerServiceException()
+        {
+            try
+            {
+                await _target.Edit(new WebUser(), 1);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_InputAccount_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.UpdateAsync(It.IsAny<Account>())).Throws<ServiceException>();
+
+            await _target.Edit(new Account(){AccountID = 1});
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Add_InputAccount_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.CreateAsync(It.IsAny<Account>())).Throws<ServiceException>();
+
+            await _target.Add(new WebUser(), new Account());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Add_InputAccount_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.CreateAsync(It.IsAny<Account>())).Throws<ServiceException>();
+
+            try
+            {
+                await _target.Add(new WebUser(), new Account());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Delete_InputInt_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            await _target.Delete(new WebUser(), 1);
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Delete_InputInt_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            try
+            {
+                await _target.Delete(new WebUser(), 1);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestCategory("AccountControllerTests")]
+        [TestMethod]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task TransferMoney_InputWebUser_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            await _target.TransferMoney(new WebUser());
+        }
+
+        [TestCategory("AccountControllerTests")]
+        [TestMethod]
+        public async Task TransferMoney_InputWebUser_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            try
+            {
+                await _target.TransferMoney(new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task TransferMoney_InputTransferModel_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<Exception>();
+
+            await _target.TransferMoney(new WebUser(), new TransferModel());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task TransferMoney_InputTransferModel_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            try
+            {
+                await _target.TransferMoney(new WebUser(), new TransferModel());
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task GetItems_RaiseWebUiException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            await _target.GetItems(1, new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task GetItems_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+
+            try
+            {
+                await _target.GetItems(1, new WebUser());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
@@ -128,7 +339,7 @@ namespace WebUI.Tests.ControllerTests
 
             var result = await target.Add(new WebUser() { Id = "1" }, account);
 
-            _mockAccountService.Verify(m => m.Create(account),Times.Once);
+            _mockAccountService.Verify(m => m.CreateAsync(account),Times.Once);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
 

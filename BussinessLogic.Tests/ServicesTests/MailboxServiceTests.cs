@@ -7,6 +7,8 @@ using BussinessLogic.Services;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using DomainModels.Exceptions;
+using Services.Exceptions;
 
 namespace BussinessLogic.Tests.ServicesTests
 {
@@ -41,12 +43,12 @@ namespace BussinessLogic.Tests.ServicesTests
 
         [TestMethod]
         [TestCategory("MailboxServiceTests")]
-        public async Task AddAsync_ThrowsException()
+        [ExpectedException(typeof(ServiceException))]
+        public async Task AddAsync_ThrowsServiceException()
         {
-            _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>()))
-                .ThrowsAsync<IRepository<NotificationMailBox>,NotificationMailBox>(new NotImplementedException());
+            _repository.Setup(x => x.CreateAsync(It.IsAny<NotificationMailBox>())).Throws<DomainModelsException>();
             
-            var result = await _service.AddAsync(new NotificationMailBox());            
+            await _service.AddAsync(new NotificationMailBox());            
         }
 
         [TestMethod]

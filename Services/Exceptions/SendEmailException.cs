@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BussinessLogic.Exceptions
+namespace Services.Exceptions
 {
     [Serializable]
     public class SendEmailException:Exception
@@ -9,5 +9,7 @@ namespace BussinessLogic.Exceptions
         {
             
         }
+
+        public SendEmailException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

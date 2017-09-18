@@ -18,6 +18,14 @@ namespace WebUI.Infrastructure
                 errorMessage.AppendLine($"Контроллер: {filterContext.RouteData.Values["controller"]} Метод: {filterContext.RouteData.Values["action"]}");
                 errorMessage.AppendLine($"Ошибка: {filterContext.Exception.Message}");
                 errorMessage.AppendLine($"Трассировка стэка: {filterContext.Exception.StackTrace}");
+                errorMessage.AppendLine("----------------Конец исключения----------------");
+                errorMessage.AppendLine("");
+                errorMessage.AppendLine($"InnerException: {filterContext.Exception.InnerException?.Message}");
+                errorMessage.AppendLine($"InnerException StackTrace: {filterContext.Exception.InnerException?.StackTrace}");
+                errorMessage.AppendLine($"----------------Конец исключения----------------");
+                errorMessage.AppendLine("");
+                errorMessage.AppendLine($"InnerException: {filterContext.Exception.InnerException?.InnerException?.Message}");
+                errorMessage.AppendLine($"InnerException StackTrace: {filterContext.Exception.InnerException?.InnerException?.StackTrace}");
                 Logger.Error(errorMessage.ToString);
 
                 filterContext.Result = new ViewResult()

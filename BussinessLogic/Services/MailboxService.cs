@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using DomainModels.Repositories;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using Services;
 using NLog;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -21,34 +23,55 @@ namespace BussinessLogic.Services
 
         public async Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox)
         {
-            NotificationMailBox box = null;
             try
             {
-                box = await _repository.CreateAsync(mailbox);
-                await _repository.SaveAsync();                
+                var box = await _repository.CreateAsync(mailbox);
+                await _repository.SaveAsync();
+                return box;
             }
-            catch (Exception ex)
+            catch (DomainModelsException e)
             {
-                var message = CreateMessage(ex);
+                var message = CreateMessage(e);
                 LogManager.Error(message);
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(AddAsync)} при обращении к БД", e);
             }
-            return box;
         }        
 
         public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id);
-            await _repository.SaveAsync();
+            try
+            {
+                await _repository.DeleteAsync(id);
+                await _repository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<NotificationMailBox> GetItemAsync(int id)
         {
-            return await _repository.GetItemAsync(id);
+            try
+            {
+                return await _repository.GetItemAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<NotificationMailBox>> GetListAsync()
         {
-            return await  _repository.GetListAsync();
+            try
+            {
+                return await _repository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
         }
 
         private string CreateMessage(Exception ex)
@@ -62,13 +85,27 @@ namespace BussinessLogic.Services
 
         public async Task UpdateAsync(NotificationMailBox item)
         {
-            await _repository.UpdateAsync(item);
-            await _repository.SaveAsync();
+            try
+            {
+                await _repository.UpdateAsync(item);
+                await _repository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<NotificationMailBox> GetList()
         {
-            return _repository.GetList();
+            try
+            {
+                return _repository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
     }
 }

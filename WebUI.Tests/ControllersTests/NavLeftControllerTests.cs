@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Web.Mvc;
 using DomainModels.Model;
-using DomainModels.Repositories;
 using WebUI.Controllers;
 using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 
-namespace WebUI.Tests.ControllerTests
+namespace WebUI.Tests.ControllersTests
 {
     [TestClass]
     public class NavLeftControllerTests

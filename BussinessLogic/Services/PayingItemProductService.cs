@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -17,37 +19,86 @@ namespace BussinessLogic.Services
 
         public async Task CreateAsync(PaiyngItemProduct product)
         {
-            await _pItemRepository.CreateAsync(product);
+            try
+            {
+                await _pItemRepository.CreateAsync(product);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task<PaiyngItemProduct> GetItemAsync(int id)
         {
-            return await _pItemRepository.GetItemAsync(id);
+            try
+            {
+                return await _pItemRepository.GetItemAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
         }
 
         public IEnumerable<PaiyngItemProduct> GetList()
         {
-            return _pItemRepository.GetList();
+            try
+            {
+                return _pItemRepository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
 
         public async Task<IEnumerable<PaiyngItemProduct>> GetListAsync()
         {
-            return await _pItemRepository.GetListAsync();
+            try
+            {
+                return await _pItemRepository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _pItemRepository.DeleteAsync(id);
+            try
+            {
+                await _pItemRepository.DeleteAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task UpdateAsync(PaiyngItemProduct item)
         {
-            await _pItemRepository.UpdateAsync(item);
+            try
+            {
+                await _pItemRepository.UpdateAsync(item);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
+            }
         }
 
         public async Task SaveAsync()
         {
-            await _pItemRepository.SaveAsync();
+            try
+            {
+                await _pItemRepository.SaveAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
+            }
         }
     }
 }

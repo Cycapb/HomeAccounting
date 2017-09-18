@@ -10,14 +10,14 @@ namespace WebUI
     {
         public void Configuration(IAppBuilder app)
         {
-            app.CreatePerOwinContext<AccIdentityDbContext>(AccIdentityDbContext.Create);
-            app.CreatePerOwinContext<AccUserManager>(AccUserManager.Create);
-            app.CreatePerOwinContext<AccRoleManager>(AccRoleManager.Create);
-            app.UseCookieAuthentication(new CookieAuthenticationOptions()
-            {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/UserAccount/Login")
-            });
+                app.CreatePerOwinContext<AccIdentityDbContext>(AccIdentityDbContext.Create);
+                app.CreatePerOwinContext<AccUserManager>(AccUserManager.Create);
+                app.CreatePerOwinContext<AccRoleManager>(AccRoleManager.Create);
+                app.UseCookieAuthentication(new CookieAuthenticationOptions()
+                {
+                    AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                    LoginPath = new PathString("/UserAccount/Login")
+                });            
         }
     }
 }
