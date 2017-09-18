@@ -7,7 +7,6 @@ using Services;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Services.Exceptions;
-using WebUI.Controllers;
 using WebUI.Exceptions;
 
 namespace WebUI.Helpers
@@ -24,7 +23,7 @@ namespace WebUI.Helpers
         public async Task<CategoriesViewModel> CreateCategoriesViewModel(int page, int itemsPerPage,
             Func<Category, bool> predicate)
         {
-            List<Category> categories = new List<Category>();
+            List<Category> categories;
             try
             {
                 categories = (await _categoryService.GetListAsync())
@@ -35,6 +34,11 @@ namespace WebUI.Helpers
             {
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException(
+                    $"Ошибка {e.GetType()} в контроллере {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
             }
 
             return new CategoriesViewModel()
@@ -67,6 +71,11 @@ namespace WebUI.Helpers
             {
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException(
+                    $"Ошибка {e.GetType()} в контроллере {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
             }
         }
     }

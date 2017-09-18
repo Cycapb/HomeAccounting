@@ -68,7 +68,7 @@ namespace WebUI.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
-            Category item = null;
+            Category item;
             try
             {
                 item = await _categoryService.GetItemAsync(id);
@@ -96,7 +96,7 @@ namespace WebUI.Controllers
                     await _categoryService.SaveAsync();
                     return RedirectToAction("GetCategoriesAndPages");
                 }
-                catch (Exception e)
+                catch (ServiceException e)
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Edit)}", e);
                 }
@@ -161,6 +161,10 @@ namespace WebUI.Controllers
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetTypesOfFlow)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(CategoryController)} в методе {nameof(GetTypesOfFlow)}", e);
             }
         }
     }

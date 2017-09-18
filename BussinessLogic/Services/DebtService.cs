@@ -28,7 +28,7 @@ namespace BussinessLogic.Services
                 {
                     await _debtRepo.CreateAsync(debt);
                     await _debtRepo.SaveAsync();
-                    await CreateDebt(debt);
+                    await CreateDebtAsync(debt);
                 });
             }
             catch (DomainModelsException e)
@@ -45,7 +45,7 @@ namespace BussinessLogic.Services
                 item.DateEnd = DateTime.Now;
                 await _debtRepo.UpdateAsync(item);
                 await _debtRepo.SaveAsync();
-                await CloseDebt(item);
+                await CloseDebtAsync(item);
             }
             catch (DomainModelsException e)
             {
@@ -116,7 +116,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        private async Task CreateDebt(Debt debt)
+        private async Task CreateDebtAsync(Debt debt)
         {
             try
             {
@@ -134,11 +134,11 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CreateDebt)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CreateDebtAsync)} при обращении к БД", e);
             }
         }
 
-        private async Task CloseDebt(Debt debt)
+        private async Task CloseDebtAsync(Debt debt)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CloseDebt)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(CloseDebtAsync)} при обращении к БД", e);
             }
         }
     }

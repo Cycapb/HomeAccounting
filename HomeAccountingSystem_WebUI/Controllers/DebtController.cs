@@ -8,6 +8,8 @@ using DomainModels.Model;
 using WebUI.Models;
 using WebUI.Infrastructure.Attributes;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -15,35 +17,53 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class DebtController : Controller
     {
-        private readonly IDebtService _debtManager;
+        private readonly IDebtService _debtService;
         private readonly IAccountService _accService;
 
 
-        public DebtController(IDebtService debtManager, IAccountService accService)
+        public DebtController(IDebtService debtService, IAccountService accService)
         {
-            _debtManager = debtManager;
+            _debtService = debtService;
             _accService = accService;
         }
 
         public PartialViewResult Index(WebUser user)
         {
-            var items = _debtManager.GetOpenUserDebts(user.Id).ToList();
-            var model = new DebtsSumModel()
+            DebtsSumModel model;
+            try
             {
-                MyDebtsSumm = items.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
-                DebtsToMeSumm = items.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
-            };
+                var items = _debtService.GetOpenUserDebts(user.Id).ToList();
+                model = new DebtsSumModel()
+                {
+                    MyDebtsSumm = items.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
+                    DebtsToMeSumm = items.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
+                };
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(Index)}", e);
+            }
+
             return PartialView("IndexPartial",model);
         }
 
         public PartialViewResult DebtList(WebUser user)
         {
-            var items = _debtManager.GetOpenUserDebts(user.Id).ToList();
-            var model = new DebtsModel()
+            DebtsModel model;
+            try
             {
-                MyDebts = items.Where(x => x.TypeOfFlowId == 1).ToList(),
-                DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
-            };
+                var items = _debtService.GetOpenUserDebts(user.Id).ToList();
+                model = new DebtsModel()
+                {
+                    MyDebts = items.Where(x => x.TypeOfFlowId == 1).ToList(),
+                    DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
+                };
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(DebtList)}", e);
+            }
+            
             return PartialView("DebtList",model);
         }
 
@@ -71,7 +91,15 @@ namespace WebUI.Controllers
                     Summ = model.Summ,
                     UserId = user.Id
                 };
-                await _debtManager.CreateAsync(debt);
+                try
+                {
+                    await _debtService.CreateAsync(debt);
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Add)}", e);
+                }
+                
                 return RedirectToAction("DebtList");
             }
             model.Accounts = (await AccountList(user.Id)).ToList();
@@ -81,19 +109,46 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Close(int id)
         {
-            await _debtManager.CloseAsync(id);
+            try
+            {
+                await _debtService.CloseAsync(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Close)}", e);
+            }
+            
             return RedirectToAction("DebtList");
         }
 
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            await _debtManager.DeleteAsync(id);
+            try
+            {
+                await _debtService.DeleteAsync(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Delete)}", e);
+            }
+            
             return RedirectToAction("DebtList");
         }
         private async Task<IEnumerable<Account>> AccountList(string userId)
         {
-            return (await _accService.GetListAsync()).Where(x => x.UserId == userId).ToList();
+            try
+            {
+                return (await _accService.GetListAsync()).Where(x => x.UserId == userId).ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(AccountList)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(AccountList)}", e);
+            }
         }
 
     }
