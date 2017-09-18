@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
-using NLog;
 using WebUI.Models;
 using Services;
 using Services.Exceptions;
@@ -14,11 +13,10 @@ using WebUI.Exceptions;
 namespace WebUI.Controllers
 {
     [Authorize]
-    [SessionState(SessionStateBehavior.ReadOnly )]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public AccountController(IAccountService accountService)
         {
@@ -30,11 +28,15 @@ namespace WebUI.Controllers
             try
             {
                 var list = (await _accountService.GetListAsync())
-                .Where(x => x.UserId == user.Id)
-                .ToList();
+                    .Where(x => x.UserId == user.Id)
+                    .ToList();
                 return PartialView(list);
             }
             catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
+            }
+            catch (Exception e)
             {
                 throw  new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
             }

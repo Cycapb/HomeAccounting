@@ -53,7 +53,19 @@ namespace WebUI.Tests.ControllersTests
         [TestMethod]
         [TestCategory("AccountControllerTests")]
         [ExpectedException(typeof(WebUiException))]
-        public async Task IndexRaiseWebUiException()
+        public async Task Index_RaiseWebUiExceptionIfException()
+        {
+            _mockAccountService.Setup(x => x.GetListAsync()).Throws<Exception>();
+
+            var target = new AccountController(_mockAccountService.Object);
+
+            await target.Index(new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Index_RaiseWebUiExceptionIfServiceException()
         {
             _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
 
@@ -64,7 +76,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task IndexRaiseWebUiExceptionWithInnerServiceException()
+        public async Task Index_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
 
