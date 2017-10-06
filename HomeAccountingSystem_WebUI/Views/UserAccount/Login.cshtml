@@ -28,16 +28,22 @@
                             <span class="input-group-addon">
                                 <i class="material-icons">face</i>
                             </span>
-                            @Html.TextBoxFor(x => x.Name, new {@class="form-control", placeholder= "Логин"})
+                            <div class="label-floating form-group">
+                                @Html.LabelFor(x => x.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
                             @Html.ValidationMessageFor(x => x.Name)                            
+                                 </div>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <i class="material-icons">lock_outline</i>
                             </span>
-                            @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Пароль" })
-                            @Html.ValidationMessageFor(x => x.Password)
-                        </div>
+                            <div class="label-floating form-group">
+                                @Html.LabelFor(x => x.Password, new { @class = "control-label" })
+                                @Html.PasswordFor(x => x.Password, new { @class = "form-control"})
+                                @Html.ValidationMessageFor(x => x.Password)
+                                </div>
+                            </div>
                     </div>
                     <div class="footer text-center">                        
                         <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg"/>

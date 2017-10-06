@@ -1,18 +1,4 @@
-﻿@*<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width"/>
-    @Styles.Render("~/bundles/bootstrap/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jqueryval", "~/bundles/bootstrap")
-    <title>Авторизация</title>
-</head>
-<body>
-    @RenderBody()
-</body>
-</html>*@
-
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -29,35 +15,18 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
-    <!-- CSS Files -->
     @Styles.Render("~/bundles/bootstrap/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jqueryval", "~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval", "~/bundles/material-kit")
+
 </head>
 
 <body class="signup-page">
     <div class="wrapper">
         <div class="header header-filter" style="background-image: url('../Content/assets/img/city.jpg'); background-size: cover; background-position: top center;">
             @RenderBody()          
-
         </div>
-
     </div>
-
-
 </body>
-<!--   Core JS Files   -->
-<script src="../assets/js/jquery.min.js" type="text/javascript"></script>
-<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="../assets/js/material.min.js"></script>
-
-<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="../assets/js/nouislider.min.js" type="text/javascript"></script>
-
-<!--  Plugin for the Datepicker, full documentation here: http://www.eyecon.ro/bootstrap-datepicker/ -->
-<script src="../assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
-
-<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
-<script src="../assets/js/material-kit.js" type="text/javascript"></script>
 
 </html>
 
