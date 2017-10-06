@@ -19,7 +19,7 @@
                 {
                     @Html.ValidationSummary(true);
                     @Html.AntiForgeryToken();
-                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl"/>
+                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                     <div class="header header-primary text-center">
                         <h4>Авторизация</h4>
                     </div>
@@ -30,9 +30,9 @@
                             </span>
                             <div class="label-floating form-group">
                                 @Html.LabelFor(x => x.Name, new { @class = "control-label" })
-                            @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
-                            @Html.ValidationMessageFor(x => x.Name)                            
-                                 </div>
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -40,13 +40,13 @@
                             </span>
                             <div class="label-floating form-group">
                                 @Html.LabelFor(x => x.Password, new { @class = "control-label" })
-                                @Html.PasswordFor(x => x.Password, new { @class = "form-control"})
+                                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(x => x.Password)
-                                </div>
                             </div>
+                        </div>
                     </div>
-                    <div class="footer text-center">                        
-                        <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg"/>
+                    <div class="footer text-center">
+                        <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg" />
                         @Html.ActionLink("Демо-вход", "LoginDemo", null, new { @class = "btn btn-simple btn-primary btn-lg" })
                         <div style="text-align: center">
                             @Html.ActionLink("Зарегистрироваться", "Register", null, new { @class = "btn btn-simple btn-primary btn-lg" })
