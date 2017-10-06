@@ -41,8 +41,8 @@ namespace WebUI
                 "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/material-kit").Include(
-                "~/Scripts/material.min.js",
-                "~/Scripts/material-kit.js"));
+                "~/Content/assets/js/material.min.js",
+                "~/Content/assets/js/material-kit.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                 "~/Scripts/UpdateAccounts.js",
@@ -58,22 +58,25 @@ namespace WebUI
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
                 "~/Content/bootstrap-datepicker3.css",
+                "~/Content/bootstrap.min.css",
                 "~/Content/ErrorStyles.css")
                 );
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
+                "~/Content/bootstrap.min.css",
                 "~/Content/ErrorStyles.css",
                 "~/Content/Site.css"));
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap-site/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
+                "~/Content/bootstrap.min.css",
                 "~/Content/Site.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(
-                "~/Content/material-kit.css"));
+            bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(                
+                "~/Content/assets/css/material-kit.css"));
         }
     }
 }

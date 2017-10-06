@@ -3,32 +3,65 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<div class="registerContainer">
-    <div class="panel panel-info">
-        <div class="panel-body">
-            @using (Html.BeginForm())
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+            <div class="card card-signup">
+                @using (Html.BeginForm())
             {
-                @Html.ValidationSummary(true)
-                <div class="form-group">
-                    @Html.TextBoxFor(x => x.Login, new {@class = "form-control",placeholder= "Придумайте логин" })
-                    @Html.ValidationMessageFor(x => x.Login)
-                </div>
-                <div class="form-group">
-                    @Html.TextBoxFor(x => x.Email, new {@class = "form-control",placeholder= "Введите email" })
-                    @Html.ValidationMessageFor(x => x.Email)
-                </div>
-                <div class="form-group">
-                    @Html.PasswordFor(x => x.Password, new {@class = "form-control", placeholder = "Придумайте пароль (не менее 6 символов)" })
-                    @Html.ValidationMessageFor(x => x.Password)
-                </div>
-                <div class="form-group">
-                    @Html.PasswordFor(x => x.ConfirmPassword, new {@class = "form-control", placeholder = "Подтверждение пароля"})
-                    @Html.ValidationMessageFor(x => x.ConfirmPassword)
-                </div>
-                <input type="submit" value="Зарегистрироваться" class="btn btn-success btn-raised btn-sm"/>
-                @Html.ActionLink("Отмена", "Login", null, new {@class = "btn btn-danger btn-raised btn-sm pull-right"})
-                ;
-            }
+                    @Html.ValidationSummary(true)
+                    <div class="header header-primary text-center">
+                        <h4>Регистрация</h4>
+                    </div>
+                    <div class="content">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">face</i>
+                            </span>
+                            <div class="label-floating form-group">
+                                @Html.LabelFor(x => x.Login, new { @class="control-label"})
+                                @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Login)
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">email</i>
+                            </span>
+                            <div class="label-floating form-group">
+                                @Html.LabelFor(x => x.Email, new {@class="control-label"})
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>                            
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock_outline</i>
+                            </span>
+                            <div class="label-floating form-group">
+                                @Html.LabelFor(x => x.Password, new { @class = "control-label" })
+                                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Password)
+                                </div>
+                            </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock_outline</i>
+                            </span>
+                            <div class="label-floating form-group">
+                                @Html.LabelFor(x => x.ConfirmPassword, new { @class="control-label"})
+                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="footer text-center">
+                        <input type="submit" value="Зарегистрироваться" class="btn btn-simple btn-primary btn-lg" />
+                        @Html.ActionLink("Отмена", "Login", null, new { @class = "btn btn-simple btn-primary btn-lg" })
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
