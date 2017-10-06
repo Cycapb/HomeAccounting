@@ -178,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\css\material-kit.css" />
+    <Content Include="Content\assets\css\rotating-card.css" />
     <Content Include="Content\assets\img\apple-icon.png" />
     <Content Include="Content\assets\img\arrow-left.cur" />
     <Content Include="Content\assets\img\arrow-left.png" />
