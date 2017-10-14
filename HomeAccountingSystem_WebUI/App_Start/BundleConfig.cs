@@ -31,7 +31,7 @@ namespace WebUI
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datetime-datepicker").Include(
-                "~/Scripts/bootstrap-datepicker.js",
+                "~/Content/assets/js/bootstrap-datepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
