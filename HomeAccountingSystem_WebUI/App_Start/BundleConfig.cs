@@ -55,7 +55,6 @@ namespace WebUI
 
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap-datepicker/css").Include(
-                "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
                 "~/Content/bootstrap-datepicker3.css",
                 "~/Content/bootstrap.min.css",
@@ -63,7 +62,6 @@ namespace WebUI
                 );
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap/css").Include(
-                "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
                 "~/Content/bootstrap.min.css",
                 "~/Content/ErrorStyles.css",
