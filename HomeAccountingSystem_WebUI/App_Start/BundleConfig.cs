@@ -68,7 +68,6 @@ namespace WebUI
                 "~/Content/Site.css"));
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap-site/css").Include(
-                "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
                 "~/Content/bootstrap.min.css",
                 "~/Content/Site.css"));
