@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BussinessLogic.Exceptions;
 using BussinessLogic.Services;
-using HomeAccountingSystem_DAL.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Model;
+using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Services.Exceptions;
 
 namespace Services.Tests
 {
@@ -45,17 +45,17 @@ namespace Services.Tests
                 OrderID = 1
             });
 
-            _orderService.SendByEmail(orderId);
+            _orderService.SendByEmail(orderId, String.Empty);
 
-            _emailSender.Verify(m => m.Send(It.IsAny<string>()), Times.Once);
+            _emailSender.Verify(m => m.Send(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
         public void SendByEmailCannotFindOrderById()
         {
-            _orderService.SendByEmail(It.IsAny<int>());
+            _orderService.SendByEmail(It.IsAny<int>(), String.Empty);
 
-            _emailSender.Verify(m => m.Send(It.IsAny<string>()), Times.Never);
+            _emailSender.Verify(m => m.Send(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace Services.Tests
         public void SendByEmailThrowsSendEmailexceptionIfCannotSend()
         {
             _orderRepository.Setup(m => m.GetItem(It.IsAny<int>())).Returns(new Order() { OrderID = 1 });
-            _emailSender.Setup(m => m.Send(It.IsAny<string>())).Throws<SendEmailException>();
+            _emailSender.Setup(m => m.Send(It.IsAny<string>(), It.IsAny<string>())).Throws<SendEmailException>();
 
-            _orderService.SendByEmail(1);
+            _orderService.SendByEmail(1, It.IsAny<string>());
         }
     }
 }

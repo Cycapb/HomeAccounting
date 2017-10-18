@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BussinessLogic.Services;
-using HomeAccountingSystem_DAL.Model;
-using HomeAccountingSystem_DAL.Repositories;
+using DomainModels.Model;
+using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -25,7 +25,6 @@ namespace Services.Tests
         [TestMethod]
         public async Task CreateOrderDetails()
         {
-            var orderId = 1;
             var productId = 2;
             _pItemProductRepository.Setup(m => m.GetListAsync()).ReturnsAsync(new List<PaiyngItemProduct>()
             {
@@ -34,7 +33,7 @@ namespace Services.Tests
                 new PaiyngItemProduct() {ItemID = 3, ProductID = 2,Summ = 300}
             });
 
-            var orderDetail = await _orderDetailService.CreateOrderDetailAsync(orderId, productId);
+            var orderDetail = await _orderDetailService.CreateAsync(new OrderDetail(){ProductId = productId});
 
             Assert.AreEqual(orderDetail.ProductPrice, 300);
             _orderDetailRepository.Verify(m=>m.CreateAsync(It.IsAny<OrderDetail>()), Times.Exactly(1));

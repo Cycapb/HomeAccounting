@@ -59,7 +59,7 @@
     <Compile Include="Services\TypeOfFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HomeAccountingSystem_DAL\DomainModels.csproj">
+    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>
     </ProjectReference>

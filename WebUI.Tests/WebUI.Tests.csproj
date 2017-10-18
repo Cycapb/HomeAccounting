@@ -88,7 +88,7 @@
     <Otherwise>
       <ItemGroup>
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
+          <Private>True</Private>
         </Reference>
       </ItemGroup>
     </Otherwise>
@@ -111,11 +111,11 @@
     <Compile Include="ControllersTests\UrlsAndRoutesTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HomeAccountingSystem_DAL\DomainModels.csproj">
+    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}</Project>
       <Name>DomainModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HomeAccountingSystem_WebUI\WebUI.csproj">
+    <ProjectReference Include="..\WebUI\WebUI.csproj">
       <Project>{4cd97bbf-dc94-4e6e-abbc-e87eed354762}</Project>
       <Name>WebUI</Name>
     </ProjectReference>
