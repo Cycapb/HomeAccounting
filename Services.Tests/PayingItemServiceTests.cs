@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BussinessLogic.Services;
-using HomeAccountingSystem_DAL.Model;
-using HomeAccountingSystem_DAL.Repositories;
-using HomeAccountingSystem_WebUI.Models;
+using DomainModels.Model;
+using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using WebUI.Models;
 
 namespace Services.Tests
 {

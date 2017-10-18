@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Services.Tests</RootNamespace>
     <AssemblyName>Services.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -20,6 +20,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,11 +79,11 @@
       <Project>{e1ec4533-ff70-440f-860f-bb7060ef7ef7}</Project>
       <Name>BussinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HomeAccountingSystem_DAL\DomainModels.csproj">
+    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HomeAccountingSystem_WebUI\WebUI.csproj">
+    <ProjectReference Include="..\WebUI\WebUI.csproj">
       <Project>{4cd97bbf-dc94-4e6e-abbc-e87eed354762}</Project>
       <Name>WebUI</Name>
     </ProjectReference>
