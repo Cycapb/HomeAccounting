@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "HomeAccountingSystem_DAL\DomainModels.csproj", "{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "DomainModels\DomainModels.csproj", "{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "HomeAccountingSystem_WebUI\WebUI.csproj", "{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessLogic", "BussinessLogic\BussinessLogic.csproj", "{E1EC4533-FF70-440F-860F-BB7060EF7EF7}"
 EndProject
@@ -54,5 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4F693E1-1E40-46CD-B01E-1A5BE7211EE3}
 	EndGlobalSection
 EndGlobal
