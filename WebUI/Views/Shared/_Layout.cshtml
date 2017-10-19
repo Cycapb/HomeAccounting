@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-    @Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/datetime-datepicker", "~/bundles/material-kit", "~/bundles/scripts")
+    @*@Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")*@
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/material-kit.css" rel="stylesheet" />
+    
+    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/datetime-datepicker", "~/bundles/material-kit","~/bundles/scripts")
 
 </head>
 <body>
