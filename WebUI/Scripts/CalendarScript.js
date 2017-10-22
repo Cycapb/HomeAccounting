@@ -1,36 +1,30 @@
 ﻿function clickDate() {
     $('#PayingItem_Date').datepicker({
-        autoclose: true,
-        language: 'ru'
+        format:"dd.mm.yyyy"
     });
 };
 
 function clickDtFrom() {
     $('#DtFrom').datepicker({
-        autoclose: true,
-            language: 'ru'
+        format: "dd.mm.yyyy"
         });
     };
 
 function clickDtTo() {
 
     $('#DtTo').datepicker({
-        autoclose: true,
-        language: 'ru'
+        format: "dd.mm.yyyy"
         });
     };
 
 function clickDateFrom() {
     $('#DateFrom').datepicker({
-        autoclose: true,
-        language: 'ru'
+        format: "dd.mm.yyyy"
     });
 };
 
 function clickDateTo() {
-
     $('#DateTo').datepicker({
-        autoclose: true,
-        language: 'ru'
+        format: "dd.mm.yyyy"
     });
 };

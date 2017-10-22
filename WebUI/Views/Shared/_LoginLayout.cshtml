@@ -15,9 +15,17 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
-    @Styles.Render("~/bundles/bootstrap/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jqueryval", "~/bundles/material-kit")
+    @Styles.Render("~/bundles/material-kit/css")
+    
+    <!--   Core JS Files   -->
+    @Scripts.Render("~/bundles/jquery", "~/bundles/jqueryval")
+    <script src="~/Content/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/material.min.js"></script>
 
+    <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
+    <script src="~/Content/assets/js/material-kit.js" type="text/javascript"></script>
+    
+    
 </head>
 
 <body class="signup-page">

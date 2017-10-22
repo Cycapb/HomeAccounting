@@ -72,7 +72,8 @@ namespace WebUI
                 "~/Content/bootstrap.min.css",
                 "~/Content/Site.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(                
+            bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(
+                "~/Content/assets/css/bootstrap.min.css",
                 "~/Content/assets/css/material-kit.css"
                 ));
         }

@@ -362,7 +362,6 @@
 	};
 
 	$.fn.datepicker.defaults = {
-		autoclose: true,
 		onRender: function(date) {
 			return '';
 		}

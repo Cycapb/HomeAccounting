@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-    @*@Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")*@
+    @Styles.Render("~/bundles/material-kit/css")
     @*@Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/datetime-datepicker", "~/bundles/material-kit","~/bundles/scripts")*@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
-    <!-- CSS Files -->
-    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/css/material-kit.css" rel="stylesheet"/>
-    
-    <!--   Core JS Files   -->
+    <!-- Core JS Files -->
     <script src="~/Content/assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/js/material.min.js"></script>
@@ -81,3 +77,5 @@ else
 
 </body>
 </html>
+
+<!-- ToDo Перенести подключения скриптов и стилей в bundleConfig после тестирования -->
