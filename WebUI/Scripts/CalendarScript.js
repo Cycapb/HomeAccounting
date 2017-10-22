@@ -1,21 +1,22 @@
 ﻿function clickDate() {
     $('#PayingItem_Date').datepicker({
-        format:"dd.mm.yyyy"
+        format: "dd.mm.yyyy",
+        weekStart: 1
     });
 };
 
 function clickDtFrom() {
     $('#DtFrom').datepicker({
         format: "dd.mm.yyyy"
-        });
-    };
+    });
+};
 
 function clickDtTo() {
 
     $('#DtTo').datepicker({
         format: "dd.mm.yyyy"
-        });
-    };
+    });
+};
 
 function clickDateFrom() {
     $('#DateFrom').datepicker({

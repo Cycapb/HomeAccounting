@@ -3,9 +3,13 @@
 <head>
     <meta name="viewport" content="width=device-width"/>
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/bundles/bootstrap-datepicker/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/datetime-datepicker")
+    @Styles.Render("~/bundles/material-kit/css")
     
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    
+    @Scripts.Render("~/bundles/jquery-material-kit-datepicker", "~/bundles/jquery-ajax")
     <script src="~/Scripts/CalendarScript.js"></script>
 </head>
 <body>
