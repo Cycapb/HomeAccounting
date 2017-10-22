@@ -8,6 +8,21 @@ namespace WebUI
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-material-kit").Include(
+                "~/Content/assets/js/bootstrap.min.js",
+                "~/Content/assets/js/material.min.js",
+                "~/Content/assets/js/material-kit.js")
+                );
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-material-kit-datepicker").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Content/assets/js/bootstrap.min.js",
+                "~/Content/assets/js/material.min.js",
+                "~/Content/assets/js/material-kit.js",
+                "~/Content/assets/js/bootstrap-datepicker.js",
+                "~/Scripts/locales/bootstrap-datepicker.ru.min.js"
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 
@@ -15,7 +30,6 @@ namespace WebUI
                 "~/Scripts/knockout-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-ajax").Include(
-                "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-val").Include(
@@ -30,15 +44,9 @@ namespace WebUI
                 "~/Scripts/jquery.validate*",
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/datetime-datepicker").Include(
-                "~/Scripts/bootstrap-datepicker.js",
-                "~/Scripts/locales/bootstrap-datepicker.ru.min.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/material-kit").Include(
                 "~/Content/assets/js/material.min.js",
