@@ -177,6 +177,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\css\bootstrap.min.css" />
+    <Content Include="Content\assets\css\demo.css" />
     <Content Include="Content\assets\css\material-kit.css" />
     <Content Include="Content\assets\css\rotating-card.css" />
     <Content Include="Content\assets\img\apple-icon.png" />
@@ -310,6 +312,8 @@
     <Content Include="Content\assets\img\marc.jpg" />
     <Content Include="Content\assets\img\profile.jpg" />
     <Content Include="Content\assets\js\bootstrap-datepicker.js" />
+    <Content Include="Content\assets\js\bootstrap.min.js" />
+    <Content Include="Content\assets\js\jquery.min.js" />
     <Content Include="Content\assets\js\material-kit.js" />
     <Content Include="Content\assets\js\material.min.js" />
     <Content Include="Content\assets\js\nouislider.min.js" />
