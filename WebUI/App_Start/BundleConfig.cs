@@ -31,7 +31,7 @@ namespace WebUI
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datetime-datepicker").Include(
-                "~/Content/assets/js/bootstrap-datepicker.js",
+                "~/Scripts/bootstrap-datepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -56,8 +56,8 @@ namespace WebUI
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap-datepicker/css").Include(
                 "~/Content/bootstrap-theme.css",
-                "~/Content/bootstrap-datepicker3.css",
                 "~/Content/bootstrap.min.css",
+                "~/Content/bootstrap-datepicker.css",
                 "~/Content/ErrorStyles.css")
                 );
 
@@ -72,8 +72,10 @@ namespace WebUI
                 "~/Content/bootstrap.min.css",
                 "~/Content/Site.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(                
-                "~/Content/assets/css/material-kit.css"));
+            bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(
+                "~/Content/assets/css/bootstrap.min.css",
+                "~/Content/assets/css/material-kit.css"
+                ));
         }
     }
 }
