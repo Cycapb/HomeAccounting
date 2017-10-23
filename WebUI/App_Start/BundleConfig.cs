@@ -12,7 +12,13 @@ namespace WebUI
                 "~/Content/assets/js/bootstrap.min.js",
                 "~/Content/assets/js/material.min.js",
                 "~/Content/assets/js/material-kit.js")
-                );
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
+                "~/Content/assets/js/bootstrap.min.js",
+                "~/Content/assets/js/bootstrap-datepicker.js",
+                "~/Scripts/locales/bootstrap-datepicker.ru.min.js"
+            ));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-material-kit-datepicker").Include(
                 "~/Scripts/jquery-{version}.js",
@@ -21,7 +27,7 @@ namespace WebUI
                 "~/Content/assets/js/material-kit.js",
                 "~/Content/assets/js/bootstrap-datepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js"
-                ));
+            ));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
@@ -29,24 +35,19 @@ namespace WebUI
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                 "~/Scripts/knockout-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/ajax").Include(
+                "~/Scripts/jquery.unobtrusive-ajax.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery-ajax").Include(
+                "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery-val").Include(
+            bundles.Add(new ScriptBundle("~/bundles/validation").Include(
                 "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+            bundles.Add(new ScriptBundle("~/bundles/jquery-validation").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.validate*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval-ajax").Include(
-                "~/Scripts/jquery-{version}.js",
-                "~/Scripts/jquery.validate*",
-                "~/Scripts/jquery.unobtrusive-ajax.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                "~/Scripts/modernizr-*"));
-
 
             bundles.Add(new ScriptBundle("~/bundles/material-kit").Include(
                 "~/Content/assets/js/material.min.js",
@@ -67,7 +68,7 @@ namespace WebUI
                 "~/Content/bootstrap.min.css",
                 "~/Content/bootstrap-datepicker.css",
                 "~/Content/ErrorStyles.css")
-                );
+            );
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap/css").Include(
                 "~/Content/bootstrap-theme.css",
@@ -83,7 +84,7 @@ namespace WebUI
             bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(
                 "~/Content/assets/css/bootstrap.min.css",
                 "~/Content/assets/css/material-kit.css"
-                ));
+            ));
         }
     }
 }
