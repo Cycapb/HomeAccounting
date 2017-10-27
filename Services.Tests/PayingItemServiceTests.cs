@@ -28,25 +28,6 @@ namespace Services.Tests
             _service = new PayingItemService(_repository.Object);
         }
 
-        [TestMethod]
-        public void GetListByTypeOfFlow1()
-        {
-            _repository.Setup(m => m.GetList()).Returns(_listOfItems);
-            
-
-            var result = _service.GetListByTypeOfFlow(new WebUser() {Id = "1"}, 1).ToList();
-
-            Assert.AreEqual<int>(2,result.Count);
-        }
-
-        [TestMethod]
-        public void GetListByTypeOfFlowReturns0()
-        {
-            _repository.Setup(m => m.GetList()).Returns(_listOfItems);
-
-            var result = _service.GetListByTypeOfFlow(new WebUser() {Id = "1"}, 3).ToList();
-
-            Assert.AreEqual<int>(0, result.Count);
-        }
+       
     }
 }

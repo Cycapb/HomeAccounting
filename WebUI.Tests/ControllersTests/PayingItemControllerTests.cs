@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using DomainModels.Model;
+using DomainModels.Repositories;
 using WebUI.Abstract;
 using WebUI.Controllers;
 using WebUI.Models;
@@ -148,41 +151,54 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual(routes["action"], "ListAjax");
         }
-        //    [TestMethod]
-        //    public void Can_Get_PayingItems_By_Date()
-        //    {
-        //        DateTime date = DateTime.Now - TimeSpan.FromDays(2);
-        //        var testMock = new TestMockObject();
-        //        Mock<IRepository<PayingItem>> mock = new Mock<IRepository<PayingItem>>();
-        //        mock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
-        //        {
-        //            new PayingItem()
-        //            {
-        //                AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = "22.11.2015".AsDateTime(),
-        //                Category = new Category() {Name = "Cat1"}
-        //            },
-        //            new PayingItem()
-        //            {
-        //                AccountID = 2,CategoryID = 1,Comment = "PayingItem 2",Date = date,UserId = "1",
-        //                Category = new Category() {Name = "Cat2"}
-        //            },
-        //            new PayingItem()
-        //            {
-        //                AccountID = 3,CategoryID = 2,Comment = "PayingItem 3",Date = date,
-        //                UserId = "1",Category = new Category() {Name = "Cat3"}
-        //            },
-        //            new PayingItem()
-        //            {
-        //                AccountID = 4,CategoryID = 2,Comment = "PayingItem 4",Date = date,UserId = "1",
-        //                Category = new Category() {Name = "Cat4"}
-        //            }
-        //        });
-        //        PayingItemController target = new PayingItemController(mock.Object, null, null,null,null,null);
 
-        //        var result = ((PartialViewResult)target.List(new WebUser() {Id = "1"},1)).Model as PayingItemToView;
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Delete_RedirectsToActionList()
+        {
+            PayingItemController target = new PayingItemController(null, null, _payingItemService.Object, null, null);
 
-        //        Assert.AreEqual(result.PayingItems.Count() == 3,true);
-        //    }
+            var result = await target.Delete(new WebUser(), It.IsAny<int>());
+            var redirect = (RedirectToRouteResult)result;
+
+            _payingItemService.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
+            Assert.AreEqual(redirect.RouteValues["action"], "List");
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public void List_ReturnsPartialView_With_PayingItemsByDate()
+        {
+            DateTime date = DateTime.Now - TimeSpan.FromDays(2);
+            _payingItemService.Setup(m => m.GetList()).Returns(new List<PayingItem>()
+                {
+                    new PayingItem()
+                    {
+                        AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = "22.11.2015".AsDateTime(),
+                        Category = new Category() {Name = "Cat1"}
+                    },
+                    new PayingItem()
+                    {
+                        AccountID = 2,CategoryID = 1,Comment = "PayingItem 2",Date = date,UserId = "1",
+                        Category = new Category() {Name = "Cat2"}
+                    },
+                    new PayingItem()
+                    {
+                        AccountID = 3,CategoryID = 2,Comment = "PayingItem 3",Date = date,
+                        UserId = "1",Category = new Category() {Name = "Cat3"}
+                    },
+                    new PayingItem()
+                    {
+                        AccountID = 4,CategoryID = 2,Comment = "PayingItem 4",Date = date,UserId = "1",
+                        Category = new Category() {Name = "Cat4"}
+                    }
+                });
+            PayingItemController target = new PayingItemController(null, null, _payingItemService.Object, null, null);
+
+            var result = ((PartialViewResult)target.List(new WebUser() { Id = "1" })).Model as PayingItemToView;
+
+            Assert.AreEqual(result.PayingItems.Count() == 3, true);
+        }
 
         //    [TestMethod]
         //    public void Can_Paginate()
@@ -353,28 +369,6 @@ namespace WebUI.Tests.ControllersTests
 
         //        Assert.AreEqual(routeResult.RouteValues["action"],"List");
         //        Assert.IsInstanceOfType(result,typeof(ActionResult));
-        //    }
-
-        //    [TestMethod]
-        //    public async Task Can_Delete_PayingItem()
-        //    {
-        //        var testMock = new TestMockObject();
-        //        Mock<IRepository<PayingItem>> mock = new Mock<IRepository<PayingItem>>();
-        //        mock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
-        //        {
-        //            new PayingItem() {AccountID = 1, CategoryID = 1, ItemID = 1},
-        //            new PayingItem() {AccountID = 1, CategoryID = 1, ItemID = 2},
-        //            new PayingItem() {AccountID = 1, CategoryID = 1, ItemID = 3},
-        //            new PayingItem() {AccountID = 1, CategoryID = 1, ItemID = 4},
-        //        });
-        //        var idToDelete = 3;
-
-        //        PayingItemController target = new PayingItemController(mock.Object,testMock.MockCategoryObject,testMock.MockAccountObject, null, null,null);
-
-        //        await target.Delete(new WebUser(), idToDelete);
-        //        var result = mock.Object.GetList().ToList();
-
-        //        mock.Verify(m=>m.DeleteAsync(idToDelete));
         //    }
 
         //    [TestMethod]

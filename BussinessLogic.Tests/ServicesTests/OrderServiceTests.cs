@@ -6,8 +6,9 @@ using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services.Exceptions;
+using Services;
 
-namespace Services.Tests
+namespace BussinessLogic.Tests.ServicesTests
 {
     [TestClass]
     public class OrderServiceTests
@@ -24,6 +25,7 @@ namespace Services.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderServiceTests")]
         public async Task CreateOrder()
         {
             var orderDate = DateTime.Today.Date;
@@ -37,6 +39,7 @@ namespace Services.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderServiceTests")]
         public void SendByEmail()
         {
             var orderId = 1;
@@ -51,6 +54,7 @@ namespace Services.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderServiceTests")]
         public void SendByEmailCannotFindOrderById()
         {
             _orderService.SendByEmail(It.IsAny<int>(), String.Empty);
@@ -59,6 +63,7 @@ namespace Services.Tests
         }
 
         [TestMethod]
+        [TestCategory("OrderServiceTests")]
         [ExpectedException(typeof(SendEmailException))]
         public void SendByEmailThrowsSendEmailexceptionIfCannotSend()
         {
