@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using DomainModels.Model;
-using DomainModels.Repositories;
 using WebUI.Abstract;
 using WebUI.Controllers;
 using WebUI.Models;
@@ -200,62 +199,60 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(result.PayingItems.Count() == 3, true);
         }
 
-        //    [TestMethod]
-        //    public void Can_Paginate()
-        //    {
-        //        DateTime date = DateTime.Now - TimeSpan.FromDays(2);
-        //        var testMock = new TestMockObject();
-        //        Mock<IRepository<PayingItem>> mock = new Mock<IRepository<PayingItem>>();
-        //        mock.Setup(m => m.GetList()).Returns(new PayingItem[]
-        //        {
-        //            new PayingItem()
-        //            {
-        //                AccountID = 4,CategoryID = 4,Comment = "PayingItem 4",Date = date,UserId = "1",
-        //                Category = new Category() {Name = "Cat1"}
-        //            },
-        //            new PayingItem()
-        //            {
-        //                AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = date,UserId = "1",
-        //                Category = new Category() {Name = "Cat2"}
-        //            },
-        //            new PayingItem()
-        //            {
-        //                AccountID = 2,CategoryID = 2,Comment = "PayingItem 2",Date = date,UserId = "1",
-        //                Category = new Category() {Name = "Cat3"}
-        //            },
-        //            new PayingItem()
-        //            {
-        //                AccountID = 3,CategoryID = 2,Comment = "PayingItem 3",Date = DateTime.Now - TimeSpan.FromDays(1),UserId = "1",
-        //                Category = new Category() {Name = "Cat4"}
-        //            }
-        //        });
-        //        PayingItemController target = new PayingItemController(mock.Object, null, null, null, null,null);
-        //        target.ItemsPerPage = 2;
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public void Can_Paginate()
+        {
+            DateTime date = DateTime.Now - TimeSpan.FromDays(2);
+            _payingItemService.Setup(m => m.GetList()).Returns(new PayingItem[]
+            {
+                    new PayingItem()
+                    {
+                        AccountID = 4,CategoryID = 4,Comment = "PayingItem 4",Date = date,UserId = "1",
+                        Category = new Category() {Name = "Cat1"}
+                    },
+                    new PayingItem()
+                    {
+                        AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = date,UserId = "1",
+                        Category = new Category() {Name = "Cat2"}
+                    },
+                    new PayingItem()
+                    {
+                        AccountID = 2,CategoryID = 2,Comment = "PayingItem 2",Date = date,UserId = "1",
+                        Category = new Category() {Name = "Cat3"}
+                    },
+                    new PayingItem()
+                    {
+                        AccountID = 3,CategoryID = 2,Comment = "PayingItem 3",Date = DateTime.Now - TimeSpan.FromDays(1),UserId = "1",
+                        Category = new Category() {Name = "Cat4"}
+                    }
+            });
+            var target =
+                new PayingItemController(null, null, _payingItemService.Object, null, null) {ItemsPerPage = 2};
 
-        //        PayingItemToView pItemToView = ((PartialViewResult)target.List(new WebUser() {Id = "1"},2)).Model as PayingItemToView;
-        //        PayingItem[] result = pItemToView.PayingItems.ToArray(); 
+            var pItemToView = ((PartialViewResult)target.List(new WebUser() { Id = "1" }, 2)).Model as PayingItemToView;
+            var result = pItemToView?.PayingItems.ToArray();
 
-        //        Assert.AreEqual(result.Count(),2);
-        //        Assert.AreEqual(result[0].AccountID,1);
-        //        Assert.AreEqual(result[1].AccountID,2);
-        //    }
+            Assert.AreEqual(result.Count(), 2);
+            Assert.AreEqual(result[0].AccountID, 1);
+            Assert.AreEqual(result[1].AccountID, 2);
+        }
 
-        //    [TestMethod]
-        //    public async Task Can_Get_PayingItem_For_Edit_With_SubCategories()
-        //    {
-        //        var testMock = new TestMockObject();
-        //        Mock<IPayingItemHelper> mockPayingItemHelper = new Mock<IPayingItemHelper>();
-        //        Mock<IPayingItemProductHelper> mockPayingItemProductHelper = new Mock<IPayingItemProductHelper>();
-        //        var target = new PayingItemController(testMock.MockPayingItemObject,testMock.MockCategoryObject,
-        //            testMock.MockAccountObject,testMock.MockProductObject,mockPayingItemProductHelper.Object,mockPayingItemHelper.Object);
+        //[TestMethod]
+        //[TestCategory("PayingItemControllerTests")]
+        //public async Task Edit_Can_Get_PayingItem_For_Edit_With_SubCategories()
+        //{
+        //    var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
+        //        _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
-        //        var result = await target.Edit(new WebUser() {Id = "1"}, 1, 1);
-        //        var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
 
-        //        mockPayingItemProductHelper.Verify(m=>m.FillPayingItemEditModel(model,It.IsAny<int>()));
-        //        Assert.AreEqual(PayingItemEditModel.OldCategoryId,1);
-        //        Assert.IsInstanceOfType(result,typeof(PartialViewResult));
-        //    }
+        //    var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
+        //    var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
+
+        //    _pItemProductHelper.Verify(m => m.FillPayingItemEditModel(model, It.IsAny<int>()));
+        //    Assert.AreEqual(PayingItemEditModel.OldCategoryId, 1);
+        //    Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        //}
 
         //    [TestMethod]
         //    public async Task Cannot_Get_Paying_For_Edit()
