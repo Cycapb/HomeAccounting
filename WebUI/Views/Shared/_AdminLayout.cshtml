@@ -12,8 +12,13 @@
             color: #f00;
         }
     </style>
-    @Styles.Render("~/bundles/bootstrap/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap", "~/bundles/material-kit")
+    @Styles.Render("~/bundles/material-kit/css")
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap-material-kit")
     <script src="~/Scripts/Buttons.js"></script>
 </head>
 <body>
