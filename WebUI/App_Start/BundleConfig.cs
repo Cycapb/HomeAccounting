@@ -33,7 +33,8 @@ namespace WebUI
                 "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                "~/Scripts/knockout-{version}.js"));
+                "~/Scripts/knockout-{version}.js",
+                "~/Scripts/knockout.validation.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ajax").Include(
                 "~/Scripts/jquery.unobtrusive-ajax.js"));

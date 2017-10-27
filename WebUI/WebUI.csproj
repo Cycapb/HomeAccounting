@@ -593,7 +593,6 @@
     <Content Include="Views\Report\ReportModelPageLinks.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_ReportLayout.cshtml" />
-    <Content Include="Views\Shared\_ServiceLayout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\UserAccount\Login.cshtml" />
     <Content Include="Views\RoleAdmin\Index.cshtml" />
