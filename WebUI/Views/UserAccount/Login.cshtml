@@ -17,12 +17,12 @@
             <div class="card card-signup">
                 @using (Html.BeginForm())
                 {
-                    @Html.ValidationSummary(true);
-                    @Html.AntiForgeryToken();
+                    @Html.AntiForgeryToken()
                     <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                     <div class="header header-primary text-center">
                         <h4>Авторизация</h4>
                     </div>
+                    @Html.ValidationSummary(true)
                     <div class="content">
                         <div class="input-group">
                             <span class="input-group-addon">
