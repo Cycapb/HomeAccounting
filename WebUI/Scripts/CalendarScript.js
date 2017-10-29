@@ -3,12 +3,20 @@
         format: "dd.mm.yyyy",
         weekStart: 1
     });
+    $('#PayingItem_Date').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+    });
 };
+
+
 
 function clickDtFrom() {
     $('#DtFrom').datepicker({
         format: "dd.mm.yyyy",
         weekStart: 1
+    });
+    $('#DtFrom').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
     });
 };
 
@@ -18,6 +26,9 @@ function clickDtTo() {
         format: "dd.mm.yyyy",
         weekStart: 1
     });
+    $('#DtTo').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+    });
 };
 
 function clickDateFrom() {
@@ -25,11 +36,17 @@ function clickDateFrom() {
         format: "dd.mm.yyyy",
         weekStart: 1
     });
+    $('#DateFrom').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+    });
 };
 
 function clickDateTo() {
     $('#DateTo').datepicker({
         format: "dd.mm.yyyy",
         weekStart: 1
+    });
+    $('#DateTo').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
     });
 };
