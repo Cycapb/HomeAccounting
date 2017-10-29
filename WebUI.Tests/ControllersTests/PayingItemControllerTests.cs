@@ -284,43 +284,46 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
-        //    [TestMethod]
-        //    public async Task Cannot_Save_Invalid_PayingItem_Changes()
-        //    {
-        //        var testmock = new TestMockObject();
-        //        PayingItemController target = new PayingItemController(testmock.MockPayingItemObject, testmock.MockCategoryObject, testmock.MockAccountObject, null, null,null);
-        //        PayingItem pItem = new PayingItem() { ItemID = 1, UserId = "1", Comment = "Test", CategoryID = 1 };
-        //        PayingItemEditModel pItemEditModel = new PayingItemEditModel() {PayingItem = pItem};
-        //        target.ModelState.AddModelError("error", "error");
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_Post_InvalidModel_ReturnsPartialView()
+        {
+            _accountService.Setup(x => x.GetList()).Returns(new List<Account>());
+            _categoryService.Setup(x => x.GetList()).Returns(new List<Category>());
+            _categoryService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category(){TypeOfFlowID = 1});
+            var target = new PayingItemController(null, null, null, _categoryService.Object, _accountService.Object);
+            var pItemEditModel = new PayingItemEditModel() { PayingItem = new PayingItem() {}};
+            target.ModelState.AddModelError("error", "error");
 
-        //        //Action
-        //        var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
+            //Action
+            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
 
-        //        //Assert
-        //        testmock.MockPayingItem.Verify(m => m.SaveAsync(), Times.Never());
-        //        Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-        //    }
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
 
-        //    [TestMethod]
-        //    public async Task Can_Save_PayingItem_Without_PricesAndIdsInItem()
-        //    {
-        //        var mock = new TestMockObject();
-        //        var pItemEditModel = new PayingItemEditModel()
-        //        {
-        //            PayingItem = new PayingItem()
-        //            {
-        //                CategoryID = 1, AccountID = 1,ItemID = 1
-        //            },
-        //            PricesAndIdsInItem = null
-        //        };
-        //        var target = new PayingItemController(mock.MockPayingItemObject,mock.MockCategoryObject,mock.MockAccountObject,null,null,null);
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_Post_PricesAndIdsInItemAreNull_ReturnsRedirectToList()
+        {
+            var pItemEditModel = new PayingItemEditModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    CategoryID = 1,
+                    AccountID = 1,
+                    ItemID = 1
+                },
+                PricesAndIdsInItem = null
+            };
+            var target = new PayingItemController(null, null, _payingItemService.Object, null, null);
 
-        //        var result = await target.Edit(new WebUser() {Id = "1"}, pItemEditModel);
+            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
+            var redirectResult = (RedirectToRouteResult) result;
 
-        //        mock.MockPayingItem.Verify(m=>m.UpdateAsync(pItemEditModel.PayingItem));
-        //        mock.MockPayingItem.Verify(m=>m.SaveAsync());
-        //        Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
-        //    }
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(redirectResult.RouteValues["action"], "List");
+        }
 
         //    [TestMethod]
         //    public async Task Can_Save_PayingItem_With_ChangedCategory()
@@ -396,34 +399,5 @@ namespace WebUI.Tests.ControllersTests
         //        Assert.AreEqual(result[1].Category,"Cat2");
         //        Assert.AreEqual(result.Count,2);
         //    }
-
-        //    [TestMethod]
-        //    public void Can_Get_SubCategories()
-        //    {
-        //        var mock = new TestMockObject();
-        //        var categoryId = 1;
-        //        var target = new PayingItemController(null,null,null,mock.MockProductObject,null,null);
-
-        //        var result = target.GetSubCategories(categoryId);
-        //        var model = ((PartialViewResult) result).ViewData.Model as List<Product>;
-
-        //        Assert.AreEqual(model?.Count,2);
-        //        Assert.AreEqual(model?[0].ProductID,1);
-        //        Assert.AreEqual(model?[1].ProductID,2);
-        //    }
-
-        //    [TestMethod]
-        //    public void Can_Get_SubCategoriesForEdit()
-        //    {
-        //        var mock = new TestMockObject();
-        //        var target = new PayingItemController(null,null,null,mock.MockProductObject,null,null);
-
-        //        var result = target.GetSubCategoriesForEdit(1);
-        //        var model = ((PartialViewResult) result).ViewData.Model as List<Product>;
-
-        //        Assert.AreEqual(model?.Count,2);
-        //        Assert.IsInstanceOfType(result,typeof(PartialViewResult));
-        //    }
-        //}
     }
 }
