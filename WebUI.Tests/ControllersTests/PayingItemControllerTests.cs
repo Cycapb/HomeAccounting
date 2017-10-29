@@ -238,21 +238,22 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(result[1].AccountID, 2);
         }
 
-        //[TestMethod]
-        //[TestCategory("PayingItemControllerTests")]
-        //public async Task Edit_Can_Get_PayingItem_For_Edit_With_SubCategories()
-        //{
-        //    var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
-        //        _payingItemService.Object, _categoryService.Object, _accountService.Object);
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_Can_Get_PayingItem_For_Edit_With_SubCategories()
+        {
+            _payingItemService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1});
+            _payingItemService.Setup(x => x.GetList()).Returns(new List<PayingItem>(){new PayingItem(){CategoryID = 1}});
+            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
+                _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
+            var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
+            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
 
-        //    var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
-        //    var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
-
-        //    _pItemProductHelper.Verify(m => m.FillPayingItemEditModel(model, It.IsAny<int>()));
-        //    Assert.AreEqual(PayingItemEditModel.OldCategoryId, 1);
-        //    Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-        //}
+            _pItemProductHelper.Verify(m => m.FillPayingItemEditModel(model, It.IsAny<int>()));
+            Assert.AreEqual(PayingItemEditModel.OldCategoryId, 1);
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
 
         //    [TestMethod]
         //    public async Task Cannot_Get_Paying_For_Edit()
