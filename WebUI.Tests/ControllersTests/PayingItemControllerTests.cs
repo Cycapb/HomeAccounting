@@ -373,31 +373,30 @@ namespace WebUI.Tests.ControllersTests
         //        Assert.IsInstanceOfType(result,typeof(ActionResult));
         //    }
 
-        //    [TestMethod]
-        //    public void CanGetExpensiveCategories()
-        //    {
-        //        //Arrange
-        //        Mock<IRepository<PayingItem>> mock = new Mock<IRepository<PayingItem>>();
-        //        mock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
-        //        {
-        //            new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now},
-        //            new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat2"},Date = DateTime.Now},
-        //            new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 2},Date = DateTime.Now},
-        //            new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-        //            new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-        //        });
-        //        WebUser user = new WebUser() {Id = "1"};
-        //        PayingItemController target = new PayingItemController(mock.Object,null,null, null, null,null);
+        [TestMethod]
+        public void ExpensiveCategories()
+        {
+            //Arrange
+            _payingItemService.Setup(m => m.GetList()).Returns(new List<PayingItem>()
+                {
+                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100},
+                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat2"},Date = DateTime.Now, Summ = 200},
+                    new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 2},Date = DateTime.Now},
+                    new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
+                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
+                });
+            WebUser user = new WebUser() { Id = "1" };
+            PayingItemController target = new PayingItemController(null, null, _payingItemService.Object, null, null);
 
-        //        //Act
-        //        var result = ((PartialViewResult)target.ExpensiveCategories(user)).ViewData.Model as List<OverAllItem>;
+            //Act
+            var result = ((PartialViewResult)target.ExpensiveCategories(user)).ViewData.Model as List<OverAllItem>;
 
-        //        //Assert
-        //        Assert.IsNotNull(result);
-        //        Assert.AreEqual(result[0].Category,"Cat1");
-        //        Assert.AreEqual(result[1].Category,"Cat2");
-        //        Assert.AreEqual(result.Count,2);
-        //    }
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result[0].Category, "Cat2");
+            Assert.AreEqual(result[1].Category, "Cat1");
+            Assert.AreEqual(result.Count, 2);
+        }
     }
 }
 
