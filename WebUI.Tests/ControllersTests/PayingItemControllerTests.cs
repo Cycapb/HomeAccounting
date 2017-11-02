@@ -326,6 +326,7 @@ namespace WebUI.Tests.ControllersTests
         }
 
         [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
         public async Task Edit_Post_SavePayingItemWithChangedCategory_RedirectsToList()
         {
             PayingItemEditModel.OldCategoryId = 1;
@@ -346,34 +347,30 @@ namespace WebUI.Tests.ControllersTests
             _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemEditModel));
         }
 
-        //    [TestMethod]
-        //    public async Task Can_Save_PayingItem_With_Same_Category()
-        //    {
-        //        Mock<IPayingItemHelper> mockPayingItemHelper = new Mock<IPayingItemHelper>();
-        //        Mock<IPayingItemProductHelper> mockPayingItemProductHelper = new Mock<IPayingItemProductHelper>();
-        //        var mock = new TestMockObject();
-        //        mock.MockProduct.Setup(m => m.GetList()).Returns(new List<Product>()
-        //        {
-        //            new Product() {CategoryID = 1, Description = "Prod1",ProductID = 1,UserID = "1"},
-        //            new Product() {CategoryID = 1, Description = "Prod2",ProductID = 2,UserID = "1"},
-        //            new Product() {CategoryID = 2, Description = "Prod3",ProductID = 3,UserID = "2"},
-        //            new Product() {CategoryID = 1, Description = "Prod5",ProductID = 5,UserID = "2"},
-        //            new Product() {CategoryID = 1, Description = "Prod6",ProductID = 6,UserID = "2"},
-        //            new Product() {CategoryID = 1, Description = "Prod7",ProductID = 7,UserID = "2"}
-        //        });
-        //        var pItemEditModel = CreatePayingItemEditModel(true);
-        //        PayingItemEditModel.OldCategoryId = pItemEditModel.PayingItem.CategoryID;
-        //        var target = new PayingItemController(mock.MockPayingItemObject, mock.MockCategoryObject, mock.MockAccountObject, 
-        //            mock.MockProductObject, mockPayingItemProductHelper.Object,mockPayingItemHelper.Object);
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Can_Save_PayingItem_With_Same_Category()
+        {
+            PayingItemEditModel.OldCategoryId = 2;
+            var pItemEditModel = new PayingItemEditModel()
+            {
+                PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
+                PayingItem = new PayingItem() { CategoryID = 2 }
+            };
+            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
+                _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
-        //        var result = await target.Edit(new WebUser() {Id = "1"}, pItemEditModel);
-        //        var routeResult = (RedirectToRouteResult) result;
+            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
+            var routeResult = (RedirectToRouteResult)result;
 
-        //        Assert.AreEqual(routeResult.RouteValues["action"],"List");
-        //        Assert.IsInstanceOfType(result,typeof(ActionResult));
-        //    }
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(routeResult.RouteValues["action"], "List");
+            _payingItemService.Verify(m => m.UpdateAsync(pItemEditModel.PayingItem));
+            _pItemProductHelper.Verify(m => m.UpdatePayingItemProduct(pItemEditModel));
+        }
 
         [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
         public void ExpensiveCategories()
         {
             //Arrange
@@ -400,4 +397,4 @@ namespace WebUI.Tests.ControllersTests
     }
 }
 
-//ToDo ListAjax, ExpensiveCategories, GetSubCategories, GetSubCategoriesForEdit
+//ToDo ListAjax
