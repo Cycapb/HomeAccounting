@@ -1,33 +1,34 @@
-﻿using System.Text;
-using System.Web.Mvc;
-using NLog;
+﻿using System.Web.Mvc;
+using Converters;
+using Loggers;
+using Loggers.Models;
 
 namespace WebUI.Infrastructure
 {
-    public class CustomErrorAttribute:FilterAttribute,IExceptionFilter
+    public class CustomErrorAttribute : FilterAttribute, IExceptionFilter
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly IExceptionLogger _exceptionLogger;
+        private readonly IRouteDataConverter _routeDataConverter;
+
+        public CustomErrorAttribute(IExceptionLogger exceptionLogger, IRouteDataConverter routeDataConverter)
+        {
+            _exceptionLogger = exceptionLogger;
+            _routeDataConverter = routeDataConverter;
+        }
+
         public void OnException(ExceptionContext filterContext)
         {
+            //ToDO Сделать определение реального IP, даже, если он за прокси
+            var loggingModel = new MvcLoggingModel()
+            {
+                UserName = filterContext.HttpContext.User.Identity.Name,
+                UserHostAddress = filterContext.HttpContext.Request.UserHostAddress,
+                RouteData = _routeDataConverter.ConvertRouteData(filterContext.HttpContext.Request.RequestContext.RouteData.Values)
+            };
+            _exceptionLogger.LogException(filterContext.Exception, loggingModel);
+
             if (!filterContext.ExceptionHandled)
             {
-                var errorMessage = new StringBuilder();
-                errorMessage.AppendLine("\r\n");
-                errorMessage.AppendLine($"Пользователь: {filterContext.HttpContext.User.Identity.Name}");
-                errorMessage.AppendLine($"IP-адрес: {filterContext.HttpContext.Request.UserHostAddress}");
-                errorMessage.AppendLine($"Контроллер: {filterContext.RouteData.Values["controller"]} Метод: {filterContext.RouteData.Values["action"]}");
-                errorMessage.AppendLine($"Ошибка: {filterContext.Exception.Message}");
-                errorMessage.AppendLine($"Трассировка стэка: {filterContext.Exception.StackTrace}");
-                errorMessage.AppendLine("----------------Конец исключения----------------");
-                errorMessage.AppendLine("");
-                errorMessage.AppendLine($"InnerException: {filterContext.Exception.InnerException?.Message}");
-                errorMessage.AppendLine($"InnerException StackTrace: {filterContext.Exception.InnerException?.StackTrace}");
-                errorMessage.AppendLine($"----------------Конец исключения----------------");
-                errorMessage.AppendLine("");
-                errorMessage.AppendLine($"InnerException: {filterContext.Exception.InnerException?.InnerException?.Message}");
-                errorMessage.AppendLine($"InnerException StackTrace: {filterContext.Exception.InnerException?.InnerException?.StackTrace}");
-                Logger.Error(errorMessage.ToString);
-
                 filterContext.Result = new ViewResult()
                 {
                     ViewName = "ErrorPage"

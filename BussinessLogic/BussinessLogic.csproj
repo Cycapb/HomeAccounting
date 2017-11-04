@@ -40,8 +40,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\RouteDataConverter.cs" />
+    <Compile Include="Loggers\NlogExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AccountingNotificationMailBoxProvider.cs" />
     <Compile Include="Services\AccountService.cs" />
@@ -59,9 +62,17 @@
     <Compile Include="Services\TypeOfFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Converters\Converters.csproj">
+      <Project>{677dd3b3-72a6-4451-a8e1-d2a63bb690b0}</Project>
+      <Name>Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loggers\Loggers.csproj">
+      <Project>{a7c4220c-cbc8-4852-95c8-15cfc6dfaa86}</Project>
+      <Name>Loggers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{40dece90-1099-4a35-b057-738a44a65bf0}</Project>
