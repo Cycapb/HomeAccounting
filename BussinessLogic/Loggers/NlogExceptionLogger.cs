@@ -17,18 +17,19 @@ namespace BussinessLogic.Loggers
             errorMessage.AppendLine($"Пользователь: {mvcLoggingModel.UserName}");
             errorMessage.AppendLine($"IP-адрес: {mvcLoggingModel.UserHostAddress}");
             errorMessage.AppendLine($"Контроллер: {mvcLoggingModel.RouteData["controller"]} Метод: {mvcLoggingModel.RouteData["action"]}");
+            FillInnerExceptions(errorMessage, exception);
+            Logger.Error(errorMessage.ToString);
+        }
+
+        private void FillInnerExceptions(StringBuilder errorMessage, Exception exception)
+        {
             errorMessage.AppendLine($"Ошибка: {exception.Message}");
             errorMessage.AppendLine($"Трассировка стэка: {exception.StackTrace}");
             errorMessage.AppendLine("----------------Конец исключения----------------");
-            errorMessage.AppendLine("");
-            errorMessage.AppendLine($"InnerException: {exception.InnerException?.Message}");
-            errorMessage.AppendLine($"InnerException StackTrace: {exception.InnerException?.StackTrace}");
-            errorMessage.AppendLine($"----------------Конец исключения----------------");
-            errorMessage.AppendLine("");
-            errorMessage.AppendLine($"InnerException: {exception.InnerException?.InnerException?.Message}");
-            errorMessage.AppendLine($"InnerException StackTrace: {exception.InnerException?.InnerException?.StackTrace}");
-            Logger.Error(errorMessage.ToString);
+            if (exception.InnerException != null)
+            {
+                FillInnerExceptions(errorMessage, exception.InnerException);
+            }
         }
     }
 }
-//ToDo Реализовать рекурсивный проход по всем эксепшенам внутри Exception по задаче HA-59
