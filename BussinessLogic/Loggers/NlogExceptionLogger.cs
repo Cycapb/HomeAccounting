@@ -8,13 +8,7 @@ namespace BussinessLogic.Loggers
 {
     public class NlogExceptionLogger:IExceptionLogger
     {
-        private readonly IExceptionLogger _exceptionLogger;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public NlogExceptionLogger(IExceptionLogger exceptionLogger)
-        {
-            _exceptionLogger = exceptionLogger;
-        }
 
         public void LogException(Exception exception, MvcLoggingModel mvcLoggingModel)
         {
@@ -37,4 +31,4 @@ namespace BussinessLogic.Loggers
         }
     }
 }
-//ToDo Реализовать рекурсивный проход по всем эксепшенам внутри Exception
+//ToDo Реализовать рекурсивный проход по всем эксепшенам внутри Exception по задаче HA-59

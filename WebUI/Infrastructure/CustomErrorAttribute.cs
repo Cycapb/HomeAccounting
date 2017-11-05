@@ -18,7 +18,7 @@ namespace WebUI.Infrastructure
 
         public void OnException(ExceptionContext filterContext)
         {
-            //ToDO Сделать определение реального IP, даже, если он за прокси
+            //ToDO Сделать определение реального IP, даже, если он за прокси по задаче HA-33
             var loggingModel = new MvcLoggingModel()
             {
                 UserName = filterContext.HttpContext.User.Identity.Name,

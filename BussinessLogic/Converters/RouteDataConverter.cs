@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Routing;
 using Converters;
 
@@ -8,7 +9,7 @@ namespace BussinessLogic.Converters
     {
         public Dictionary<string, object> ConvertRouteData(RouteValueDictionary routeValueDictionary)
         {
-            throw new System.NotImplementedException();
+            return routeValueDictionary.Keys.ToDictionary(key => key, key => routeValueDictionary[key]);
         }
     }
 }
