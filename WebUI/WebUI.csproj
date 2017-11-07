@@ -693,6 +693,10 @@
       <Project>{a7c4220c-cbc8-4852-95c8-15cfc6dfaa86}</Project>
       <Name>Loggers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Providers\Providers.csproj">
+      <Project>{79553655-ccba-4823-8459-ca7d610e7f67}</Project>
+      <Name>Providers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{40dece90-1099-4a35-b057-738a44a65bf0}</Project>
       <Name>Services</Name>

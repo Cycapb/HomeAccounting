@@ -1,7 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Text;
+using System.Web.Mvc;
 using Converters;
 using Loggers;
 using Loggers.Models;
+using Providers;
 
 namespace WebUI.Infrastructure
 {
@@ -9,21 +12,31 @@ namespace WebUI.Infrastructure
     {
         private readonly IExceptionLogger _exceptionLogger;
         private readonly IRouteDataConverter _routeDataConverter;
+        private readonly IIpAddressProvider _ipAddressProvider;
 
-        public CustomErrorAttribute(IExceptionLogger exceptionLogger, IRouteDataConverter routeDataConverter)
+        public CustomErrorAttribute(IExceptionLogger exceptionLogger, IRouteDataConverter routeDataConverter,
+            IIpAddressProvider ipAddressProvider)
         {
             _exceptionLogger = exceptionLogger;
             _routeDataConverter = routeDataConverter;
+            _ipAddressProvider = ipAddressProvider;
         }
 
         public void OnException(ExceptionContext filterContext)
         {
-            //ToDO Сделать определение реального IP, даже, если он за прокси по задаче HA-33
+            var xForwardedFor = filterContext.HttpContext.Request.Headers["X-Forwarded-For"];
+            var userHostAddress = filterContext.HttpContext.Request.UserHostAddress;
+            var hostAddresses = string.IsNullOrEmpty(xForwardedFor)
+                ? userHostAddress
+                : $"{xForwardedFor}, {userHostAddress}";
+            var allIpAddresses = GetAllIpAddresses(hostAddresses);
+
             var loggingModel = new MvcLoggingModel()
             {
                 UserName = filterContext.HttpContext.User.Identity.Name,
-                UserHostAddress = filterContext.HttpContext.Request.UserHostAddress,
-                RouteData = _routeDataConverter.ConvertRouteData(filterContext.HttpContext.Request.RequestContext.RouteData.Values)
+                UserHostAddress = GetAllIpAddresses(allIpAddresses),
+                RouteData = _routeDataConverter.ConvertRouteData(filterContext.HttpContext.Request.RequestContext
+                    .RouteData.Values)
             };
             _exceptionLogger.LogException(filterContext.Exception, loggingModel);
 
@@ -35,6 +48,19 @@ namespace WebUI.Infrastructure
                 };
                 filterContext.ExceptionHandled = true;
             }
+        }
+
+        private string GetAllIpAddresses(string hostAddresses)
+        {
+            var inAddresses = hostAddresses.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
+            var outAddresses = new StringBuilder();
+
+            foreach (var ip in inAddresses)
+            {
+                outAddresses.Append(_ipAddressProvider.GetIpAddress(ip));
+            }
+
+            return outAddresses.ToString();
         }
     }
 }

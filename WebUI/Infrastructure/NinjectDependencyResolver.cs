@@ -15,6 +15,7 @@ using Ninject;
 using Services;
 using DomainModels.EntityORM;
 using Loggers;
+using Providers;
 
 namespace WebUI.Infrastructure
 {
@@ -68,6 +69,8 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IMessageProvider>().To<MessageProvider>();
             _kernel.Bind<IRouteDataConverter>().To<RouteDataConverter>();
             _kernel.Bind<IExceptionLogger>().To<NlogExceptionLogger>();
+            _kernel.Bind<IIpAddressProvider>().To<IpAddressProviderLogginDecorator>();
+            _kernel.Bind<IIpAddressProvider>().To<IpAddressProvider>().WhenInjectedInto<IpAddressProviderLogginDecorator>();
         }
 
         public object GetService(Type serviceType)

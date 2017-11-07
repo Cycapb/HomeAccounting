@@ -12,21 +12,26 @@ namespace BussinessLogic.Loggers
 
         public void LogException(Exception exception, MvcLoggingModel mvcLoggingModel)
         {
-            if (mvcLoggingModel == null || exception == null)
+            if (exception == null)
             {
                 return;
             }
             var errorMessage = new StringBuilder();
             errorMessage.AppendLine("\r\n");
-            errorMessage.AppendLine($"Пользователь: {mvcLoggingModel.UserName}");
-            errorMessage.AppendLine($"IP-адрес: {mvcLoggingModel.UserHostAddress}");
-            if (mvcLoggingModel.RouteData != null)
+
+            if (mvcLoggingModel != null)
             {
-                if (mvcLoggingModel.RouteData.ContainsKey("controller") && mvcLoggingModel.RouteData.ContainsKey("action"))
+                errorMessage.AppendLine($"Пользователь: {mvcLoggingModel.UserName}");
+                errorMessage.AppendLine($"IP-адрес(а): {mvcLoggingModel.UserHostAddress}");
+                if (mvcLoggingModel.RouteData != null)
                 {
-                    errorMessage.AppendLine($"Контроллер: {mvcLoggingModel.RouteData?["controller"]} Метод: {mvcLoggingModel.RouteData?["action"]}");
+                    if (mvcLoggingModel.RouteData.ContainsKey("controller") && mvcLoggingModel.RouteData.ContainsKey("action"))
+                    {
+                        errorMessage.AppendLine($"Контроллер: {mvcLoggingModel.RouteData?["controller"]} Метод: {mvcLoggingModel.RouteData?["action"]}");
+                    }
                 }
             }
+            
             FillInnerExceptions(errorMessage, exception);
             Logger.Error(errorMessage.ToString);
         }

@@ -3,6 +3,7 @@ using Converters;
 using Loggers;
 using WebUI.App_Start;
 using WebUI.Infrastructure;
+using Providers;
 
 namespace WebUI
 {
@@ -12,7 +13,9 @@ namespace WebUI
         {
             filters.Add(new CustomErrorAttribute(
                 (IExceptionLogger) NinjectWebCommon.Kernel.GetService(typeof(IExceptionLogger)),
-                (IRouteDataConverter) NinjectWebCommon.Kernel.GetService(typeof(IRouteDataConverter))));
+                (IRouteDataConverter) NinjectWebCommon.Kernel.GetService(typeof(IRouteDataConverter)),
+                (IIpAddressProvider) NinjectWebCommon.Kernel.GetService(typeof(IIpAddressProvider))
+                ));
         }
     }
 }

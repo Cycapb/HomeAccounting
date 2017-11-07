@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LoggersTests\NlogExceptionLoggerTests.cs" />
+    <Compile Include="ProvidersTests\IpAddressProviderTests.cs" />
     <Compile Include="ServicesTests\DebtServiceTests.cs" />
     <Compile Include="ServicesTests\MailboxServiceTests.cs" />
     <Compile Include="ServicesTests\OrderDetailServiceTests.cs" />
