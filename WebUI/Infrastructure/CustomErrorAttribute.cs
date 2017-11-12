@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Converters;
 using Loggers;
 using Loggers.Models;
@@ -12,14 +10,14 @@ namespace WebUI.Infrastructure
     {
         private readonly IExceptionLogger _exceptionLogger;
         private readonly IRouteDataConverter _routeDataConverter;
-        private readonly IIpAddressProvider _ipAddressProvider;
+        private readonly IMultipleIpAddressProvider _multipleIpAddressProvider;
 
         public CustomErrorAttribute(IExceptionLogger exceptionLogger, IRouteDataConverter routeDataConverter,
-            IIpAddressProvider ipAddressProvider)
+            IMultipleIpAddressProvider multipleIpAddressProvider)
         {
             _exceptionLogger = exceptionLogger;
             _routeDataConverter = routeDataConverter;
-            _ipAddressProvider = ipAddressProvider;
+            _multipleIpAddressProvider = multipleIpAddressProvider;
         }
 
         public void OnException(ExceptionContext filterContext)
@@ -29,12 +27,12 @@ namespace WebUI.Infrastructure
             var hostAddresses = string.IsNullOrEmpty(xForwardedFor)
                 ? userHostAddress
                 : $"{xForwardedFor}, {userHostAddress}";
-            var allIpAddresses = GetAllIpAddresses(hostAddresses);
+            var allIpAddresses = _multipleIpAddressProvider.GetIpAddresses(hostAddresses);
 
             var loggingModel = new MvcLoggingModel()
             {
                 UserName = filterContext.HttpContext.User.Identity.Name,
-                UserHostAddress = GetAllIpAddresses(allIpAddresses),
+                UserHostAddress = allIpAddresses,
                 RouteData = _routeDataConverter.ConvertRouteData(filterContext.HttpContext.Request.RequestContext
                     .RouteData.Values)
             };
@@ -48,19 +46,6 @@ namespace WebUI.Infrastructure
                 };
                 filterContext.ExceptionHandled = true;
             }
-        }
-
-        private string GetAllIpAddresses(string hostAddresses)
-        {
-            var inAddresses = hostAddresses.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
-            var outAddresses = new StringBuilder();
-
-            foreach (var ip in inAddresses)
-            {
-                outAddresses.Append(_ipAddressProvider.GetIpAddress(ip));
-            }
-
-            return outAddresses.ToString();
         }
     }
 }

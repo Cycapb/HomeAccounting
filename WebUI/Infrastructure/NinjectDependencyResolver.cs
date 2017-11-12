@@ -69,8 +69,11 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IMessageProvider>().To<MessageProvider>();
             _kernel.Bind<IRouteDataConverter>().To<RouteDataConverter>();
             _kernel.Bind<IExceptionLogger>().To<NlogExceptionLogger>();
-            _kernel.Bind<IIpAddressProvider>().To<IpAddressProviderLogginDecorator>();
-            _kernel.Bind<IIpAddressProvider>().To<IpAddressProvider>().WhenInjectedInto<IpAddressProviderLogginDecorator>();
+            _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProvider>();
+            _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProvider>().WhenInjectedInto<SingleIpAddressProviderLoggingDecorator>();
+            _kernel.Bind<IMultipleIpAddressProvider>().To<MultipleIpAddressProvider>();
+            _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProviderLoggingDecorator>()
+                .WhenInjectedInto<MultipleIpAddressProvider>();
         }
 
         public object GetService(Type serviceType)

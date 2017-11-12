@@ -5,7 +5,7 @@ using Services.Exceptions;
 
 namespace BussinessLogic.Providers
 {
-    public class IpAddressProvider:IIpAddressProvider
+    public class SingleIpAddressProvider : ISingleIpAddressProvider
     {
         public string GetIpAddress(string ipAddress)
         {

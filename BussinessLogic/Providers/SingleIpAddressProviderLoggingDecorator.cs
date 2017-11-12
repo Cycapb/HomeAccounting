@@ -4,14 +4,14 @@ using Services.Exceptions;
 
 namespace BussinessLogic.Providers
 {
-    public class IpAddressProviderLogginDecorator:IIpAddressProvider
+    public class SingleIpAddressProviderLoggingDecorator:ISingleIpAddressProvider
     {
+        private readonly ISingleIpAddressProvider _singleIpAddressProvider;
         private readonly IExceptionLogger _exceptionLogger;
-        private readonly IIpAddressProvider _decoratedIpAddressProvider;
 
-        public IpAddressProviderLogginDecorator(IIpAddressProvider ipAddressProvider, IExceptionLogger exceptionLogger)
+        public SingleIpAddressProviderLoggingDecorator(ISingleIpAddressProvider singleIpAddressProvider, IExceptionLogger exceptionLogger)
         {
-            _decoratedIpAddressProvider = ipAddressProvider;
+            _singleIpAddressProvider = singleIpAddressProvider;
             _exceptionLogger = exceptionLogger;
         }
 
@@ -19,7 +19,7 @@ namespace BussinessLogic.Providers
         {
             try
             {
-                return _decoratedIpAddressProvider.GetIpAddress(ipAddress);
+                return _singleIpAddressProvider.GetIpAddress(ipAddress);
             }
             catch (ServiceException e)
             {

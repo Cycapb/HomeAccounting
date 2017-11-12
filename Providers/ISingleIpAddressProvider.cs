@@ -1,6 +1,6 @@
 ﻿namespace Providers
 {
-    public interface IIpAddressProvider
+    public interface ISingleIpAddressProvider
     {
         string GetIpAddress(string ipAddress);
     }

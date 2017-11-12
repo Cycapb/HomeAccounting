@@ -6,17 +6,17 @@ using Services.Exceptions;
 namespace BussinessLogic.Tests.ProvidersTests
 {
     [TestClass]
-    public class IpAddressProviderTests
+    public class SingleIpAddressProviderTests
     {
-        private readonly IpAddressProvider _ipAddressProvider;
+        private readonly SingleIpAddressProvider _ipAddressProvider;
 
-        public IpAddressProviderTests()
+        public SingleIpAddressProviderTests()
         {
-            _ipAddressProvider = new IpAddressProvider();
+            _ipAddressProvider = new SingleIpAddressProvider();
         }
 
         [TestMethod]
-        [TestCategory("IpAddressProviderTests")]
+        [TestCategory("SingleIpAddressProviderTests")]
         public void GetIpAddress_InputNullIpAddress_ReturnsServiceExceptionWithArgumentNullException()
         {
             try
@@ -30,7 +30,7 @@ namespace BussinessLogic.Tests.ProvidersTests
         }
 
         [TestMethod]
-        [TestCategory("IpAddressProviderTests")]
+        [TestCategory("SingleIpAddressProviderTests")]
         public void GetIpAddress_InputWrongFormat_ReturnsServiceExceptionWithFormatException()
         {
             try
@@ -45,7 +45,7 @@ namespace BussinessLogic.Tests.ProvidersTests
         }
 
         [TestMethod]
-        [TestCategory("IpAddressProviderTests")]
+        [TestCategory("SingleIpAddressProviderTests")]
         [ExpectedException(typeof(ServiceException))]
         public void GetIpAddress_OtherExceptions_ReturnsServiceException()
         {
@@ -54,7 +54,7 @@ namespace BussinessLogic.Tests.ProvidersTests
         }
 
         [TestMethod]
-        [TestCategory("IpAddressProviderTests")]
+        [TestCategory("SingleIpAddressProviderTests")]
         public void GetIpAddress_InputIpV4_ReturnsCorrectIpV4()
         {
             var ip = $"192.168.1.25";
@@ -65,7 +65,7 @@ namespace BussinessLogic.Tests.ProvidersTests
         }
 
         [TestMethod]
-        [TestCategory("IpAddressProviderTests")]
+        [TestCategory("SingleIpAddressProviderTests")]
         public void GetIpAddress_InputIpV6_ReturnsCorrectIpV6()
         {
             var ip = $"FF80:0000:0000:0000:0123:1234:ABCD:EF12";

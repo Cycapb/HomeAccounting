@@ -14,7 +14,7 @@ namespace WebUI
             filters.Add(new CustomErrorAttribute(
                 (IExceptionLogger) NinjectWebCommon.Kernel.GetService(typeof(IExceptionLogger)),
                 (IRouteDataConverter) NinjectWebCommon.Kernel.GetService(typeof(IRouteDataConverter)),
-                (IIpAddressProvider) NinjectWebCommon.Kernel.GetService(typeof(IIpAddressProvider))
+                (IMultipleIpAddressProvider) NinjectWebCommon.Kernel.GetService(typeof(IMultipleIpAddressProvider))
                 ));
         }
     }
