@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -21,14 +24,28 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-            return View(mailboxes);
+            try
+            {
+                var mailboxes = (await _mailboxService.GetListAsync()).ToList();
+                return View(mailboxes);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}", e);
+            }
         }
 
         public async Task<ActionResult> List()
         {
-            var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-            return PartialView("_List", mailboxes);
+            try
+            {
+                var mailboxes = (await _mailboxService.GetListAsync()).ToList();
+                return PartialView("_List", mailboxes);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(List)}", e);
+            }
         }
 
         public ActionResult Add()
@@ -53,8 +70,15 @@ namespace WebUI.Controllers
                   Port = model.Port,
                   UseSsl  = model.UseSsl
                 };
-                await _mailboxService.AddAsync(box);
-                return RedirectToAction("Index");
+                try
+                {
+                    await _mailboxService.AddAsync(box);
+                    return RedirectToAction("Index");
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Add)}", e);
+                }
             }
             return View("Mailbox");
         }
@@ -68,7 +92,15 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var model = await _mailboxService.GetItemAsync(id);
+            NotificationMailBox model;
+            try
+            {
+                model = await _mailboxService.GetItemAsync(id);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}", e);
+            }
 
             if (model == null)
             {
@@ -99,19 +131,27 @@ namespace WebUI.Controllers
             {
                 return RedirectToAction("Index");
             }
+
             if (ModelState.IsValid)
             {
-                var itemToUpdate = await _mailboxService.GetItemAsync(model.Id);
+                try
+                {
+                    var itemToUpdate = await _mailboxService.GetItemAsync(model.Id);
 
-                itemToUpdate.MailBoxName = model.MailBoxName;
-                itemToUpdate.MailFrom = model.MailFrom;
-                itemToUpdate.Password = model.Password;
-                itemToUpdate.UserName = model.UserName;
-                itemToUpdate.Server = model.Server;
-                itemToUpdate.Port = model.Port;
-                itemToUpdate.UseSsl = model.UseSsl;
+                    itemToUpdate.MailBoxName = model.MailBoxName;
+                    itemToUpdate.MailFrom = model.MailFrom;
+                    itemToUpdate.Password = model.Password;
+                    itemToUpdate.UserName = model.UserName;
+                    itemToUpdate.Server = model.Server;
+                    itemToUpdate.Port = model.Port;
+                    itemToUpdate.UseSsl = model.UseSsl;
 
-                await _mailboxService.UpdateAsync(itemToUpdate);
+                    await _mailboxService.UpdateAsync(itemToUpdate);
+                }
+                catch (Exception e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}", e);
+                }
 
                 return RedirectToAction("Index");
             }

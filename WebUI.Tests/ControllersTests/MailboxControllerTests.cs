@@ -6,6 +6,8 @@ using Moq;
 using System.Collections.Generic;
 using DomainModels.Model;
 using System.Threading.Tasks;
+using Services.Exceptions;
+using WebUI.Exceptions;
 using WebUI.Models;
 
 namespace WebUI.Tests.ControllersTests
@@ -43,12 +45,59 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("MailboxControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Index_RaiseWebUiException()
+        {
+            _mailboxService.Setup(m => m.GetListAsync()).Throws<ServiceException>();
+
+            await _controller.Index();
+        }
+
+        [TestMethod]
+        [TestCategory("MailboxControllerTests")]
+        public async Task Index_RaiseWebUiExceptionWithInnerServiceException()
+        {
+            _mailboxService.Setup(m => m.GetListAsync()).Throws<ServiceException>();
+            
+            try
+            {
+                await _controller.Index();
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+            
+        }
+
+        [TestMethod]
+        [TestCategory("MailboxControllerTests")]
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
             var model = ((ViewResult) result).Model as MailboxAddViewModel;
 
             Assert.IsNotNull(model);
+        }
+
+        [TestMethod]
+        [TestCategory("MailboxControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Add_RaisesWebUiException()
+        {
+            _mailboxService.Setup(m => m.AddAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
+
+            await _controller.Add(new MailboxAddViewModel());
+        }
+
+        [TestMethod]
+        [TestCategory("MailboxControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task List_RaisesWebUiException()
+        {
+            _mailboxService.Setup(m => m.GetListAsync()).Throws<ServiceException>();
+
+            await _controller.List();
         }
 
         [TestMethod]
@@ -114,6 +163,26 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
             Assert.AreEqual(redirectResult.RouteValues["action"],"Index");
             _mailboxService.Verify(x => x.UpdateAsync(It.IsAny<NotificationMailBox>()),Times.Exactly(1));
+        }
+
+        [TestMethod]
+        [TestCategory("MailboxControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_HttpGetMethod_RaisesWebUiException()
+        {
+            _mailboxService.Setup(m => m.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            await _controller.Edit(1);
+        }
+
+        [TestMethod]
+        [TestCategory("MailboxControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_HttpPostMethod_RaisesWebUiException()
+        {
+            _mailboxService.Setup(m => m.UpdateAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
+
+            await _controller.Edit(new MailboxAddViewModel());
         }
     }
 }
