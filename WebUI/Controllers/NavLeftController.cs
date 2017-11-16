@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using DomainModels.Model;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -21,10 +25,17 @@ namespace WebUI.Controllers
 
         public ActionResult GetAccounts(WebUser user)
         {
-            var accounts = _accService.GetList()
-                .Where(u=>u.UserId == user.Id)
-                .ToList();
-            return PartialView(accounts);
+            try
+            {
+                var accounts = _accService.GetList()
+                    .Where(u => u.UserId == user.Id)
+                    .ToList();
+                return PartialView(accounts);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(NavLeftController)} в методе {nameof(GetAccounts)}", e);
+            }
         }
 
         public ActionResult GetBudgets(WebUser user)
@@ -32,14 +43,21 @@ namespace WebUI.Controllers
             return PartialView(GetBudget(user));
         }
 
-        private Budget GetBudget(WebUser user)
+        private Budget GetBudget(IWorkingUser user)
         {
-            var budget = new Budget();
-
-            budget.BudgetInFact = _dbHelper.GetBudgetInFactWeb(user).Result;
-            budget.BudgetOverAll = _dbHelper.GetBudgetOverAllWeb(user).Result;
-
-            return budget;
+            try
+            {
+                var budget = new Budget
+                {
+                    BudgetInFact = _dbHelper.GetBudgetInFactWeb(user).Result,
+                    BudgetOverAll = _dbHelper.GetBudgetOverAllWeb(user).Result
+                };
+                return budget;
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(NavLeftController)} в методе {nameof(GetBudget)}", e);
+            }
         }
     }
 }
