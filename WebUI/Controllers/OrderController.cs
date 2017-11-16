@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using DomainModels.Model;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 using WebUI.Infrastructure.Attributes;
 
 namespace WebUI.Controllers
@@ -19,30 +23,63 @@ namespace WebUI.Controllers
         {
             _orderService = orderService;            
         }
-
         
         public async Task<ActionResult> Index(WebUser user)
         {
-            var orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+            List<Order> orders;
+            try
+            {
+                orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Index)}", e);
+            }
+            
             return PartialView("_Index",orders);
         }
 
         public async Task<ActionResult> OrderList(WebUser user)
         {
-            var orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+            List<Order> orders;
+            try
+            {
+                orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(OrderList)}", e);
+            }
+            
             return PartialView("_OrderList", orders);
         }
 
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            await  _orderService.DeleteAsync(id);
+            try
+            {
+                await _orderService.DeleteAsync(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Delete)}", e);
+            }
             return RedirectToAction("OrderList");
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            var order = await _orderService.GetOrderAsync(id);
+            Order order;
+            try
+            {
+                order = await _orderService.GetOrderAsync(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Edit)}", e);
+            }
+            
             return PartialView("_OrderDetailsList", order);
         }
 
@@ -51,7 +88,15 @@ namespace WebUI.Controllers
         [UserHasAnyCategories]
         public async Task<ActionResult> Add(WebUser user)
         {
-            await _orderService.CreateOrderAsync(DateTime.Now, user.Id);
+            try
+            {
+                await _orderService.CreateOrderAsync(DateTime.Now, user.Id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Add)}", e);
+            }
+            
             return RedirectToAction("OrderList");
         }
 
@@ -61,14 +106,29 @@ namespace WebUI.Controllers
             var mailTo = ((WebUser)Session["WebUser"]).Email;
             if (mailTo != null)
             {
-                await Task.Run(() => _orderService.SendByEmail(id, ((WebUser)Session["WebUser"]).Email));
+                try
+                {
+                    await Task.Run(() => _orderService.SendByEmail(id, ((WebUser)Session["WebUser"]).Email));
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(SendEmail)}", e);
+                }
             }             
         }
 
         [HttpPost]
         public async Task<ActionResult> CloseOrder(int id)
         {
-            await _orderService.CloseOrder(id);
+            try
+            {
+                await _orderService.CloseOrder(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(CloseOrder)}", e);
+            }
+            
             return RedirectToAction("OrderList");
         }
     }
