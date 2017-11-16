@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.SessionState;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -17,9 +19,16 @@ namespace WebUI.Controllers
         
         public PartialViewResult List()
         {
-            var types = _tofService.GetList()
-                .ToList();
-            return PartialView(types);
+            try
+            {
+                var types = _tofService.GetList()
+                    .ToList();
+                return PartialView(types);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(NavTypeOfFlowController)} в методе {nameof(List)}", e);
+            }
         }
     }
 }
