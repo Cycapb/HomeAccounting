@@ -6,6 +6,8 @@ using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -55,6 +57,30 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(1000, result.Day);
             Assert.AreEqual(1300, result.Week);
             Assert.AreEqual(1500, result.Month);
+        }
+
+        [TestMethod]
+        [TestCategory("NavRightControllertTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public void MenuIncoming_RaisesWebUiException()
+        {
+            _service.Setup(m => m.GetListByTypeOfFlow(It.IsAny<IWorkingUser>(), It.IsAny<int>()))
+                .Throws<ServiceException>();
+            var target = new NavRightController(_service.Object, null);
+
+            target.MenuIncoming(new WebUser());
+        }
+
+        [TestMethod]
+        [TestCategory("NavRightControllertTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public void MenuOutgo_RaisesWebUiException()
+        {
+            _service.Setup(m => m.GetListByTypeOfFlow(It.IsAny<IWorkingUser>(), It.IsAny<int>()))
+                .Throws<ServiceException>();
+            var target = new NavRightController(_service.Object, null);
+
+            target.MenuOutgo(new WebUser());
         }
     }
 }

@@ -5,6 +5,8 @@ using System.Web.SessionState;
 using DomainModels.Model;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -23,8 +25,16 @@ namespace WebUI.Controllers
 
         public ActionResult MenuIncoming(WebUser user)
         {
-            var collection = _service.GetListByTypeOfFlow(user,1)
-                .ToList();
+            List<PayingItem> collection;
+            try
+            {
+                collection = _service.GetListByTypeOfFlow(user, 1)
+                    .ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(NavRightController)} в методе {nameof(MenuIncoming)}", e);
+            }
                 
             var budgetModel = BudgetModel(collection, 1);
             return PartialView(budgetModel);
@@ -32,9 +42,18 @@ namespace WebUI.Controllers
 
         public PartialViewResult MenuOutgo(WebUser user)
         {
-            var collection = _service.GetListByTypeOfFlow(user,2)
-                .ToList();
-            BudgetModel budgetModel = BudgetModel(collection,2);
+            List<PayingItem> collection;
+            try
+            {
+                collection = _service.GetListByTypeOfFlow(user, 2)
+                    .ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(NavRightController)} в методе {nameof(MenuOutgo)}", e);
+            }
+
+            var budgetModel = BudgetModel(collection,2);
             return PartialView(budgetModel);
         }
 
