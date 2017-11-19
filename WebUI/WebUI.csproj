@@ -418,6 +418,7 @@
     <Content Include="Scripts\Buttons.js" />
     <Content Include="Scripts\ChangeButtonColor.js" />
     <None Include="Properties\PublishProfiles\Production_Release.pubxml" />
+    <None Include="Properties\PublishProfiles\Production_Test.pubxml" />
     <None Include="Properties\PublishProfiles\Test_Release.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
