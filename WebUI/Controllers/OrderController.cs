@@ -51,7 +51,7 @@ namespace WebUI.Controllers
         [UserHasAnyCategories]
         public async Task<ActionResult> Add(WebUser user)
         {
-            await _orderService.CreateOrderAsync(DateTime.Today, user.Id);
+            await _orderService.CreateOrderAsync(DateTime.Now, user.Id);
             return RedirectToAction("OrderList");
         }
 

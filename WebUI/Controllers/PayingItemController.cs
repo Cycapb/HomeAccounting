@@ -130,7 +130,7 @@ namespace WebUI.Controllers
 
             if (pItem == null)
             {
-                return RedirectToAction("ListAjax");
+                return RedirectToAction("ListAjax", 1);
             }
 
             var pItemEditModel = new PayingItemEditModel()
@@ -249,11 +249,8 @@ namespace WebUI.Controllers
             {
                 return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
             }
-            else
-            {
-                return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
-                                   pItem.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
-            }
+            return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
+                   pItem.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
         }
 
     }

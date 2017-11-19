@@ -42,5 +42,23 @@ namespace BussinessLogic.Tests.ServicesTests
             Assert.AreEqual(result.ID, 1);
             Assert.AreEqual(result.OrderId, 2);
         }
+
+        [TestMethod]
+        [TestCategory("OrderDetailServiceTests")]
+        public async Task CreateOrderDetails()
+        {
+            var productId = 2;
+            _pItemProductRepo.Setup(m => m.GetListAsync()).ReturnsAsync(new List<PaiyngItemProduct>()
+            {
+                new PaiyngItemProduct() {ItemID = 1,Summ = 100, ProductID = 1},
+                new PaiyngItemProduct() {ItemID = 2, ProductID = 2, Summ = 200},
+                new PaiyngItemProduct() {ItemID = 3, ProductID = 2,Summ = 300}
+            });
+
+            var orderDetail = await _orderDetailService.CreateAsync(new OrderDetail() { ProductId = productId });
+
+            Assert.AreEqual(orderDetail.ProductPrice, 300);
+            _orderDetailRepo.Verify(m => m.CreateAsync(It.IsAny<OrderDetail>()), Times.Exactly(1));
+        }
     }
 }

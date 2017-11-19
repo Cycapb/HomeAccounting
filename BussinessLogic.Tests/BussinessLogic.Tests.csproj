@@ -68,10 +68,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LoggersTests\NlogExceptionLoggerTests.cs" />
+    <Compile Include="ProvidersTests\SingleIpAddressProviderTests.cs" />
+    <Compile Include="ProvidersTests\SingleIpAddressProviderLoggingDecoratorTests.cs" />
     <Compile Include="ServicesTests\DebtServiceTests.cs" />
     <Compile Include="ServicesTests\MailboxServiceTests.cs" />
     <Compile Include="ServicesTests\OrderDetailServiceTests.cs" />
     <Compile Include="ServicesTests\CategoryServiceTests.cs" />
+    <Compile Include="ServicesTests\OrderServiceTests.cs" />
     <Compile Include="ServicesTests\PayingItemServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +96,14 @@
     <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loggers\Loggers.csproj">
+      <Project>{a7c4220c-cbc8-4852-95c8-15cfc6dfaa86}</Project>
+      <Name>Loggers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\Providers.csproj">
+      <Project>{79553655-ccba-4823-8459-ca7d610e7f67}</Project>
+      <Name>Providers</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebUI\WebUI.csproj">
       <Project>{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}</Project>

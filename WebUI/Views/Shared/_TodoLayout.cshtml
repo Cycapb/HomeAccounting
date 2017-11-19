@@ -5,10 +5,14 @@
 <head>
     <meta name="viewport" content="width=device-width"/>
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/bundles/bootstrap-site/css", "~/bundles/material-kit/css")
-    @Scripts.Render("~/bundles/jquery", "~/bundles/material-kit", "~/bundles/bootstrap")
-    <script src="~/Scripts/knockout-3.4.0.js"></script>
-    <script src="~/Scripts/knockout.validation.js"></script>
+    @Styles.Render("~/bundles/material-kit/css")
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap-material-kit", "~/bundles/knockout")
+
     <script type="text/javascript">
         var currentUserId = "@HttpContext.Current.User.Identity.GetUserId()";
     </script>

@@ -594,7 +594,6 @@
     <Content Include="Views\Report\ReportModelPageLinks.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_ReportLayout.cshtml" />
-    <Content Include="Views\Shared\_ServiceLayout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\UserAccount\Login.cshtml" />
     <Content Include="Views\RoleAdmin\Index.cshtml" />
@@ -679,6 +678,10 @@
       <Project>{e1ec4533-ff70-440f-860f-bb7060ef7ef7}</Project>
       <Name>BussinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Converters\Converters.csproj">
+      <Project>{677dd3b3-72a6-4451-a8e1-d2a63bb690b0}</Project>
+      <Name>Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj">
       <Project>{c1f90f9e-6661-4d72-a4a5-d3ea32c9fedc}</Project>
       <Name>DomainModels.EntityORM</Name>
@@ -686,6 +689,14 @@
     <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loggers\Loggers.csproj">
+      <Project>{a7c4220c-cbc8-4852-95c8-15cfc6dfaa86}</Project>
+      <Name>Loggers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\Providers.csproj">
+      <Project>{79553655-ccba-4823-8459-ca7d610e7f67}</Project>
+      <Name>Providers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{40dece90-1099-4a35-b057-738a44a65bf0}</Project>

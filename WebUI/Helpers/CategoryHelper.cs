@@ -33,12 +33,12 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
+                    $"Ошибка в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
             }
             catch (Exception e)
             {
                 throw new WebUiException(
-                    $"Ошибка {e.GetType()} в контроллере {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
+                    $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
             }
 
             return new CategoriesViewModel()
@@ -70,12 +70,12 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
+                    $"Ошибка в типе {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
             }
             catch (Exception e)
             {
                 throw new WebUiException(
-                    $"Ошибка {e.GetType()} в контроллере {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
+                    $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
             }
         }
     }

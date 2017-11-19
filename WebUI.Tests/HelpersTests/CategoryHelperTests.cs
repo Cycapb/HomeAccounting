@@ -98,7 +98,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestCategory("CategoryHelperTests")]
         [TestMethod]
-        public async Task CreateCategoriesViewModel_ThrowsWebUiException_WithInnerServcieException()
+        public async Task CreateCategoriesViewModel_ThrowsWebUiException_WithInnerServiceException()
         {
             try
             {

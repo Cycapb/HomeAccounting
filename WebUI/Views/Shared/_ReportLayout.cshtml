@@ -8,12 +8,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
- 
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Content/assets/js/bootstrap.min.js"></script>
-    <script src="~/Content/assets/js/bootstrap-datepicker.js"></script>
-    <script src="~/Scripts/locales/bootstrap-datepicker.ru.min.js"></script>
+    
+    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap-datepicker")
+
     <script src="~/Content/assets/js/material-kit.js"></script>
     <script src="~/Scripts/CalendarScript.js"></script>
 </head>

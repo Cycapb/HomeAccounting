@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using BussinessLogic.Converters;
+using BussinessLogic.Loggers;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
+using Converters;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using WebUI.Abstract;
@@ -11,6 +14,8 @@ using WebUI.Helpers;
 using Ninject;
 using Services;
 using DomainModels.EntityORM;
+using Loggers;
+using Providers;
 
 namespace WebUI.Infrastructure
 {
@@ -62,6 +67,13 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IMailboxService>().To<MailboxService>();
             _kernel.Bind<ICategoryHelper>().To<CategoryHelper>();
             _kernel.Bind<IMessageProvider>().To<MessageProvider>();
+            _kernel.Bind<IRouteDataConverter>().To<RouteDataConverter>();
+            _kernel.Bind<IExceptionLogger>().To<NlogExceptionLogger>();
+            _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProvider>();
+            _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProvider>().WhenInjectedInto<SingleIpAddressProviderLoggingDecorator>();
+            _kernel.Bind<IMultipleIpAddressProvider>().To<MultipleIpAddressProvider>();
+            _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProviderLoggingDecorator>()
+                .WhenInjectedInto<MultipleIpAddressProvider>();
         }
 
         public object GetService(Type serviceType)
