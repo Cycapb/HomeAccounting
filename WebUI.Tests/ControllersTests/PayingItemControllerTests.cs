@@ -11,6 +11,8 @@ using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -345,6 +347,60 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(routeResult.RouteValues["action"], "List");
             _payingItemService.Verify(m => m.UpdateAsync(pItemEditModel.PayingItem));
             _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemEditModel));
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Edit_RaisesServiceException()
+        {
+            _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
+                .ReturnsAsync(new List<Category>());
+            _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
+            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+
+            await target.Edit(new WebUser(), 1, It.IsAny<int>());
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_RaisesWebUiExceptionWithInnerServiceException()
+        {
+            _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
+                .ReturnsAsync(new List<Category>());
+            _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
+            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+
+            try
+            {
+                await target.Edit(new WebUser(), 1, It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException)); 
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_RaisesWebUiExceptionWithInnerWebUiException()
+        {
+            _payingItemService.Setup(m => m.GetList()).Throws<ServiceException>();
+            _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
+                .ReturnsAsync(new List<Category>());
+            _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
+            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+
+            try
+            {
+                await target.Edit(new WebUser(), It.IsAny<int>(), It.IsAny<int>());
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiException));
+            }
         }
 
         [TestMethod]

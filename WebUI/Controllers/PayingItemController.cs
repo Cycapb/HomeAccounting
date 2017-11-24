@@ -161,27 +161,44 @@ namespace WebUI.Controllers
         public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)
         {
             await FillViewBag(user, typeOfFlowId);
-
-            var pItem = await _payingItemService.GetItemAsync(id);
-
-            if (pItem == null)
+            try
             {
-                return RedirectToAction("ListAjax", 1);
-            }
+                var pItem = await _payingItemService.GetItemAsync(id);
 
-            var pItemEditModel = new PayingItemEditModel()
-            {
-                PayingItem = pItem,
-                PayingItemProducts = new List<PaiyngItemProduct>()
-            };
-            PayingItemEditModel.OldCategoryId = pItem.CategoryID;
+                if (pItem == null)
+                {
+                    return RedirectToAction("ListAjax", 1);
+                }
 
-            if (!CheckForSubCategories(pItem))
-            {
+                var pItemEditModel = new PayingItemEditModel()
+                {
+                    PayingItem = pItem,
+                    PayingItemProducts = new List<PaiyngItemProduct>()
+                };
+                PayingItemEditModel.OldCategoryId = pItem.CategoryID;
+
+                if (!CheckForSubCategories(pItem))
+                {
+                    return PartialView(pItemEditModel);
+                }
+                _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
                 return PartialView(pItemEditModel);
             }
-            _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
-            return PartialView(pItemEditModel);
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
+            }
+            catch (WebUiException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
+            }
         }
 
         [HttpPost]
@@ -189,24 +206,37 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (pItem.PricesAndIdsInItem == null)
+                try
                 {
-                    await _payingItemService.UpdateAsync(pItem.PayingItem);
-                }
-                else
-                {
-                    pItem.PayingItem.Summ = GetSummForPayingItem(pItem);
-                    _payingItemHelper.CreateCommentWhileEdit(pItem);
-                    await _payingItemService.UpdateAsync(pItem.PayingItem);
-
-                    if (PayingItemEditModel.OldCategoryId != pItem.PayingItem.CategoryID)
+                    if (pItem.PricesAndIdsInItem == null)
                     {
-                        await _pItemProductHelper.CreatePayingItemProduct(pItem);
+                        await _payingItemService.UpdateAsync(pItem.PayingItem);
                     }
                     else
                     {
-                        await _pItemProductHelper.UpdatePayingItemProduct(pItem);
+                        pItem.PayingItem.Summ = GetSummForPayingItem(pItem);
+                        _payingItemHelper.CreateCommentWhileEdit(pItem);
+                        await _payingItemService.UpdateAsync(pItem.PayingItem);
+
+                        if (PayingItemEditModel.OldCategoryId != pItem.PayingItem.CategoryID)
+                        {
+                            await _pItemProductHelper.CreatePayingItemProduct(pItem);
+                        }
+                        else
+                        {
+                            await _pItemProductHelper.UpdatePayingItemProduct(pItem);
+                        }
                     }
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException(
+                        $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
+                }
+                catch (Exception e)
+                {
+                    throw new WebUiException(
+                        $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
                 }
                 return RedirectToAction("List");
             }
@@ -217,16 +247,33 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(WebUser user, int id)
         {
-            await _payingItemService.DeleteAsync(id);
+            try
+            {
+                await _payingItemService.DeleteAsync(id);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Delete)}", e);
+            }
             return RedirectToAction("List");
         }
 
         public ActionResult ExpensiveCategories(WebUser user)
         {
-            var tempList = _payingItemService.GetList()
-                .Where(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
-                            x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
-                .ToList();
+            List<PayingItem> tempList = null;
+            try
+            {
+                tempList = _payingItemService.GetList()
+                    .Where(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
+                    .ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ExpensiveCategories)}", e);
+            }
 
             var outList = (from item in tempList
                     group item by item.Category.Name
@@ -245,17 +292,33 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> GetSubCategories(int id)
         {
-            var products = (await _categoryService.GetItemAsync(id))
-                .Product
-                .OrderBy(x => x.ProductName)
-                .ToList();
-            return PartialView(products);
+            try
+            {
+                var products = (await _categoryService.GetItemAsync(id))
+                    .Product
+                    .OrderBy(x => x.ProductName)
+                    .ToList();
+                return PartialView(products);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(GetSubCategories)}", e);
+            }
         }
 
         public async Task<ActionResult> GetSubCategoriesForEdit(int id)
         {
-            var products = (await _categoryService.GetProducts(id)).ToList();
-            return PartialView(products);
+            try
+            {
+                var products = (await _categoryService.GetProducts(id)).ToList();
+                return PartialView(products);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(GetSubCategoriesForEdit)}", e);
+            }
         }
 
         private async Task FillViewBag(WebUser user, int typeOfFlowId)
@@ -270,6 +333,11 @@ namespace WebUI.Controllers
                     .Where(x => x.UserId == user.Id)
                     .ToList();
             }
+            catch (NullReferenceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(FillViewBag)}", e);
+            }
             catch (ServiceException e)
             {
                 throw new WebUiException(
@@ -279,13 +347,29 @@ namespace WebUI.Controllers
 
         private async Task<int> GetTypeOfFlowId(PayingItem pItem)
         {
-            return (await _categoryService.GetItemAsync(pItem.CategoryID)).TypeOfFlowID;
+            try
+            {
+                return (await _categoryService.GetItemAsync(pItem.CategoryID)).TypeOfFlowID;
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(GetTypeOfFlowId)}", e);
+            }
         }
 
         private bool CheckForSubCategories(PayingItem item)
         {
-            return _payingItemService.GetList()
-                .Any(x => x.CategoryID == item.CategoryID);
+            try
+            {
+                return _payingItemService.GetList()
+                    .Any(x => x.CategoryID == item.CategoryID);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
+            }
         }
 
         private decimal GetSummForPayingItem(PayingItemEditModel pItem)
