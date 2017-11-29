@@ -33,6 +33,18 @@ namespace BussinessLogic.Services
             }
         }
 
+        public Category GetItem(int id)
+        {
+            try
+            {
+                return _categoryRepository.GetItem(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
+
         public async Task<Category> GetItemAsync(int id)
         {
             try
