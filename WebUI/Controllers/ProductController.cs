@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Controllers
 {
@@ -27,12 +30,20 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user,Product product)
+        public async Task<ActionResult> Add(WebUser user, Product product)
         {
             if (ModelState.IsValid)
             {
-                await _productService.CreateAsync(product);
-                return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
+                try
+                {
+                    await _productService.CreateAsync(product);
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(Add)}",
+                        e);
+                }
+                return RedirectToAction("EditableList", new {categoryId = product.CategoryID});
             }
             ViewBag.CategoryId = product.CategoryID;
             return PartialView(product);
@@ -40,36 +51,73 @@ namespace WebUI.Controllers
 
         public PartialViewResult List(int categoryId)
         {
-            var products = _productService.GetList()
-                .Where(p => p.CategoryID == categoryId)
-                .ToList();
-            return PartialView(products);
+            try
+            {
+                var products = _productService.GetList()
+                    .Where(p => p.CategoryID == categoryId)
+                    .ToList();
+                return PartialView(products);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(List)}",
+                    e);
+            }
         }
 
         public ActionResult EditableList(int categoryId)
         {
-            var products = _productService.GetList()
-                .Where(p => p.CategoryID == categoryId)
-                .ToList();
-            return PartialView(products);
+            try
+            {
+                var products = _productService.GetList()
+                    .Where(p => p.CategoryID == categoryId)
+                    .ToList();
+                return PartialView(products);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(EditableList)}",
+                    e);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            var product = await _productService.GetItemAsync(id);
-            await _productService.DeleteAsync(id);
-            return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
+            try
+            {
+                var product = await _productService.GetItemAsync(id);
+                await _productService.DeleteAsync(id);
+                return RedirectToAction("EditableList", new {categoryId = product.CategoryID});
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(Delete)}",
+                    e);
+            }
+            catch (NullReferenceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(Delete)}",
+                    e);
+            }
         }
 
         public async Task<ActionResult> Edit(WebUser user, int id)
         {
-            var product = await _productService.GetItemAsync(id);
-            ProductToEdit ptEdit = new ProductToEdit()
+            try
             {
-                Product = product
-            };
-            return PartialView(ptEdit);
+                var product = await _productService.GetItemAsync(id);
+                ProductToEdit ptEdit = new ProductToEdit()
+                {
+                    Product = product
+                };
+                return PartialView(ptEdit);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(Edit)}",
+                    e);
+            }
         }
 
         [HttpPost]
@@ -77,7 +125,15 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productService.UpdateAsync(ptEdit.Product);
+                try
+                {
+                    await _productService.UpdateAsync(ptEdit.Product);
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(Edit)}",
+                        e);
+                }
                 return RedirectToAction("EditableList", new { categoryId = ptEdit.Product.CategoryID });
             }
             return PartialView(ptEdit);

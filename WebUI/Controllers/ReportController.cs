@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
+using Services.Exceptions;
 using WebUI.Abstract;
+using WebUI.Exceptions;
 using WebUI.Models;
 using WebUI.Infrastructure.Attributes;
 
@@ -37,14 +39,30 @@ namespace WebUI.Controllers
         public ViewResult CreateByTypeOfFlowView(WebUser user, int id)
         {
             ViewBag.TypeOfFlowId = id;
-            var items = _reportControllerHelper.GetCategoriesByType(user, id);
-            return View(items);
+            try
+            {
+                var items = _reportControllerHelper.GetCategoriesByType(user, id);
+                return View(items);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(CreateByTypeOfFlowView)}",
+                    e);
+            }
         }
 
         public ActionResult GetByTypeOfFlowReportPartial(TempReportModel model, WebUser user, int page = 1)
         {
-            var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
-            return PartialView(reportModel);
+            try
+            {
+                var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
+                return PartialView(reportModel);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(GetByTypeOfFlowReportPartial)}",
+                    e);
+            }
         }
         
         [UserHasAnyCategories]
@@ -106,12 +124,9 @@ namespace WebUI.Controllers
             var dtTo = EndDateFromDate(date);
             if (Request.IsAjaxRequest())
             {
-                return RedirectToAction("GetByDatesReport", new {dtFrom = dtFrom, dtTo = dtTo});
+                return RedirectToAction("GetByDatesReport", new {dtFrom, dtTo});
             }
-            else
-            {
-                return RedirectToAction("GetByDatesReportView", new {dtFrom = dtFrom, dtTo = dtTo});
-            }
+            return RedirectToAction("GetByDatesReportView", new {dtFrom, dtTo});
         }
 
         public async Task<ActionResult> SubcategoriesReportView(WebUser user, int typeOfFlowId, DateTime date)

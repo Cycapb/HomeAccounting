@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DomainModels.Model;
@@ -7,6 +8,8 @@ using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -51,6 +54,34 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("ProductControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Add_RaisesWebUiException()
+        {
+            _productServiceMock.Setup(m => m.CreateAsync(It.IsAny<Product>())).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            await target.Add(new WebUser(), new Product());
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        public async Task Add_RaisesWebUiExceptionWithInnerServiceException()
+        {
+            _productServiceMock.Setup(m => m.CreateAsync(It.IsAny<Product>())).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            try
+            {
+                await target.Add(new WebUser(), new Product());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
         public void Can_List_Products()
         {
             _productServiceMock.Setup(m => m.GetList()).Returns(new List<Product>
@@ -70,6 +101,107 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(result[1].CategoryID,categoryId);
         }
 
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public void List_RaisesWebUiException()
+        {
+            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            target.List(It.IsAny<int>());
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        public void List_RaisesWebUiExceptionWithInnerServiceException()
+        {
+            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            try
+            {
+                target.List(It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+            
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public void EditableList_RaisesWebUiException()
+        {
+            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            target.EditableList(It.IsAny<int>());
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        public void EditableList_RaisesWebUiExceptionWithInnerServiceException()
+        {
+            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            try
+            {
+                target.EditableList(It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Delete_RaisesWebUiException()
+        {
+            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            await target.Delete(It.IsAny<int>());
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        public async Task Delete_RaisesWebUiExceptionWithInnerNullReferenceException()
+        {
+            var target = new ProductController(_productServiceMock.Object);
+
+            try
+            {
+                await target.Delete(It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(NullReferenceException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ProductControllerTests")]
+        public async Task Delete_RaisesWebUiExceptionWithInnerServiceException()
+        {
+            _productServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            _productServiceMock.Setup(m => m.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
+            var target = new ProductController(_productServiceMock.Object);
+
+            try
+            {
+                await target.Delete(It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
 
         [TestMethod]
         [TestCategory("ProductControllerTests")]
