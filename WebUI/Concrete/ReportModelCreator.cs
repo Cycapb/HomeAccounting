@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DomainModels.Model;
-using DomainModels.Repositories;
 using WebUI.Abstract;
 using WebUI.Models;
 using Services;
@@ -11,14 +10,14 @@ namespace WebUI.Concrete
 {
     public class ReportModelCreator:IReportModelCreator
     {
-        private readonly IRepository<Category> _catRepo;
+        private readonly ICategoryService _categoryService;
         private readonly IDbHelper _dbHelper;
         private readonly IPagingInfoCreator _pagingCreator;
         private readonly int _itemsPerPage = 15;
 
-        public ReportModelCreator(IRepository<Category> catRepo, IDbHelper dbHelper, IPagingInfoCreator pagingCreator)
+        public ReportModelCreator(ICategoryService categoryService, IDbHelper dbHelper, IPagingInfoCreator pagingCreator)
         {
-            _catRepo = catRepo;
+            _categoryService = categoryService;
             _dbHelper = dbHelper;
             _pagingCreator = pagingCreator;
         }
@@ -45,7 +44,7 @@ namespace WebUI.Concrete
         {
             return new ReportModel()
             {
-                CategoryName = _catRepo.GetItem(model.CatId).Name,
+                CategoryName = _categoryService.GetItem(model.CatId).Name,
                 ItemsPerPage = pItemList
                     .Skip((page - 1) * _itemsPerPage)
                     .Take(_itemsPerPage)

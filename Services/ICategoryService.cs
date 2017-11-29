@@ -7,6 +7,7 @@ namespace Services
     public interface ICategoryService
     {
         Task CreateAsync(Category item);
+        Category GetItem(int id);
         Task<Category> GetItemAsync(int id);
         Task<IEnumerable<Category>> GetListAsync();
         IEnumerable<Category> GetList();
