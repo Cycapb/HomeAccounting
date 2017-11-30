@@ -5,6 +5,9 @@ using DomainModels.Model;
 using WebUI.Abstract;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Controllers;
+using WebUI.Exceptions;
 
 namespace WebUI.Concrete
 {
@@ -24,17 +27,37 @@ namespace WebUI.Concrete
 
         public ReportModel CreateByDatesReportModel(WebUser user, DateTime dtFrom, DateTime dtTo, int page)
         {
-            var tempList = _dbHelper.GetPayItemsInDatesWeb(dtFrom, dtTo, user).OrderByDescending(x => x.Date).ToList();
+            List<PayItem> tempList = new List<PayItem>();
+            try
+            {
+                tempList = _dbHelper.GetPayItemsInDatesWeb(dtFrom, dtTo, user).OrderByDescending(x => x.Date).ToList();
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в типе {nameof(ReportModelCreator)} в методе {nameof(CreateByDatesReportModel)}",
+                    e);
+            }
             var reportModel = GetByDatesReportModel(user, dtFrom, dtTo, page, tempList);
             return reportModel;
         }
 
         public ReportModel CreateByTypeReportModel(TempReportModel model, WebUser user, int page)
         {
-            var tempList =
+            List<PayItem> tempList = new List<PayItem>();
+            try
+            {
+                tempList =
                     _dbHelper.GetCategoryPayItemsInDatesWeb(model.DtFrom, model.DtTo, model.CatId, user)
                         .OrderByDescending(x => x.Date)
                         .ToList();
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в типе {nameof(ReportModelCreator)} в методе {nameof(CreateByTypeReportModel)}",
+                    e);
+            }
             var reportModel = GetByTypeOfFlowReportModel(model, user, page, tempList);
             return reportModel;
         }
@@ -42,15 +65,26 @@ namespace WebUI.Concrete
         private ReportModel GetByTypeOfFlowReportModel(TempReportModel model, WebUser user, int page,
             List<PayItem> pItemList)
         {
+            string categoryName;
+            try
+            {
+                categoryName = _categoryService.GetItem(model.CatId).Name;
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в типе {nameof(ReportModelCreator)} в методе {nameof(GetByTypeOfFlowReportModel)}",
+                    e);
+            }
             return new ReportModel()
             {
-                CategoryName = _categoryService.GetItem(model.CatId).Name,
+                CategoryName = categoryName,
                 ItemsPerPage = pItemList
                     .Skip((page - 1) * _itemsPerPage)
                     .Take(_itemsPerPage)
                     .ToList(),
                 AllItems = pItemList.ToList(),
-                PagingInfo = _pagingCreator.Create(page,_itemsPerPage,pItemList.Count),
+                PagingInfo = _pagingCreator.Create(page, _itemsPerPage, pItemList.Count),
                 CategoryId = model.CatId,
                 DtFrom = model.DtFrom,
                 DtTo = model.DtTo

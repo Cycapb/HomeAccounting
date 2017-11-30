@@ -58,9 +58,9 @@ namespace WebUI.Controllers
                 var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
                 return PartialView(reportModel);
             }
-            catch (ServiceException e)
+            catch (WebUiException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(GetByTypeOfFlowReportPartial)}",
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByTypeOfFlowReportPartial)}",
                     e);
             }
         }
@@ -68,8 +68,16 @@ namespace WebUI.Controllers
         [UserHasAnyCategories]
         public ActionResult GetTypeOfFlowReport(TempReportModel model, WebUser user, int page = 1)
         {
-            var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
-            return PartialView(reportModel);
+            try
+            {
+                var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
+                return PartialView(reportModel);
+            }
+            catch (WebUiException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetTypeOfFlowReport)}",
+                    e);
+            }
         }
         
         public ActionResult CreateByDatesView()
@@ -80,42 +88,82 @@ namespace WebUI.Controllers
         public ActionResult GetByDatesReportView(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
             FillViewBag(dtFrom, dtTo, user);
-            var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-            return View(reportModel);
+            try
+            {
+                var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
+                return View(reportModel);
+            }
+            catch (WebUiException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByDatesReportView)}",
+                    e);
+            }
         }
 
         [UserHasAnyCategories]
         public ActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
             FillViewBag(dtFrom, dtTo, user);
-            var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-            return PartialView(reportModel);
+            try
+            {
+                var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
+                return PartialView(reportModel);
+            }
+            catch (WebUiException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByDatesReport)}",
+                    e);
+            }
         }
 
         public ActionResult GetByDatesReportPartial(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
-            var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-            return PartialView(reportModel);
+            try
+            {
+                var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
+                return PartialView(reportModel);
+            }
+            catch (WebUiException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByDatesReportPartial)}",
+                    e);
+            }
         }
 
         [UserHasAnyCategories]
-        public PartialViewResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo,
+        public ActionResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo,
             int typeOfFlowId)
         {
             ViewBag.TypeOfFlowName = typeOfFlowId == 1 ? "Доход" : "Расход";
             ViewBag.dtFrom = dateFrom;
             ViewBag.dtTo = dateTo;
-            var list = _reportControllerHelper.GetOverallList(user, dateFrom, dateTo, typeOfFlowId).ToList();
-            ViewBag.Summ = list.Sum(x => x.Summ);
-            return PartialView(list);
+            try
+            {
+                var list = _reportControllerHelper.GetOverallList(user, dateFrom, dateTo, typeOfFlowId).ToList();
+                ViewBag.Summ = list.Sum(x => x.Summ);
+                return PartialView(list);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetAllCategoriesReport)}",
+                    e);
+            }
         }
 
         public PartialViewResult OverallLastYearMonths(WebUser user)
         {
             var model = new ReportMonthsModel();
-            var tempQuery = _reportControllerHelper.GetPayingItemsForLastYear(user).ToList();
-            _reportControllerHelper.FillReportMonthsModel(model, tempQuery);
-            return PartialView(model);
+            try
+            {
+                var tempQuery = _reportControllerHelper.GetPayingItemsForLastYear(user).ToList();
+                _reportControllerHelper.FillReportMonthsModel(model, tempQuery);
+                return PartialView(model);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(OverallLastYearMonths)}",
+                    e);
+            }
         }
 
         public ActionResult GetItemsByMonth(WebUser user, DateTime date)
@@ -141,16 +189,27 @@ namespace WebUI.Controllers
             return PartialView(payItemSubcategoriesList);
         }
 
-        private async Task<List<PayItemSubcategories>> GetPayitemSubcategoriesForView(WebUser user, int typeOfFlowId, DateTime date)
+        private async Task<List<PayItemSubcategories>> GetPayitemSubcategoriesForView(WebUser user, int typeOfFlowId,
+            DateTime date)
         {
             ViewBag.TypeOfFlowName = typeOfFlowId == 1 ? "Доход" : "Расход";
             ViewBag.Month = date.ToString("MMMMMM", CultureInfo.CurrentCulture);
             var dtTo = EndDateFromDate(date);
 
-            var payItemSubcategoriesList =
-                await _payItemSubcategoriesHelper.GetPayItemsWithSubcategoriesInDatesWeb(date, dtTo, user, typeOfFlowId);
-            ViewBag.Summ = payItemSubcategoriesList.Sum(x => x.CategorySumm.Summ);
-            return payItemSubcategoriesList;
+            try
+            {
+                var payItemSubcategoriesList =
+                    await _payItemSubcategoriesHelper.GetPayItemsWithSubcategoriesInDatesWeb(date, dtTo, user,
+                        typeOfFlowId);
+                ViewBag.Summ = payItemSubcategoriesList.Sum(x => x.CategorySumm.Summ);
+                return payItemSubcategoriesList;
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetPayitemSubcategoriesForView)}",
+                    e);
+            }
         } 
 
         private DateTime EndDateFromDate(DateTime date)
@@ -169,9 +228,17 @@ namespace WebUI.Controllers
 
         private void FillViewBag(DateTime dtFrom, DateTime dtTo, WebUser user)
         {
-            var payingItemList = _reportControllerHelper.GetPayingItemsInDates(dtFrom,dtTo,user).ToList();
-            ViewBag.OutgoSum = GetSummOfItems(payingItemList, 2);
-            ViewBag.IncomingSum = GetSummOfItems(payingItemList, 1);
+            try
+            {
+                var payingItemList = _reportControllerHelper.GetPayingItemsInDates(dtFrom, dtTo, user).ToList();
+                ViewBag.OutgoSum = GetSummOfItems(payingItemList, 2);
+                ViewBag.IncomingSum = GetSummOfItems(payingItemList, 1);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(FillViewBag)}",
+                    e);
+            }
         }
     }
 }

@@ -15,6 +15,11 @@ namespace Services
         /// <param name="item">Объект Category</param>
         /// <returns>Задачу</returns>
         Task CreateAsync(Category item);
+        /// <summary>
+        /// Получает Category по Id
+        /// </summary>
+        /// <param name="id">Category Id</param>
+        /// <returns>Возвращает объект типа Category</returns>
         Category GetItem(int id);
         /// <summary>
         /// Асинхронно получает Category по Id

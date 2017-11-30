@@ -11,6 +11,7 @@ using WebUI.Controllers;
 using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -33,10 +34,14 @@ namespace WebUI.Tests.ControllersTests
             new OverAllItem() {Category = "Cat4",Summ = 200M}
         };
         private readonly Mock<IReportModelCreator> _reportModelCreator;
+        private readonly Mock<IReportControllerHelper> _reportControllerHelperMock;
+        private readonly Mock<IPayItemSubcategoriesHelper> _payItemSubcategoriesHelperMock;
 
         public ReportControllerTests()
         {
             _reportModelCreator = new Mock<IReportModelCreator>();
+            _reportControllerHelperMock = new Mock<IReportControllerHelper>();
+            _payItemSubcategoriesHelperMock = new Mock<IPayItemSubcategoriesHelper>();
         }
 
         private ControllerContext GetControllerContext(Controller target, bool isAjax)
@@ -336,6 +341,102 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(((PartialViewResult)result).ViewBag.TypeOfFlowName, "Доход");
             Assert.AreEqual(((PartialViewResult)result).ViewBag.Summ, 0);
             Assert.AreEqual(((PartialViewResult)result).ViewBag.Month, DateTime.Today.Date.ToString("MMMMM"));
+        }
+
+        [TestMethod]
+        [TestCategory("ReportControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public void GetTypeOfFlowReport_RaisesWebUiException()
+        {
+            _reportModelCreator
+                .Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
+                .Throws<WebUiException>();
+            var target = new ReportController(null, null, _reportModelCreator.Object);
+
+            target.GetTypeOfFlowReport(new TempReportModel(), new WebUser(), 1);
+        }
+
+        [TestMethod]
+        [TestCategory("ReportControllerTests")]
+        public void GetTypeOfFlowReport_RaisesWebUiExceptionWithInnerWebUihelperException()
+        {
+            _reportModelCreator
+                .Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
+                .Throws<WebUiException>();
+            var target = new ReportController(null, null, _reportModelCreator.Object);
+
+            try
+            {
+                target.GetTypeOfFlowReport(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ReportControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public void GetByDatesReport_RaisesWebuiException()
+        {
+            _reportControllerHelperMock
+                .Setup(m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
+                .Throws<WebUiHelperException>();
+            var target = new ReportController(null, _reportControllerHelperMock.Object, null);
+
+            target.GetByDatesReport(new WebUser(), DateTime.Now, DateTime.Now, 1);
+        }
+
+        [TestMethod]
+        [TestCategory("ReportControllerTests")]
+        public void GetByDatesReport_RaisesWebuiExceptionWithInnerWebUiHelperException()
+        {
+            _reportControllerHelperMock
+                .Setup(m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
+                .Throws<WebUiHelperException>();
+            var target = new ReportController(null, _reportControllerHelperMock.Object, null);
+
+            try
+            {
+                target.GetByDatesReport(new WebUser(), DateTime.Now, DateTime.Now, 1);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiHelperException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ReportControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task SubcategoriesReport_RaisesWebUiException()
+        {
+            _payItemSubcategoriesHelperMock
+                .Setup(m => m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
+                    It.IsAny<IWorkingUser>(), It.IsAny<int>())).Throws<WebUiHelperException>();
+            var target = new ReportController(_payItemSubcategoriesHelperMock.Object, null, null);
+
+            await target.SubcategoriesReport(new WebUser(), 1, DateTime.Now);
+        }
+
+        [TestMethod]
+        [TestCategory("ReportControllerTests")]
+        public async Task SubcategoriesReport_RaisesWebUiExceptionWithInnerWebUiHelperException()
+        {
+            _payItemSubcategoriesHelperMock
+                .Setup(m => m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
+                    It.IsAny<IWorkingUser>(), It.IsAny<int>())).Throws<WebUiHelperException>();
+            var target = new ReportController(_payItemSubcategoriesHelperMock.Object, null, null);
+
+            try
+            {
+                await target.SubcategoriesReport(new WebUser(), 1, DateTime.Now);
+            }
+            catch (WebUiException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiHelperException));
+            }
         }
     }
 }

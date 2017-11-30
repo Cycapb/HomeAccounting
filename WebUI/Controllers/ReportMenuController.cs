@@ -9,7 +9,7 @@ namespace WebUI.Controllers
 
         public ReportMenuController(IReportMenu reportMenu)
         {
-            this._reportMenu = reportMenu;
+            _reportMenu = reportMenu;
         }
 
         public PartialViewResult Index(int id = 0)

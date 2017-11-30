@@ -25,7 +25,7 @@ namespace WebUI.Infrastructure.Attributes
             var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
             {
-                userHasCategories = ( _categoryService.GetList()).Any(x => x.UserId == curUser.Id && x.Active == true);
+                userHasCategories = _categoryService.GetList().Any(x => x.UserId == curUser.Id && x.Active);
             }
             if (!userHasCategories)
             {
