@@ -34,34 +34,73 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Index(WebUser user, int page = 1)
         {
-            var catView = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id);
-            return PartialView(catView);
+            try
+            {
+                var catView = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id);
+                return PartialView(catView);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Index)}", e);
+            }
         }
 
         public async Task<ActionResult> GetAllCategories(WebUser user, int page = 1)
         {
-            var categories = await _categoryHelper.GetCategoriesToShowOnPage(page,_pagesize, x => x.UserId == user.Id);
-            return PartialView("CategorySummaryPartial",categories);
+            try
+            {
+                var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id);
+                return PartialView("CategorySummaryPartial", categories);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetAllCategories)}", e);
+            }
         }
 
         public async Task<ActionResult> GetCategoriesByType(WebUser user, int typeOfFlowId, int page)
         {
-            var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
-            return PartialView("CategorySummaryPartial",categories);
+            try
+            {
+                var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+                return PartialView("CategorySummaryPartial", categories);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetCategoriesByType)}", e);
+            }
         }
 
         public async Task<ActionResult> GetCategoriesAndPagesByType(WebUser user, int typeOfFlowId, int page)
         {
-            var model = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
-            model.TypeOfFlowId = typeOfFlowId;
-
-            return PartialView(model);
+            try
+            {
+                var model = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+                model.TypeOfFlowId = typeOfFlowId;
+                return PartialView(model);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetCategoriesAndPagesByType)}", e);
+            }
         }
 
         public async Task<ActionResult> GetCategoriesAndPages(WebUser user, int page = 1)
         {
-            var model = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, c => c.UserId == user.Id);
-            return PartialView(model);
+            try
+            {
+                var model = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, c => c.UserId == user.Id);
+                return PartialView(model);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetCategoriesAndPages)}", e);
+            }
         }
 
         [HttpGet]

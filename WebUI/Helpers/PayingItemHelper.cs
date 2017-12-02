@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DomainModels.Model;
 using WebUI.Abstract;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Helpers
 {
@@ -18,8 +22,17 @@ namespace WebUI.Helpers
         {
             if (string.IsNullOrEmpty(model.PayingItem.Comment))
             {
-                var products =
-                    _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+                var products = new List<Product>();
+                try
+                {
+                    products =
+                        _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiHelperException(
+                        $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileAdd)}", e);
+                }
                 var comment = string.Empty;
                 foreach (var item in model.Products)
                 {
@@ -34,7 +47,17 @@ namespace WebUI.Helpers
 
         public void CreateCommentWhileEdit(PayingItemEditModel model)
         {
-            var products = _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+            var products = new List<Product>();
+            try
+            {
+                products = _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileEdit)}", e);
+            }
+            
             model.PayingItem.Comment = "";
             var comment = string.Empty;
             foreach (var item in model.PricesAndIdsInItem)

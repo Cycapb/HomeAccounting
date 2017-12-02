@@ -1,5 +1,5 @@
-﻿@model WebUI.Models.ReportModel
-@foreach (var item in @Model.ItemsPerPage)
+﻿@model ReportModel
+@foreach (var item in Model.ItemsPerPage)
 {
     <tr>
         <td>@item.Date.ToShortDateString()</td>

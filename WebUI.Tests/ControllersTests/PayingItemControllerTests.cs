@@ -80,7 +80,12 @@ namespace WebUI.Tests.ControllersTests
         {
             //Arrange
             var month = DateTime.Today.Month + 1;
-            var year = DateTime.Today.Year;            
+            var year = DateTime.Today.Year;
+            if (month > 12)
+            {
+                year += 1;
+                month = 1;
+            }
             PayingItemModel pItemModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = new DateTime(year, month, 1), UserId = "1", ItemID = 1 },
@@ -400,6 +405,27 @@ namespace WebUI.Tests.ControllersTests
             catch (Exception e)
             {
                 Assert.IsInstanceOfType(e.InnerException, typeof(WebUiException));
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_RaisesWebuiExceptionWithInnerWebUiHelperException()
+        {
+            _payingItemService.Setup(m => m.GetList()).Returns(new List<PayingItem>());
+            _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem(){CategoryID = 1});
+            _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
+                .ReturnsAsync(new List<Category>());
+            _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
+            var target = new PayingItemController(_pItemProductHelper.Object, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+
+            try
+            {
+                await target.Edit(new WebUser(), 1, 1);
+            }
+            catch (WebUiHelperException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiHelperException));
             }
         }
 

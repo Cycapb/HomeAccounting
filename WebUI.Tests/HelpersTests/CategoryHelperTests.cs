@@ -87,10 +87,10 @@ namespace WebUI.Tests.HelpersTests
 
         [TestCategory("CategoryHelperTests")]
         [TestMethod]
-        [ExpectedException(typeof(WebUiException))]
-        public async Task CreateCategoriesViewModel_ThrowsWebUIException()
+        [ExpectedException(typeof(WebUiHelperException))]
+        public async Task CreateCategoriesViewModel_ThrowsWebUiHelperException()
         {
-            _categoryService.Setup(x => x.GetListAsync()).Throws<WebUiException>();
+            _categoryService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
 
             var target = new CategoryHelper(_categoryService.Object);
             await target.CreateCategoriesViewModel(1, 1, null);
@@ -98,7 +98,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestCategory("CategoryHelperTests")]
         [TestMethod]
-        public async Task CreateCategoriesViewModel_ThrowsWebUiException_WithInnerServiceException()
+        public async Task CreateCategoriesViewModel_ThrowsWebUiHelperException_WithInnerServiceException()
         {
             try
             {
@@ -107,7 +107,7 @@ namespace WebUI.Tests.HelpersTests
                 var target = new CategoryHelper(_categoryService.Object);
                 await target.CreateCategoriesViewModel(1, 1, null);
             }
-            catch (WebUiException e)
+            catch (WebUiHelperException e)
             {
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
@@ -116,8 +116,8 @@ namespace WebUI.Tests.HelpersTests
 
         [TestCategory("CategoryHelperTests")]
         [TestMethod]
-        [ExpectedException(typeof(WebUiException))]
-        public async Task GetCategoriesToShowOnPage_ThrowsWebUiException()
+        [ExpectedException(typeof(WebUiHelperException))]
+        public async Task GetCategoriesToShowOnPage_ThrowsWebUiHelperException()
         {
             _categoryService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
 
@@ -127,7 +127,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestCategory("CategoryHelperTests")]
         [TestMethod]
-        public async Task GetCategoriesToShowOnPage_ThrowsWebUiException_WithInnerServiceException()
+        public async Task GetCategoriesToShowOnPage_ThrowsWebUiHelperException_WithInnerServiceException()
         {
             _categoryService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
 
@@ -136,7 +136,7 @@ namespace WebUI.Tests.HelpersTests
                 var target = new CategoryHelper(_categoryService.Object);
                 await target.GetCategoriesToShowOnPage(1, 1, null);
             }
-            catch (WebUiException e)
+            catch (WebUiHelperException e)
             {
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }

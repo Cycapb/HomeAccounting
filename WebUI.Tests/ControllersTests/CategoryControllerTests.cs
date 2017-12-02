@@ -304,5 +304,18 @@ namespace WebUI.Tests.ControllersTests
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
         }
+
+        [TestMethod]
+        [TestCategory("CategoryControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task Index_RaisesWebUiHelperException()
+        {
+            _categoryHelper
+                .Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(),
+                    It.IsAny<Func<Category, bool>>())).Throws<WebUiHelperException>();
+            var target = new CategoryController(null, null, null, _categoryHelper.Object);
+
+            await target.Index(new WebUser());
+        }
     }
 }

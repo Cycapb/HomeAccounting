@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using WebUI.Abstract;
 using WebUI.Models;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Helpers
 {
@@ -20,97 +24,130 @@ namespace WebUI.Helpers
 
         public async Task CreatePayingItemProduct(PayingItemEditModel pItem)
         {
-            var paiyngItemProducts = _pItemProductService.GetList()
-                .Where(x => x.PayingItemID == pItem.PayingItem.ItemID);
-
-            foreach (var item in paiyngItemProducts)
+            try
             {
-                await _pItemProductService.DeleteAsync(item.ItemID);
-            }
-            await _pItemProductService.SaveAsync();
+                var paiyngItemProducts = _pItemProductService.GetList()
+                    .Where(x => x.PayingItemID == pItem.PayingItem.ItemID);
 
-            foreach (var item in pItem.PricesAndIdsInItem)
-            {
-                if (item.Id != 0)
+                foreach (var item in paiyngItemProducts)
                 {
-                    var pItemProd = new PaiyngItemProduct()
-                    {
-                        PayingItemID = pItem.PayingItem.ItemID,
-                        Summ = item.Price,
-                        ProductID = item.Id
-                    };
-                    await _pItemProductService.CreateAsync(pItemProd);
+                    await _pItemProductService.DeleteAsync(item.ItemID);
                 }
-            }
-            await _pItemProductService.SaveAsync();
-        }
+                await _pItemProductService.SaveAsync();
 
-        public async Task UpdatePayingItemProduct(PayingItemEditModel pItem)
-        {
-            foreach (var item in pItem.PricesAndIdsInItem)
-            {
-                if (item.Id != 0)
-                {
-                    var itemToUpdate = await _pItemProductService.GetItemAsync(item.PayingItemProductId);
-                    if (itemToUpdate != null)
-                    {
-                        itemToUpdate.Summ = item.Price;
-                        await _pItemProductService.UpdateAsync(itemToUpdate);
-                    }
-                }
-                if (item.Id == 0 && item.Price != 0)
-                {
-                    await _pItemProductService.DeleteAsync(item.PayingItemProductId);
-                }
-            }
-            await _pItemProductService.SaveAsync();
-
-            if (pItem.PricesAndIdsNotInItem != null)
-            {
-                foreach (var item in pItem.PricesAndIdsNotInItem)
+                foreach (var item in pItem.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
                     {
-                        var payingItemProduct = new PaiyngItemProduct()
+                        var pItemProd = new PaiyngItemProduct()
                         {
                             PayingItemID = pItem.PayingItem.ItemID,
                             Summ = item.Price,
                             ProductID = item.Id
                         };
-                        await _pItemProductService.CreateAsync(payingItemProduct);
+                        await _pItemProductService.CreateAsync(pItemProd);
                     }
                 }
                 await _pItemProductService.SaveAsync();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProduct)}", e);
+            }
+        }
+
+        public async Task UpdatePayingItemProduct(PayingItemEditModel pItem)
+        {
+            try
+            {
+                foreach (var item in pItem.PricesAndIdsInItem)
+                {
+                    if (item.Id != 0)
+                    {
+                        var itemToUpdate = await _pItemProductService.GetItemAsync(item.PayingItemProductId);
+                        if (itemToUpdate != null)
+                        {
+                            itemToUpdate.Summ = item.Price;
+                            await _pItemProductService.UpdateAsync(itemToUpdate);
+                        }
+                    }
+                    if (item.Id == 0 && item.Price != 0)
+                    {
+                        await _pItemProductService.DeleteAsync(item.PayingItemProductId);
+                    }
+                }
+                await _pItemProductService.SaveAsync();
+
+                if (pItem.PricesAndIdsNotInItem != null)
+                {
+                    foreach (var item in pItem.PricesAndIdsNotInItem)
+                    {
+                        if (item.Id != 0)
+                        {
+                            var payingItemProduct = new PaiyngItemProduct()
+                            {
+                                PayingItemID = pItem.PayingItem.ItemID,
+                                Summ = item.Price,
+                                ProductID = item.Id
+                            };
+                            await _pItemProductService.CreateAsync(payingItemProduct);
+                        }
+                    }
+                    await _pItemProductService.SaveAsync();
+                }
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(UpdatePayingItemProduct)}", e);
             }
         }
 
         public async Task CreatePayingItemProduct(PayingItemModel pItem)
         {
-            foreach (var item in pItem.Products)
+            try
             {
-                if (item.ProductID != 0)
+                foreach (var item in pItem.Products)
                 {
-                    var pItemProd = new PaiyngItemProduct()
+                    if (item.ProductID != 0)
                     {
-                        PayingItemID = pItem.PayingItem.ItemID,
-                        Summ = item.Price,
-                        ProductID = item.ProductID
-                    };
-                    await _pItemProductService.CreateAsync(pItemProd);
-                    await _pItemProductService.SaveAsync();
+                        var pItemProd = new PaiyngItemProduct()
+                        {
+                            PayingItemID = pItem.PayingItem.ItemID,
+                            Summ = item.Price,
+                            ProductID = item.ProductID
+                        };
+                        await _pItemProductService.CreateAsync(pItemProd);
+                        await _pItemProductService.SaveAsync();
+                    }
                 }
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProduct)}", e);
             }
         }
 
         public void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId)
         {
-            var payingItemProducts = _pItemProductService.GetList() //Находим платежки, связанные с этой транзакцией
+            var payingItemProducts = new List<PaiyngItemProduct>();
+            var products = new List<Product>();
+
+            try
+            {
+                payingItemProducts = _pItemProductService.GetList() //Находим платежки, связанные с этой транзакцией
                     .Where(x => x.PayingItemID == payingItemId)
                     .ToList();
-
-            // Находим продукты, которые привязаны к данной категории
-            var products =
-                _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+                products =
+                    _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList(); // Находим продукты, которые привязаны к данной категории
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
+            }
 
             model.PayingItemProducts = payingItemProducts;
 

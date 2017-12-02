@@ -147,6 +147,11 @@ namespace WebUI.Controllers
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
                 }
+                catch (WebUiHelperException e)
+                {
+                    throw new WebUiException(
+                        $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
+                }
                 catch (Exception e)
                 {
                     throw new WebUiException(
@@ -194,6 +199,11 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
             }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
+            }
             catch (Exception e)
             {
                 throw new WebUiException(
@@ -229,6 +239,11 @@ namespace WebUI.Controllers
                     }
                 }
                 catch (ServiceException e)
+                {
+                    throw new WebUiException(
+                        $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
+                }
+                catch (WebUiHelperException e)
                 {
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);

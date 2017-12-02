@@ -34,15 +34,12 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await RoleManager.CreateAsync(new AccRoleModel(rolename));
+                var result = await RoleManager.CreateAsync(new AccRoleModel(rolename));
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    AddErrorsToModel(result);
-                }
+                AddErrorsToModel(result);
             }
             return View(rolename);
         }
@@ -53,20 +50,14 @@ namespace WebUI.Controllers
             var role = await RoleManager.FindByIdAsync(id);
             if (role != null)
             {
-                IdentityResult result = await RoleManager.DeleteAsync(role);
+                var result = await RoleManager.DeleteAsync(role);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    return View("Error", result.Errors);
-                }
+                return View("Error", result.Errors);
             }
-            else
-            {
-                return View("Error", new string[] {"Роль не найдена"});
-            }
+            return View("Error", new[] {"Роль не найдена"});
         }
 
 
@@ -86,11 +77,8 @@ namespace WebUI.Controllers
                 };
                 return View(roleEditModel);
             }
-            else
-            {
-                return View("Error", new string[] {"Роль не найдена"});
-            }
-         }
+            return View("Error", new[] {"Роль не найдена"});
+        }
 
         [HttpPost]
         public async Task<ActionResult> Edit(RoleModificationModel model)
@@ -116,10 +104,7 @@ namespace WebUI.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View("Error",new string[] {"Роль не найдена"});
-            }
+            return View("Error",new[] {"Роль не найдена"});
         }
 
 

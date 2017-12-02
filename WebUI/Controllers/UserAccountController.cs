@@ -278,7 +278,22 @@ namespace WebUI.Controllers
 
         private async void ActualizePlanItems(AccUserModel user)
         {
-            await _planingHelper.ActualizePlanItems(user.Id);
+            try
+            {
+                await _planingHelper.ActualizePlanItems(user.Id);
+            }
+            catch (WebUiHelperException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(UserAccountController)} в методе {nameof(ActualizePlanItems)}",
+                    e);
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(UserAccountController)} в методе {nameof(ActualizePlanItems)}",
+                    e);
+            }
         }
     }
 }
