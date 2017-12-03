@@ -55,6 +55,7 @@
     <Compile Include="IProductService.cs" />
     <Compile Include="ITypeOfFlowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Triggers\IServiceTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModels\DomainModels.csproj">
