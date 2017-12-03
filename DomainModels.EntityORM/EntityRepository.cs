@@ -87,7 +87,7 @@ namespace DomainModels.EntityORM
         {
             try
             {
-                return Task.Run((() => _dbSet.Add(item)));
+                return Task.Run(() => _dbSet.Add(item));
             }
             catch (Exception ex)
             {

@@ -81,12 +81,13 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task CreateAsync(PayingItem item)
+        public async Task<PayingItem> CreateAsync(PayingItem item)
         {
             try
             {
-                await _repository.CreateAsync(item);
+                var createdItem = await _repository.CreateAsync(item);
                 await _repository.SaveAsync();
+                return createdItem;
             }
             catch (DomainModelsException e)
             {

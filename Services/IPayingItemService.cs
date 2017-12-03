@@ -11,7 +11,7 @@ namespace Services
         Task<IEnumerable<PayingItem>> GetListAsync();
         Task DeleteAsync(int id);
         Task UpdateAsync(PayingItem item);
-        Task CreateAsync(PayingItem item);
+        Task<PayingItem> CreateAsync(PayingItem item);
         IEnumerable<PayingItem> GetListByTypeOfFlow(IWorkingUser user, int typeOfFlow);
     }
 }
