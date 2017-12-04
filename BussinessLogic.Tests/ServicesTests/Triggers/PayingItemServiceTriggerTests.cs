@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BussinessLogic.Services.Triggers;
 using DomainModels.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -117,6 +116,34 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
             await target.Delete(deletedItem);
 
             Assert.AreEqual(account.Cash, 700);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemServiceTriggerTests")]
+        public async Task Update_OldSummGreaterThanNewSumm()
+        {
+            var oldItem = new PayingItem(){Summ = 500};
+            var newItem = new PayingItem(){Summ = 400, Account = new Account(){Cash = 500}};
+            var account = newItem.Account;
+            var target = new PayingItemServiceTrigger(null, _accountService.Object);
+
+            await target.Update(oldItem, newItem);
+
+            Assert.AreEqual(account.Cash, 400);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemServiceTriggerTests")]
+        public async Task Update_NewSummGreaterThanOldSumm()
+        {
+            var oldItem = new PayingItem() { Summ = 500 };
+            var newItem = new PayingItem() { Summ = 600, Account = new Account() { Cash = 500 } };
+            var account = newItem.Account;
+            var target = new PayingItemServiceTrigger(null, _accountService.Object);
+
+            await target.Update(oldItem, newItem);
+
+            Assert.AreEqual(account.Cash, 600);
         }
     }
 }

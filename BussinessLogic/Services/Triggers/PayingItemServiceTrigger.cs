@@ -19,6 +19,11 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Insert(PayingItem insertedItem)
         {
+            if (insertedItem == null)
+            {
+             return;   
+            }
+
             try
             {
                 var typeOfFlowId = (await _categoryService.GetItemAsync(insertedItem.CategoryID)).TypeOfFlowID;
@@ -41,6 +46,11 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Delete(PayingItem deletedItem)
         {
+            if (deletedItem == null)
+            {
+                return;
+            }
+
             try
             {
                 if (deletedItem.Category.TypeOfFlowID == 1)
@@ -59,22 +69,18 @@ namespace BussinessLogic.Services.Triggers
             }
         }
 
-        public async Task Update(PayingItem updatedItem)
+        public async Task Update(PayingItem oldItem, PayingItem newItem)
         {
-            var typeOfFlowId = (await _categoryService.GetItemAsync(updatedItem.CategoryID)).TypeOfFlowID;
-            var account = await _accountService.GetItemAsync(updatedItem.AccountID);
+            if (oldItem.Summ > newItem.Summ)
+            {
+                newItem.Account.Cash -= oldItem.Summ - newItem.Summ;
+                await _accountService.UpdateAsync(newItem.Account);
+            }
+            else
+            {
+                newItem.Account.Cash += newItem.Summ - oldItem.Summ;
+                await _accountService.UpdateAsync(newItem.Account);
+            }
         }
     }
 }
-/*
- 				IF (@SummOld>@SummNew)
-					BEGIN
-						SET @SummTemp=@SummOld-@SummNew
-						UPDATE Account SET Cash=@Cash - @SummTemp where Account.AccountID=(select AccountId from inserted)
-					END
-				ELSE
-					BEGIN
-						SET @SummTemp=@SummNew-@SummOld
-						UPDATE Account SET Cash=@Cash + @SummTemp where Account.AccountID=(select AccountId from inserted)
-					END
- */

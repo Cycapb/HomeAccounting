@@ -23,8 +23,9 @@ namespace Services.Triggers
         /// <summary>
         /// Срабатывает при обновлении записи в базе данных
         /// </summary>
-        /// <param name="updatedItem">Обновляемая сущность</param>
-        /// <returns>Задачу</returns>
-        Task Update(T updatedItem);
+        /// <param name="oldItem">Сущность до обновления</param>
+        /// <param name="newItem">Сущность после обновления</param>
+        /// <returns></returns>
+        Task Update(T oldItem, T newItem);
     }
 }
