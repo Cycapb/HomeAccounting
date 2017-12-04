@@ -62,6 +62,7 @@
     <Compile Include="Services\PayingItemService.cs" />
     <Compile Include="Services\PlanItemService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\Triggers\PayingItemServiceTrigger.cs" />
     <Compile Include="Services\TypeOfFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
