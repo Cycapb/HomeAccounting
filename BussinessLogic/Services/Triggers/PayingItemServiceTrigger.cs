@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DomainModels.Model;
 using Services;
 using Services.Exceptions;
@@ -71,6 +72,31 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Update(PayingItem oldItem, PayingItem newItem)
         {
+            try
+            {
+                switch (newItem.Category.TypeOfFlowID)
+                {
+                    case 1:
+                        await UpdateIncome(oldItem, newItem);
+                        break;
+                    case 2:
+                        await UpdateOutgo(oldItem, newItem);
+                        break;
+                }
+            }
+            catch (ServiceException e)
+            {
+                throw new ServiceException(
+                    $"Ошибка {e.GetType()} в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Update)}", e);
+            }
+            catch (NullReferenceException e)
+            {
+                throw new ServiceException($"Ошибка {e.GetType()} в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Insert)}", e);
+            }
+        }
+
+        private async Task UpdateIncome(PayingItem oldItem, PayingItem newItem)
+        {
             if (oldItem.Summ > newItem.Summ)
             {
                 newItem.Account.Cash -= oldItem.Summ - newItem.Summ;
@@ -79,6 +105,20 @@ namespace BussinessLogic.Services.Triggers
             else
             {
                 newItem.Account.Cash += newItem.Summ - oldItem.Summ;
+                await _accountService.UpdateAsync(newItem.Account);
+            }
+        }
+
+        private async Task UpdateOutgo(PayingItem oldItem, PayingItem newItem)
+        {
+            if (oldItem.Summ > newItem.Summ)
+            {
+                newItem.Account.Cash += oldItem.Summ - newItem.Summ;
+                await _accountService.UpdateAsync(newItem.Account);
+            }
+            else
+            {
+                newItem.Account.Cash -= newItem.Summ - oldItem.Summ;
                 await _accountService.UpdateAsync(newItem.Account);
             }
         }

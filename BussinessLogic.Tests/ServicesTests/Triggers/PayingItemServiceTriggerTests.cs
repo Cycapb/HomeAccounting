@@ -120,10 +120,15 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
 
         [TestMethod]
         [TestCategory("PayingItemServiceTriggerTests")]
-        public async Task Update_OldSummGreaterThanNewSumm()
+        public async Task Update_OldSummGreaterThanNewSumm_TypeOfFlowId1()
         {
-            var oldItem = new PayingItem(){Summ = 500};
-            var newItem = new PayingItem(){Summ = 400, Account = new Account(){Cash = 500}};
+            var oldItem = new PayingItem() {Summ = 500};
+            var newItem = new PayingItem()
+            {
+                Summ = 400,
+                Category = new Category() {TypeOfFlowID = 1},
+                Account = new Account() {Cash = 500}
+            };
             var account = newItem.Account;
             var target = new PayingItemServiceTrigger(null, _accountService.Object);
 
@@ -134,16 +139,59 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
 
         [TestMethod]
         [TestCategory("PayingItemServiceTriggerTests")]
-        public async Task Update_NewSummGreaterThanOldSumm()
+        public async Task Update_NewSummGreaterThanOldSumm_TypeOfFlowId1()
         {
-            var oldItem = new PayingItem() { Summ = 500 };
-            var newItem = new PayingItem() { Summ = 600, Account = new Account() { Cash = 500 } };
+            var oldItem = new PayingItem() {Summ = 500};
+            var newItem = new PayingItem()
+            {
+                Summ = 600,
+                Category = new Category() {TypeOfFlowID = 1},
+                Account = new Account() {Cash = 500}
+            };
             var account = newItem.Account;
             var target = new PayingItemServiceTrigger(null, _accountService.Object);
 
             await target.Update(oldItem, newItem);
 
             Assert.AreEqual(account.Cash, 600);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemServiceTriggerTests")]
+        public async Task Update_OldSummGreaterThanNewSumm_TypeOfFlowId2()
+        {
+            var oldItem = new PayingItem() { Summ = 500 };
+            var newItem = new PayingItem()
+            {
+                Summ = 400,
+                Category = new Category() { TypeOfFlowID = 2 },
+                Account = new Account() { Cash = 500 }
+            };
+            var account = newItem.Account;
+            var target = new PayingItemServiceTrigger(null, _accountService.Object);
+
+            await target.Update(oldItem, newItem);
+
+            Assert.AreEqual(account.Cash, 600);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemServiceTriggerTests")]
+        public async Task Update_NewSummGreaterThanOldSumm_TypeOfFlowId2()
+        {
+            var oldItem = new PayingItem() { Summ = 500 };
+            var newItem = new PayingItem()
+            {
+                Summ = 600,
+                Category = new Category() { TypeOfFlowID = 2 },
+                Account = new Account() { Cash = 500 }
+            };
+            var account = newItem.Account;
+            var target = new PayingItemServiceTrigger(null, _accountService.Object);
+
+            await target.Update(oldItem, newItem);
+
+            Assert.AreEqual(account.Cash, 400);
         }
     }
 }
