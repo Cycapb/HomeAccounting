@@ -20,10 +20,7 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Insert(PayingItem insertedItem)
         {
-            if (insertedItem == null)
-            {
-             return;   
-            }
+            if (insertedItem == null){ return; }
 
             try
             {
@@ -47,10 +44,7 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Delete(PayingItem deletedItem)
         {
-            if (deletedItem == null)
-            {
-                return;
-            }
+            if (deletedItem == null) { return; }
 
             try
             {

@@ -16,10 +16,8 @@ using Ninject;
 using Services;
 using DomainModels.EntityORM;
 using Loggers;
-using Ninject.Web.Common;
 using Providers;
 using Services.Triggers;
-using WebUI.Controllers;
 
 namespace WebUI.Infrastructure
 {
