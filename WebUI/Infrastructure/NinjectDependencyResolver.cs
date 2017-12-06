@@ -5,6 +5,7 @@ using BussinessLogic.Converters;
 using BussinessLogic.Loggers;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
+using BussinessLogic.Services.Triggers;
 using Converters;
 using DomainModels.Model;
 using DomainModels.Repositories;
@@ -15,7 +16,10 @@ using Ninject;
 using Services;
 using DomainModels.EntityORM;
 using Loggers;
+using Ninject.Web.Common;
 using Providers;
+using Services.Triggers;
+using WebUI.Controllers;
 
 namespace WebUI.Infrastructure
 {
@@ -30,7 +34,6 @@ namespace WebUI.Infrastructure
 
         private void AddBindings()
         {
-
             _kernel.Bind<IRepository<PayingItem>>().To<EntityRepository<PayingItem>>();
             _kernel.Bind<IRepository<Account>>().To<EntityRepository<Account>>();
             _kernel.Bind<IRepository<Category>>().To<EntityRepository<Category>>();
@@ -52,7 +55,6 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IPagingInfoCreator>().To<PagingInfoCreator>();
             _kernel.Bind<IDebtService>().To<DebtService>();
             _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt>>();
-            _kernel.Bind<IPayingItemService>().To<PayingItemService>();
             _kernel.Bind<ICategoryService>().To<CategoryService>();
             _kernel.Bind<IAccountService>().To<AccountService>();
             _kernel.Bind<IPayingItemProductService>().To<PayingItemProductService>();
@@ -74,6 +76,10 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IMultipleIpAddressProvider>().To<MultipleIpAddressProvider>();
             _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProviderLoggingDecorator>()
                 .WhenInjectedInto<MultipleIpAddressProvider>();
+            _kernel.Bind<IServiceTrigger<PayingItem>>().To<PayingItemServiceTrigger>();
+            _kernel.Bind<IPayingItemService>().To<PayingItemServiceTriggerDecorator>();
+            _kernel.Bind<IPayingItemService>().To<PayingItemService>()
+                .WhenInjectedInto<PayingItemServiceTriggerDecorator>();
         }
 
         public object GetService(Type serviceType)

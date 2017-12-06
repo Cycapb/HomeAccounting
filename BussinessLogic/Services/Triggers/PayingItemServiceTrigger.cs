@@ -54,15 +54,17 @@ namespace BussinessLogic.Services.Triggers
 
             try
             {
-                if (deletedItem.Category.TypeOfFlowID == 1)
+                var typeOfFlowId = (await _categoryService.GetItemAsync(deletedItem.CategoryID)).TypeOfFlowID;
+                var accountToUpdate = await _accountService.GetItemAsync(deletedItem.AccountID);
+                if (typeOfFlowId == 1)
                 {
-                    deletedItem.Account.Cash -= deletedItem.Summ;
+                    accountToUpdate.Cash -= deletedItem.Summ;
                 }
                 else
                 {
-                    deletedItem.Account.Cash += deletedItem.Summ;
+                    accountToUpdate.Cash += deletedItem.Summ;
                 }
-                await _accountService.UpdateAsync(deletedItem.Account);
+                await _accountService.UpdateAsync(accountToUpdate);
             }
             catch (ServiceException e)
             {
@@ -124,3 +126,26 @@ namespace BussinessLogic.Services.Triggers
         }
     }
 }
+/*
+ 	BEGIN
+		set @AccountIdNew=(select AccountId from inserted)
+		set @AccountIdOld=(select AccountId from deleted)		
+		set @CashOld=(select Cash from Account where AccountID=@AccountIdOld)		
+
+		IF (@AccountIdOld<>@AccountIdNew)
+			IF(@ClosedPeriod)=0
+			BEGIN
+				IF (select c.TypeOfFlowID from inserted as i 
+					join Category as c on c.CategoryID=i.CategoryID)=1
+				BEGIN
+					UPDATE Account SET Cash=@Cash + @SummNewForUpdate where Account.AccountID=@AccountIdNew
+					UPDATE Account SET Cash=@CashOld - @SummOld where Account.AccountID=@AccountIdOld
+				END
+				ELSE
+				BEGIN
+					UPDATE Account SET Cash=@Cash - @SummNewForUpdate where Account.AccountID=@AccountIdNew
+					UPDATE Account SET Cash=@CashOld + @SummOld where Account.AccountID=@AccountIdOld
+				END
+			END
+	END
+ */

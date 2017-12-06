@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DomainModels.Model;
 using Services;
+using Services.Exceptions;
 using Services.Triggers;
 
 namespace BussinessLogic.Services
@@ -34,9 +35,16 @@ namespace BussinessLogic.Services
 
         public async Task DeleteAsync(int id)
         {
-            var deletedItem = await _payingItemService.GetItemAsync(id);
-            await _payingItemService.DeleteAsync(id);
-            await _serviceTrigger.Delete(deletedItem);
+            try
+            {
+                var deletedItem = await _payingItemService.GetItemAsync(id);
+                await _payingItemService.DeleteAsync(id);
+                await _serviceTrigger.Delete(deletedItem);
+            }
+            catch (ServiceException e)
+            {
+                throw new ServiceException($"Ошибка в декораторе сервиса {nameof(PayingItemServiceTriggerDecorator)} в методе {nameof(DeleteAsync)}", e);
+            }
         }
 
         public async Task UpdateAsync(PayingItem item)
