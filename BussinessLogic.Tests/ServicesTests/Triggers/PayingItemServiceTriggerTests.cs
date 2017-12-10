@@ -245,5 +245,30 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
             Assert.AreEqual(oldAccount.Cash, 500);
             Assert.AreEqual(newAccount.Cash, 1600);
         }
+
+        [TestMethod]
+        [TestCategory("PayingItemServiceTriggerTests")]
+        public async Task Update_SumChangedAndAccountChangedAndCategoryChanged_TypeOfFlowId2()
+        {
+            var oldItem = new PayingItem() { Summ = 500, AccountID = 1, Account = new Account() { Cash = 1000 }, CategoryID = 1};
+            var newItem = new PayingItem()
+            {
+                Summ = 600,
+                Category = new Category() { TypeOfFlowID = 2 },
+                Account = new Account() { Cash = 1000 },
+                AccountID = 2,
+                CategoryID = 2
+            };
+            var newAccount = newItem.Account;
+            var oldAccount = oldItem.Account;
+            var target = new PayingItemServiceTrigger(null, _accountService.Object);
+            _accountService.Setup(x => x.GetItemAsync(newItem.AccountID)).ReturnsAsync(newAccount);
+            _accountService.Setup(x => x.GetItemAsync(oldItem.AccountID)).ReturnsAsync(oldAccount);
+
+            await target.Update(oldItem, newItem);
+
+            Assert.AreEqual(oldAccount.Cash, 1500);
+            Assert.AreEqual(newAccount.Cash, 400);
+        }
     }
 }

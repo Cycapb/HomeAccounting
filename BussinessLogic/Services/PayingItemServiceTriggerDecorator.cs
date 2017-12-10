@@ -13,12 +13,17 @@ namespace BussinessLogic.Services
         private readonly IPayingItemService _payingItemService;
         private readonly IServiceTrigger<PayingItem> _serviceTrigger;
         private readonly ICategoryService _categoryService;
+        private readonly ITypeOfFlowService _typeOfFlowService;
 
-        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService, IServiceTrigger<PayingItem> serviceTrigger, ICategoryService categoryService)
+        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService, 
+            IServiceTrigger<PayingItem> serviceTrigger, 
+            ICategoryService categoryService,
+            ITypeOfFlowService typeOfFlowService)
         {
             _payingItemService = payingItemService;
             _serviceTrigger = serviceTrigger;
             _categoryService = categoryService;
+            _typeOfFlowService = typeOfFlowService;
         }
 
         public IEnumerable<PayingItem> GetList()
@@ -52,7 +57,10 @@ namespace BussinessLogic.Services
 
         public async Task UpdateAsync(PayingItem item)
         {
-            var oldCategory = await _categoryService.GetItemAsync(item.CategoryID);
+            var typeOfFlowId = (await _categoryService.GetItemAsync(item.CategoryID)).TypeOfFlowID;
+            var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
+            var oldCategoryId = await GetCategoryIdAsync(categories, item.ItemID);
+            var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
             var oldPayingItem = oldCategory.PayingItem.FirstOrDefault(x => x.ItemID == item.ItemID);
             var newItem = new PayingItem()
             {
@@ -74,6 +82,30 @@ namespace BussinessLogic.Services
         public IEnumerable<PayingItem> GetListByTypeOfFlow(IWorkingUser user, int typeOfFlow)
         {
             return _payingItemService.GetListByTypeOfFlow(user, typeOfFlow);
+        }
+
+        private Task<int> GetCategoryIdAsync(IEnumerable<Category> categories, int itemId)
+        {
+            return Task.Run(() =>
+            {
+                var categoryId = 0;
+                foreach (var category in categories)
+                {
+                    foreach (var payingItem in category.PayingItem)
+                    {
+                        if (payingItem.ItemID == itemId)
+                        {
+                            categoryId = payingItem.CategoryID;
+                            break;
+                        }
+                        if (categoryId != 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+                return categoryId;
+            });
         }
     }
 }
