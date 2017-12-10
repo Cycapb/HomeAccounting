@@ -68,7 +68,7 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Update(PayingItem oldItem, PayingItem newItem)
         {
-            if (SumAndAccountHasChanged(oldItem,newItem))
+            if (SumAndAccountHasChanged(oldItem,newItem) || AccountHasChanged(oldItem, newItem))
             {
                 await UpdateAccountsAndSum(oldItem, newItem);
                 return;
@@ -80,9 +80,33 @@ namespace BussinessLogic.Services.Triggers
             }
         }
 
-        private Task UpdateAccountsAndSum(PayingItem oldItem, PayingItem newItem)
+        private bool AccountHasChanged(PayingItem oldItem, PayingItem newItem)
         {
-            throw new NotImplementedException();
+            return oldItem.AccountID != newItem.AccountID;
+        }
+
+        private async Task UpdateAccountsAndSum(PayingItem oldItem, PayingItem newItem)
+        {
+            if (oldItem.AccountID != newItem.AccountID)
+            {
+                var oldAccount = await _accountService.GetItemAsync(oldItem.AccountID);
+                var newAccount = await _accountService.GetItemAsync(newItem.AccountID);
+                switch (newItem.Category.TypeOfFlowID)
+                {
+                    case 1:
+                        newAccount.Cash += newItem.Summ;
+                        oldAccount.Cash -= oldItem.Summ;
+                        await _accountService.UpdateAsync(oldAccount);
+                        await _accountService.UpdateAsync(newAccount);
+                        break;
+                    case 2:
+                        newAccount.Cash -= newItem.Summ;
+                        oldAccount.Cash += oldItem.Summ;
+                        await _accountService.UpdateAsync(oldAccount);
+                        await _accountService.UpdateAsync(newAccount);
+                        break;
+                }
+            }
         }
 
         private async Task UpdateAccountSum(PayingItem oldItem, PayingItem newItem)
@@ -102,11 +126,11 @@ namespace BussinessLogic.Services.Triggers
             catch (ServiceException e)
             {
                 throw new ServiceException(
-                    $"Ошибка в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Update)}", e);
+                    $"Ошибка в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(UpdateAccountSum)}", e);
             }
             catch (NullReferenceException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Update)}", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(UpdateAccountSum)}", e);
             }
         }
 
@@ -151,31 +175,3 @@ namespace BussinessLogic.Services.Triggers
         }
     }
 }
-/*
- 	BEGIN
-		set @AccountIdNew=(select AccountId from inserted)
-		set @AccountIdOld=(select AccountId from deleted)		
-		set @CashOld=(select Cash from Account where AccountID=@AccountIdOld)		
-
-		IF (@AccountIdOld<>@AccountIdNew)
-			IF(@ClosedPeriod)=0
-			BEGIN
-				IF (select c.TypeOfFlowID from inserted as i 
-					join Category as c on c.CategoryID=i.CategoryID)=1
-				BEGIN
-					UPDATE Account SET Cash=@Cash + @SummNewForUpdate where Account.AccountID=@AccountIdNew
-					UPDATE Account SET Cash=@CashOld - @SummOld where Account.AccountID=@AccountIdOld
-				END
-				ELSE
-				BEGIN
-					UPDATE Account SET Cash=@Cash - @SummNewForUpdate where Account.AccountID=@AccountIdNew
-					UPDATE Account SET Cash=@CashOld + @SummOld where Account.AccountID=@AccountIdOld
-				END
-			END
-	END
- */
-/*
- - Проверка изменились ли суммы и аккаунты HasSummAndAccountBeenChanged(PayingItem oldItem, PayingItem newItem)
- - Проверка изменились ли только суммы HasSummBeenChanged(PayingItem oldItem, PayingItem newItem)
- - В зависимости от этого либо только суммы правим и обновляем счет, либо правим и суммы и счета, так как изменения будут в двух счетах
- */
