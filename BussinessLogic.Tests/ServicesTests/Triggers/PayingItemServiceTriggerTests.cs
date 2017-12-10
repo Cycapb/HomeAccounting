@@ -131,6 +131,7 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
             };
             var account = newItem.Account;
             var target = new PayingItemServiceTrigger(null, _accountService.Object);
+            _accountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(account);
 
             await target.Update(oldItem, newItem);
 
@@ -150,6 +151,7 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
             };
             var account = newItem.Account;
             var target = new PayingItemServiceTrigger(null, _accountService.Object);
+            _accountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(account);
 
             await target.Update(oldItem, newItem);
 
@@ -169,6 +171,7 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
             };
             var account = newItem.Account;
             var target = new PayingItemServiceTrigger(null, _accountService.Object);
+            _accountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(account);
 
             await target.Update(oldItem, newItem);
 
@@ -188,6 +191,7 @@ namespace BussinessLogic.Tests.ServicesTests.Triggers
             };
             var account = newItem.Account;
             var target = new PayingItemServiceTrigger(null, _accountService.Object);
+            _accountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(account);
 
             await target.Update(oldItem, newItem);
 

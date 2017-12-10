@@ -68,6 +68,25 @@ namespace BussinessLogic.Services.Triggers
 
         public async Task Update(PayingItem oldItem, PayingItem newItem)
         {
+            if (SumAndAccountHasChanged(oldItem,newItem))
+            {
+                await UpdateAccountsAndSum(oldItem, newItem);
+                return;
+            } 
+
+            if (SumHasChanged(oldItem, newItem))
+            {
+                await UpdateAccountSum(oldItem, newItem);
+            }
+        }
+
+        private Task UpdateAccountsAndSum(PayingItem oldItem, PayingItem newItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task UpdateAccountSum(PayingItem oldItem, PayingItem newItem)
+        {
             try
             {
                 switch (newItem.Category.TypeOfFlowID)
@@ -83,39 +102,51 @@ namespace BussinessLogic.Services.Triggers
             catch (ServiceException e)
             {
                 throw new ServiceException(
-                    $"Ошибка {e.GetType()} в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Update)}", e);
+                    $"Ошибка в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Update)}", e);
             }
             catch (NullReferenceException e)
             {
-                throw new ServiceException($"Ошибка {e.GetType()} в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Insert)}", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemServiceTrigger)} в методе {nameof(Update)}", e);
             }
+        }
+
+        private bool SumHasChanged(PayingItem oldItem, PayingItem newItem)
+        {
+            return oldItem.Summ != newItem.Summ;
+        }
+
+        private bool SumAndAccountHasChanged(PayingItem oldItem, PayingItem newItem)
+        {
+            return oldItem.Summ != newItem.Summ && oldItem.AccountID != newItem.AccountID;
         }
 
         private async Task UpdateIncome(PayingItem oldItem, PayingItem newItem)
         {
+            var accountToUpdate = await _accountService.GetItemAsync(newItem.AccountID);
             if (oldItem.Summ > newItem.Summ)
             {
-                newItem.Account.Cash -= oldItem.Summ - newItem.Summ;
-                await _accountService.UpdateAsync(newItem.Account);
+                accountToUpdate.Cash -= oldItem.Summ - newItem.Summ;
+                await _accountService.UpdateAsync(accountToUpdate);
             }
             else
             {
-                newItem.Account.Cash += newItem.Summ - oldItem.Summ;
-                await _accountService.UpdateAsync(newItem.Account);
+                accountToUpdate.Cash += newItem.Summ - oldItem.Summ;
+                await _accountService.UpdateAsync(accountToUpdate);
             }
         }
 
         private async Task UpdateOutgo(PayingItem oldItem, PayingItem newItem)
         {
+            var accountToUpdate = await _accountService.GetItemAsync(newItem.AccountID);
             if (oldItem.Summ > newItem.Summ)
             {
-                newItem.Account.Cash += oldItem.Summ - newItem.Summ;
-                await _accountService.UpdateAsync(newItem.Account);
+                accountToUpdate.Cash += oldItem.Summ - newItem.Summ;
+                await _accountService.UpdateAsync(accountToUpdate);
             }
             else
             {
-                newItem.Account.Cash -= newItem.Summ - oldItem.Summ;
-                await _accountService.UpdateAsync(newItem.Account);
+                accountToUpdate.Cash -= newItem.Summ - oldItem.Summ;
+                await _accountService.UpdateAsync(accountToUpdate);
             }
         }
     }
@@ -142,4 +173,9 @@ namespace BussinessLogic.Services.Triggers
 				END
 			END
 	END
+ */
+/*
+ - Проверка изменились ли суммы и аккаунты HasSummAndAccountBeenChanged(PayingItem oldItem, PayingItem newItem)
+ - Проверка изменились ли только суммы HasSummBeenChanged(PayingItem oldItem, PayingItem newItem)
+ - В зависимости от этого либо только суммы правим и обновляем счет, либо правим и суммы и счета, так как изменения будут в двух счетах
  */

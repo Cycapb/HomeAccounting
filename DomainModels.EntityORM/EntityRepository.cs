@@ -147,10 +147,10 @@ namespace DomainModels.EntityORM
         {
             try
             {
-                return Task.Run((() =>
+                return Task.Run(() =>
                 {
                     _context.Entry(item).State = EntityState.Modified;
-                }));
+                });
             }
             catch (Exception ex)
             {

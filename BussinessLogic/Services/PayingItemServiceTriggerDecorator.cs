@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using Services;
@@ -11,11 +12,13 @@ namespace BussinessLogic.Services
     {
         private readonly IPayingItemService _payingItemService;
         private readonly IServiceTrigger<PayingItem> _serviceTrigger;
+        private readonly ICategoryService _categoryService;
 
-        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService, IServiceTrigger<PayingItem> serviceTrigger)
+        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService, IServiceTrigger<PayingItem> serviceTrigger, ICategoryService categoryService)
         {
             _payingItemService = payingItemService;
             _serviceTrigger = serviceTrigger;
+            _categoryService = categoryService;
         }
 
         public IEnumerable<PayingItem> GetList()
@@ -49,9 +52,16 @@ namespace BussinessLogic.Services
 
         public async Task UpdateAsync(PayingItem item)
         {
-            var oldItem = await _payingItemService.GetItemAsync(item.ItemID);
+            var oldCategory = await _categoryService.GetItemAsync(item.CategoryID);
+            var oldPayingItem = oldCategory.PayingItem.FirstOrDefault(x => x.ItemID == item.ItemID);
+            var newItem = new PayingItem()
+            {
+                Category = oldCategory,
+                AccountID = item.AccountID,
+                Summ = item.Summ
+            };
             await _payingItemService.UpdateAsync(item);
-            await _serviceTrigger.Update(oldItem, item);
+            await _serviceTrigger.Update(oldPayingItem, newItem);
         }
 
         public async Task<PayingItem> CreateAsync(PayingItem item)
