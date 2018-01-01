@@ -126,6 +126,10 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Paginator, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Paginator.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
@@ -585,7 +589,7 @@
     <Content Include="Views\Report\CreateByTypeOfFlowView.cshtml" />
     <Content Include="Views\Report\GetTypeOfFlowReport.cshtml" />
     <Content Include="Views\Report\CreateByDatesView.cshtml" />
-    <Content Include="Views\Report\GetByDatesReport.cshtml" />
+    <Content Include="Views\Report\_GetByDatesReport.cshtml" />
     <Content Include="Views\Report\GetAllCategoriesReport.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
@@ -625,8 +629,6 @@
     <Content Include="Views\Planing\EditView.cshtml" />
     <Content Include="Views\Planing\PlanItemsOutgoPartial.cshtml" />
     <Content Include="Views\Planing\PlanItemsIncomePartial.cshtml" />
-    <Content Include="Views\Report\GetByDatesReportPartial.cshtml" />
-    <Content Include="Views\Report\ReportModelPageLinksAjaxPartial.cshtml" />
     <Content Include="Views\Report\GetByTypeOfFlowReportPartial.cshtml" />
     <Content Include="Views\Report\SubcategoriesReportView.cshtml" />
     <Content Include="Views\Report\GetByDatesReportView.cshtml" />
@@ -662,6 +664,7 @@
     <Content Include="Views\Mailbox\Index.cshtml" />
     <Content Include="Views\Mailbox\Mailbox.cshtml" />
     <Content Include="Views\Mailbox\_List.cshtml" />
+    <Content Include="Views\Report\_PageLinks.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

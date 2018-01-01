@@ -16,6 +16,8 @@ using Ninject;
 using Services;
 using DomainModels.EntityORM;
 using Loggers;
+using Paginator.Abstract;
+using Paginator.Concrete;
 using Providers;
 using Services.Triggers;
 
@@ -78,6 +80,8 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IPayingItemService>().To<PayingItemServiceTriggerDecorator>();
             _kernel.Bind<IPayingItemService>().To<PayingItemService>()
                 .WhenInjectedInto<PayingItemServiceTriggerDecorator>();
+            _kernel.Bind<IPageCreator>().To<AjaxPageCreator>();
+            _kernel.Bind<IPaginator>().To<Paginator.Concrete.Paginator>();
         }
 
         public object GetService(Type serviceType)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
+using Paginator.Abstract;
 using Services.Exceptions;
 using WebUI.Abstract;
 using WebUI.Exceptions;
@@ -21,14 +22,17 @@ namespace WebUI.Controllers
         private readonly IPayItemSubcategoriesHelper _payItemSubcategoriesHelper;
         private readonly IReportControllerHelper _reportControllerHelper;
         private readonly IReportModelCreator _reportModelCreator;
+        private readonly IPageCreator _pageCreator;
 
         public ReportController(IPayItemSubcategoriesHelper payItemSubcategoriesHelper, 
             IReportControllerHelper reportControllerHelper,
-            IReportModelCreator reportModelCreator)
+            IReportModelCreator reportModelCreator,
+            IPageCreator pageCreator)
         {
             _payItemSubcategoriesHelper = payItemSubcategoriesHelper;
             _reportControllerHelper = reportControllerHelper;
             _reportModelCreator = reportModelCreator;
+            _pageCreator = pageCreator;
         }
 
         public ViewResult Index()
@@ -85,21 +89,6 @@ namespace WebUI.Controllers
             return View();
         }
 
-        public ActionResult GetByDatesReportView(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
-        {
-            FillViewBag(dtFrom, dtTo, user);
-            try
-            {
-                var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-                return View(reportModel);
-            }
-            catch (WebUiException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByDatesReportView)}",
-                    e);
-            }
-        }
-
         [UserHasAnyCategories]
         public ActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
@@ -107,25 +96,12 @@ namespace WebUI.Controllers
             try
             {
                 var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-                return PartialView(reportModel);
+                ViewBag.PageCreator = _pageCreator;
+                return PartialView("_GetByDatesReport", reportModel);
             }
             catch (WebUiException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByDatesReport)}",
-                    e);
-            }
-        }
-
-        public ActionResult GetByDatesReportPartial(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
-        {
-            try
-            {
-                var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-                return PartialView(reportModel);
-            }
-            catch (WebUiException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByDatesReportPartial)}",
                     e);
             }
         }
@@ -242,3 +218,4 @@ namespace WebUI.Controllers
         }
     }
 }
+//ToDo Убрать GetTypeOfFlowReport и GetByDatesReport из контроллера. И соответсвенно убрать вьюхи, которые он возвращает
