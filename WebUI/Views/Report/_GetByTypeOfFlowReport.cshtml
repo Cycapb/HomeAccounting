@@ -14,15 +14,21 @@
         </tr>
         </thead>
         <tbody id="reportTable">
-        @Html.Action("GetByTypeOfFlowReportPartial", new
+        @foreach (var item in Model.ItemsPerPage)
         {
-            dtFrom = Model.DtFrom,
-            dtTo = Model.DtTo,
-        })
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>@item.AccountName</td>
+                <td>@item.Summ.ToString("c")</td>
+                <td>@item.Comment</td>
+            </tr>
+        }
         </tbody>
     </table>
     <p>Итого: @Model.AllItems.Sum(x=>x.Summ).ToString("c")</p>
     <div class="text-center">
-        @Html.Partial("ReportModelPageLinksAjaxPartial")
+        @Html.Partial("_PageLinks", Model)
     </div>
 </div>

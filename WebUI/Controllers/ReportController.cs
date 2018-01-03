@@ -54,20 +54,6 @@ namespace WebUI.Controllers
                     e);
             }
         }
-
-        public ActionResult GetByTypeOfFlowReportPartial(TempReportModel model, WebUser user, int page = 1)
-        {
-            try
-            {
-                var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
-                return PartialView(reportModel);
-            }
-            catch (WebUiException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetByTypeOfFlowReportPartial)}",
-                    e);
-            }
-        }
         
         [UserHasAnyCategories]
         public ActionResult GetTypeOfFlowReport(TempReportModel model, WebUser user, int page = 1)
@@ -75,7 +61,8 @@ namespace WebUI.Controllers
             try
             {
                 var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
-                return PartialView(reportModel);
+                ViewBag.PageCreator = _pageCreator;
+                return PartialView("_GetByTypeOfFlowReport", reportModel);
             }
             catch (WebUiException e)
             {
@@ -117,7 +104,7 @@ namespace WebUI.Controllers
             {
                 var list = _reportControllerHelper.GetOverallList(user, dateFrom, dateTo, typeOfFlowId).ToList();
                 ViewBag.Summ = list.Sum(x => x.Summ);
-                return PartialView(list);
+                return PartialView("_GetAllCategoriesReport", list);
             }
             catch (WebUiHelperException e)
             {
@@ -133,7 +120,7 @@ namespace WebUI.Controllers
             {
                 var tempQuery = _reportControllerHelper.GetPayingItemsForLastYear(user).ToList();
                 _reportControllerHelper.FillReportMonthsModel(model, tempQuery);
-                return PartialView(model);
+                return PartialView("_OverallLastYearMonths", model);
             }
             catch (WebUiHelperException e)
             {
@@ -146,23 +133,13 @@ namespace WebUI.Controllers
         {
             var dtFrom = date;
             var dtTo = EndDateFromDate(date);
-            if (Request.IsAjaxRequest())
-            {
-                return RedirectToAction("GetByDatesReport", new {dtFrom, dtTo});
-            }
-            return RedirectToAction("GetByDatesReportView", new {dtFrom, dtTo});
-        }
-
-        public async Task<ActionResult> SubcategoriesReportView(WebUser user, int typeOfFlowId, DateTime date)
-        {
-            var payItemSubcategoriesList = await GetPayitemSubcategoriesForView(user, typeOfFlowId, date);
-            return View(payItemSubcategoriesList);
+            return RedirectToAction("GetByDatesReport", new {dtFrom, dtTo});
         }
 
         public async Task<ActionResult> SubcategoriesReport(WebUser user, int typeOfFlowId, DateTime date)
         {
             var payItemSubcategoriesList = await GetPayitemSubcategoriesForView(user, typeOfFlowId, date);
-            return PartialView(payItemSubcategoriesList);
+            return PartialView("_SubcategoriesReport", payItemSubcategoriesList);
         }
 
         private async Task<List<PayItemSubcategories>> GetPayitemSubcategoriesForView(WebUser user, int typeOfFlowId,

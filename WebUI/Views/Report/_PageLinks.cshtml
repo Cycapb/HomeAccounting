@@ -1,7 +1,7 @@
 ﻿@using Paginator.Abstract
 @model ReportModel
 @{
-    var pageCreator = (IPageCreator)ViewBag.PageCreator;
+    var pageCreator = (IPageCreator) ViewBag.PageCreator;
     var pagingInfo = Model.PagingInfo;
 }
 @if (Model.CategoryId == 0)
@@ -15,7 +15,7 @@
 }
 else
 {
-    @pageCreator.CreatePages(pagingInfo.ItemsPerPage, pagingInfo.CurrentPage, pagingInfo.TotalItems, "#reportPanelBody", x => Url.Action("GetByTypeOfFlowReportPartial", new
+    @pageCreator.CreatePages(pagingInfo.ItemsPerPage, pagingInfo.CurrentPage, pagingInfo.TotalItems, "#reportPanelBody", x => Url.Action("GetTypeOfFlowReport", new
     {
         catId = Model.CategoryId,
         dtFrom = Model.DtFrom,
