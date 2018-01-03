@@ -11,6 +11,7 @@ using WebUI.Controllers;
 using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Paginator.Abstract;
 using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
@@ -36,12 +37,14 @@ namespace WebUI.Tests.ControllersTests
         private readonly Mock<IReportModelCreator> _reportModelCreator;
         private readonly Mock<IReportControllerHelper> _reportControllerHelperMock;
         private readonly Mock<IPayItemSubcategoriesHelper> _payItemSubcategoriesHelperMock;
+        private readonly Mock<IPageCreator> _pageCreator;
 
         public ReportControllerTests()
         {
             _reportModelCreator = new Mock<IReportModelCreator>();
             _reportControllerHelperMock = new Mock<IReportControllerHelper>();
             _payItemSubcategoriesHelperMock = new Mock<IPayItemSubcategoriesHelper>();
+            _pageCreator = new Mock<IPageCreator>();
         }
 
         private ControllerContext GetControllerContext(Controller target, bool isAjax)
@@ -67,7 +70,7 @@ namespace WebUI.Tests.ControllersTests
         public void OverallLastYearMonths_PartialViewReturned()
         {
             Mock<IReportControllerHelper> mockReportHelper = new Mock<IReportControllerHelper>();
-            var target = new ReportController(null, mockReportHelper.Object, null);
+            var target = new ReportController(null, mockReportHelper.Object, null, null);
             var user = new WebUser() {Id = "1"};
 
             var result = target.OverallLastYearMonths(user);
@@ -84,7 +87,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ReportControllerTests")]
         public void Index_ViewResultReturned()
         {
-            var target = new ReportController(null, null, null);
+            var target = new ReportController(null, null, null, null);
 
             var result = target.Index();
 
@@ -99,7 +102,7 @@ namespace WebUI.Tests.ControllersTests
             var user = new WebUser() {Id = "1"};
             var flowId = 1;
 
-            var target = new ReportController(null, mockReportHelper.Object, null);
+            var target = new ReportController(null, mockReportHelper.Object, null, null);
 
             var result = target.CreateByTypeOfFlowView(user, flowId);
 
@@ -119,9 +122,9 @@ namespace WebUI.Tests.ControllersTests
             var tempReportModel = new TempReportModel();
             var user = new WebUser() {Id = "1"};
             var page = 1;
-            var target = new ReportController(null, null, mockCreator.Object);
+            var target = new ReportController(null, null, mockCreator.Object, null);
 
-            var result = target.GetByTypeOfFlowReportPartial(tempReportModel, user, page);
+            var result = target.GetTypeOfFlowReport(tempReportModel, user, page);
 
             mockCreator.Verify(m=>m.CreateByTypeReportModel(tempReportModel, user, page),Times.Once);
             Assert.IsNotNull(((PartialViewResult)result).Model);
@@ -132,7 +135,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ReportControllerTests")]
         public void GetTypeOfFlowReport_CatId0_RedrectToRouteResultReturned()
         {
-            var target = new ReportController(null, null, _reportModelCreator.Object);
+            var target = new ReportController(null, null, _reportModelCreator.Object, null);
             _reportModelCreator.Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>())).Returns(new ReportModel());
 
             var result = target.GetTypeOfFlowReport(new TempReportModel(), new WebUser(), 1);
@@ -150,7 +153,7 @@ namespace WebUI.Tests.ControllersTests
             mockCreator.Setup(
                 m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
                 .Returns(new ReportModel());
-            var target = new ReportController(null, null, mockCreator.Object);
+            var target = new ReportController(null, null, mockCreator.Object, null);
             var tempReportModel = new TempReportModel() {CatId = 1};
             var page = 1;
             var user = new WebUser() {Id = "1"};
@@ -167,7 +170,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ReportControllerTests")]
         public void CreateByDatesView_ViewReturned()
         {
-            var target = new ReportController(null, null, null);
+            var target = new ReportController(null, null, null, null);
 
             var result = target.CreateByDatesView();
             
@@ -187,17 +190,17 @@ namespace WebUI.Tests.ControllersTests
                 m =>
                     m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                         It.IsAny<int>())).Returns(new ReportModel());
-            var target = new ReportController(null, mockHelper.Object, mockCreator.Object);
+            var target = new ReportController(null, mockHelper.Object, mockCreator.Object, null);
             var user = new WebUser();
 
-            var result = target.GetByDatesReportView(user, DateTime.Today, DateTime.Today, 1 );
+            var result = target.GetByDatesReport(user, DateTime.Today, DateTime.Today, 1 );
 
             mockHelper.Verify(m=>m.GetPayingItemsInDates(DateTime.Today, DateTime.Today, user),Times.Once);
             mockCreator.Verify(m=>m.CreateByDatesReportModel(user, DateTime.Today, DateTime.Today,1));
-            Assert.IsInstanceOfType(result,typeof(ViewResult));
-            Assert.IsNotNull(((ViewResult)result).Model);
-            Assert.AreEqual(((ViewResult)result).ViewBag.OutgoSum,400);
-            Assert.AreEqual(((ViewResult)result).ViewBag.IncomingSum, 200);
+            Assert.IsInstanceOfType(result,typeof(PartialViewResult));
+            Assert.IsNotNull(((PartialViewResult)result).Model);
+            Assert.AreEqual(((PartialViewResult)result).ViewBag.OutgoSum,400);
+            Assert.AreEqual(((PartialViewResult)result).ViewBag.IncomingSum, 200);
         }
 
         [TestMethod]
@@ -213,7 +216,7 @@ namespace WebUI.Tests.ControllersTests
                 m =>
                     m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                         It.IsAny<int>())).Returns(new ReportModel());
-            var target = new ReportController(null, mockHelper.Object, mockCreator.Object);
+            var target = new ReportController(null, mockHelper.Object, mockCreator.Object, null);
             var user = new WebUser();
 
             var result = target.GetByDatesReport(user, DateTime.Today, DateTime.Today, 1);
@@ -235,9 +238,12 @@ namespace WebUI.Tests.ControllersTests
                m =>
                    m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                        It.IsAny<int>())).Returns(new ReportModel());
-            var target = new ReportController(null,null,mockCreator.Object);
+            _reportControllerHelperMock
+                .Setup(x => x.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
+                .Returns(new List<PayingItem>());
+            var target = new ReportController(null,_reportControllerHelperMock.Object,mockCreator.Object, _pageCreator.Object);
 
-            var result = target.GetByDatesReportPartial(new WebUser(), DateTime.Today, DateTime.Today, 1);
+            var result = target.GetByDatesReport(new WebUser(), DateTime.Today, DateTime.Today, 1);
             var model = ((PartialViewResult) result).Model;
 
             Assert.IsInstanceOfType(result,typeof(PartialViewResult));
@@ -252,7 +258,7 @@ namespace WebUI.Tests.ControllersTests
             mockHelper.Setup(
                 m => m.GetOverallList(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
                 .Returns(_overAllItems);
-            var target = new ReportController(null,mockHelper.Object,null);
+            var target = new ReportController(null,mockHelper.Object,null,null);
 
             var result = target.GetAllCategoriesReport(new WebUser(), DateTime.Today, DateTime.Today, 1);
             var viewBag = ((PartialViewResult) result).ViewBag;
@@ -270,13 +276,13 @@ namespace WebUI.Tests.ControllersTests
         public void GetItemsByMonth_RedirectToGetByDatesReportReturned()
         {
             var user = new WebUser();
-            var target = new ReportController(null,null,null);
+            var target = new ReportController(null,null,null,null);
             target.ControllerContext = GetControllerContext(target,false);
 
             var result = target.GetItemsByMonth(user,DateTime.Today);
 
             Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
-            Assert.AreEqual(((RedirectToRouteResult)result).RouteValues["action"], "GetByDatesReportView");
+            Assert.AreEqual(((RedirectToRouteResult)result).RouteValues["action"], "GetByDatesReport");
             Assert.AreEqual(((RedirectToRouteResult)result).RouteValues["dtFrom"],DateTime.Today);
             Assert.IsNotNull(((RedirectToRouteResult)result).RouteValues["dtTo"]);
         }
@@ -286,7 +292,7 @@ namespace WebUI.Tests.ControllersTests
         public void GetItemsByMonth_AjaxRedirectToGetByDatesReportReturned()
         {
             var user = new WebUser();
-            var target = new ReportController(null, null, null);
+            var target = new ReportController(null, null, null,null);
             target.ControllerContext = GetControllerContext(target, true);
 
             var result = target.GetItemsByMonth(user, DateTime.Today);
@@ -299,29 +305,6 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("ReportControllerTests")]
-        public async Task SubcategoriesReportView_WebUserIntDateTimeInput_ViewReturned()
-        {
-            Mock<IPayItemSubcategoriesHelper> mockHelper = new Mock<IPayItemSubcategoriesHelper>();
-            mockHelper.Setup(
-                m =>
-                    m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
-                        It.IsAny<WebUser>(), It.IsAny<int>())).ReturnsAsync(new List<PayItemSubcategories>());
-            var target = new ReportController(mockHelper.Object, null, null);
-
-            var result = await target.SubcategoriesReportView(new WebUser(), 1, DateTime.Today);
-            var model = ((ViewResult)result).Model;
-
-            mockHelper.Verify(m => m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
-                        It.IsAny<WebUser>(), It.IsAny<int>()), Times.Once);
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
-            Assert.IsNotNull(model);
-            Assert.AreEqual(((ViewResult)result).ViewBag.TypeOfFlowName, "Доход");
-            Assert.AreEqual(((ViewResult)result).ViewBag.Summ, 0);
-            Assert.AreEqual(((ViewResult)result).ViewBag.Month, DateTime.Today.Date.ToString("MMMMM"));
-        }
-
-        [TestMethod]
-        [TestCategory("ReportControllerTests")]
         public async Task SubcategoriesReport_WebUserIntDateTimeInput_PartialViewReturned()
         {
             Mock<IPayItemSubcategoriesHelper> mockHelper = new Mock<IPayItemSubcategoriesHelper>();
@@ -329,7 +312,7 @@ namespace WebUI.Tests.ControllersTests
                 m =>
                     m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                         It.IsAny<WebUser>(), It.IsAny<int>())).ReturnsAsync(new List<PayItemSubcategories>());
-            var target = new ReportController(mockHelper.Object, null, null);
+            var target = new ReportController(mockHelper.Object, null, null,null);
 
             var result = await target.SubcategoriesReport(new WebUser(), 1, DateTime.Today);
             var model = ((PartialViewResult)result).Model;
@@ -351,7 +334,7 @@ namespace WebUI.Tests.ControllersTests
             _reportModelCreator
                 .Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
                 .Throws<WebUiException>();
-            var target = new ReportController(null, null, _reportModelCreator.Object);
+            var target = new ReportController(null, null, _reportModelCreator.Object,null);
 
             target.GetTypeOfFlowReport(new TempReportModel(), new WebUser(), 1);
         }
@@ -363,7 +346,7 @@ namespace WebUI.Tests.ControllersTests
             _reportModelCreator
                 .Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
                 .Throws<WebUiException>();
-            var target = new ReportController(null, null, _reportModelCreator.Object);
+            var target = new ReportController(null, null, _reportModelCreator.Object,null);
 
             try
             {
@@ -383,7 +366,7 @@ namespace WebUI.Tests.ControllersTests
             _reportControllerHelperMock
                 .Setup(m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
                 .Throws<WebUiHelperException>();
-            var target = new ReportController(null, _reportControllerHelperMock.Object, null);
+            var target = new ReportController(null, _reportControllerHelperMock.Object, null,null);
 
             target.GetByDatesReport(new WebUser(), DateTime.Now, DateTime.Now, 1);
         }
@@ -395,7 +378,7 @@ namespace WebUI.Tests.ControllersTests
             _reportControllerHelperMock
                 .Setup(m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
                 .Throws<WebUiHelperException>();
-            var target = new ReportController(null, _reportControllerHelperMock.Object, null);
+            var target = new ReportController(null, _reportControllerHelperMock.Object, null,null);
 
             try
             {
@@ -415,7 +398,7 @@ namespace WebUI.Tests.ControllersTests
             _payItemSubcategoriesHelperMock
                 .Setup(m => m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                     It.IsAny<IWorkingUser>(), It.IsAny<int>())).Throws<WebUiHelperException>();
-            var target = new ReportController(_payItemSubcategoriesHelperMock.Object, null, null);
+            var target = new ReportController(_payItemSubcategoriesHelperMock.Object, null, null,null);
 
             await target.SubcategoriesReport(new WebUser(), 1, DateTime.Now);
         }
@@ -427,7 +410,7 @@ namespace WebUI.Tests.ControllersTests
             _payItemSubcategoriesHelperMock
                 .Setup(m => m.GetPayItemsWithSubcategoriesInDatesWeb(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
                     It.IsAny<IWorkingUser>(), It.IsAny<int>())).Throws<WebUiHelperException>();
-            var target = new ReportController(_payItemSubcategoriesHelperMock.Object, null, null);
+            var target = new ReportController(_payItemSubcategoriesHelperMock.Object, null, null,null);
 
             try
             {
