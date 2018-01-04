@@ -79,10 +79,11 @@ namespace WebUI.Controllers
         [UserHasAnyCategories]
         public ActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
-            FillViewBag(dtFrom, dtTo, user);
             try
             {
                 var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
+                ViewBag.OutgoSum = GetSummOfItems(reportModel.AllItems, 2);
+                ViewBag.IncomingSum = GetSummOfItems(reportModel.AllItems, 1);
                 ViewBag.PageCreator = _pageCreator;
                 return PartialView("_GetByDatesReport", reportModel);
             }
@@ -171,28 +172,28 @@ namespace WebUI.Controllers
             return date + TimeSpan.FromDays(daysInmonth - 1);
         }
         
-        private decimal GetSummOfItems(List<PayingItem> list, int typeOfFlowId)
+        private decimal GetSummOfItems(List<PayItem> list, int typeOfFlowId)
         {
             return list
-                .Where(x => x.Category.TypeOfFlowID == typeOfFlowId)
+                .Where(x => x.TypeOfFlowId == typeOfFlowId)
                 .Sum(x => x.Summ);
                 
         }
 
-        private void FillViewBag(DateTime dtFrom, DateTime dtTo, WebUser user)
-        {
-            try
-            {
-                var payingItemList = _reportControllerHelper.GetPayingItemsInDates(dtFrom, dtTo, user).ToList();
-                ViewBag.OutgoSum = GetSummOfItems(payingItemList, 2);
-                ViewBag.IncomingSum = GetSummOfItems(payingItemList, 1);
-            }
-            catch (WebUiHelperException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(FillViewBag)}",
-                    e);
-            }
-        }
+        //private void FillViewBag(DateTime dtFrom, DateTime dtTo, WebUser user)
+        //{
+        //    try
+        //    {
+        //        var payingItemList = _reportControllerHelper.GetPayingItemsInDates(dtFrom, dtTo, user).ToList();
+        //        ViewBag.OutgoSum = GetSummOfItems(payingItemList, 2);
+        //        ViewBag.IncomingSum = GetSummOfItems(payingItemList, 1);
+        //    }
+        //    catch (WebUiHelperException e)
+        //    {
+        //        throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(FillViewBag)}",
+        //            e);
+        //    }
+        //}
     }
 }
 //ToDo Убрать GetTypeOfFlowReport и GetByDatesReport из контроллера. И соответсвенно убрать вьюхи, которые он возвращает
