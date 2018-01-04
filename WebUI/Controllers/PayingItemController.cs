@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
+using Paginator.Abstract;
 using WebUI.Abstract;
 using WebUI.Models;
 using WebUI.Infrastructure.Attributes;
@@ -78,7 +79,7 @@ namespace WebUI.Controllers
                 throw new WebUiException($"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(List)}",
                     e);
             }
-            return PartialView(pItemToView);
+            return PartialView("_List", pItemToView);
         }
 
         public ActionResult ListAjax(WebUser user, int page)

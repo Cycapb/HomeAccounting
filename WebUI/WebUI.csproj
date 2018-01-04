@@ -567,7 +567,7 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\PayingItem\List.cshtml" />
+    <Content Include="Views\PayingItem\_List.cshtml" />
     <Content Include="Views\NavRight\MenuIncoming.cshtml" />
     <Content Include="Views\NavRight\MenuOutgo.cshtml" />
     <Content Include="Views\NavLeft\GetAccounts.cshtml" />
