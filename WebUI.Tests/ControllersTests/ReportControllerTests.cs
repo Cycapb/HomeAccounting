@@ -177,7 +177,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = target.CreateByDatesView();
             
-            Assert.IsInstanceOfType(result,typeof(ViewResult));
+            Assert.IsInstanceOfType(result,typeof(PartialViewResult));
         }
 
         [TestMethod]
