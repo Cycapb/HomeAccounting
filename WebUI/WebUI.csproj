@@ -585,9 +585,9 @@
     <Content Include="Views\Account\AccountsSummary.cshtml" />
     <Content Include="Views\ReportMenu\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
-    <Content Include="Views\Report\CreateByTypeOfFlowView.cshtml" />
+    <Content Include="Views\Report\_CreateByTypeOfFlowView.cshtml" />
     <Content Include="Views\Report\_GetByTypeOfFlowReport.cshtml" />
-    <Content Include="Views\Report\CreateByDatesView.cshtml" />
+    <Content Include="Views\Report\_CreateByDatesView.cshtml" />
     <Content Include="Views\Report\_GetByDatesReport.cshtml" />
     <Content Include="Views\Report\_GetAllCategoriesReport.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />

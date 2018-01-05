@@ -40,13 +40,13 @@ namespace WebUI.Controllers
             return View();
         }
 
-        public ViewResult CreateByTypeOfFlowView(WebUser user, int id)
+        public ActionResult CreateByTypeOfFlowView(WebUser user, int id)
         {
             ViewBag.TypeOfFlowId = id;
             try
             {
                 var items = _reportControllerHelper.GetCategoriesByType(user, id);
-                return View(items);
+                return PartialView("_CreateByTypeOfFlowView", items);
             }
             catch (ServiceException e)
             {
@@ -73,7 +73,7 @@ namespace WebUI.Controllers
         
         public ActionResult CreateByDatesView()
         {
-            return View();
+            return PartialView("_CreateByDatesView");
         }
 
         [UserHasAnyCategories]

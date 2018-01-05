@@ -1,9 +1,4 @@
-﻿@{
-    ViewBag.Title = "Отчет по датам";
-    Layout = "~/Views/Shared/_ReportLayout.cshtml";
-}
-
-<div class="well">
+﻿<div class="well">
     @using (Ajax.BeginForm(new AjaxOptions()
     {
         Url = Url.Action("GetByDatesReport"),
