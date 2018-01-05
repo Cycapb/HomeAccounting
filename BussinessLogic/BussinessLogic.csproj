@@ -51,6 +51,7 @@
     <Compile Include="Providers\MultipleIpAddressProvider.cs" />
     <Compile Include="Providers\SingleIpAddressProvider.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\Caching\MemoryCacheManager.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\DbHelper.cs" />
     <Compile Include="Services\DebtService.cs" />
