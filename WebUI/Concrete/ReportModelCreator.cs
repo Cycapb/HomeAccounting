@@ -44,7 +44,7 @@ namespace WebUI.Concrete
                     _cacheManager.Set(cacheKey, tempList);
                 }
             }
-            catch (WebUiHelperException e)
+            catch (ServiceException e)
             {
                 throw new WebUiException(
                     $"Ошибка в типе {nameof(ReportModelCreator)} в методе {nameof(CreateByDatesReportModel)}",

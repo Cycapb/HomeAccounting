@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Paginator.Abstract;
 using WebUI.Exceptions;
+using Services.Caching;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -38,6 +39,7 @@ namespace WebUI.Tests.ControllersTests
         private readonly Mock<IReportControllerHelper> _reportControllerHelperMock;
         private readonly Mock<IPayItemSubcategoriesHelper> _payItemSubcategoriesHelperMock;
         private readonly Mock<IPageCreator> _pageCreator;
+        private readonly Mock<ICacheManager> _cacheManager;
 
         public ReportControllerTests()
         {
@@ -45,6 +47,7 @@ namespace WebUI.Tests.ControllersTests
             _reportControllerHelperMock = new Mock<IReportControllerHelper>();
             _payItemSubcategoriesHelperMock = new Mock<IPayItemSubcategoriesHelper>();
             _pageCreator = new Mock<IPageCreator>();
+            _cacheManager = new Mock<ICacheManager>();
         }
 
         private ControllerContext GetControllerContext(Controller target, bool isAjax)
@@ -180,22 +183,30 @@ namespace WebUI.Tests.ControllersTests
         [TestMethod]
         [TestCategory("ReportControllerTests")]
         public void GetByDatesReportView_ViewResultReturned()
-        {
-            Mock<IReportControllerHelper> mockHelper = new Mock<IReportControllerHelper>();   
-            Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
-            mockHelper.Setup(
-                m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
-                .Returns(_payingItems);
+        {            
+            Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();            
             mockCreator.Setup(
                 m =>
                     m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(),
-                        It.IsAny<int>())).Returns(new ReportModel());
-            var target = new ReportController(null, mockHelper.Object, mockCreator.Object, null);
+                        It.IsAny<int>())).Returns(new ReportModel() { AllItems = new List<PayItem>()
+                        {
+                            new PayItem()
+                            {
+                                TypeOfFlowId = 1,
+                                Summ = 200
+                            },
+                            new PayItem()
+                            {
+                                TypeOfFlowId = 2,
+                                Summ = 400
+                            }
+                        }
+                        });
+            var target = new ReportController(null, null, mockCreator.Object, null);
             var user = new WebUser();
 
             var result = target.GetByDatesReport(user, DateTime.Today, DateTime.Today, 1 );
-
-            mockHelper.Verify(m=>m.GetPayingItemsInDates(DateTime.Today, DateTime.Today, user),Times.Once);
+                        
             mockCreator.Verify(m=>m.CreateByDatesReportModel(user, DateTime.Today, DateTime.Today,1));
             Assert.IsInstanceOfType(result,typeof(PartialViewResult));
             Assert.IsNotNull(((PartialViewResult)result).Model);
@@ -207,21 +218,29 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ReportControllerTests")]
         public void GetByDatesReportView_PartialViewResultReturned()
         {
-            Mock<IReportControllerHelper> mockHelper = new Mock<IReportControllerHelper>();
             Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
-            mockHelper.Setup(
-                m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
-                .Returns(_payingItems);
             mockCreator.Setup(
                 m =>
                     m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(),
-                        It.IsAny<int>())).Returns(new ReportModel());
-            var target = new ReportController(null, mockHelper.Object, mockCreator.Object, null);
+                        It.IsAny<int>())).Returns(new ReportModel() { AllItems = new List<PayItem>()
+                        {
+                            new PayItem()
+                            {
+                                TypeOfFlowId = 1,
+                                Summ = 200
+                            },
+                            new PayItem()
+                            {
+                                TypeOfFlowId = 2,
+                                Summ = 400
+                            }
+                        }
+                        });
+            var target = new ReportController(null, null, mockCreator.Object, null);
             var user = new WebUser();
 
             var result = target.GetByDatesReport(user, DateTime.Today, DateTime.Today, 1);
-
-            mockHelper.Verify(m => m.GetPayingItemsInDates(DateTime.Today, DateTime.Today, user), Times.Once);
+                        
             mockCreator.Verify(m => m.CreateByDatesReportModel(user, DateTime.Today, DateTime.Today, 1));
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsNotNull(((PartialViewResult)result).Model);
@@ -237,10 +256,7 @@ namespace WebUI.Tests.ControllersTests
             mockCreator.Setup(
                m =>
                    m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(),
-                       It.IsAny<int>())).Returns(new ReportModel());
-            _reportControllerHelperMock
-                .Setup(x => x.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
-                .Returns(new List<PayingItem>());
+                       It.IsAny<int>())).Returns(new ReportModel() { AllItems = new List<PayItem>()});
             var target = new ReportController(null,_reportControllerHelperMock.Object,mockCreator.Object, _pageCreator.Object);
 
             var result = target.GetByDatesReport(new WebUser(), DateTime.Today, DateTime.Today, 1);
@@ -363,10 +379,10 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public void GetByDatesReport_RaisesWebuiException()
         {
-            _reportControllerHelperMock
-                .Setup(m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
-                .Throws<WebUiHelperException>();
-            var target = new ReportController(null, _reportControllerHelperMock.Object, null,null);
+            _reportModelCreator
+                .Setup(m => m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Throws<WebUiException>();
+            var target = new ReportController(null, null, _reportModelCreator.Object,null);
 
             target.GetByDatesReport(new WebUser(), DateTime.Now, DateTime.Now, 1);
         }
@@ -375,10 +391,10 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ReportControllerTests")]
         public void GetByDatesReport_RaisesWebuiExceptionWithInnerWebUiHelperException()
         {
-            _reportControllerHelperMock
-                .Setup(m => m.GetPayingItemsInDates(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<WebUser>()))
-                .Throws<WebUiHelperException>();
-            var target = new ReportController(null, _reportControllerHelperMock.Object, null,null);
+            _reportModelCreator
+                .Setup(m => m.CreateByDatesReportModel(It.IsAny<WebUser>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Throws<WebUiException>();
+            var target = new ReportController(null, null, _reportModelCreator.Object, null);
 
             try
             {
@@ -386,7 +402,7 @@ namespace WebUI.Tests.ControllersTests
             }
             catch (WebUiException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiHelperException));
+                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiException));
             }
         }
 
