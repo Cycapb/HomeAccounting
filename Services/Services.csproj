@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Exceptions\SendEmailException.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="IAccountService.cs" />
