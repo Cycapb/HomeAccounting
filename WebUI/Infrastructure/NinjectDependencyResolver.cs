@@ -5,6 +5,7 @@ using BussinessLogic.Converters;
 using BussinessLogic.Loggers;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
+using BussinessLogic.Services.Caching;
 using BussinessLogic.Services.Triggers;
 using Converters;
 using DomainModels.Model;
@@ -19,6 +20,7 @@ using Loggers;
 using Paginator.Abstract;
 using Paginator.Concrete;
 using Providers;
+using Services.Caching;
 using Services.Triggers;
 
 namespace WebUI.Infrastructure
@@ -82,6 +84,7 @@ namespace WebUI.Infrastructure
                 .WhenInjectedInto<PayingItemServiceTriggerDecorator>();
             _kernel.Bind<IPageCreator>().To<AjaxPageCreator>();
             _kernel.Bind<IPaginator>().To<Paginator.Concrete.Paginator>();
+            _kernel.Bind<ICacheManager>().To<MemoryCacheManager>();
         }
 
         public object GetService(Type serviceType)

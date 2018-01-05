@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
@@ -180,21 +179,5 @@ namespace WebUI.Controllers
                 .Sum(x => x.Summ);
                 
         }
-
-        //private void FillViewBag(DateTime dtFrom, DateTime dtTo, WebUser user)
-        //{
-        //    try
-        //    {
-        //        var payingItemList = _reportControllerHelper.GetPayingItemsInDates(dtFrom, dtTo, user).ToList();
-        //        ViewBag.OutgoSum = GetSummOfItems(payingItemList, 2);
-        //        ViewBag.IncomingSum = GetSummOfItems(payingItemList, 1);
-        //    }
-        //    catch (WebUiHelperException e)
-        //    {
-        //        throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(FillViewBag)}",
-        //            e);
-        //    }
-        //}
     }
 }
-//ToDo Убрать GetTypeOfFlowReport и GetByDatesReport из контроллера. И соответсвенно убрать вьюхи, которые он возвращает

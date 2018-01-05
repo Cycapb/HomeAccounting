@@ -7,7 +7,7 @@ using WebUI.Models;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
-using System.Web.Caching;
+using Services.Caching;
 
 namespace WebUI.Concrete
 {
@@ -17,9 +17,11 @@ namespace WebUI.Concrete
         private readonly IDbHelper _dbHelper;
         private readonly IPagingInfoCreator _pagingCreator;
         private readonly int _itemsPerPage = 15;
+        private readonly ICacheManager _cacheManager;
 
-        public ReportModelCreator(ICategoryService categoryService, IDbHelper dbHelper, IPagingInfoCreator pagingCreator)
+        public ReportModelCreator(ICategoryService categoryService, IDbHelper dbHelper, IPagingInfoCreator pagingCreator, ICacheManager cacheManager)
         {
+            _cacheManager = cacheManager;
             _categoryService = categoryService;
             _dbHelper = dbHelper;
             _pagingCreator = pagingCreator;
@@ -28,9 +30,19 @@ namespace WebUI.Concrete
         public ReportModel CreateByDatesReportModel(WebUser user, DateTime dtFrom, DateTime dtTo, int page)
         {
             List<PayItem> tempList = new List<PayItem>();
+            var cacheKey = "ByDates_" + dtFrom.Date.ToShortDateString() + "_" + dtTo.Date.ToShortDateString();
             try
             {
-                tempList = _dbHelper.GetPayItemsInDatesWeb(dtFrom, dtTo, user).OrderByDescending(x => x.Date).ToList();
+                var cachedItems = (List<PayItem>)_cacheManager.Get(cacheKey);
+                if (cachedItems != null)
+                {
+                    tempList = cachedItems;
+                }
+                else
+                {
+                    tempList = _dbHelper.GetPayItemsInDatesWeb(dtFrom, dtTo, user).OrderByDescending(x => x.Date).ToList();
+                    _cacheManager.Set(cacheKey, tempList);
+                }
             }
             catch (WebUiHelperException e)
             {
@@ -45,12 +57,22 @@ namespace WebUI.Concrete
         public ReportModel CreateByTypeReportModel(TempReportModel model, WebUser user, int page)
         {
             List<PayItem> tempList = new List<PayItem>();
+            var cacheKey = "ByTypeOfFlow_" + model.DtFrom.Date.ToShortDateString() + "_" + model.DtTo.Date.ToShortDateString();
             try
             {
-                tempList =
+                var cachedItems = (List<PayItem>)_cacheManager.Get(cacheKey);
+                if (cachedItems != null)
+                {
+                    tempList = cachedItems;
+                }
+                else
+                {
+                    tempList =
                     _dbHelper.GetCategoryPayItemsInDatesWeb(model.DtFrom, model.DtTo, model.CatId, user)
                         .OrderByDescending(x => x.Date)
                         .ToList();
+                    _cacheManager.Set(cacheKey, tempList);
+                }
             }
             catch (WebUiHelperException e)
             {
@@ -106,7 +128,5 @@ namespace WebUI.Concrete
                 PagingInfo = _pagingCreator.Create(page, _itemsPerPage, pItemList.Count)
             };
         }
-
     }
 }
-//ToDo В ReportmodelCreator убрать ссылки на IRepository

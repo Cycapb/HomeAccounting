@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Caching;
-using Loggers;
 using Services.Caching;
 
 namespace BussinessLogic.Services.Caching
@@ -8,15 +7,13 @@ namespace BussinessLogic.Services.Caching
     public class MemoryCacheManager:ICacheManager
     {
         private readonly Cache _cache;
-        private readonly IExceptionLogger _exceptionLogger;
 
-        public MemoryCacheManager(Cache cache, IExceptionLogger exceptionLogger)
+        public MemoryCacheManager(Cache cache)
         {
-            _exceptionLogger = exceptionLogger;
             _cache = cache;
         }
 
-        public void Set(string key, object value)
+        public virtual void Set(string key, object value)
         {
             try
             {
@@ -28,7 +25,7 @@ namespace BussinessLogic.Services.Caching
             }
         }
 
-        public object Get(string key)
+        public virtual object Get(string key)
         {
             try
             {
@@ -40,7 +37,7 @@ namespace BussinessLogic.Services.Caching
             }
         }
 
-        public bool Remove(string key)
+        public virtual bool Remove(string key)
         {
             try
             {
