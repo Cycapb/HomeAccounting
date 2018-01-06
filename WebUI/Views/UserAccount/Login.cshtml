@@ -6,20 +6,9 @@
 }
 
 <script type="text/javascript">
-    function showPopupLogin() {
-        $.blockUI({
-            css: {
-                border: 'none',
-                padding: '15px',
-                backgroundColor: '#000',
-                '-webkit-border-radius': '10px',
-                '-moz-border-radius': '10px',
-                opacity: .5,
-                color: '#fff'
-            },
-            message: '<img src="../Content/assets/img/gear.gif" width="31" /> Авторизация. Пожалуйста, подождите...'
-        });
-    };
+    function redirectToMain() {
+        window.location.replace("/");
+    }
 </script>
 
 @if (TempData["message"] != null)
@@ -35,7 +24,7 @@
                 @using (Ajax.BeginForm(new AjaxOptions()
                 {
                     OnBegin = "showPopupLogin",
-                    UpdateTargetId = "loginPageBody"
+                    OnSuccess = "redirectToMain"
                 }))
                 {
                     @Html.AntiForgeryToken()
@@ -70,7 +59,7 @@
                         <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg" id="loginButton"/>
                         @Ajax.ActionLink("Демо-вход", "LoginDemo", null, new AjaxOptions()
                         {
-                            UpdateTargetId = "loginPageBody",
+                            OnSuccess = "redirectToMain",
                             OnBegin = "showPopupLogin"
                         },
                             new {@class = "btn btn-simple btn-primary btn-lg"})

@@ -444,6 +444,7 @@
     <Content Include="Scripts\knockout.validation.js" />
     <Content Include="Scripts\knockout.validation.min.js" />
     <Content Include="Models\KnockoutModels\AccountModel.js" />
+    <Content Include="Scripts\LoaderScripts.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.ru.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\CalendarScript.js" />
