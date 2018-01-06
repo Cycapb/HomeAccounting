@@ -46,6 +46,12 @@ namespace WebUI
             bundles.Add(new ScriptBundle("~/bundles/validation").Include(
                 "~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-loginPage").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery.validate*",
+                "~/Scripts/jquery.unobtrusive-ajax.js",
+                "~/Scripts/jquery.blockUI.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery-validation").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.validate*"));
