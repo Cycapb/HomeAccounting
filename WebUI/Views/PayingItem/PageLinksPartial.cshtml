@@ -5,5 +5,5 @@
 {
     Url = Url.Action("ListAjax", new { page = i }),
     UpdateTargetId = "payingTable"
-}, new { @class = "btn btn-default btn-raised btn-round btn-xs", id = i.ToString(), onclick = "onButtonClick(this.id)" })
+}, new { @class = "btn btn-default btn-raised btn-round btn-xs", id = i.ToString(), onclick = "changeButtonColor(this.id)" })
 }

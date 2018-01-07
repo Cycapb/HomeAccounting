@@ -1,12 +1,5 @@
 ﻿@using System.Web.Mvc.Html
-@model WebUI.Models.CategoriesViewModel
-
-<script type="text/javascript">
-    function onButtonClick(id) {
-        $('#' + id).addClass("btn btn-primary").siblings().removeClass("btn-primary");
-        return false;
-    }
-</script>
+@model CategoriesViewModel
 
 <div class="col-xs-2">
     @Html.Action("List", "NavTypeOfFlow")

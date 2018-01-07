@@ -1,4 +1,4 @@
-﻿@model WebUI.Models.CategoriesViewModel
+﻿@model CategoriesViewModel
 
 @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
 {
@@ -7,5 +7,5 @@
         {
             Url = Url.Action("GetCategoriesByType", new {typeOfFlowId = Model.TypeOfFlowId, page = i}),
             UpdateTargetId = "categoryContainer"
-        }, new {@class = "btn btn-default btn-raised btn-round btn-sm", id=i.ToString(), onclick = "onButtonClick(this.id)" })
+        }, new {@class = "btn btn-default btn-raised btn-round btn-sm", id=i.ToString(), onclick = "changeButtonColor(this.id)" })
 }

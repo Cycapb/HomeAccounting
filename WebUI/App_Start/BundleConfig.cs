@@ -65,7 +65,8 @@ namespace WebUI
                 "~/Scripts/jquery.blockUI.js",
                 "~/Content/assets/js/material-kit.js",
                 "~/Scripts/CalendarScript.js",
-                "~/Scripts/LoaderScripts.js"));
+                "~/Scripts/LoaderScripts.js",
+                "~/Scripts/ChangeButtonColor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-adminPage").Include(
                 "~/Scripts/jquery-{version}.js",

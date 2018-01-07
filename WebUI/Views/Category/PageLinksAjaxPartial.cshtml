@@ -6,5 +6,5 @@
 {
     Url = Url.Action("GetAllCategories", new {page = i}),
     UpdateTargetId = "categoryContainer"
-}, new {@class="btn btn-default btn-raised btn-round btn-sm", id = i.ToString(), onclick="onButtonClick(this.id)" });
+}, new {@class="btn btn-default btn-raised btn-round btn-sm", id = i.ToString(), onclick="changeButtonColor(this.id)" });
 }
