@@ -56,6 +56,17 @@ namespace WebUI
                 "~/Content/assets/js/material-kit.js",
                 "~/Scripts/LoaderScripts.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-reportPage").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery.unobtrusive-ajax.js",
+                "~/Content/assets/js/bootstrap.min.js",
+                "~/Content/assets/js/bootstrap-datepicker.js",
+                "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
+                "~/Scripts/jquery.blockUI.js",
+                "~/Content/assets/js/material-kit.js",
+                "~/Scripts/CalendarScript.js",
+                "~/Scripts/LoaderScripts.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery-validation").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.validate*"));

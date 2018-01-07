@@ -9,6 +9,9 @@
             opacity: .5,
             color: '#fff'
         },
-        message: '<img src="../Content/assets/img/gear.gif" width="31" /> Авторизация. Пожалуйста, подождите...'
+        message: '<img src="../Content/assets/img/gear.gif" width="31" /> Пожалуйста, подождите...'
     });
 };
+function redirectToMain() {
+    window.location.replace("/");
+}

@@ -10,10 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
-    @Scripts.Render("~/bundles/jquery-ajax", "~/bundles/bootstrap-datepicker")
-
-    <script src="~/Content/assets/js/material-kit.js"></script>
-    <script src="~/Scripts/CalendarScript.js"></script>
+    @Scripts.Render("~/bundles/jquery-reportPage")
 </head>
 <body>
     @Html.Action("Index","MainBar")
@@ -34,7 +31,12 @@
         </div>
         <p>
             <div>
-                @Html.ActionLink("На главную", "Index", "PayingItem", null, new {@class = "btn btn-default btn-raised btn-sm pull-right"})
+                @Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
+                {
+                    OnBegin = "showPopupLogin",
+                    OnSuccess = "redirectToMain"
+                },
+                    new {@class = "btn btn-default btn-raised btn-sm pull-right"})
             </div>
         </p>
     </div>
