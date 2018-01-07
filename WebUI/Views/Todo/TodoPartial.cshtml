@@ -10,14 +10,16 @@
     </thead>
     <tbody data-bind="foreach: todos">
     <tr>
-        <td><input type="checkbox" data-bind="checked: StatusId"/></td>
+        <td>
+            <input type="checkbox" data-bind="checked: StatusId"/>
+        </td>
         <td data-bind="text: Name"></td>
         <td data-bind="text: Comment"></td>
         <td data-bind="text: GroupName"></td>
         <td class="hidden-xs">
             <form class="form-inline">
                 <input type="button" class="btn btn-warning btn-raised btn-xs" value="Редактировать" data-bind="click: $parent.editTodo"/>
-                <input type="button" class="btn btn-danger btn-raised btn-xs" value="Удалить" data-bind="click: $parent.removeTodo" />
+                <input type="button" class="btn btn-danger btn-raised btn-xs" value="Удалить" data-bind="click: $parent.removeTodo"/>
             </form>
         </td>
     </tr>
@@ -27,5 +29,9 @@
     <input type="button" class="btn btn-sm btn-default btn-raised" id="btnGetAllTodos" value="Отобразить все" data-bind="click: getAllTodos"/>
     <input type="button" class="btn btn-sm btn-default btn-raised" id="btnGetTodos" value="Скрыть завершенные" data-bind="click: getTodos"/>
     <input type="button" class="btn btn-sm btn-success btn-raised" id="btnUpdateTodos" value="Сохранить изменения" data-bind="click: updateTodos"/>
-    @Html.ActionLink("На главную", "Index", "PayingItem", null, new { @class = "btn btn-sm btn-default btn-raised pull-right" })
+    @Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
+    {
+        OnBegin = "showPopupLogin",
+        OnSuccess = "redirectToMain"
+    }, new {@class = "btn btn-sm btn-default btn-raised pull-right"})
 </form>
