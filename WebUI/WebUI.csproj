@@ -309,6 +309,7 @@
     <Content Include="Content\assets\img\flags\VE.png" />
     <Content Include="Content\assets\img\flags\VN.png" />
     <Content Include="Content\assets\img\flags\YE.png" />
+    <Content Include="Content\assets\img\Gear.gif" />
     <Content Include="Content\assets\img\kendall.jpg" />
     <Content Include="Content\assets\img\landing.jpg" />
     <Content Include="Content\assets\img\loading-bubbles.svg" />
