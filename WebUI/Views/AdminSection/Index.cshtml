@@ -24,7 +24,11 @@
             </tr>
         </table>
     </div>
-    @Html.ActionLink("На главную", "Index", "PayingItem", null, new { @class = "btn btn-default btn-raised btn-sm" })
+    @Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
+    {
+        OnBegin = "showPopupLogin",
+        OnSuccess = "redirectToMain"
+    }, new {@class = "btn btn-default btn-raised btn-sm"})
 </div>
 
 

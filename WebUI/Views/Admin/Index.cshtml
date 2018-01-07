@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebUI.Models.AccUserModel>
+﻿@model IEnumerable<AccUserModel>
 @{
     ViewBag.Title = "Пользователи";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -20,23 +20,26 @@
         else
         {
             foreach (var item in Model)
-             {
-                 <tr>
-                     <td>@item.UserName</td>
-                     <td>@item.Email</td>
-                     <td>
-                         @using (Html.BeginForm("Delete","Admin",new {id = item.Id}))
-                         {
-                             @Html.ActionLink("Изменить","Edit",new {id = item.Id},new {@class="btn btn-warning btn-raised btn-xs"})
-                             <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
-                         }
-                     </td>
-                 </tr>  
-             }
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Admin", new {id = item.Id}))
+                        {
+                            @Html.ActionLink("Изменить", "Edit", new {id = item.Id}, new {@class = "btn btn-warning btn-raised btn-xs"})
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
+                        }
+                    </td>
+                </tr>
+            }
         }
     </table>
 </div>
-@Html.ActionLink("Добавить","Create",null,new {@class="btn btn-primary btn-raised btn-sm"})
-@Html.ActionLink("Назад","Index","AdminSection", null, new {@class= "btn btn-default btn-raised btn-sm" })
-@Html.ActionLink("На главную","Index","PayingItem",null,new {@class= "btn btn-default btn-raised pull-right btn-sm" })
-
+@Html.ActionLink("Добавить", "Create", null, new {@class = "btn btn-primary btn-raised btn-sm"})
+@Html.ActionLink("Назад", "Index", "AdminSection", null, new {@class = "btn btn-default btn-raised btn-sm"})
+@Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
+{
+    OnBegin = "showPopupLogin",
+    OnSuccess = "redirectToMain"
+}, new {@class = "btn btn-default btn-raised pull-right btn-sm"})

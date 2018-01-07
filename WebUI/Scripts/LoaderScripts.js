@@ -12,6 +12,22 @@
         message: '<img src="../Content/assets/img/gear.gif" width="31" /> Пожалуйста, подождите...'
     });
 };
+
+function hidePopup() {
+    $.unblockUI();
+}
 function redirectToMain() {
     window.location.replace("/");
+}
+
+function redirectToReport() {
+    window.location.replace("Report");
+}
+
+function redirectToAdminSection() {
+    window.location.replace("AdminSection");
+}
+
+function redirectToTodo() {
+    window.location.replace("Todo");
 }
