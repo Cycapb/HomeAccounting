@@ -13,9 +13,18 @@
     });
 };
 
+function checkForErrorsAndRedirect(result) {
+    if (result.url) {
+        window.location.replace(result.url);
+    } else if (hasErrors) {
+        $.unblockUI();
+    }
+}
+
 function hidePopup() {
     $.unblockUI();
 }
+
 function redirectToMain() {
     window.location.replace("/");
 }

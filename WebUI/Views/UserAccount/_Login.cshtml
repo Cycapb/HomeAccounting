@@ -1,0 +1,63 @@
+﻿@model LoginModel
+@{
+    var errors = ViewContext.ViewData.ModelState.Values.Any(x => x.Errors.Any());
+}
+<script type="text/javascript">
+    var hasErrors = @errors.ToString().ToLower() === true ? true : false;
+    //function onSuccess(result) {
+    //    if (result.url) {
+    //        window.location.href = result.url;
+    //    }
+    //}
+</script>
+<div class="card card-signup">
+    @using (Ajax.BeginForm(new AjaxOptions()
+    {
+        OnBegin = "showPopupLogin",
+        OnSuccess = "checkForErrorsAndRedirect",
+        UpdateTargetId = "loginFormContainer",
+        AllowCache = false
+    }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl"/>
+        <div class="header header-primary text-center">
+            <h4>Авторизация</h4>
+        </div>
+        @Html.ValidationSummary(true)
+        <div class="content">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">face</i>
+                </span>
+                <div class="label-floating form-group">
+                    @Html.LabelFor(x => x.Name, new {@class = "control-label"})
+                    @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">lock_outline</i>
+                </span>
+                <div class="label-floating form-group">
+                    @Html.LabelFor(x => x.Password, new {@class = "control-label"})
+                    @Html.PasswordFor(x => x.Password, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(x => x.Password)
+                </div>
+            </div>
+        </div>
+        <div class="footer text-center">
+            <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg" id="loginButton"/>
+            @Ajax.ActionLink("Демо-вход", "LoginDemo", null, new AjaxOptions()
+            {
+                OnSuccess = "redirectToMain",
+                OnBegin = "showPopupLogin"
+            },
+                new {@class = "btn btn-simple btn-primary btn-lg"})
+            <div style="text-align: center">
+                @Html.ActionLink("Зарегистрироваться", "Register", null, new {@class = "btn btn-simple btn-primary btn-lg"})
+            </div>
+        </div>
+    }
+</div>

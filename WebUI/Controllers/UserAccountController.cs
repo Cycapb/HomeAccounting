@@ -73,16 +73,13 @@ namespace WebUI.Controllers
                             var address = HttpContext.Request.UserHostAddress;
                             new Thread(() => _userReporter.Report(user, address)).Start();
                         }
-                        new Thread(() => ActualizePlanItems(user)).Start();
+                        //new Thread(() => ActualizePlanItems(user)).Start(); Отключил пока не починю планирование
 
                         Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email };
 
-                        return Redirect(returnUrl);
+                        return Json(new {url = returnUrl, hasErrors = "false"});
                     }
-                    else
-                    {
-                        ModelState.AddModelError("", "Неверные имя пользователя или пароль");
-                    }
+                    ModelState.AddModelError("", "Неверные имя пользователя или пароль");
                 }
                 catch (Exception ex)
                 {
@@ -90,7 +87,7 @@ namespace WebUI.Controllers
                 }
             }
             ViewBag.returnUrl = returnUrl;
-            return View(model);
+            return PartialView("_Login", model);
         }
 
         [HttpPost]
