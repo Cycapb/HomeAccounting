@@ -77,7 +77,7 @@ namespace WebUI.Controllers
 
                         Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email };
 
-                        return Json(new {url = returnUrl, hasErrors = "false"});
+                        return Json(new {url = returnUrl, hasErrors = "false"}, JsonRequestBehavior.AllowGet);
                     }
                     ModelState.AddModelError("", "Неверные имя пользователя или пароль");
                 }
