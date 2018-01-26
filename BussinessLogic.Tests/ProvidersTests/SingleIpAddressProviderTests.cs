@@ -25,7 +25,7 @@ namespace BussinessLogic.Tests.ProvidersTests
             }
             catch (ServiceException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ArgumentNullException));    
+                Assert.IsInstanceOfType(e.InnerException, typeof(NullReferenceException));    
             }
         }
 
@@ -73,6 +73,17 @@ namespace BussinessLogic.Tests.ProvidersTests
             var result = _ipAddressProvider.GetIpAddress(ip);
 
             Assert.AreEqual(result, "FF80::123:1234:ABCD:EF12".ToLower());
+        }
+
+        [TestMethod]
+        [TestCategory("SingleIpAddressProviderTests")]
+        public void GetIpAddress_InputIpWithPort_ReturnsValidIp()
+        {
+            var ip = $"192.168.1.1:42589";
+
+            var result = _ipAddressProvider.GetIpAddress(ip);
+
+            Assert.AreEqual("192.168.1.1", result);
         }
     }
 }

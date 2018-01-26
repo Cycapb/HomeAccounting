@@ -11,10 +11,29 @@ namespace BussinessLogic.Providers
         {
             try
             {
-                var ip = IPAddress.Parse(ipAddress);
+                IPAddress ip;
+                
+                if (ipAddress.Contains(":") && ipAddress.IndexOf(':') == 4)
+                {
+                    ip = IPAddress.Parse(ipAddress);
+                    return ip.ToString();
+                }
+
+                if(ipAddress.Contains(":"))
+                {
+                    var ipAddressWithouPort = ipAddress.Substring(0, ipAddress.Length - ipAddress.Substring(ipAddress.IndexOf(':')).Length);
+                    ip = IPAddress.Parse(ipAddressWithouPort);
+                    return ip.ToString();
+                }
+
+                ip = IPAddress.Parse(ipAddress);
                 return ip.ToString();
             }
             catch (ArgumentNullException e)
+            {
+                throw new ServiceException($"Ошибка в аргументе {nameof(ipAddress)} при получении IP", e);
+            }
+            catch (NullReferenceException e)
             {
                 throw new ServiceException($"Ошибка в аргументе {nameof(ipAddress)} при получении IP", e);
             }
