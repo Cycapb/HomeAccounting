@@ -28,26 +28,27 @@ namespace BussinessLogic.Services
         public async Task CreateAsync(Debt debt)
         {
             await _createCloseDebtService.CreateAsync(debt);
-            await CreateDebtPayingItem(debt, false);
+            await CreateOpenedDebtPayingItem(debt);
         }
 
         public async Task CloseAsync(int id)
         {
             var debt = await _debtRepository.GetItemAsync(id);
             await _createCloseDebtService.CloseAsync(id);
-            await CreateDebtPayingItem(debt, true);
+            await CreateClosedDebtPayingItem(debt);
         }
 
-        private async Task CreateDebtPayingItem(Debt debt, bool closed)
+        private async Task CreateClosedDebtPayingItem(Debt debt)
         {
-            var debtCategoryId = await GetDebtCategoryId(debt);
+            var typeOfFlowId = debt.TypeOfFlowId == 1 ? 2 : 1;
+            var categoryId = await GetClosedDebtCategoryId(debt.UserId, typeOfFlowId);
 
             var payingItem = new PayingItem()
             {
-                Date = debt.DateEnd ?? DateTime.Now,
                 AccountID = debt.AccountId,
-                CategoryID = debtCategoryId,
-                Comment = CreateComment(debt.TypeOfFlowId, closed),
+                Date = debt.DateEnd ?? DateTime.Now,
+                CategoryID = categoryId,
+                Comment = debt.TypeOfFlowId == 1 ? "Закрыл свой долг" : "Мне вернули долг",
                 Summ = debt.Summ,
                 UserId = debt.UserId
             };
@@ -56,14 +57,22 @@ namespace BussinessLogic.Services
             await _payingItemRepository.SaveAsync();
         }
 
-        private string CreateComment(int typeOfFlowId, bool closed)
+        private async Task CreateOpenedDebtPayingItem(Debt debt)
         {
-            if (!closed)
-            {
-                return typeOfFlowId == 1 ? "Взял деньги в долг" : "Дал деньги в долг";
-            }
+            var debtCategoryId = await GetDebtCategoryId(debt);
 
-            return typeOfFlowId == 1 ? "Закрыл свой долг" : "Мне вернули долг";
+            var payingItem = new PayingItem()
+            {
+                Date = debt.DateEnd ?? DateTime.Now,
+                AccountID = debt.AccountId,
+                CategoryID = debtCategoryId,
+                Comment = debt.TypeOfFlowId == 1 ? "Взял деньги в долг" : "Дал деньги в долг",
+                Summ = debt.Summ,
+                UserId = debt.UserId
+            };
+
+            await _payingItemRepository.CreateAsync(payingItem);
+            await _payingItemRepository.SaveAsync();
         }
 
         private async Task<int> GetDebtCategoryId(Debt debt)
@@ -87,6 +96,15 @@ namespace BussinessLogic.Services
             await _categoryRepository.CreateAsync(category);
             await _categoryRepository.SaveAsync();
             return category.CategoryID;
+        }
+
+        private async Task<int> GetClosedDebtCategoryId(string userId, int typeOfFlowId)
+        {
+            var category =
+                (await _categoryRepository.GetListAsync())
+                .Where(x => x.UserId == userId && x.TypeOfFlowID == typeOfFlowId)
+                .FirstOrDefault(c => c.Name.ToLower().Contains("Долг".ToLower()));
+                return category.CategoryID;
         }
     }
 }
