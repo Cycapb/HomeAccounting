@@ -115,7 +115,7 @@ namespace WebUI.Helpers
 
         private List<MonthSumm> GetOverallByTypeOfFlow(IEnumerable<PayingItem> repo, int id)
         {
-                return repo.Where(x => x.Category.TypeOfFlowID == id)
+            return repo.Where(x => x.Category.TypeOfFlowID == id)
                 .GroupBy(x => x.Date.ToString("Y", CultureInfo.CurrentCulture))
                 .Select(x => new MonthSumm()
                 {
@@ -136,17 +136,27 @@ namespace WebUI.Helpers
 
         private void FillIncomeSumm(List<MonthSumm> listmonths, ReportMonthsModel model)
         {
-            for (int i = 0; i < listmonths.Count; i++)
+            foreach (var monthSumm in listmonths)
             {
-                model.MonthInOuts[i].SummIn = listmonths[i].Summ.ToString("c");
+                foreach (var monthInOut in model.MonthInOuts)
+                {
+                    if (monthInOut.Month != monthSumm.Date) continue;
+                    monthInOut.SummIn = monthSumm.Summ.ToString("C");
+                    break;
+                }
             }
         }
 
         private void FillOutgoSumm(List<MonthSumm> listmonths, ReportMonthsModel model)
         {
-            for (int i = 0; i < listmonths.Count; i++)
+            foreach (var monthSumm in listmonths)
             {
-                model.MonthInOuts[i].SummOut = listmonths[i].Summ.ToString("c");
+                foreach (var monthInOut in model.MonthInOuts)
+                {
+                    if (monthInOut.Month != monthSumm.Date) continue;
+                    monthInOut.SummOut = monthSumm.Summ.ToString("C");
+                    break;
+                }
             }
         }
     }
