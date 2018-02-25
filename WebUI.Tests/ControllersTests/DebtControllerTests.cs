@@ -11,14 +11,12 @@ namespace WebUI.Tests.ControllersTests
     public class DebtControllerTests
     {
         private readonly Mock<IDebtService> _debtService;
-        private readonly Mock<IAccountService> _accService;
         private readonly DebtController _debtController;
 
         public DebtControllerTests()
         {
             _debtService = new Mock<IDebtService>();
-            _accService = new Mock<IAccountService>();
-            _debtController = new DebtController(_debtService.Object, _accService.Object);
+            _debtController = new DebtController(_debtService.Object, null, null);
         }
 
         [TestMethod]

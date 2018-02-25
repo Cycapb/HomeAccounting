@@ -18,12 +18,14 @@ namespace WebUI.Controllers
     public class DebtController : Controller
     {
         private readonly IDebtService _debtService;
+        private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IAccountService _accService;
 
 
-        public DebtController(IDebtService debtService, IAccountService accService)
+        public DebtController(IDebtService debtService, ICreateCloseDebtService createCloseDebtService, IAccountService accService)
         {
             _debtService = debtService;
+            _createCloseDebtService = createCloseDebtService;
             _accService = accService;
         }
 
@@ -93,7 +95,7 @@ namespace WebUI.Controllers
                 };
                 try
                 {
-                    await _debtService.CreateAsync(debt);
+                    await _createCloseDebtService.CreateAsync(debt);
                 }
                 catch (ServiceException e)
                 {
@@ -111,7 +113,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _debtService.CloseAsync(id);
+                await _createCloseDebtService.CloseAsync(id);
             }
             catch (ServiceException e)
             {
