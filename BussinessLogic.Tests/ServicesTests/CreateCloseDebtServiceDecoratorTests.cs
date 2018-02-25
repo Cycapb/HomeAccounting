@@ -16,7 +16,7 @@ namespace BussinessLogic.Tests.ServicesTests
         private readonly Mock<IRepository<Category>> _categoryRepositoryMock;
         private readonly Mock<IRepository<PayingItem>> _payingItemRepositoryMock;
         private readonly Mock<IRepository<Debt>> _debtRepositoryMock;
-        private readonly CreateCloseDebtServiceDecorator _target;
+        private readonly CreateCloseDebtServicePayingItemDecorator _target;
         private readonly Mock<ICreateCloseDebtService> _createCloseDebtServiceMock;
 
         public CreateCloseDebtServiceDecoratorTests()
@@ -25,7 +25,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _payingItemRepositoryMock = new Mock<IRepository<PayingItem>>();
             _debtRepositoryMock = new Mock<IRepository<Debt>>();
             _createCloseDebtServiceMock = new Mock<ICreateCloseDebtService>();
-            _target = new CreateCloseDebtServiceDecorator(_createCloseDebtServiceMock.Object, 
+            _target = new CreateCloseDebtServicePayingItemDecorator(_createCloseDebtServiceMock.Object, 
                 _payingItemRepositoryMock.Object, 
                 _categoryRepositoryMock.Object, 
                 _debtRepositoryMock.Object);

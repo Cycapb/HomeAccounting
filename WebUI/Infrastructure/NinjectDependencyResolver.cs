@@ -85,9 +85,9 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IPageCreator>().To<AjaxPageCreator>();
             _kernel.Bind<IPaginator>().To<Paginator.Concrete.Paginator>();
             _kernel.Bind<ICacheManager>().To<MemoryCacheManager>();
-            _kernel.Bind<ICreateCloseDebtService>().To<CreateCloseDebtServiceDecorator>();
+            _kernel.Bind<ICreateCloseDebtService>().To<CreateCloseDebtServicePayingItemDecorator>();
             _kernel.Bind<ICreateCloseDebtService>().To<CreateCloseDebtService>()
-                .WhenInjectedInto<CreateCloseDebtServiceDecorator>();
+                .WhenInjectedInto<CreateCloseDebtServicePayingItemDecorator>();
         }
 
         public object GetService(Type serviceType)

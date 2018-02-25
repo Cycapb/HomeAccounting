@@ -7,14 +7,14 @@ using Services;
 
 namespace BussinessLogic.Services
 {
-    public class CreateCloseDebtServiceDecorator:ICreateCloseDebtService
+    public class CreateCloseDebtServicePayingItemDecorator:ICreateCloseDebtService
     {
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IRepository<PayingItem> _payingItemRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Debt> _debtRepository;
 
-        public CreateCloseDebtServiceDecorator(ICreateCloseDebtService createCloseDebtService, 
+        public CreateCloseDebtServicePayingItemDecorator(ICreateCloseDebtService createCloseDebtService, 
             IRepository<PayingItem> payingItemRepository, 
             IRepository<Category> categoryRepository,
             IRepository<Debt> debtRepository
