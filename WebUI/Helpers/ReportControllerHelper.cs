@@ -43,10 +43,11 @@ namespace WebUI.Helpers
 
         public IEnumerable<PayingItem> GetPayingItemsForLastYear(WebUser user)
         {
+            var dateFrom = DateTime.Parse(DateTime.Today.ToString("Y", CultureInfo.CurrentCulture));
             try
             {
                 return _payingItemService.GetList()
-                    .Where(x => x.UserId == user.Id && x.Date <= DateTime.Today && x.Date >= DateTime.Today.AddYears(-1))
+                    .Where(x => x.UserId == user.Id && x.Date <= dateFrom.AddMonths(1) && x.Date >= dateFrom.AddYears(-1))
                     .ToList();
             }
             catch (ServiceException e)
