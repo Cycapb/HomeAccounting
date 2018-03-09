@@ -217,7 +217,7 @@ namespace BussinessLogic.Services
                     try
                     {
                         return _accRepo.GetList()
-                            .Where(b => b.Use == true && b.UserId == user.Id)
+                            .Where(b => b.Use && b.UserId == user.Id)
                             .Sum(s => s.Cash)
                             .ToString("c");
                     }
@@ -240,8 +240,10 @@ namespace BussinessLogic.Services
 
         public decimal GetSummForWeek(List<PayingItem> collection)
         {
+            var currentDayOfWeek = (int)DateTime.Now.Date.DayOfWeek;
+            currentDayOfWeek = currentDayOfWeek == 0 ? 7 : currentDayOfWeek; 
             return collection
-                .Where(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(7))
+                .Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(currentDayOfWeek - 1))
                 .Sum(i => i.Summ);
         }
 
