@@ -12,12 +12,10 @@ namespace BussinessLogic.Services
     public class DebtService:IDebtService
     {
         private readonly IRepository<Debt> _debtRepo;
-        private readonly IRepository<Account> _accRepo;
 
-        public DebtService(IRepository<Debt> deptRepo, IRepository<Account> accRepo)
+        public DebtService(IRepository<Debt> deptRepo)
         {
             _debtRepo = deptRepo;
-            _accRepo = accRepo;
         }
 
         public async Task<IEnumerable<Debt>> GetItemsAsync(string userId)
