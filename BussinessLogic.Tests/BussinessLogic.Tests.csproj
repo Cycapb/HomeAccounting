@@ -71,7 +71,6 @@
     <Compile Include="LoggersTests\NlogExceptionLoggerTests.cs" />
     <Compile Include="ProvidersTests\SingleIpAddressProviderTests.cs" />
     <Compile Include="ProvidersTests\SingleIpAddressProviderLoggingDecoratorTests.cs" />
-    <Compile Include="ServicesTests\DebtServiceTests.cs" />
     <Compile Include="ServicesTests\MailboxServiceTests.cs" />
     <Compile Include="ServicesTests\OrderDetailServiceTests.cs" />
     <Compile Include="ServicesTests\CategoryServiceTests.cs" />
@@ -79,6 +78,7 @@
     <Compile Include="ServicesTests\PayingItemServiceTests.cs" />
     <Compile Include="ServicesTests\Triggers\PayingItemServiceTriggerTests.cs" />
     <Compile Include="ServicesTests\CreateCloseDebtServiceDecoratorTests.cs" />
+    <Compile Include="ServicesTests\DebtServicePartialCloserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

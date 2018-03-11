@@ -4,6 +4,6 @@ namespace Services
 {
     public interface IDebtServicePartialCloser
     {
-        Task Close(int debtId, decimal sum);
+        Task CloseAsync(int debtId, decimal sum);
     }
 }
