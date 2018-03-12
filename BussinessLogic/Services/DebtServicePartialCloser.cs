@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using Services.Exceptions;
 
 namespace BussinessLogic.Services
 {
@@ -22,9 +24,22 @@ namespace BussinessLogic.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task CloseAsync(int debtId, decimal sum)
+        public virtual async Task CloseAsync(int debtId, decimal sum)
         {
-            var debt = await _debtRepository.GetItemAsync(debtId);
+            Debt debt;
+            try
+            {
+                debt = await _debtRepository.GetItemAsync(debtId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в типе {nameof(DebtServicePartialCloser)} в методе {nameof(CloseAsync)}", e);
+            }
+            
+            if (debt == null)
+            {
+                return;
+            }
             if (sum > debt.Summ)
             {
                 throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");

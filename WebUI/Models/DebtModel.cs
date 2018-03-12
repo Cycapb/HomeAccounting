@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using DomainModels.Model;
 
 namespace WebUI.Models
@@ -41,6 +43,16 @@ namespace WebUI.Models
         public int AccountId { get; set; }
 
         public int TypeOfFlowId { get; set; }
-        
+    }
+
+    public class DebtEditViewModel
+    {
+        public string Comment { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public int DebtId { get; set; }
+
+        [Required(ErrorMessage = "Не указана сумма")]
+        public decimal Sum { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace WebUI.Tests.ControllersTests
         public DebtControllerTests()
         {
             _debtService = new Mock<IDebtService>();
-            _debtController = new DebtController(_debtService.Object, null, null);
+            _debtController = new DebtController(_debtService.Object, null, null, null);
         }
 
         [TestMethod]

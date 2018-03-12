@@ -20,13 +20,18 @@ namespace WebUI.Controllers
         private readonly IDebtService _debtService;
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IAccountService _accService;
+        private readonly IDebtServicePartialCloser _debtServicePartialCloser;
 
 
-        public DebtController(IDebtService debtService, ICreateCloseDebtService createCloseDebtService, IAccountService accService)
+        public DebtController(IDebtService debtService, 
+            ICreateCloseDebtService createCloseDebtService, 
+            IAccountService accService,
+            IDebtServicePartialCloser debtServicePartialCloser)
         {
             _debtService = debtService;
             _createCloseDebtService = createCloseDebtService;
             _accService = accService;
+            _debtServicePartialCloser = debtServicePartialCloser;
         }
 
         public PartialViewResult Index(WebUser user)
@@ -121,6 +126,48 @@ namespace WebUI.Controllers
             }
             
             return RedirectToAction("DebtList");
+        }
+
+        public async Task<ActionResult> ClosePartially(int id)
+        {
+            try
+            {
+                var debt = await _debtService.GetItemAsync(id);
+                var debtEditModel = new DebtEditViewModel()
+                {
+                    Comment = debt.Person,
+                    Sum = debt.Summ
+                };
+                return PartialView("_ClosePartially", debtEditModel);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(ClosePartially)}", e);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ClosePartially(DebtEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _debtServicePartialCloser.CloseAsync(model.DebtId, model.Sum);
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiException(
+                        $"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(ClosePartially)}", e);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    TempData["message"] = "Введенная сумма больше суммы долга";
+                }
+                RedirectToAction("DebtList");
+            }
+
+            return PartialView("_ClosePartially", model);
         }
 
         [HttpPost]

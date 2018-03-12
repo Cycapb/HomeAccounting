@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting;
 using System.Threading.Tasks;
 using BussinessLogic.Services;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Services.Exceptions;
 
 namespace BussinessLogic.Tests.ServicesTests
 {
@@ -32,7 +35,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("DebtServicePartialCloser")]
+        [TestCategory("DebtServicePartialCloserTests")]
         public async Task CloseAsync_InputSum200_DebtWas500_Becomes300()
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
@@ -44,7 +47,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("DebtServicePartialCloser")]
+        [TestCategory("DebtServicePartialCloserTests")]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public async Task CloseAsync_InputSum600_DebtWas500_ThrowsArgumentOutOfrange()
         {
@@ -55,7 +58,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("DebtServicePartialCloser")]
+        [TestCategory("DebtServicePartialCloserTests")]
         public async Task CloseAsync_CreatesPayingItem()
         {
             PayingItem payingItem = null;
@@ -71,7 +74,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("DebtServicePartialCloser")]
+        [TestCategory("DebtServicePartialCloserTests")]
         public async Task CloseAsync_InputSum300_CreatesPayingItemWithSumm300()
         {
             PayingItem payingItem = null;
@@ -84,6 +87,32 @@ namespace BussinessLogic.Tests.ServicesTests
             await _debtServicePartialCloser.CloseAsync(It.IsAny<int>(), 300);
 
             Assert.AreEqual(300, payingItem.Summ);
+        }
+
+        [TestMethod]
+        [TestCategory("DebtServicePartialCloserTests")]
+        public async Task CloseAsync_FoundDebtIsNull_NoPayingItemIsCreated()
+        {
+            PayingItem payingItem = null;
+            _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
+            _categoryRepositoryMock.Setup(x => x.GetListAsync()).ReturnsAsync(_listOfCategories);
+            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>()))
+                .ReturnsAsync(new PayingItem())
+                .Callback<PayingItem>(x => payingItem = x);
+
+            await _debtServicePartialCloser.CloseAsync(It.IsAny<int>(), 300);
+
+            Assert.IsNull(payingItem);
+        }
+
+        [TestMethod]
+        [TestCategory("DebtServicePartialCloserTests")]
+        [ExpectedException(typeof(ServiceException))]
+        public async Task CloseAsync_ThrowsServiceException()
+        {
+            _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<DomainModelsException>();
+
+            await _debtServicePartialCloser.CloseAsync(It.IsAny<int>(), It.IsAny<decimal>());
         }
         private void InitializeDebts()
         {
