@@ -61,7 +61,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в типе {nameof(DebtServicePartialCloser)} в методе {nameof(CloseAsync)}", e);
+                throw new ServiceException($"Ошибка в типе {nameof(CreateCloseDebtService)} в методе {nameof(CloseAsync)}", e);
             }
 
             if (debt == null)

@@ -20,18 +20,15 @@ namespace WebUI.Controllers
         private readonly IDebtService _debtService;
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IAccountService _accService;
-        private readonly IDebtServicePartialCloser _debtServicePartialCloser;
 
 
         public DebtController(IDebtService debtService, 
             ICreateCloseDebtService createCloseDebtService, 
-            IAccountService accService,
-            IDebtServicePartialCloser debtServicePartialCloser)
+            IAccountService accService)
         {
             _debtService = debtService;
             _createCloseDebtService = createCloseDebtService;
             _accService = accService;
-            _debtServicePartialCloser = debtServicePartialCloser;
         }
 
         public PartialViewResult Index(WebUser user)
@@ -153,7 +150,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await _debtServicePartialCloser.CloseAsync(model.DebtId, model.Sum);
+                    //await _debtServicePartialCloser.CloseAsync(model.DebtId, model.Sum);
                 }
                 catch (ServiceException e)
                 {
