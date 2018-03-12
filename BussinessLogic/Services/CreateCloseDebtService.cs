@@ -52,6 +52,31 @@ namespace BussinessLogic.Services
             }
         }
 
+        public async Task PartialCloseAsync(int debtId, decimal sum)
+        {
+            Debt debt;
+            try
+            {
+                debt = await _debtRepo.GetItemAsync(debtId);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в типе {nameof(DebtServicePartialCloser)} в методе {nameof(CloseAsync)}", e);
+            }
+
+            if (debt == null)
+            {
+                return;
+            }
+            if (sum > debt.Summ)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");
+            }
+            debt.Summ -= sum;
+            await _debtRepo.UpdateAsync(debt);
+            await _debtRepo.SaveAsync();
+        }
+
         private async Task CreateDebtAsync(Debt debt)
         {
             try

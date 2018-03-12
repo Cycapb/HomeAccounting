@@ -7,5 +7,6 @@ namespace Services
     {
         Task CreateAsync(Debt debt);
         Task CloseAsync(int id);
+        Task PartialCloseAsync(int debtId, decimal sum);
     }
 }

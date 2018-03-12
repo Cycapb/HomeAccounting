@@ -46,7 +46,6 @@
     <Compile Include="ICreateCloseDebtService.cs" />
     <Compile Include="IDbHelper.cs" />
     <Compile Include="IDebtService.cs" />
-    <Compile Include="IDebtServicePartialCloser.cs" />
     <Compile Include="IEmailSender.cs" />
     <Compile Include="IMailboxService.cs" />
     <Compile Include="IMailSettingsProvider.cs" />

@@ -38,6 +38,11 @@ namespace BussinessLogic.Services
             await CreateClosedDebtPayingItem(debt);
         }
 
+        public Task PartialCloseAsync(int debtId, decimal sum)
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task CreateClosedDebtPayingItem(Debt debt)
         {
             var typeOfFlowId = debt.TypeOfFlowId == 1 ? 2 : 1;

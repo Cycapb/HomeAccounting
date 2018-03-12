@@ -78,7 +78,7 @@
     <Compile Include="ServicesTests\PayingItemServiceTests.cs" />
     <Compile Include="ServicesTests\Triggers\PayingItemServiceTriggerTests.cs" />
     <Compile Include="ServicesTests\CreateCloseDebtServiceDecoratorTests.cs" />
-    <Compile Include="ServicesTests\DebtServicePartialCloserTests.cs" />
+    <Compile Include="ServicesTests\CreateCloseDebtServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
