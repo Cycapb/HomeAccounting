@@ -15,23 +15,19 @@ namespace BussinessLogic.Tests.ServicesTests
     public class CreateCloseDebtServiceTests
     {
         private List<Debt> _listOfDebts;
-        private List<Category> _listOfCategories;
         private readonly Mock<IRepository<Debt>> _debtRepositoryMock;
         private readonly CreateCloseDebtService _createCloseDebtService;
-        private readonly Mock<IRepository<Account>> _accountRepositoryMock;
         
         public CreateCloseDebtServiceTests()
         {
             InitializeDebts();
-            InitializeCategories();
             _debtRepositoryMock = new Mock<IRepository<Debt>>();
-            _accountRepositoryMock = new Mock<IRepository<Account>>();
             _createCloseDebtService = new CreateCloseDebtService(_debtRepositoryMock.Object, null);
         }
 
         [TestMethod]
         [TestCategory("CreateCloseDebtServiceTests")]
-        public async Task CloseAsync_InputSum200_DebtWas500_Becomes300()
+        public async Task PartialCloseAsync_InputSum200_DebtWas500_Becomes300()
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
 
@@ -43,7 +39,7 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestMethod]
         [TestCategory("CreateCloseDebtServiceTests")]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public async Task CloseAsync_InputSum600_DebtWas500_ThrowsArgumentOutOfrange()
+        public async Task PartialCloseAsync_InputSum600_DebtWas500_ThrowsArgumentOutOfrange()
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
 
@@ -53,12 +49,13 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestMethod]
         [TestCategory("CreateCloseDebtServiceTests")]
         [ExpectedException(typeof(ServiceException))]
-        public async Task CloseAsync_ThrowsServiceException()
+        public async Task PartialCloseAsync_ThrowsServiceException()
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<DomainModelsException>();
 
             await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>());
         }
+
         private void InitializeDebts()
         {
             _listOfDebts = new List<Debt>()
@@ -69,20 +66,6 @@ namespace BussinessLogic.Tests.ServicesTests
                     DebtID = 1,
                     Summ = 500,
                     UserId = "1"
-                }
-            };
-        }
-
-        private void InitializeCategories()
-        {
-            _listOfCategories = new List<Category>()
-            {
-                new Category()
-                {
-                    CategoryID = 1,
-                    TypeOfFlowID = 1,
-                    UserId = "1",
-                    Name = "Долг"
                 }
             };
         }

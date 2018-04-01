@@ -18,6 +18,7 @@ namespace BussinessLogic.Tests.ServicesTests
         private readonly Mock<IRepository<Debt>> _debtRepositoryMock;
         private readonly CreateCloseDebtServicePayingItemDecorator _target;
         private readonly Mock<ICreateCloseDebtService> _createCloseDebtServiceMock;
+        private List<Debt> _listOfDebts;
 
         public CreateCloseDebtServiceDecoratorTests()
         {
@@ -29,6 +30,7 @@ namespace BussinessLogic.Tests.ServicesTests
                 _payingItemRepositoryMock.Object, 
                 _categoryRepositoryMock.Object, 
                 _debtRepositoryMock.Object);
+            InitializeDebts();
         }
 
         [TestMethod]
@@ -129,49 +131,53 @@ namespace BussinessLogic.Tests.ServicesTests
             Assert.AreEqual("Мне вернули долг", payingItem.Comment);
         }
 
-        //[TestMethod]
-        //[TestCategory("CreateCloseDebtServiceTests")]
-        //public async Task CloseAsync_CreatesPayingItem()
-        //{
-        //    PayingItem payingItem = null;
-        //    _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
+        [TestMethod]
+        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        public async Task PartialCloseAsync_CreatesPayingItem()
+        {
+            PayingItem payingItem = null;
+            _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
+            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+                .Callback<PayingItem>(pi => payingItem = pi);
+            _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()
+            {
+                new Category()
+                {
+                    UserId = "1",
+                    TypeOfFlowID = 1,
+                    Name = "Долг",
+                }
+            });
 
-        //    await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 300);
+            await _target.PartialCloseAsync(It.IsAny<int>(), 300);
 
-        //    Assert.IsNotNull(payingItem);
-        //}
+            Assert.IsNotNull(payingItem);
+        }
 
-        //[TestMethod]
-        //[TestCategory("CreateCloseDebtServiceTests")]
-        //public async Task CloseAsync_InputSum300_CreatesPayingItemWithSumm300()
-        //{
-        //    PayingItem payingItem = null;
-        //    _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
-        //    _categoryRepositoryMock.Setup(x => x.GetListAsync()).ReturnsAsync(_listOfCategories);
-        //    _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>()))
-        //        .ReturnsAsync(new PayingItem())
-        //        .Callback<PayingItem>(x => payingItem = x);
+        [TestMethod]
+        [TestCategory("CreateCloseDebtServiceTests")]
+        public async Task CloseAsync_InputSum300_CreatesPayingItemWithSumm300()
+        {
+            PayingItem payingItem = null;
+            _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
+            
+            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>()))
+                .ReturnsAsync(new PayingItem())
+                .Callback<PayingItem>(x => payingItem = x);
+            _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()
+            {
+                new Category()
+                {
+                    UserId = "1",
+                    TypeOfFlowID = 1,
+                    Name = "Долг",
+                }
+            });
 
-        //    await _debtServicePartialCloser.CloseAsync(It.IsAny<int>(), 300);
+            await _target.PartialCloseAsync(It.IsAny<int>(), 300);
 
-        //    Assert.AreEqual(300, payingItem.Summ);
-        //}
-
-        //[TestMethod]
-        //[TestCategory("CreateCloseDebtServiceTests")]
-        //public async Task CloseAsync_FoundDebtIsNull_NoPayingItemIsCreated()
-        //{
-        //    PayingItem payingItem = null;
-        //    _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(null);
-        //    _categoryRepositoryMock.Setup(x => x.GetListAsync()).ReturnsAsync(_listOfCategories);
-        //    _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>()))
-        //        .ReturnsAsync(new PayingItem())
-        //        .Callback<PayingItem>(x => payingItem = x);
-
-        //    await _debtServicePartialCloser.CloseAsync(It.IsAny<int>(), 300);
-
-        //    Assert.IsNull(payingItem);
-        //}
+            Assert.AreEqual(300, payingItem.Summ);
+        }
 
         private Category CreateCategory(Debt debt)
         {
@@ -209,6 +215,20 @@ namespace BussinessLogic.Tests.ServicesTests
                 DebtID = 2,
                 Person = "Outgo from Test",
                 UserId = "1"
+            };
+        }
+
+        private void InitializeDebts()
+        {
+            _listOfDebts = new List<Debt>()
+            {
+                new Debt()
+                {
+                    AccountId = 1,
+                    DebtID = 1,
+                    Summ = 500,
+                    UserId = "1"
+                }
             };
         }
     }

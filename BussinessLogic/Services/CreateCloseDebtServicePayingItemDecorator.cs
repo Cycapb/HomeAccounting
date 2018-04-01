@@ -38,12 +38,14 @@ namespace BussinessLogic.Services
             await CreateClosedDebtPayingItem(debt);
         }
 
-        public Task PartialCloseAsync(int debtId, decimal sum)
+        public async Task PartialCloseAsync(int debtId, decimal sum)
         {
-            throw new NotImplementedException();
+            var debt = await _debtRepository.GetItemAsync(debtId);
+            await _createCloseDebtService.PartialCloseAsync(debtId, sum);
+            await CreateClosedDebtPayingItem(debt, sum);
         }
 
-        private async Task CreateClosedDebtPayingItem(Debt debt)
+        private async Task CreateClosedDebtPayingItem(Debt debt, decimal sum = 0M)
         {
             var typeOfFlowId = debt.TypeOfFlowId == 1 ? 2 : 1;
             var categoryId = await GetClosedDebtCategoryId(debt.UserId, typeOfFlowId);
@@ -54,7 +56,7 @@ namespace BussinessLogic.Services
                 Date = debt.DateEnd ?? DateTime.Now,
                 CategoryID = categoryId,
                 Comment = debt.TypeOfFlowId == 1 ? "Закрыл свой долг" : "Мне вернули долг",
-                Summ = debt.Summ,
+                Summ = sum == 0M? debt.Summ : sum,
                 UserId = debt.UserId
             };
 
