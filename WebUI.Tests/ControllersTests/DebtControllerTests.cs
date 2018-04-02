@@ -53,5 +53,21 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsNotNull(viewResult);
             Assert.AreEqual("DebtList", viewResult.RouteValues["action"]);
         }
+
+        [TestMethod]
+        [TestCategory("DebtControllerTests")]
+        public async Task ClosePartially_DebtWithIdExists_ReturnPartialView_ClosePartially()
+        {
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
+
+            var result = await _debtController.ClosePartially(It.IsAny<int>());
+            var viewResult = result as PartialViewResult;
+            
+            Assert.IsNotNull(viewResult);
+            Assert.AreEqual("_ClosePartially", viewResult.ViewName);
+        }
+
+        [TestMethod]
+        [TestCategory(DebtControllerTests)]
     }
 }
