@@ -41,6 +41,10 @@ namespace BussinessLogic.Services
         public async Task PartialCloseAsync(int debtId, decimal sum)
         {
             var debt = await _debtRepository.GetItemAsync(debtId);
+            if (debt.Summ < sum)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");
+            }
             await _createCloseDebtService.PartialCloseAsync(debtId, sum);
             await CreateClosedDebtPayingItem(debt, sum);
         }

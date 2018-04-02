@@ -9,6 +9,7 @@ using Moq;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -16,12 +17,14 @@ namespace WebUI.Tests.ControllersTests
     public class DebtControllerTests
     {
         private readonly Mock<IDebtService> _debtService;
+        private readonly Mock<ICreateCloseDebtService> _createCloseDebtService;
         private readonly DebtController _debtController;
 
         public DebtControllerTests()
         {
             _debtService = new Mock<IDebtService>();
-            _debtController = new DebtController(_debtService.Object, null, null);
+            _createCloseDebtService = new Mock<ICreateCloseDebtService>();
+            _debtController = new DebtController(_debtService.Object, _createCloseDebtService.Object, null);
         }
 
         [TestMethod]
@@ -47,7 +50,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("DebtControllerTests")]
-        public async Task ClosePartially_NoDebtWithSuchId_RedirectToDebtList()
+        public async Task ClosePartially_Get_NoDebtWithSuchId_RedirectToDebtList()
         {
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync((Debt)null);
 
@@ -60,7 +63,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("DebtControllerTests")]
-        public async Task ClosePartially_DebtWithIdExists_ReturnPartialView_ClosePartially()
+        public async Task ClosePartially_Get_DebtWithIdExists_ReturnPartialView_ClosePartially()
         {
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
 
@@ -74,7 +77,7 @@ namespace WebUI.Tests.ControllersTests
         [TestMethod]
         [TestCategory("DebtControllerTests")]
         [ExpectedException(typeof(WebUiException))]
-        public async Task ClosePartially_ThrowsWebUiException()
+        public async Task ClosePartially_Get_ThrowsWebUiException()
         {
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
 
@@ -83,7 +86,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("DebtControllerTests")]
-        public async Task ClosePartially_ThrowsWebUiException_WithInnerServiceException()
+        public async Task ClosePartially_Get_ThrowsWebUiException_WithInnerServiceException()
         {
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
 
@@ -95,6 +98,43 @@ namespace WebUI.Tests.ControllersTests
             {
                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
+        }
+
+        [TestMethod]
+        [TestCategory("DebtControllerTests")]
+        public async Task ClosePartially_Post_InvalidModelState_ReturnPartialView_ClosePartially()
+        {
+            _debtController.ModelState.AddModelError("","");
+
+            var result = await _debtController.ClosePartially(It.IsAny<DebtEditViewModel>());
+
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.AreEqual("_ClosePartially", ((PartialViewResult)result).ViewName);
+        }
+
+        [TestMethod]
+        [TestCategory("DebtControllerTests")]
+        public async Task ClosePartially_Post_ValidModelState_ReturnRedirectToAction_DebtList()
+        {
+            var result = await _debtController.ClosePartially(new DebtEditViewModel());
+            var routeValues = ((RedirectToRouteResult) result).RouteValues;
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("DebtList", routeValues["action"]);
+        }
+
+        [TestMethod]
+        [TestCategory("DebtControllerTests")]
+        public async Task ClosePartially_Post_FillTempData_IfSumGreaterThanDebtSum()
+        {
+            _createCloseDebtService.Setup(x => x.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>()))
+                .Throws<ArgumentOutOfRangeException>();
+
+            var result =  await _debtController.ClosePartially(new DebtEditViewModel());
+            var tempData = (result as PartialViewResult)?.TempData;
+
+            Assert.IsNotNull(tempData);
+            Assert.IsNotNull(tempData["message"]);
         }
     }
 }

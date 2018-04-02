@@ -165,8 +165,9 @@ namespace WebUI.Controllers
                 catch (ArgumentOutOfRangeException)
                 {
                     TempData["message"] = "Введенная сумма больше суммы долга";
+                    return PartialView("_ClosePartially", model);
                 }
-                RedirectToAction("DebtList");
+                return RedirectToAction("DebtList");
             }
 
             return PartialView("_ClosePartially", model);
