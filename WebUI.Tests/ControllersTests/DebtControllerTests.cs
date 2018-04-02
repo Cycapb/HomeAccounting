@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using DomainModels.Model;
 using WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -38,6 +39,19 @@ namespace WebUI.Tests.ControllersTests
             await _debtController.Delete(It.IsAny<int>());
 
             _debtService.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        [TestCategory("DebtControllerTests")]
+        public async Task ClosePartially_NoDebtWithSuchId_RedirectToDebtList()
+        {
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync((Debt)null);
+
+            var result = await _debtController.ClosePartially(It.IsAny<int>());
+            var viewResult = result as RedirectToRouteResult;
+
+            Assert.IsNotNull(viewResult);
+            Assert.AreEqual("DebtList", viewResult.RouteValues["action"]);
         }
     }
 }

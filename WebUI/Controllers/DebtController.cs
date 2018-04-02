@@ -130,6 +130,10 @@ namespace WebUI.Controllers
             try
             {
                 var debt = await _debtService.GetItemAsync(id);
+                if (debt == null)
+                {
+                    return RedirectToAction("DebtList");
+                }
                 var debtEditModel = new DebtEditViewModel()
                 {
                     DebtId = debt.DebtID,
