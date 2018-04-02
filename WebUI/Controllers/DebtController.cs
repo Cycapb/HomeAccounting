@@ -132,6 +132,7 @@ namespace WebUI.Controllers
                 var debt = await _debtService.GetItemAsync(id);
                 var debtEditModel = new DebtEditViewModel()
                 {
+                    DebtId = debt.DebtID,
                     Comment = debt.Person,
                     Sum = debt.Summ
                 };
@@ -150,7 +151,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    //await _debtServicePartialCloser.CloseAsync(model.DebtId, model.Sum);
+                    await _createCloseDebtService.PartialCloseAsync(model.DebtId, model.Sum);
                 }
                 catch (ServiceException e)
                 {

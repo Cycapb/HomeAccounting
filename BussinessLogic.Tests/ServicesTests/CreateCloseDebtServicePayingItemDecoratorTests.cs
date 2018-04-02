@@ -11,7 +11,7 @@ using Services;
 namespace BussinessLogic.Tests.ServicesTests
 {
     [TestClass]
-    public class CreateCloseDebtServiceDecoratorTests
+    public class CreateCloseDebtServicePayingItemDecoratorTests
     {
         private readonly Mock<IRepository<Category>> _categoryRepositoryMock;
         private readonly Mock<IRepository<PayingItem>> _payingItemRepositoryMock;
@@ -20,7 +20,7 @@ namespace BussinessLogic.Tests.ServicesTests
         private readonly Mock<ICreateCloseDebtService> _createCloseDebtServiceMock;
         private List<Debt> _listOfDebts;
 
-        public CreateCloseDebtServiceDecoratorTests()
+        public CreateCloseDebtServicePayingItemDecoratorTests()
         {
             _categoryRepositoryMock = new Mock<IRepository<Category>>();                
             _payingItemRepositoryMock = new Mock<IRepository<PayingItem>>();
@@ -34,7 +34,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task CreateAsync_CategoryExists_CreatesIncomingPayingItem()
         {
             var payingItem = new PayingItem();
@@ -49,7 +49,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task CreateAsync_CategoryExists_CreatesOutgoPayingItem()
         {
             var payingItem = new PayingItem();
@@ -64,7 +64,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task CreateAsync_CategoryNotExists_CreatesIncomePayingItem()
         {
             var payingItem = new PayingItem();
@@ -84,7 +84,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task CloseAsync_CategoryExists_CreatesIncomePayingItemWithTypeOfFlow1()
         {
             var payingItem = new PayingItem();
@@ -108,7 +108,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task CloseAsync_CategoryExists_CreatesOutgoPayingItemWithTypeOfFlow2()
         {
             var payingItem = new PayingItem();
@@ -132,7 +132,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceDecoratorTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task PartialCloseAsync_CreatesPayingItem()
         {
             PayingItem payingItem = null;
@@ -155,7 +155,7 @@ namespace BussinessLogic.Tests.ServicesTests
         }
 
         [TestMethod]
-        [TestCategory("CreateCloseDebtServiceTests")]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task CloseAsync_InputSum300_CreatesPayingItemWithSumm300()
         {
             PayingItem payingItem = null;
