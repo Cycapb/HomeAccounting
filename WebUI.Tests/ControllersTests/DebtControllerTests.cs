@@ -1,10 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -68,6 +72,29 @@ namespace WebUI.Tests.ControllersTests
         }
 
         [TestMethod]
-        [TestCategory(DebtControllerTests)]
+        [TestCategory("DebtControllerTests")]
+        [ExpectedException(typeof(WebUiException))]
+        public async Task ClosePartially_ThrowsWebUiException()
+        {
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            await _debtController.ClosePartially(It.IsAny<int>());
+        }
+
+        [TestMethod]
+        [TestCategory("DebtControllerTests")]
+        public async Task ClosePartially_ThrowsWebUiException_WithInnerServiceException()
+        {
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+
+            try
+            {
+                await _debtController.ClosePartially(It.IsAny<int>());
+            }
+            catch (WebUiException e)
+            {
+               Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+            }
+        }
     }
 }
