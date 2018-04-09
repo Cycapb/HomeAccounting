@@ -1,32 +1,53 @@
 ﻿@model IEnumerable<Debt>
-    @foreach (var debt in Model)
-    {
-        <tr>
-            <td>@debt.Summ.ToString("c")</td>
-            <td>@debt.Person</td>
-            <td>@debt.Account.AccountName</td>
-            <td>@debt.DateBegin.Date.ToShortDateString()</td>
-            <td>
-                @using (Ajax.BeginForm("Close", new {id = debt.DebtID}, new AjaxOptions()
+@foreach (var debt in Model)
+{
+    <tr>
+        <td>@debt.Summ.ToString("c")</td>
+        <td>@debt.Person</td>
+        <td>@debt.Account.AccountName</td>
+        <td>@debt.DateBegin.Date.ToShortDateString()</td>
+        <td>
+            @using (Ajax.BeginForm("Close", new {id = debt.DebtID}, new AjaxOptions()
+            {
+                Url = Url.Action("Close", new {id = debt.DebtID}),
+                UpdateTargetId = "payingDiv",
+                OnSuccess = "updateAfterDebt"
+            }))
+            {
+                <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг"/>
+            }
+        </td>
+        <td>
+            @if (debt.TypeOfFlowId == 1)
+            {
+                @Ajax.ActionLink("Закрыть частично", "ClosePartially", new {id = debt.DebtID}, new AjaxOptions()
                 {
-                    Url = Url.Action("Close", new {id = debt.DebtID}),
-                    UpdateTargetId = "payingDiv",
-                    OnSuccess = "updateAfterDebt"
-                }))
+                    Url = Url.Action("ClosePartially", new {id = debt.DebtID}),
+                    UpdateTargetId = "myDebtsDiv"
+                },
+                    new {@class = "btn btn-success btn-raised btn-xs"})
+            }
+            else
+            {
+                @Ajax.ActionLink("Закрыть частично", "ClosePartially", new {id = debt.DebtID}, new AjaxOptions()
                 {
-                    <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг"/>
-                }
-            </td>
-            <td>
-                @using (Ajax.BeginForm("Delete", new { id = debt.DebtID }, new AjaxOptions()
-                {
-                    Url = Url.Action("Delete", new { id = debt.DebtID }),
-                    UpdateTargetId = "payingDiv",
-                    OnSuccess = "updateAfterDebt"
-                }))
-                {
-                    <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Удалить" />
-                }
-            </td>
-        </tr>
-    }
+                    Url = Url.Action("ClosePartially", new {id = debt.DebtID}),
+                    UpdateTargetId = "debtsToMeDiv"
+                },
+                    new {@class = "btn btn-success btn-raised btn-xs"})
+            }
+
+        </td>
+        <td>
+            @using (Ajax.BeginForm("Delete", new {id = debt.DebtID}, new AjaxOptions()
+            {
+                Url = Url.Action("Delete", new {id = debt.DebtID}),
+                UpdateTargetId = "payingDiv",
+                OnSuccess = "updateAfterDebt"
+            }))
+            {
+                <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Удалить"/>
+            }
+        </td>
+    </tr>
+}

@@ -2,34 +2,38 @@
 <div class="panel panel-primary">
     <div class="panel-heading">Долги</div>
     <div class="panel-body" id="debtPanel">
-        <table class="table table-hover">
-            <caption>Я должен</caption>
-            <tr>
-                <th>Сколько</th>
-                <th>Кому</th>
-                <th>Какой счет</th>
-                <th>Дата займа</th>
-                <th colspan="2" class="text-center">Действия</th>
-                <th></th>
-            </tr>
-            <tbody id="myDebtsTable">
-            @Html.Partial("DebtListPartial", Model.MyDebts)
-            </tbody>
-        </table>
-        <table class="table table-hover">
-            <caption>Мне должны</caption>
-            <tr>
-                <th>Сколько</th>
-                <th>Кто</th>
-                <th>Счет</th>
-                <th>Дата займа</th>
-                <th colspan="2" class="text-center">Действия</th>
-                <th></th>
-            </tr>
-            <tbody id="debtsToMeTable">
-            @Html.Partial("DebtListPartial", Model.DebtsToMe)
-            </tbody>
-        </table>
+        <div id="myDebtsDiv">
+            <table class="table table-hover">
+                <caption>Я должен</caption>
+                <tr>
+                    <th>Сколько</th>
+                    <th>Кому</th>
+                    <th>Счет</th>
+                    <th>Дата займа</th>
+                    <th colspan="2" class="text-center">Действия</th>
+                    <th></th>
+                </tr>
+                <tbody>
+                @Html.Partial("DebtListPartial", Model.MyDebts)
+                </tbody>
+            </table>
+        </div>
+        <div id="debtsToMeDiv">
+            <table class="table table-hover">
+                <caption>Мне должны</caption>
+                <tr>
+                    <th>Сколько</th>
+                    <th>Кто</th>
+                    <th>Счет</th>
+                    <th>Дата займа</th>
+                    <th colspan="2" class="text-center">Действия</th>
+                    <th></th>
+                </tr>
+                <tbody>
+                @Html.Partial("DebtListPartial", Model.DebtsToMe)
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="panel-footer">
         @Ajax.ActionLink("Добавить", "Add", null, new AjaxOptions()

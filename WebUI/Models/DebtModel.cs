@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -53,6 +54,13 @@ namespace WebUI.Models
         public int DebtId { get; set; }
 
         [Required(ErrorMessage = "Не указана сумма")]
+        [DataType(DataType.Currency)]
         public decimal Sum { get; set; }
+
+        public string Person { get; set; }
+
+        public string AccountName { get; set; }
+
+        public string Date { get; set; }
     }
 }

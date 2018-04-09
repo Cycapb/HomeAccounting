@@ -65,7 +65,13 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("DebtControllerTests")]
         public async Task ClosePartially_Get_DebtWithIdExists_ReturnPartialView_ClosePartially()
         {
-            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt()
+            {
+                Account = new Account()
+                {
+                    AccountName = "TestAccount"
+                }
+            });
 
             var result = await _debtController.ClosePartially(It.IsAny<int>());
             var viewResult = result as PartialViewResult;

@@ -138,7 +138,10 @@ namespace WebUI.Controllers
                 {
                     DebtId = debt.DebtID,
                     Comment = debt.Person,
-                    Sum = debt.Summ
+                    Sum = debt.Summ,
+                    AccountName = debt.Account.AccountName,
+                    Date = debt.DateBegin.ToShortDateString(),
+                    Person = debt.Person
                 };
                 return PartialView("_ClosePartially", debtEditModel);
             }

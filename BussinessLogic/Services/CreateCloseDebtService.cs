@@ -44,7 +44,7 @@ namespace BussinessLogic.Services
                 item.DateEnd = DateTime.Now;
                 await _debtRepo.UpdateAsync(item);
                 await _debtRepo.SaveAsync();
-                await CloseDebtAsync(item);
+                await ChangeAccountMoney(item);
             }
             catch (DomainModelsException e)
             {
@@ -73,6 +73,7 @@ namespace BussinessLogic.Services
                 throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");
             }
             debt.Summ -= sum;
+            await ChangeAccountMoney(debt);
             await _debtRepo.UpdateAsync(debt);
             await _debtRepo.SaveAsync();
         }
@@ -99,7 +100,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        private async Task CloseDebtAsync(Debt debt)
+        private async Task ChangeAccountMoney(Debt debt)
         {
             try
             {
@@ -117,7 +118,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CreateCloseDebtService)} в методе {nameof(CloseDebtAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(CreateCloseDebtService)} в методе {nameof(ChangeAccountMoney)} при обращении к БД", e);
             }
         }
     }
