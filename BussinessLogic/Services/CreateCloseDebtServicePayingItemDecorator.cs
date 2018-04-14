@@ -52,7 +52,7 @@ namespace BussinessLogic.Services
         private async Task CreateClosedDebtPayingItem(Debt debt, decimal sum = 0M)
         {
             var typeOfFlowId = debt.TypeOfFlowId == 1 ? 2 : 1;
-            var categoryId = await GetClosedDebtCategoryId(debt.UserId, typeOfFlowId);
+            var categoryId = await GetDebtCategoryId(debt.UserId, typeOfFlowId);
 
             var payingItem = new PayingItem()
             {
@@ -70,7 +70,7 @@ namespace BussinessLogic.Services
 
         private async Task CreateOpenedDebtPayingItem(Debt debt)
         {
-            var debtCategoryId = await GetDebtCategoryId(debt);
+            var debtCategoryId = await GetDebtCategoryId(debt.UserId, debt.TypeOfFlowId);
 
             var payingItem = new PayingItem()
             {
@@ -86,35 +86,24 @@ namespace BussinessLogic.Services
             await _payingItemRepository.SaveAsync();
         }
 
-        private async Task<int> GetDebtCategoryId(Debt debt)
+        private async Task<int> GetDebtCategoryId(string userId, int typeOfFlowId)
         {
             var category =
                 (await _categoryRepository.GetListAsync())
-                .Where(x => x.UserId == debt.UserId && x.TypeOfFlowID == debt.TypeOfFlowId)
+                .Where(x => x.UserId == userId && x.TypeOfFlowID == typeOfFlowId)
                 .FirstOrDefault(c => c.Name.ToLower().Contains("Долг".ToLower()));
             if (category != null)
             {
                 return category.CategoryID;
             }
 
-            category = CreateCategoryIfNotExists(debt.UserId, debt.TypeOfFlowId);
-            await _categoryRepository.CreateAsync(category);
-            await _categoryRepository.SaveAsync();
+            category = await CreateCategoryIfNotExists(userId, typeOfFlowId);
             return category.CategoryID;
         }
 
-        private async Task<int> GetClosedDebtCategoryId(string userId, int typeOfFlowId)
+        private async Task<Category> CreateCategoryIfNotExists(string userId, int typeOfFlowId)
         {
-            var category =
-                (await _categoryRepository.GetListAsync())
-                .Where(x => x.UserId == userId && x.TypeOfFlowID == typeOfFlowId)
-                .FirstOrDefault(c => c.Name.ToLower().Contains("Долг".ToLower()));
-                return category.CategoryID;
-        }
-
-        private Category CreateCategoryIfNotExists(string userId, int typeOfFlowId)
-        {
-            return new Category()
+            var category = new Category()
             {
                 Active = true,
                 Name = "Долг",
@@ -122,9 +111,12 @@ namespace BussinessLogic.Services
                 UserId = userId,
                 ViewInPlan = false
             };
+            await _categoryRepository.CreateAsync(category);
+            await _categoryRepository.SaveAsync();
+
+            return category;
         }
     }
 }
 
-//ToDo При частичном закрытии долга надо точно также проверять есть ли категория и создавать, если её нет.
 // ToDo Провести рефакторинг кода этого декоратора
