@@ -96,14 +96,8 @@ namespace BussinessLogic.Services
             {
                 return category.CategoryID;
             }
-            category = new Category()
-            {
-                Active = true,
-                Name = "Долг",
-                TypeOfFlowID = debt.TypeOfFlowId,
-                UserId = debt.UserId,
-                ViewInPlan = false
-            };
+
+            category = CreateCategoryIfNotExists(debt.UserId, debt.TypeOfFlowId);
             await _categoryRepository.CreateAsync(category);
             await _categoryRepository.SaveAsync();
             return category.CategoryID;
@@ -116,6 +110,18 @@ namespace BussinessLogic.Services
                 .Where(x => x.UserId == userId && x.TypeOfFlowID == typeOfFlowId)
                 .FirstOrDefault(c => c.Name.ToLower().Contains("Долг".ToLower()));
                 return category.CategoryID;
+        }
+
+        private Category CreateCategoryIfNotExists(string userId, int typeOfFlowId)
+        {
+            return new Category()
+            {
+                Active = true,
+                Name = "Долг",
+                TypeOfFlowID = typeOfFlowId,
+                UserId = userId,
+                ViewInPlan = false
+            };
         }
     }
 }

@@ -40,11 +40,11 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var item = await _debtRepo.GetItemAsync(id);
-                item.DateEnd = DateTime.Now;
-                await _debtRepo.UpdateAsync(item);
+                var debt = await _debtRepo.GetItemAsync(id);
+                debt.DateEnd = DateTime.Now;
+                await _debtRepo.UpdateAsync(debt);
                 await _debtRepo.SaveAsync();
-                await ChangeAccountMoney(item);
+                await ChangeAccountMoney(debt, debt.Summ);
             }
             catch (DomainModelsException e)
             {
@@ -73,7 +73,7 @@ namespace BussinessLogic.Services
                 throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");
             }
             debt.Summ -= sum;
-            await ChangeAccountMoney(debt);
+            await ChangeAccountMoney(debt, sum);
             await _debtRepo.UpdateAsync(debt);
             await _debtRepo.SaveAsync();
         }
@@ -100,18 +100,18 @@ namespace BussinessLogic.Services
             }
         }
 
-        private async Task ChangeAccountMoney(Debt debt)
+        private async Task ChangeAccountMoney(Debt debt, decimal sum)
         {
             try
             {
                 var acc = await _accRepo.GetItemAsync(debt.AccountId);
                 if (debt.TypeOfFlowId == 1)
                 {
-                    acc.Cash -= debt.Summ;
+                    acc.Cash -= sum;
                 }
                 else
                 {
-                    acc.Cash += debt.Summ;
+                    acc.Cash += sum;
                 }
                 await _accRepo.UpdateAsync(acc);
                 await _accRepo.SaveAsync();

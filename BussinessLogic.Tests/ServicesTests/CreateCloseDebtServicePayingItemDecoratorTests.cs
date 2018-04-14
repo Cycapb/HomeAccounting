@@ -133,6 +133,30 @@ namespace BussinessLogic.Tests.ServicesTests
 
         [TestMethod]
         [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
+        public async Task CloseAsync_CategoryDoesNotExist_CreatesOutgoPayingItemWithTypeOfFlow2()
+        {
+            var payingItem = new PayingItem();
+            var debt = CreateOutgoingDebt();
+            _debtRepositoryMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(debt);
+            _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()
+            {
+                new Category()
+                {
+                    UserId = "1",
+                    TypeOfFlowID = 1,
+                    Name = "Долг",
+                }
+            });
+            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+                .Callback<PayingItem>(pi => payingItem = pi);
+
+            await _target.CloseAsync(debt.DebtID);
+
+            Assert.AreEqual("Мне вернули долг", payingItem.Comment);
+        }
+
+        [TestMethod]
+        [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
         public async Task PartialCloseAsync_CreatesPayingItem()
         {
             PayingItem payingItem = null;
@@ -156,7 +180,7 @@ namespace BussinessLogic.Tests.ServicesTests
 
         [TestMethod]
         [TestCategory("CreateCloseDebtServicePayingItemDecoratorTests")]
-        public async Task CloseAsync_InputSum300_CreatesPayingItemWithSumm300()
+        public async Task PartialCloseAsync_InputSum300_CreatesPayingItemWithSumm300()
         {
             PayingItem payingItem = null;
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
