@@ -2,13 +2,14 @@
 @using (Ajax.BeginForm("ClosePartially", new AjaxOptions()
 {
     Url = Url.Action("ClosePartially"),
-    UpdateTargetId = "payingDiv",
+    UpdateTargetId = "myDebtsDiv",
     OnSuccess = "updateAfterDebt"
 }))
 {
     <div class="form-group">
         @Html.HiddenFor(x => x.DebtId)
         <table class="table table-hover">
+            @Html.ValidationSummary(true)
             <caption>Я должен</caption>
             <tr>
                 <th>Сколько</th>

@@ -118,5 +118,3 @@ namespace BussinessLogic.Services
         }
     }
 }
-
-// ToDo Провести рефакторинг кода этого декоратора

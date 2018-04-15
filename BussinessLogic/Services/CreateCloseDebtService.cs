@@ -74,6 +74,10 @@ namespace BussinessLogic.Services
             }
             debt.Summ -= sum;
             await ChangeAccountMoney(debt, sum);
+            if (debt.Summ == 0M)
+            {
+                debt.DateEnd = DateTime.Now;
+            }
             await _debtRepo.UpdateAsync(debt);
             await _debtRepo.SaveAsync();
         }
