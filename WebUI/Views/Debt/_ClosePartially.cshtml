@@ -15,9 +15,7 @@
                 <th>Сколько</th>
                 <th>Кому</th>
                 <th>Счет</th>
-                <th>Дата займа</th>
-                <th colspan="2" class="text-center">Действия</th>
-                <th></th>
+                <th colspan="3" class="text-center">Действия</th>
             </tr>
             <tr>
                 <td>
@@ -30,9 +28,7 @@
                     })
                     @Html.ValidationMessageFor(x => x.Sum)
                 </td>
-                <td>
-                    @Html.DisplayFor(x => x.Person)
-                </td>
+                <td>@Model.Person)</td>
                 <td>@Model.AccountName</td>
                 <td>@Model.Date</td>
                 <td class="text-center">
