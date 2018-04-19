@@ -1,10 +1,12 @@
 ﻿@model DebtsSumModel
 <div class="panel panel-default">
-    <div class="panel-heading"><b>@Ajax.ActionLink("Долги", "Index", "Debt", new AjaxOptions()
-                                  {
-                                      Url = Url.Action("DebtList"),
-                                      UpdateTargetId = "payingDiv"
-                                  })</b>
+    <div class="panel-heading">
+        <b>
+            @Ajax.ActionLink("Долги", "Index", "Debt", new AjaxOptions()
+            {
+                Url = Url.Action("DebtList"),
+                UpdateTargetId = "payingDiv"
+            })</b>
     </div>
     <table class="table table-striped">
         <tr>

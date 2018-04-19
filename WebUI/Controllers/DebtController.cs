@@ -48,7 +48,7 @@ namespace WebUI.Controllers
                 throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(Index)}", e);
             }
 
-            return PartialView("IndexPartial",model);
+            return PartialView("_Index",model);
         }
 
         public PartialViewResult DebtList(WebUser user)
@@ -68,7 +68,7 @@ namespace WebUI.Controllers
                 throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(DebtList)}", e);
             }
             
-            return PartialView("DebtList",model);
+            return PartialView("_DebtList",model);
         }
 
         [UserHasAnyAccount]
@@ -78,7 +78,7 @@ namespace WebUI.Controllers
             {
                 Accounts = (await AccountList(user.Id)).ToList()
             };
-            return PartialView(model);
+            return PartialView("_Add", model);
         }
 
         [HttpPost]
@@ -107,7 +107,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("DebtList");
             }
             model.Accounts = (await AccountList(user.Id)).ToList();
-            return PartialView(model);
+            return PartialView("_Add", model);
         }
 
         [HttpPost]
@@ -134,15 +134,10 @@ namespace WebUI.Controllers
                 {
                     return RedirectToAction("DebtList");
                 }
-                var debtEditModel = new DebtEditViewModel()
-                {
-                    DebtId = debt.DebtID,
-                    Comment = debt.Person,
-                    Sum = debt.Summ,
-                    AccountName = debt.Account.AccountName,
-                    Date = debt.DateBegin.ToShortDateString(),
-                    Person = debt.Person
-                };
+
+                var debtEditModel = new DebtEditViewModel();
+                FillDebtViewModel(debt, debtEditModel);
+
                 return PartialView("_ClosePartially", debtEditModel);
             }
             catch (ServiceException e)
@@ -154,6 +149,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> ClosePartially(DebtEditViewModel model)
         {
+            Debt debt = null;
             if (ModelState.IsValid)
             {
                 try
@@ -168,10 +164,16 @@ namespace WebUI.Controllers
                 catch (ArgumentOutOfRangeException)
                 {
                     ModelState.AddModelError("", "Введенная сумма больше суммы долга");
+                    debt = await _debtService.GetItemAsync(model.DebtId);
+                    FillDebtViewModel(debt, model);
+
                     return PartialView("_ClosePartially", model);
                 }
+
                 return RedirectToAction("DebtList");
             }
+            debt = await _debtService.GetItemAsync(model.DebtId);
+            FillDebtViewModel(debt, model);
 
             return PartialView("_ClosePartially", model);
         }
@@ -204,6 +206,16 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(AccountList)}", e);
             }
+        }
+
+        private void FillDebtViewModel(Debt debt, DebtEditViewModel model)
+        {
+            model.DebtId = debt.DebtID;
+            model.Comment = debt.Person;
+            model.Sum = debt.Summ;
+            model.AccountName = debt.Account?.AccountName;
+            model.Date = debt.DateBegin.ToShortDateString();
+            model.Person = debt.Person;
         }
 
     }

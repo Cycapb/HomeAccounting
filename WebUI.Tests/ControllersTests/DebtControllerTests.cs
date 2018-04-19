@@ -111,8 +111,9 @@ namespace WebUI.Tests.ControllersTests
         public async Task ClosePartially_Post_InvalidModelState_ReturnPartialView_ClosePartially()
         {
             _debtController.ModelState.AddModelError("","");
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
 
-            var result = await _debtController.ClosePartially(It.IsAny<DebtEditViewModel>());
+            var result = await _debtController.ClosePartially(new DebtEditViewModel(){ DebtId = 1 });
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.AreEqual("_ClosePartially", ((PartialViewResult)result).ViewName);
@@ -131,16 +132,15 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("DebtControllerTests")]
-        public async Task ClosePartially_Post_FillTempData_IfSumGreaterThanDebtSum()
+        public async Task ClosePartially_Post_IfSumGreaterThanDebtSum_Returns_PartialViewResult()
         {
             _createCloseDebtService.Setup(x => x.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>()))
                 .Throws<ArgumentOutOfRangeException>();
+            _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
 
-            var result =  await _debtController.ClosePartially(new DebtEditViewModel());
-            var tempData = (result as PartialViewResult)?.TempData;
-
-            Assert.IsNotNull(tempData);
-            Assert.IsNotNull(tempData["message"]);
+            var result =  await _debtController.ClosePartially(new DebtEditViewModel() { DebtId = 1 });
+            
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
     }
 }

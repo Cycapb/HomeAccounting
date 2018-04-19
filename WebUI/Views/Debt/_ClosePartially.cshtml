@@ -9,13 +9,13 @@
     <div class="form-group">
         @Html.HiddenFor(x => x.DebtId)
         <table class="table table-hover">
-            @Html.ValidationSummary(true)
             <caption>Я должен</caption>
             <tr>
                 <th>Сколько</th>
                 <th>Кому</th>
                 <th>Счет</th>
-                <th colspan="3" class="text-center">Действия</th>
+                <th>Дата займа</th>
+                <th colspan="2" class="text-center">Действия</th>
             </tr>
             <tr>
                 <td>
@@ -28,13 +28,14 @@
                     })
                     @Html.ValidationMessageFor(x => x.Sum)
                 </td>
-                <td>@Model.Person)</td>
+                <td>@Model.Person</td>
                 <td>@Model.AccountName</td>
                 <td>@Model.Date</td>
                 <td class="text-center">
                     <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть частично"/>
                 </td>
             </tr>
+            <tr>@Html.ValidationSummary(true)</tr>
         </table>
     </div>
 }

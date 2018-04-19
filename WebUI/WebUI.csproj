@@ -516,10 +516,10 @@
     <Content Include="Views\Category\GetCategoriesAndPagesByType.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPages.cshtml" />
     <Content Include="Views\MainBar\_MainBar.cshtml" />
-    <Content Include="Views\Debt\IndexPartial.cshtml" />
-    <Content Include="Views\Debt\DebtList.cshtml" />
-    <Content Include="Views\Debt\DebtListPartial.cshtml" />
-    <Content Include="Views\Debt\Add.cshtml" />
+    <Content Include="Views\Debt\_Index.cshtml" />
+    <Content Include="Views\Debt\_DebtList.cshtml" />
+    <Content Include="Views\Debt\_DebtListPartial.cshtml" />
+    <Content Include="Views\Debt\_Add.cshtml" />
     <Content Include="Views\Order\_Index.cshtml" />
     <Content Include="Views\Order\_OrderList.cshtml" />
     <Content Include="Views\Order\_OrderDetailsList.cshtml" />
