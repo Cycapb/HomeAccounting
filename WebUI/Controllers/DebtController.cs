@@ -215,6 +215,7 @@ namespace WebUI.Controllers
             model.AccountName = debt.Account?.AccountName;
             model.Date = debt.DateBegin.ToShortDateString();
             model.Person = debt.Person;
+            model.TypeOfFlowId = debt.TypeOfFlowId;
         }
 
     }

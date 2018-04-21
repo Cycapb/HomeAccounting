@@ -61,5 +61,7 @@ namespace WebUI.Models
         public string AccountName { get; set; }
 
         public string Date { get; set; }
+
+        public int TypeOfFlowId { get; set; }
     }
 }

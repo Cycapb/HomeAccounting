@@ -1,8 +1,11 @@
 ﻿@model DebtEditViewModel
+@{
+    var typeOfFlowId = Model.TypeOfFlowId;
+}
 @using (Ajax.BeginForm("ClosePartially", new AjaxOptions()
 {
     Url = Url.Action("ClosePartially"),
-    UpdateTargetId = "myDebtsDiv",
+    UpdateTargetId = typeOfFlowId == 1? "myDebtsDiv" : "debtsToMeDiv",
     OnSuccess = "updateAfterDebt"
 }))
 {
