@@ -48,7 +48,6 @@ namespace WebUI.Models
 
     public class DebtEditViewModel
     {
-        public string Comment { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public int DebtId { get; set; }

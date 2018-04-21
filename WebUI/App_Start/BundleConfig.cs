@@ -86,6 +86,7 @@ namespace WebUI
                 "~/Content/assets/js/bootstrap-datepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js",
+                "~/Scripts/jquery.validate*",
                 "~/Scripts/jquery.blockUI.js",
                 "~/Scripts/UpdateAccounts.js",
                 "~/Scripts/ChangeButtonColor.js",

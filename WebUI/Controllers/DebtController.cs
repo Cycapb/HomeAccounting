@@ -211,7 +211,6 @@ namespace WebUI.Controllers
         private void FillDebtViewModel(Debt debt, DebtEditViewModel model)
         {
             model.DebtId = debt.DebtID;
-            model.Comment = debt.Person;
             model.Sum = debt.Summ;
             model.AccountName = debt.Account?.AccountName;
             model.Date = debt.DateBegin.ToShortDateString();
