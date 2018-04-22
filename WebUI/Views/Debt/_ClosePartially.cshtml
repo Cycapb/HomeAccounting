@@ -27,12 +27,12 @@
                     <tr>
                         <td>
                             @Html.EditorFor(x => x.Sum, new
-                {
-                    htmlAttributes = new
-                    {
-                        @class = "form-control"
-                    }
-                })
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control"
+                                }
+                            })
                             @Html.ValidationMessageFor(x => x.Sum)
                         </td>
                         <td>@Model.Person</td>
@@ -46,5 +46,10 @@
                 @Html.ValidationSummary(true)
             </div>
         </div>
+        @Ajax.ActionLink("К списку долгов", "DebtList", "Debt", null, new AjaxOptions()
+        {
+            Url = Url.Action("DebtList", "Debt"),
+            UpdateTargetId = "payingDiv"
+        }, new {@class = "btn btn-default btn-raised btn-sm pull-right"})
     </div>
 }
