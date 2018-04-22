@@ -5,7 +5,7 @@ namespace WebUI.Infrastructure
 {
     public class UserHasNoCategoriesActionResult : ActionResult
     {
-        IMessageProvider _messageProvider;
+        private readonly IMessageProvider _messageProvider;
         public UserHasNoCategoriesActionResult(IMessageProvider messageProvider)
         {
             _messageProvider = messageProvider;

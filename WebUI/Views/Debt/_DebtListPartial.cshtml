@@ -18,24 +18,12 @@
             }
         </td>
         <td>
-            @if (debt.TypeOfFlowId == 1)
+            @Ajax.ActionLink("Закрыть частично", "ClosePartially", new {id = debt.DebtID}, new AjaxOptions()
             {
-                @Ajax.ActionLink("Закрыть частично", "ClosePartially", new {id = debt.DebtID}, new AjaxOptions()
-                {
-                    Url = Url.Action("ClosePartially", new {id = debt.DebtID}),
-                    UpdateTargetId = "myDebtsDiv"
-                },
-                    new {@class = "btn btn-success btn-raised btn-xs"})
-            }
-            else
-            {
-                @Ajax.ActionLink("Закрыть частично", "ClosePartially", new {id = debt.DebtID}, new AjaxOptions()
-                {
-                    Url = Url.Action("ClosePartially", new {id = debt.DebtID}),
-                    UpdateTargetId = "debtsToMeDiv"
-                },
-                    new {@class = "btn btn-success btn-raised btn-xs"})
-            }
+                Url = Url.Action("ClosePartially", new {id = debt.DebtID}),
+                UpdateTargetId = "payingDiv"
+            },
+                new {@class = "btn btn-success btn-raised btn-xs"})
         </td>
         <td>
             @using (Ajax.BeginForm("Delete", new {id = debt.DebtID}, new AjaxOptions()

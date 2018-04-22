@@ -1,44 +1,50 @@
 ﻿@model DebtEditViewModel
 @{
     var typeOfFlowId = Model.TypeOfFlowId;
+    var caption = typeOfFlowId == 1 ? "Я должен" : "Мне должны";
 }
 @using (Ajax.BeginForm("ClosePartially", new AjaxOptions()
 {
     Url = Url.Action("ClosePartially"),
-    UpdateTargetId = typeOfFlowId == 1? "myDebtsDiv" : "debtsToMeDiv",
+    UpdateTargetId = "payingDiv",
     OnSuccess = "updateAfterDebt"
 }))
 {
-    <div class="form-group">
-        @Html.HiddenFor(x => x.DebtId)
-        <table class="table table-hover">
-            <caption>Я должен</caption>
-            <tr>
-                <th>Сколько</th>
-                <th>Кому</th>
-                <th>Счет</th>
-                <th>Дата займа</th>
-                <th colspan="2" class="text-center">Действия</th>
-            </tr>
-            <tr>
-                <td>
-                    @Html.EditorFor(x => x.Sum, new
+    <div class="panel panel-primary">
+        <div class="panel-heading">Долги</div>
+        <div class="panel-body" id="debtPanel">
+            <div class="form-group">
+                @Html.HiddenFor(x => x.DebtId)
+                <table class="table table-hover">
+                    <caption>@caption</caption>
+                    <tr>
+                        <th>Сколько</th>
+                        <th>Кому</th>
+                        <th>Счет</th>
+                        <th>Дата займа</th>
+                        <th colspan="2" class="text-center">Действия</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.EditorFor(x => x.Sum, new
+                {
+                    htmlAttributes = new
                     {
-                        htmlAttributes = new
-                        {
-                            @class = "form-control"
-                        }
-                    })
-                    @Html.ValidationMessageFor(x => x.Sum)
-                </td>
-                <td>@Model.Person</td>
-                <td>@Model.AccountName</td>
-                <td>@Model.Date</td>
-                <td class="text-center">
-                    <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть частично"/>
-                </td>
-            </tr>
-            <tr>@Html.ValidationSummary(true)</tr>
-        </table>
+                        @class = "form-control"
+                    }
+                })
+                            @Html.ValidationMessageFor(x => x.Sum)
+                        </td>
+                        <td>@Model.Person</td>
+                        <td>@Model.AccountName</td>
+                        <td>@Model.Date</td>
+                        <td class="text-center">
+                            <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть частично" />
+                        </td>
+                    </tr>
+                </table>
+                @Html.ValidationSummary(true)
+            </div>
+        </div>
     </div>
 }

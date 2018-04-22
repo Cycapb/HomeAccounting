@@ -174,7 +174,7 @@ namespace WebUI.Controllers
             }
             debt = await _debtService.GetItemAsync(model.DebtId);
             FillDebtViewModel(debt, model);
-
+            
             return PartialView("_ClosePartially", model);
         }
 
