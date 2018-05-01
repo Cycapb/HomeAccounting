@@ -1,0 +1,27 @@
+﻿@Html.Action("Index","MainBar")
+<div class="container">
+    <div class="col-xs-2">
+        @Html.Action("Index", "ReportMenu")
+    </div>
+    <div class="col-xs-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Отчеты</div>
+            <div id="reportPanelBody" class="panel-body">
+            </div>
+        </div>
+        <p>
+            <div>
+                @Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
+           {
+               OnBegin = "showPopupLogin",
+               OnSuccess = "hidePopup",
+               UpdateTargetId = "payingItemMainBody"
+           },
+                    new {@class = "btn btn-default btn-raised btn-sm pull-right"})
+            </div>
+        </p>
+    </div>
+    <div class="col-xs-3">
+        @Html.Action("OverallLastYearMonths", "Report")
+    </div>
+</div>

@@ -459,7 +459,7 @@
     <Content Include="Views\Account\GetItems.cshtml" />
     <Content Include="Views\Account\AccountsSummary.cshtml" />
     <Content Include="Views\ReportMenu\Index.cshtml" />
-    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Report\_Index.cshtml" />
     <Content Include="Views\Report\_CreateByTypeOfFlowView.cshtml" />
     <Content Include="Views\Report\_GetByTypeOfFlowReport.cshtml" />
     <Content Include="Views\Report\_CreateByDatesView.cshtml" />

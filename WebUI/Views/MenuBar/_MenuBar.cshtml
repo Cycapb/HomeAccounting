@@ -44,10 +44,11 @@
         </li>
         <li class="hidden-xs">
             @Ajax.ActionLink("Отчеты", "Index", "Report", null, new AjaxOptions()
-            {
-                OnBegin = "showPopupLogin",
-                OnSuccess = "redirectToReport"
-            }, new {@class = "btn btn-raised btn-info btn-round"})
+       {
+           OnBegin = "showPopupLogin",
+           OnSuccess = "hidePopup",
+           UpdateTargetId = "payingItemMainBody"
+       }, new {@class = "btn btn-raised btn-info btn-round"})
         </li>
         @*<li class="hidden-xs">
                 @Html.RouteLink("Планирование", new

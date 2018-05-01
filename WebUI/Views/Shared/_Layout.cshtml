@@ -1,62 +1,59 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
     @Styles.Render("~/bundles/material-kit/css")
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
 
     @Scripts.Render("~/bundles/jquery-mainPage")
 </head>
 <body>
-@Html.Action("Index","MainBar")
-@Html.Action("Index","MenuBar")
-<div class="col-xs-2 hidden-xs">
-    <div id="myAccounts">
-        @Html.Action("GetAccounts", "NavLeft")
+<div id="payingItemMainBody">
+    @Html.Action("Index", "MainBar")
+    @Html.Action("Index", "MenuBar")
+    <div class="col-xs-2 hidden-xs">
+        <div id="myAccounts">
+            @Html.Action("GetAccounts", "NavLeft")
+        </div>
+        <div id="myBudgets">
+            @Html.Action("GetBudgets", "NavLeft")
+        </div>
+        <div id="myDebts">
+            @Html.Action("Index", "Debt")
+        </div>
     </div>
-    <div id="myBudgets">
-        @Html.Action("GetBudgets", "NavLeft")
-    </div>
-    <div id="myDebts">
-        @Html.Action("Index", "Debt")
-    </div>
-</div>
-@if (Request.Browser.IsMobileDevice)
-{
-    <div id="payingDiv">
-        @RenderBody()
-    </div>
-}
-else
-{
-    <div class="col-xs-6" id="payingDiv">
-        @if (TempData["message"] != null)
-        {
-            <div class="alert alert-danger">@TempData["message"]</div>
-        }
-        @RenderBody()
-    </div>
-}
+    @if (Request.Browser.IsMobileDevice)
+    {
+        <div id="payingDiv">
+            @RenderBody()
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-6" id="payingDiv">
+            @RenderBody()
+        </div>
+    }
 
-<div class="col-xs-2 hidden-xs">
-    <div id="expensiveCategories">
-        @Html.Action("ExpensiveCategories", "PayingItem")
+    <div class="col-xs-2 hidden-xs">
+        <div id="expensiveCategories">
+            @Html.Action("ExpensiveCategories", "PayingItem")
+        </div>
+    </div>
+    <div class="col-xs-2 hidden-xs">
+        <div id="income">
+            @Html.Action("MenuIncoming", "NavRight")
+        </div>
+        <div id="outgo">
+            @Html.Action("MenuOutgo", "NavRight")
+        </div>
     </div>
 </div>
-<div class="col-xs-2 hidden-xs">
-    <div id="income">
-        @Html.Action("MenuIncoming", "NavRight")
-    </div>
-    <div id="outgo">
-        @Html.Action("MenuOutgo", "NavRight")
-    </div>
-</div>
-
 </body>
 </html>

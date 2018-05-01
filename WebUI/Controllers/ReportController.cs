@@ -35,9 +35,9 @@ namespace WebUI.Controllers
             _pageCreator = pageCreator;
         }
 
-        public ViewResult Index()
+        public ActionResult Index()
         {
-            return View();
+            return PartialView("_Index");
         }
 
         public ActionResult CreateByTypeOfFlowView(WebUser user, int id)
