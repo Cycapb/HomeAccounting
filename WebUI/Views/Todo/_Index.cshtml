@@ -1,4 +1,5 @@
-﻿<script type="text/javascript">
+﻿@using Microsoft.AspNet.Identity
+<script type="text/javascript">
     var currentUserId = "@HttpContext.Current.User.Identity.GetUserId()";
 </script>
 <script src="~/Models/KnockoutModels/TodoCreateViewModel.js"></script>
@@ -10,7 +11,7 @@
                 <h2 class="panel-title">Создание задачи</h2>
             </div>
             <div class="panel-body" data-bind="with: addTodoViewModel">
-                @Html.Partial("CreateToDoPartial")
+                @Html.Partial("_CreateToDo")
             </div>
         </div>
         <div class="panel panel-info">
@@ -18,10 +19,10 @@
                 <h2 class="panel-title">Группы задач</h2>
             </div>
             <div class="panel-body" data-bind="with: addGroupViewModel">
-                @Html.Partial("CreateGroupPartial")
+                @Html.Partial("_CreateGroup")
             </div>
             <div class="panel-body" data-bind="with: groupListViewModel">
-                @Html.Partial("GroupPartial")
+                @Html.Partial("_Group")
             </div>
         </div>
     </div>
@@ -32,8 +33,8 @@
                 <h2 class="panel-title">Текущий список дел: <span class="badge" data-bind="text: todoListViewModel.todos().length"></span></h2>
             </div>
             <div class="panel-body" data-bind="with: todoListViewModel">
-                @Html.Partial("TodoPartial")
-                @Html.Partial("EditPartial")
+                @Html.Partial("_Todo")
+                @Html.Partial("_Edit")
             </div>
         </div>
     </div>
