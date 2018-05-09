@@ -94,7 +94,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = target.Index();
 
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
         [TestMethod]

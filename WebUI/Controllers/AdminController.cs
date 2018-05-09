@@ -18,12 +18,12 @@ namespace WebUI.Controllers
         
         public ActionResult Index()
         {
-            return View(UserManager.Users);
+            return PartialView("_Index", UserManager.Users);
         }
 
         public ActionResult Create()
         {
-            return View();
+            return PartialView("_Create");
         }
 
         [HttpPost]
@@ -74,12 +74,10 @@ namespace WebUI.Controllers
                     Id = user.Id,
                     Email = user.Email
                 };
-                return View(userModel);
+                return PartialView("_Edit", userModel);
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -114,17 +112,15 @@ namespace WebUI.Controllers
                     {
                         return RedirectToAction("Index");
                     }
-                    else
-                    {
-                        AddModelErrors(result);
-                    }
+
+                    AddModelErrors(result);
                 }
             }
             else
             {
                 ModelState.AddModelError("","Пользователь не найден");
             }
-            return View(model);
+            return PartialView("_Edit", model);
         }
 
         private void AddModelErrors(IdentityResult result)

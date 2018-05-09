@@ -29,14 +29,6 @@ function redirectToMain() {
     window.location.replace("/");
 }
 
-function redirectToReport() {
-    window.location.replace("Report");
-}
-
-function redirectToAdminSection() {
-    window.location.replace("AdminSection");
-}
-
 function redirectToTodo() {
     window.location.replace("Todo");
 }

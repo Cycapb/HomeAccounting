@@ -45,6 +45,7 @@
         <li class="hidden-xs">
             @Ajax.ActionLink("Отчеты", "Index", "Report", null, new AjaxOptions()
        {
+           Url = Url.Action("Index", "Report"),
            OnBegin = "showPopupLogin",
            OnSuccess = "hidePopup",
            UpdateTargetId = "payingItemMainBody"
@@ -62,8 +63,10 @@
             <li class="hidden-xs">
                 @Ajax.ActionLink("Администрирование", "Index", "AdminSection", null, new AjaxOptions()
                 {
+                    Url = Url.Action("Index", "AdminSection"),
                     OnBegin = "showPopupLogin",
-                    OnSuccess = "redirectToAdminSection"
+                    OnSuccess = "hidePopup",
+                    UpdateTargetId = "payingItemMainBody"
                 }, new {@class = "btn btn-raised btn-info btn-round"})
             </li>
         }

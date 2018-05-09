@@ -9,7 +9,7 @@ namespace WebUI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return PartialView("_Index");
         }
     }
 }
