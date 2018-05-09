@@ -91,7 +91,15 @@ function updateAfterDebt() {
                     target.empty();
                     target.html(budgets);
                 }
-            }),
+        }),
+        $.ajax({
+            url: '/PayingItem/ExpensiveCategories',
+            cache: false,
+            success: function (data) {
+                $('#expensiveCategories').empty();
+                $('#expensiveCategories').html(data);
+            }
+        }),
             $.ajax({
                 url: '/NavRight/MenuIncoming',
                 cache: false,
