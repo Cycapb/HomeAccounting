@@ -8,7 +8,7 @@
 </div>
 @Html.ActionLink("Создать", "Add", null, new { @class = "btn btn-primary btn-raised btn-sm", id = "addBtn" })
 @Html.ActionLink("Назад", "Index", "AdminSection", null, new { @class = "btn btn-default btn-raised btn-sm", id = "returnBtn" })
-@Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
+@Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
 {
     OnBegin = "showPopupLogin",
     OnSuccess = "redirectToMain"

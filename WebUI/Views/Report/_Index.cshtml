@@ -1,4 +1,4 @@
-﻿@Html.Action("Index","MainBar")
+﻿@Html.Action("Index", "MainBar")
 <div class="container">
     <div class="col-xs-2">
         @Html.Action("Index", "ReportMenu")
@@ -11,12 +11,12 @@
         </div>
         <p>
             <div>
-                @Ajax.ActionLink("На главную", "Index", "PayingItem", null, new AjaxOptions()
-           {
-               OnBegin = "showPopupLogin",
-               OnSuccess = "hidePopup",
-               UpdateTargetId = "payingItemMainBody"
-           },
+                @Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
+                {
+                    OnBegin = "showPopupLogin",
+                    OnSuccess = "hidePopup",
+                    UpdateTargetId = "payingItemMainBody"
+                },
                     new {@class = "btn btn-default btn-raised btn-sm pull-right"})
             </div>
         </p>

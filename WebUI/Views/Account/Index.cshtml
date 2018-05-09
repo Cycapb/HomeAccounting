@@ -26,9 +26,9 @@
                UpdateTargetId = "payingDiv"
            }, new { @class = "btn btn-primary btn-raised btn-sm" })
             @Ajax.ActionLink("На главную", "List", "PayingItem",null,new AjaxOptions()
-            {
-                Url = Url.Action("List","PayingItem"),
-                UpdateTargetId = "payingDiv"
-            },new {@class="btn btn-default btn-raised btn-sm pull-right"})
+       {
+           Url = Url.Action("List", "PayingItem"),
+           UpdateTargetId = "payingDiv"
+       },new {@class="btn btn-default btn-raised btn-sm pull-right"})
         </div>
     </div>
