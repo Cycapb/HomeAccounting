@@ -30,8 +30,9 @@
     <input type="button" class="btn btn-sm btn-default btn-raised" id="btnGetTodos" value="Скрыть завершенные" data-bind="click: getTodos"/>
     <input type="button" class="btn btn-sm btn-success btn-raised" id="btnUpdateTodos" value="Сохранить изменения" data-bind="click: updateTodos"/>
     @Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
-    {
-        OnBegin = "showPopupLogin",
-        OnSuccess = "redirectToMain"
-    }, new {@class = "btn btn-sm btn-default btn-raised pull-right"})
+{
+    OnBegin = "showPopupLogin",
+    OnSuccess = "hidePopup",
+    UpdateTargetId = "payingItemMainBody"
+}, new {@class = "btn btn-sm btn-default btn-raised pull-right"})
 </form>

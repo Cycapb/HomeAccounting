@@ -70,14 +70,15 @@
                 }, new {@class = "btn btn-raised btn-info btn-round"})
             </li>
         }
-        <li>
+        @*<li>
             @Ajax.ActionLink("Список ToDo", "Index", "Todo", null, new AjaxOptions()
-            {
-                Url = Url.Action("Index", "Todo"),
-                OnBegin = "showPopupLogin",
-                OnSuccess = "hidePopup"
-            }, new {@class = "btn btn-raised btn-info btn-round"})
-        </li>
+       {
+           Url = Url.Action("Index", "Todo"),
+           OnBegin = "showPopupLogin",
+           OnSuccess = "hidePopup",
+           UpdateTargetId = "payingItemMainBody"
+       }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>*@
         <li>
             @Ajax.ActionLink("Список покупок", null, new
             {
