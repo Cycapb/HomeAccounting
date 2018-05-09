@@ -45,6 +45,11 @@ namespace WebUI.Controllers
         {
             return View();
         }
+        
+        public ActionResult MainPage()
+        {
+            return PartialView("_MainPage");
+        }
 
         public ActionResult List(WebUser user, int page = 1)
         {

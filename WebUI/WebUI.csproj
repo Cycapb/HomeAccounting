@@ -537,6 +537,7 @@
     <Content Include="Views\Report\_PageLinks.cshtml" />
     <Content Include="Views\UserAccount\_Login.cshtml" />
     <Content Include="Views\Debt\_ClosePartially.cshtml" />
+    <Content Include="Views\PayingItem\_MainPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
