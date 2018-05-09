@@ -505,7 +505,7 @@
     <Content Include="Views\Category\PageLinksByTypeAjaxPartial.cshtml" />
     <Content Include="Views\Planing\SelectCategories.cshtml" />
     <Content Include="Views\Shared\_TodoLayout.cshtml" />
-    <Content Include="Views\Todo\Index.cshtml" />
+    <Content Include="Views\Todo\_Index.cshtml" />
     <Content Include="Views\Todo\TodoPartial.cshtml" />
     <Content Include="Views\Todo\CreateToDoPartial.cshtml" />
     <Content Include="Views\Todo\CreateGroupPartial.cshtml" />

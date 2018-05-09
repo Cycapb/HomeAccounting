@@ -15,7 +15,7 @@ namespace WebUI.Controllers
             {
                 UserId = HttpContext.User.Identity.GetUserId()
             };
-            return View(model);
+            return PartialView("_Index", model);
         }
     }
 }
