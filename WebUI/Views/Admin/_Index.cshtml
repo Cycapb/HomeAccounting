@@ -23,10 +23,20 @@
                     <td>@item.UserName</td>
                     <td>@item.Email</td>
                     <td>
-                        @using (Html.BeginForm("Delete", "Admin", new { id = item.Id }))
+                        @using (Ajax.BeginForm(new AjaxOptions()
                         {
-                            @Html.ActionLink("Изменить", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-raised btn-xs" })
-                            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+                            Url = Url.Action("Delete", new {id = item.Id}),
+                            UpdateTargetId = "adminSection"
+                        }))
+                        {
+                            @Ajax.ActionLink("Изменить", "Edit", null, new AjaxOptions()
+                       {
+                           Url = Url.Action("Edit", new {id = item.Id}),
+                           UpdateTargetId = "adminSection"
+                       },
+                                new { @class = "btn btn-warning btn-raised btn-xs"}
+                                )
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
                         }
                     </td>
                 </tr>

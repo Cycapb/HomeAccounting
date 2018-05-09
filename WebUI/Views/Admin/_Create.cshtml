@@ -1,7 +1,10 @@
 ﻿@model WebUI.Models.CreateModel
 <div class="userContainer">
     <div class="well">
-        @using (Html.BeginForm())
+        @using (Ajax.BeginForm(new AjaxOptions()
+        {
+            UpdateTargetId = "adminSection"
+        }))
         {
             @Html.ValidationSummary(true)
             <div class="form-group">
@@ -17,7 +20,12 @@
                 @Html.ValidationMessageFor(x => x.Password)
             </div>
             <input type="submit" value="Создать" class="btn btn-success btn-raised btn-sm" />
-            @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-default btn-raised btn-sm" })
+            @Ajax.ActionLink("Назад", "Index", null, new AjaxOptions()
+            {
+                Url = Url.Action("Index"),
+                UpdateTargetId = "adminSection"
+            },
+                new {@class = "btn btn-default btn-raised btn-sm"})
         }
     </div>
 </div>
