@@ -66,21 +66,12 @@ namespace WebUI
                 "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/jquery.validate*",
                 "~/Scripts/jquery.blockUI.js",
+                "~/Scripts/knockout-{version}.js",
+                "~/Scripts/knockout.validation.js",
                 "~/Scripts/UpdateAccounts.js",
                 "~/Scripts/ChangeButtonColor.js",
                 "~/Scripts/CalendarScript.js",
                 "~/Scripts/Buttons.js",
-                "~/Scripts/LoaderScripts.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jquery-todoPage").Include(
-                "~/Scripts/jquery-{version}.js",
-                "~/Scripts/jquery.unobtrusive-ajax.js",
-                "~/Content/assets/js/bootstrap.min.js",
-                "~/Content/assets/js/material.min.js",
-                "~/Content/assets/js/material-kit.js",
-                "~/Scripts/knockout-{version}.js",
-                "~/Scripts/knockout.validation.js",
-                "~/Scripts/jquery.blockUI.js",
                 "~/Scripts/LoaderScripts.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-validation").Include(

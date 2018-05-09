@@ -28,7 +28,3 @@ function hidePopup() {
 function redirectToMain() {
     window.location.replace("/");
 }
-
-function redirectToTodo() {
-    window.location.replace("Todo");
-}

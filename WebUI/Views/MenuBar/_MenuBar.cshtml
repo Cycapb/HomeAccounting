@@ -44,12 +44,12 @@
         </li>
         <li class="hidden-xs">
             @Ajax.ActionLink("Отчеты", "Index", "Report", null, new AjaxOptions()
-       {
-           Url = Url.Action("Index", "Report"),
-           OnBegin = "showPopupLogin",
-           OnSuccess = "hidePopup",
-           UpdateTargetId = "payingItemMainBody"
-       }, new {@class = "btn btn-raised btn-info btn-round"})
+            {
+                Url = Url.Action("Index", "Report"),
+                OnBegin = "showPopupLogin",
+                OnSuccess = "hidePopup",
+                UpdateTargetId = "payingItemMainBody"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
         </li>
         @*<li class="hidden-xs">
                 @Html.RouteLink("Планирование", new
@@ -73,8 +73,9 @@
         <li>
             @Ajax.ActionLink("Список ToDo", "Index", "Todo", null, new AjaxOptions()
             {
+                Url = Url.Action("Index", "Todo"),
                 OnBegin = "showPopupLogin",
-                OnSuccess = "redirectToTodo"
+                OnSuccess = "hidePopup"
             }, new {@class = "btn btn-raised btn-info btn-round"})
         </li>
         <li>
