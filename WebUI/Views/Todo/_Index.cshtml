@@ -1,11 +1,9 @@
-﻿@model TodoViewModel
-@{
-    ViewBag.Title = "Задачи";
-    Layout = "~/Views/Shared/_TodoLayout.cshtml";
-}
-@section body
-{
- <div class="row">
+﻿<script type="text/javascript">
+    var currentUserId = "@HttpContext.Current.User.Identity.GetUserId()";
+</script>
+<script src="~/Models/KnockoutModels/TodoCreateViewModel.js"></script>
+@Html.Action("Index", "MainBar")
+<div class="row">
     <div class="col-md-3">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -40,4 +38,3 @@
         </div>
     </div>
 </div>
-}
