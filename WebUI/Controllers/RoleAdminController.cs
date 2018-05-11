@@ -21,12 +21,12 @@ namespace WebUI.Controllers
 
         public ActionResult Index()
         {
-            return View(RoleManager.Roles);
+            return PartialView("_Index", RoleManager.Roles);
         }
 
         public ActionResult Create()
         {
-            return View();
+            return PartialView("_Create");
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace WebUI.Controllers
                 }
                 AddErrorsToModel(result);
             }
-            return View(rolename);
+            return PartialView("_Create", rolename);
         }
 
         [HttpPost]
@@ -75,7 +75,7 @@ namespace WebUI.Controllers
                     Members = members,
                     NonMembers = nonMembers
                 };
-                return View(roleEditModel);
+                return PartialView("_Edit", roleEditModel);
             }
             return View("Error", new[] {"Роль не найдена"});
         }
@@ -83,9 +83,9 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(RoleModificationModel model)
         {
-            IdentityResult result;
             if (ModelState.IsValid)
             {
+                IdentityResult result;
                 foreach (var userId in model.IdsToAdd ?? new string[] {})
                 {
                     result = await UserManager.AddToRoleAsync(userId, model.RoleName);

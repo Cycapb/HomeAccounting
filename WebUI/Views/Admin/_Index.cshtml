@@ -30,11 +30,11 @@
                         }))
                         {
                             @Ajax.ActionLink("Изменить", "Edit", null, new AjaxOptions()
-                       {
-                           Url = Url.Action("Edit", new {id = item.Id}),
-                           UpdateTargetId = "adminSection"
-                       },
-                                new { @class = "btn btn-warning btn-raised btn-xs"}
+                            {
+                                Url = Url.Action("Edit", new {id = item.Id}),
+                                UpdateTargetId = "adminSection"
+                            },
+                                new {@class = "btn btn-warning btn-raised btn-xs"}
                                 )
                             <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
                         }
@@ -48,12 +48,12 @@
 {
     Url = Url.Action("Create"),
     UpdateTargetId = "adminSection"
-}, new { @class = "btn btn-primary btn-raised btn-sm" })
+}, new {@class = "btn btn-primary btn-raised btn-sm"})
 @Ajax.ActionLink("Назад", "Index", "AdminSection", null, new AjaxOptions()
 {
     Url = Url.Action("Index", "AdminSection"),
     UpdateTargetId = "payingItemMainBody"
-}, new { @class = "btn btn-default btn-raised btn-sm" })
+}, new {@class = "btn btn-default btn-raised btn-sm"})
 @Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
 {
     Url = Url.Action("MainPage", "PayingItem"),

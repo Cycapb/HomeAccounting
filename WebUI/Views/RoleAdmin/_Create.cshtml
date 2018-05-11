@@ -1,0 +1,25 @@
+﻿@model string
+<div class="userContainer">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Создание роли</div>
+        @using (Ajax.BeginForm(new AjaxOptions()
+        {
+            UpdateTargetId = "adminSection"
+        }))
+        {
+            @Html.ValidationSummary()
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.TextBox("roleName", null, new {@class = "form-control", placeholder = "Имя"})
+                </div>
+            </div>
+            <div class="panel-footer">
+                <input type="submit" value="Создать" class="btn btn-success btn-raised btn-sm"/>
+                @Ajax.ActionLink("Назад", "Index", "RoleAdmin", null, new AjaxOptions()
+                {
+                    UpdateTargetId = "adminSection"
+                }, new {@class = "btn btn-default btn-raised btn-sm"})
+            </div>
+        }
+    </div>
+</div>

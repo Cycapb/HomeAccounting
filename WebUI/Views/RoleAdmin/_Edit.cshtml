@@ -1,10 +1,8 @@
-﻿@model WebUI.Models.RoleEditModel
-
-@{
-    ViewBag.Title = "Редактирование роли";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-@using (Html.BeginForm())
+﻿@model RoleEditModel
+@using (Ajax.BeginForm(new AjaxOptions()
+{
+    UpdateTargetId = "adminSection"
+}))
 {
     @Html.ValidationSummary()
     <input type="hidden" name="RoleName" value="@Model.Role.Name"/>
@@ -12,7 +10,7 @@
         <div class="panel-heading">Редактирование роли: @Model.Role.Name</div>
         <table class="table table-striped">
             <caption class="text-center">Участники роли</caption>
-            @if (Model.Members.Count() == 0 || Model.Members == null)
+            @if (!Model.Members.Any() || Model.Members == null)
             {
                 <tr>
                     <td colspan="2" class="text-center">Нет пользователей</td>
@@ -33,7 +31,7 @@
         </table>
         <table class="table table-striped">
             <caption class="text-center">Не принадлежащие данной роли</caption>
-            @if (Model.NonMembers == null || Model.NonMembers.Count() == 0)
+            @if (Model.NonMembers == null || !Model.NonMembers.Any())
             {
                 <tr>
                     <td colspan="2" class="text-center">Нет пользователей</td>
@@ -54,5 +52,8 @@
         </table>
     </div>
     <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
-    @Html.ActionLink("Назад", "Index", "RoleAdmin", null, new { @class = "btn btn-default btn-raised btn-sm" })
+    @Ajax.ActionLink("Назад", "Index", "RoleAdmin", null, new AjaxOptions()
+    {
+        UpdateTargetId = "adminSection"
+    }, new {@class = "btn btn-default btn-raised btn-sm"})
 }
