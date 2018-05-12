@@ -1,13 +1,16 @@
 ﻿@model MailboxAddViewModel
 @{
-    ViewBag.Title = ViewBag.PanelTitle;
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var routeAction = Context.Request.RequestContext.RouteData.Values["action"];
     var action = routeAction.ToString() == "Add" ? "Add" : "Edit";
 }
 <div class="panel panel-primary">
     <div class="panel-heading">@ViewBag.PanelTitle</div>
-    @using (Html.BeginForm(action))
+    @using (Ajax.BeginForm(new AjaxOptions()
+    {
+        Url = Url.Action(action),
+        HttpMethod = "POST",
+        UpdateTargetId = "adminSection"
+    }))
     {
         @Html.ValidationSummary(true)
         <div class="panel-body">
@@ -47,7 +50,11 @@
         </div>
         <div class="panel-footer">
             <input type="submit" value="Сохранить" class="btn btn-raised btn-sm btn-success"/>
-             @Html.ActionLink("Назад", "Index", "Mailbox", null, new { @class = "btn btn-default btn-raised btn-sm" })
+             @Ajax.ActionLink("Назад", "Index", "Mailbox", null, new AjaxOptions()
+             {
+                 Url = Url.Action("Index", "Mailbox"),
+                 UpdateTargetId = "adminSection"
+             }, new { @class = "btn btn-default btn-raised btn-sm" })
         </div>
     }
 </div>

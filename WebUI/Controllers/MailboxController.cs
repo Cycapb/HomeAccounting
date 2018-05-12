@@ -27,11 +27,12 @@ namespace WebUI.Controllers
             try
             {
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-                return View(mailboxes);
+                return PartialView("_Index", mailboxes);
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}",
+                    e);
             }
         }
 
@@ -44,7 +45,8 @@ namespace WebUI.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(List)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(List)}",
+                    e);
             }
         }
 
@@ -52,7 +54,7 @@ namespace WebUI.Controllers
         {
             var model = new MailboxAddViewModel();
             ViewBag.PanelTitle = "Добавление почтового ящика";
-            return View("Mailbox", model);
+            return PartialView("_Mailbox", model);
         }
 
         [HttpPost]
@@ -62,13 +64,13 @@ namespace WebUI.Controllers
             {
                 var box = new NotificationMailBox
                 {
-                  MailBoxName  = model.MailBoxName,
-                  MailFrom = model.MailFrom,
-                  UserName = model .UserName,
-                  Password = model.Password,
-                  Server = model.Server,
-                  Port = model.Port,
-                  UseSsl  = model.UseSsl
+                    MailBoxName = model.MailBoxName,
+                    MailFrom = model.MailFrom,
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    Server = model.Server,
+                    Port = model.Port,
+                    UseSsl = model.UseSsl
                 };
                 try
                 {
@@ -77,10 +79,12 @@ namespace WebUI.Controllers
                 }
                 catch (ServiceException e)
                 {
-                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Add)}", e);
+                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Add)}",
+                        e);
                 }
             }
-            return View("Mailbox");
+
+            return PartialView("_Mailbox");
         }
 
         [HttpPost]
@@ -99,7 +103,8 @@ namespace WebUI.Controllers
             }
             catch (Exception e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}",
+                    e);
             }
 
             if (model == null)
@@ -121,7 +126,7 @@ namespace WebUI.Controllers
             };
 
             ViewBag.PanelTitle = "Редактирование почтового ящика";
-            return View("Mailbox", mailBoxModel);
+            return PartialView("_Mailbox", mailBoxModel);
         }
 
         [HttpPost]
@@ -150,12 +155,14 @@ namespace WebUI.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}", e);
+                    throw new WebUiException(
+                        $"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}", e);
                 }
 
                 return RedirectToAction("Index");
             }
-            return View("Mailbox");
+
+            return PartialView("_Mailbox");
         }
     }
-    }
+}
