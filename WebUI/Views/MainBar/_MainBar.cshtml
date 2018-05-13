@@ -1,6 +1,10 @@
 ﻿<div class="navbar navbar-info text-center">
     <h3>
-        Добро пожаловать, @Html.ActionLink(HttpContext.Current.User.Identity.Name, "ViewCredentials", "UserAccount")
+        Добро пожаловать, @Ajax.ActionLink(HttpContext.Current.User.Identity.Name, "ViewCredentials", "UserAccount", null, new AjaxOptions()
+                     {
+                         Url = Url.Action("ViewCredentials", "UserAccount"),
+                         UpdateTargetId = "payingItemMainBody"
+                     })
         <span class="pull-right">
         @using (Html.BeginForm("Logout","UserAccount"))
         {

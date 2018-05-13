@@ -478,9 +478,9 @@
     <Content Include="Views\RoleAdmin\_Create.cshtml" />
     <Content Include="Views\RoleAdmin\_Edit.cshtml" />
     <Content Include="Views\AdminSection\_Index.cshtml" />
-    <Content Include="Views\UserAccount\ChangeCredentials.cshtml" />
-    <Content Include="Views\UserAccount\ViewCredentials.cshtml" />
-    <Content Include="Views\UserAccount\ChangePassword.cshtml" />
+    <Content Include="Views\UserAccount\_ChangeCredentials.cshtml" />
+    <Content Include="Views\UserAccount\_ViewCredentials.cshtml" />
+    <Content Include="Views\UserAccount\_ChangePassword.cshtml" />
     <Content Include="Views\UserAccount\Register.cshtml" />
     <Content Include="Views\Product\List.cshtml" />
     <Content Include="Views\Product\EditableList.cshtml" />

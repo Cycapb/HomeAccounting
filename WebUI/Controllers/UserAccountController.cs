@@ -103,7 +103,7 @@ namespace WebUI.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
-            return View();
+            return PartialView("_ChangePassword");
         }
 
         [HttpPost]
@@ -117,14 +117,14 @@ namespace WebUI.Controllers
                 if (pass == PasswordVerificationResult.Failed)
                 {
                     ModelState.AddModelError("","Неверный текущий пароль");
-                    return View(model);
+                    return PartialView("_ChangePassword", model);
                 }
                 if (pass == PasswordVerificationResult.Success)
                 {
                     if (!model.NewPassword.Equals(model.ConfirmPassword))
                     {
                         ModelState.AddModelError("","Введенные пароли не сопадают");
-                        return View(model);
+                        return PartialView("_ChangePassword", model);
                     }
                     else
                     {
@@ -143,7 +143,6 @@ namespace WebUI.Controllers
                             }
                             else
                             {
-                                TempData["message"] = "Пароль успешно изменен";
                                 return RedirectToAction("ViewCredentials");
                             }
                         }
@@ -152,21 +151,21 @@ namespace WebUI.Controllers
             }
             else
             {
-                return View(model);
+                return PartialView("_ChangePassword", model);
             }
-            return View(model);
+            return PartialView("_ChangePassword", model);
         }
 
         [Authorize]
         public ActionResult ViewCredentials()
         {
-            return View(CurrentUser);
+            return PartialView("_ViewCredentials", CurrentUser);
         }
 
         [Authorize]
         public ActionResult ChangeCredentials()
         {
-            return View(CurrentUser);
+            return PartialView("_ChangeCredentials", CurrentUser);
         }
 
         [HttpPost]
@@ -193,7 +192,6 @@ namespace WebUI.Controllers
                     }
                     else
                     {
-                        TempData["message"] = "Учетные данные успешно изменены";
                         return RedirectToAction("ViewCredentials");
                     }
                 }
@@ -202,7 +200,7 @@ namespace WebUI.Controllers
             {
                 return View("Error",new string[] {"Ошибка при изменении данных"});
             }
-            return View(userToChange);
+            return PartialView("_ChangeCredentials", userToChange);
         }
 
         [AllowAnonymous]

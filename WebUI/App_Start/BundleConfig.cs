@@ -113,7 +113,8 @@ namespace WebUI
             bundles.Add(new StyleBundle("~/bundles/material-kit/css").Include(
                 "~/Content/assets/css/bootstrap.min.css",
                 "~/Content/assets/css/material-kit.css",
-                "~/Content/ErrorStyles.css"
+                "~/Content/ErrorStyles.css",
+                "~/Content/Site.css"
             ));
         }
     }
