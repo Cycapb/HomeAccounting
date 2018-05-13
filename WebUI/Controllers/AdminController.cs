@@ -37,12 +37,10 @@ namespace WebUI.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    AddModelErrors(result);
-                }
+
+                AddModelErrors(result);
             }
-            return View(model);
+            return PartialView("_Create", model);
         }
 
         [HttpPost]

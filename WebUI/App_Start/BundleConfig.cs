@@ -58,13 +58,12 @@ namespace WebUI
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-mainPage").Include(
                 "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Content/assets/js/bootstrap.min.js",
                 "~/Content/assets/js/material.min.js",
                 "~/Content/assets/js/material-kit.js",
                 "~/Content/assets/js/bootstrap-datepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
-                "~/Scripts/jquery.unobtrusive-ajax.js",
-                "~/Scripts/jquery.validate*",
                 "~/Scripts/jquery.blockUI.js",
                 "~/Scripts/knockout-{version}.js",
                 "~/Scripts/knockout.validation.js",
