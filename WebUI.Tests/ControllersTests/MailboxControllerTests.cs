@@ -36,9 +36,9 @@ namespace WebUI.Tests.ControllersTests
             _mailboxService.Setup(m => m.GetListAsync()).ReturnsAsync(_list);
 
             var result = await _controller.Index();
-            var model = ((ViewResult)result).Model as List<NotificationMailBox>;
+            var model = ((PartialViewResult)result).Model as List<NotificationMailBox>;
 
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsNotNull(model);
             Assert.AreEqual(2,model.Count);
         }
@@ -75,7 +75,7 @@ namespace WebUI.Tests.ControllersTests
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
-            var model = ((ViewResult) result).Model as MailboxAddViewModel;
+            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
 
             Assert.IsNotNull(model);
         }
@@ -114,15 +114,15 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("MailboxControllerTests")]
-        public async Task Edit_ReturnsMailboxViewWithModel()
+        public async Task Edit_ReturnsMailboxPartialViewWithModel()
         {
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() {Id = 1,MailBoxName = "M1"});
 
             var result = await _controller.Edit(1);
-            var model = ((ViewResult) result).Model as MailboxAddViewModel;
+            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
 
             _mailboxService.Verify(x => x.GetItemAsync(It.IsAny<int>()), Times.Exactly(1));
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsNotNull(model);
             Assert.AreEqual(model.MailBoxName, "M1");
         }
