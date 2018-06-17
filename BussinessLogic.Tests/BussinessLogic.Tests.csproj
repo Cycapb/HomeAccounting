@@ -67,6 +67,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ManagerTests\PlaningManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LoggersTests\NlogExceptionLoggerTests.cs" />
     <Compile Include="ProvidersTests\SingleIpAddressProviderTests.cs" />
