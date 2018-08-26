@@ -16,7 +16,12 @@
                     <tr>
                         @Html.Hidden("Products[" + i + "].UserID", Model[i].UserID)
                         <td>
-                            <input type="checkbox" name="Products[@i].ProductID" value="@Model[i].ProductID" />
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="Products[@i].ProductID" value="@Model[i].ProductID" />
+                                    <span class="checkbox-material"><span class="check"></span></span>		
+                                </label>
+                            </div>
                         </td>
                         <td>
                             @Model[i].ProductName
