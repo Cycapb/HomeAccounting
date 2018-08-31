@@ -22,7 +22,7 @@
                 {
                     Text = x.Name,
                     Value = x.CategoryID.ToString()
-                }), new {@class = "form-control", onchange = "changeCategoryEdit()"})
+                }), new {@class = "selectpicker", onchange = "changeCategoryEdit()"})
             </div>
 
             @if (Model.PayingItemProducts == null || !Model.PayingItemProducts.Any())
@@ -91,10 +91,10 @@
             <div class="form-group">
                 <label>Счет:</label>
                 @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
-                {
-                    Text = x.AccountName,
-                    Value = x.AccountID.ToString()
-                }), new {@class = "form-control"})
+                   {
+                       Text = x.AccountName,
+                       Value = x.AccountID.ToString()
+                   }), new {@class = "selectpicker" })
             </div>
 
             <div class="form-group">
@@ -131,5 +131,8 @@
         });
     };
 
-    $(document).ready(clickDate);
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+        clickDate();
+    });
 </script>

@@ -87,6 +87,8 @@ namespace WebUI
                 "~/Scripts/CalendarScript.js",
                 "~/Scripts/Buttons.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
+                "~/Scripts/bootstrap-select.min.js"));
             //Use the development version of Modernizr to develop with and learn from. Then, when you're
             //ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
 
@@ -115,6 +117,9 @@ namespace WebUI
                 "~/Content/ErrorStyles.css",
                 "~/Content/Site.css"
             ));
+
+            bundles.Add(new StyleBundle("~/bundles/bootstrap-select/css").Include(
+                "~/Content/bootstrap-select.min.css"));
         }
     }
 }
