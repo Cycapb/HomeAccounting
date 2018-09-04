@@ -414,6 +414,7 @@
       <DependentUpon>201611300528457_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountAddViewModel.cs" />
     <Compile Include="Models\AccRoleModel.cs" />
     <Compile Include="Models\AccUserModel.cs" />
     <Compile Include="Models\AddOrderModel.cs" />

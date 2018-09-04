@@ -15,20 +15,24 @@
             @Html.HiddenFor(x => x.UserId)
             <div class="form-group">
                 <label class="form-group">Название:</label>
-                @Html.TextBoxFor(x => x.AccountName, new {@class = "form-control"})
+                @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.AccountName)
             </div>
             <div class="form-group">
                 <label class="form-group">Сумма:</label>
-                @Html.EditorFor(x => x.Cash, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.EditorFor(x => x.Cash, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(x => x.Cash)
             </div>
-            <div>
-                @Html.CheckBoxFor(x => x.Use) Отображать в текущем бюджете
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="Use"/>
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Отображать в текущем бюджете
+                </label>
             </div>
         </div>
         <div class="panel-footer">
-            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
+            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
             @Ajax.ActionLink("Назад", "Index", null, new AjaxOptions()
             {
                 Url = Url.Action("Index"),
