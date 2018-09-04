@@ -88,16 +88,24 @@ namespace WebUI.Controllers
             return PartialView(account);
         }
 
-        public ActionResult Add(WebUser user)
+        public ActionResult Add()
         {
-            return PartialView(new Account() {UserId = user.Id});
+            return PartialView(new AccountAddViewModel());
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, Account account)
+        public async Task<ActionResult> Add(WebUser user, AccountAddViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var account = new Account()
+                {
+                    AccountName = model.AccountName,
+                    Cash = model.Cash,
+                    Use = model.Use,
+                    UserId = user.Id
+                };
+
                 try
                 {
                     await _accountService.CreateAsync(account);
@@ -108,7 +116,7 @@ namespace WebUI.Controllers
                     throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Add)}", e);
                 }
             }
-            return PartialView(account);
+            return PartialView(model);
         }
 
         public async Task<ActionResult> Delete(WebUser user,int id)

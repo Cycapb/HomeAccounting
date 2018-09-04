@@ -1,4 +1,4 @@
-﻿@model Account
+﻿@model AccountAddViewModel
 <div class="panel panel-primary">
     <div class="panel-heading">Добавление счета</div>
     @using (Ajax.BeginForm("Add", new AjaxOptions()
@@ -11,8 +11,6 @@
     {
         @Html.ValidationSummary(true)
         <div class="panel-body">
-            @Html.HiddenFor(x => x.AccountID)
-            @Html.HiddenFor(x => x.UserId)
             <div class="form-group">
                 <label class="form-group">Название:</label>
                 @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
