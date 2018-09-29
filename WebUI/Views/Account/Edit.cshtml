@@ -23,8 +23,19 @@
                 @Html.EditorFor(x => x.Cash, new {htmlAttributes = new {@class = "form-control"}})
                 @Html.ValidationMessageFor(x => x.Cash)
             </div>
-            <div>
-                @Html.CheckBoxFor(x => x.Use, new {@class="checkbox"}) Отображать в текущем бюджете
+            <div class="checkbox">
+                <label>
+                    @if (Model.Use)
+                    {
+                        <input data-val="true" id="Use" name="Use" type="checkbox" value="true" checked="checked">
+                    }
+                    else
+                    {
+                        <input data-val="true" id="Use" name="Use" type="checkbox" value="true">    
+                    }
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Отображать в текущем бюджете
+                </label>
             </div>
         </div>
         <div class="panel-footer">

@@ -395,7 +395,6 @@
     <Compile Include="Infrastructure\AccUserManager.cs" />
     <Compile Include="Infrastructure\Attributes\IsUniqueAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\UserHasAnyAccountAttribute.cs" />
-    <Compile Include="Infrastructure\Binders\AccountAddViewModelBinder.cs" />
     <Compile Include="Infrastructure\Binders\WebUserModelBinder.cs" />
     <Compile Include="Infrastructure\CustomErrorAttribute.cs" />
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
