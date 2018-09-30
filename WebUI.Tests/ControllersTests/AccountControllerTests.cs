@@ -134,7 +134,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mockAccountService.Setup(x => x.CreateAsync(It.IsAny<Account>())).Throws<ServiceException>();
 
-            await _target.Add(new WebUser(), new Account());
+            await _target.Add(new WebUser(), new AccountAddViewModel());
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace WebUI.Tests.ControllersTests
 
             try
             {
-                await _target.Add(new WebUser(), new Account());
+                await _target.Add(new WebUser(), new AccountAddViewModel());
             }
             catch (WebUiException e)
             {
@@ -317,16 +317,14 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public void AddReturnsPartialView()
+        public void Add_HttpGet_ReturnsPartialView()
         {
-            AccountController target = new AccountController(null);
+            var target = new AccountController(null);
 
-            var result = target.Add(new WebUser());
-            var model = ((PartialViewResult)result).ViewData.Model as Account;
+            var result = target.Add();
+            var model = ((PartialViewResult)result).ViewData.Model as AccountAddViewModel;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-            Assert.IsNotNull(model);
-            Assert.AreEqual(model.AccountID, 0);
             Assert.IsNotNull(model);
         }
 
@@ -334,12 +332,11 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task AddModelStateValidReturnsRedirectToIndex()
         {
-            Account account = new Account() { AccountID = 1, AccountName = "Acc1" };
-            AccountController target = new AccountController(_mockAccountService.Object);
+            var accountViewModel = new AccountAddViewModel() { AccountName = "Acc1" };
+            var target = new AccountController(_mockAccountService.Object);
 
-            var result = await target.Add(new WebUser() { Id = "1" }, account);
-
-            _mockAccountService.Verify(m => m.CreateAsync(account),Times.Once);
+            var result = await target.Add(new WebUser() { Id = "1" }, accountViewModel);
+            
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
 
@@ -347,11 +344,11 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task Cannot_Add_Invalid_Account()
         {
-            Account account = new Account() { AccountID = 1, AccountName = "Acc1" };
-            AccountController target = new AccountController(null);
+            var accountViewModel = new AccountAddViewModel() { AccountName = "Acc1" };
+            var target = new AccountController(null);
             target.ModelState.AddModelError("error", "error");
 
-            var result = await target.Add(new WebUser() { Id = "1" }, account);
+            var result = await target.Add(new WebUser() { Id = "1" }, accountViewModel);
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
@@ -390,6 +387,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = ((PartialViewResult)await  target.TransferMoney(new WebUser() { Id = "1" })).ViewData.Model as TransferModel;
 
+            Assert.IsNotNull(result);
             Assert.AreEqual(result.FromAccounts.Count, 2);
         }
 
@@ -398,7 +396,7 @@ namespace WebUI.Tests.ControllersTests
         public async Task TransferMoneyIfAccountHasNotEnoughMoney()
         {
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
-            _mockAccountService.Setup((IAccountService m) => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { AccountID = 1, UserId = "1", Cash = 5000 });
+            _mockAccountService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { AccountID = 1, UserId = "1", Cash = 5000 });
             TransferModel tmodel = new TransferModel() { FromId = 1, ToId = 1, Summ = 1000.ToString() };
             WebUser user = new WebUser() { Id = "1" };
             AccountController target = new AccountController(_mockAccountService.Object);
@@ -435,7 +433,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mockAccountService.Setup(m => m.HasEnoughMoney(It.IsAny<Account>(), It.IsAny<decimal>())).Returns(true);
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
-            _mockAccountService.Setup((IAccountService m) => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { AccountID = 1, UserId = "1", Cash = 5000 });
+            _mockAccountService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { AccountID = 1, UserId = "1", Cash = 5000 });
             TransferModel tmodel = new TransferModel() { FromId = 1, ToId = 1, Summ = 1000.ToString() };
             WebUser user = new WebUser() { Id = "1" };
             AccountController target = new AccountController(_mockAccountService.Object);

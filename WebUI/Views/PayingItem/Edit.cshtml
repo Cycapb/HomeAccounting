@@ -47,8 +47,12 @@
                         {
                             <tr>
                                 <td>
-                                    <input type="checkbox" checked="checked" name="PricesAndIdsInItem[@i].Id" value="@Model.ProductsInItem[i].ProductId"/>
-                                    <input type="hidden" name="PricesAndIdsInItem[@i].PayingItemProductId" value="@Model.ProductsInItem[i].PayingItemProductId"/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" checked="checked" name="PricesAndIdsInItem[@i].Id" value="@Model.ProductsInItem[i].ProductId" />
+                                            <span class="checkbox-material"><span class="check"></span></span>		
+                                        </label>
+                                    </div>
                                 </td>
                                 <td>
                                     @Model.ProductsInItem[i].ProductName
@@ -65,7 +69,12 @@
                         {
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="PricesAndIdsNotInItem[@i].Id" value="@Model.ProductsNotInItem[i].ProductID"/>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="PricesAndIdsNotInItem[@i].Id" value="@Model.ProductsNotInItem[i].ProductID" />
+                                            <span class="checkbox-material"><span class="check"></span></span>
+                                        </label>
+                                    </div>
                                 </td>
                                 <td>
                                     @Model.ProductsNotInItem[i].ProductName

@@ -43,9 +43,12 @@
                 @Html.TextBoxFor(x => x.Port, new { @class = "form-control", placeholder = "Smtp-сервер" })
                 @Html.ValidationMessageFor(x => x.Port)
             </div>
-            <div class="form-group">
-                <label>Использовать SSL</label>
-                @Html.CheckBoxFor(x => x.UseSsl, new {placeholder = "Использовать SSL"})
+            <div class="checkbox">
+                <label>
+                    <input id="UseSsl" name="UseSsl" type="checkbox" value="true">
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Использовать SSL
+                </label>
             </div>
         </div>
         <div class="panel-footer">

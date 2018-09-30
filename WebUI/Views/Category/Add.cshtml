@@ -22,10 +22,10 @@
                 <div class="form-group">
                     <label class="form-group">Тип:</label>
                     @Html.DropDownListFor(x => x.TypeOfFlowID, list.Select(x => new SelectListItem()
-                   {
-                       Text = x.TypeName,
-                       Value = x.TypeID.ToString()
-                   }), new { @class = "form-control" })
+                    {
+                        Text = x.TypeName,
+                        Value = x.TypeID.ToString()
+                    }), new {@class = "form-control"})
                 </div>
             </div>
                 <div class="panel-footer">

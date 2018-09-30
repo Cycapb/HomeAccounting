@@ -22,8 +22,13 @@
                 {
                     <tr>
                         <td>@item.UserName</td>
-                        <td>
-                            <input type="checkbox" name="IdsToDelete" value="@item.Id"/>
+                        <td class="text-center">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="IdsToDelete" value="@item.Id">
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -43,8 +48,13 @@
                 {
                     <tr>
                         <td>@item.UserName</td>
-                        <td>
-                            <input type="checkbox" name="IdsToAdd" value="@item.Id"/>
+                        <td class="text-center">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
                         </td>
                     </tr>
                 }
