@@ -32,8 +32,13 @@
                         <td>@item.Password</td>
                         <td>@item.Server</td>
                         <td>@item.Port</td>
-                        <td>
-                            <input type="checkbox" checked="@item.UseSsl" readonly="readonly"/>
+                        <td class="text-center">
+                            <div class="checkbox">
+                                <label>
+                                    <input id="UseSsl" checked="@item.UseSsl" name="UseSsl" type="checkbox" value="true">
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
                         </td>
                         <td>
                             @using (Ajax.BeginForm("Delete", new {id = item.Id},new AjaxOptions()
