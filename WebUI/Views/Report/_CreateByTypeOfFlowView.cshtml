@@ -13,10 +13,10 @@
         <div>
             <label class="form-group">Категория:</label>
             @Html.DropDownList("catId", Model.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.CategoryID.ToString()
-            }), new {@class = "form-control"})
+               {
+                   Text = x.Name,
+                   Value = x.CategoryID.ToString()
+               }), new {@class = "selectpicker" })
 
             <label class="form-group">Начальная дата:</label>
             @Html.TextBox("DtFrom", null, new
@@ -74,8 +74,12 @@
     }
 </div>
 <script type="text/javascript">
-    $(document).ready(clickDateFrom);
-    $(document).ready(clickDateTo);
-    $(document).ready(clickDtFrom);
-    $(document).ready(clickDtTo);
+    $(document).ready(function ()
+    {
+        clickDateFrom();
+        clickDateTo();
+        clickDtFrom();
+        clickDtTo();
+        $('.selectpicker').selectpicker();
+    });
 </script>
