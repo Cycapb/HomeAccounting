@@ -1,26 +1,32 @@
 ﻿@model WebUI.Models.AddOrderModel
-    @using (Ajax.BeginForm("Add",new AjaxOptions()
-    {
-        Url = Url.Action("Add"),
-        UpdateTargetId = "orderDetailDiv"
-    }))
-    {
-        <div class="form-group">
-            <label>Дата формирования</label>
-            @Html.TextBoxFor(x => x.OrderDate, new
-            {
-                @class = "datepicker form-control",
-                Value = DateTime.Now.ToShortDateString(),
-                onclick = "clickOrderDate()"
-            })
-        </div>
-        <div class="form-group">
-            <label>Категория</label>
-            @Html.DropDownListFor(x => x.Categories, Model.Categories.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.CategoryID.ToString()
-            })
-            ,new {@class="form-control"})
-        </div>
-    }
+@using (Ajax.BeginForm("Add", new AjaxOptions()
+{
+    Url = Url.Action("Add"),
+    UpdateTargetId = "orderDetailDiv"
+}))
+{
+    <div class="form-group">
+        <label>Дата формирования</label>
+        @Html.TextBoxFor(x => x.OrderDate, new
+        {
+            @class = "datepicker form-control",
+            Value = DateTime.Now.ToShortDateString(),
+            onclick = "clickOrderDate()"
+        })
+    </div>
+    <div class="form-group">
+        <label>Категория</label>
+        @Html.DropDownListFor(x => x.Categories, Model.Categories.Select(x => new SelectListItem()
+           {
+               Text = x.Name,
+               Value = x.CategoryID.ToString()
+           })
+        ,new {@class= "selectpicker" })
+    </div>
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $('.selectpicker').selectpicker();
+            });
+    </script>
+}

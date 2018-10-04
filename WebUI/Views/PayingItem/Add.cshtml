@@ -17,7 +17,7 @@
                 {
                     Text = x.Name,
                     Value = x.CategoryID.ToString()
-                }), new {@class = "form-control", onchange = "changeCategoryAdd()"})
+                }), new {@class = "selectpicker", onchange = "changeCategoryAdd()"})
             </div>
 
             <div id="divProducts">
@@ -39,10 +39,10 @@
             <div class="form-group">
                 <label>Счет:</label>
                 @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
-                {
-                    Text = x.AccountName,
-                    Value = x.AccountID.ToString()
-                }), new {@class = "form-control"})
+                   {
+                       Text = x.AccountName,
+                       Value = x.AccountID.ToString()
+                   }), new {@class = "selectpicker" })
             </div>
 
             <div class="form-group">
@@ -86,5 +86,8 @@
         });
     }
 
-    $(document).ready(clickDate);
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+        clickDate();
+    });
 </script>
