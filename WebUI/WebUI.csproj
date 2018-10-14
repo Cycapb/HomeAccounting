@@ -302,6 +302,7 @@
     <Content Include="Scripts\ChangeButtonColor.js" />
     <None Include="Properties\PublishProfiles\Production_Release.pubxml" />
     <None Include="Properties\PublishProfiles\Production_Test.pubxml" />
+    <None Include="Properties\PublishProfiles\Release_Prod.pubxml" />
     <None Include="Properties\PublishProfiles\Release_Test.pubxml" />
     <None Include="Properties\PublishProfiles\Test_Release.pubxml" />
     <Content Include="Scripts\bootstrap-select.js.map" />
