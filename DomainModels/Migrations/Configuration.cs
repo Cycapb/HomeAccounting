@@ -10,7 +10,7 @@ namespace DomainModels.Migrations
             ContextKey = "DomainModels.Model.AccountingContext";
         }
 
-        protected override void Seed(DomainModels.Model.AccountingContext context)
+        protected override void Seed(Model.AccountingContext context)
         {
             
         }
