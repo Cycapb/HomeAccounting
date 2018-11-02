@@ -12,7 +12,7 @@ namespace WebUI.Infrastructure
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public AccIdentityDbContext() : base("accounting_identity") { }
+        public AccIdentityDbContext() : base("name=accounting_identity") { }
 
         static AccIdentityDbContext()
         {
