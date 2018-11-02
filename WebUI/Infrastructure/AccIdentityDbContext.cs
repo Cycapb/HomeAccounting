@@ -16,7 +16,7 @@ namespace WebUI.Infrastructure
 
         static AccIdentityDbContext()
         {
-            System.Data.Entity.Database.SetInitializer<AccIdentityDbContext>(new MigrateDatabaseToLatestVersion<AccIdentityDbContext,Migrations.Configuration>());
+            Database.SetInitializer<AccIdentityDbContext>(new MigrateDatabaseToLatestVersion<AccIdentityDbContext,Migrations.Configuration>());
         }
 
         public static AccIdentityDbContext Create()
