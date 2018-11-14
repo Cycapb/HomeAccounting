@@ -53,7 +53,7 @@ namespace WebUI.Controllers
                 {
                     OrderId = id,
                     Categories = categories,
-                    Products = categories.FirstOrDefault()?.Product
+                    Products = categories.FirstOrDefault()?.Product ?? new List<Product>()
                 };
             }
             catch (ServiceException e)
