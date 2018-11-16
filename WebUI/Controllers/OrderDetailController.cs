@@ -98,7 +98,10 @@ namespace WebUI.Controllers
 
         private async Task<IEnumerable<Category>> GetCategories(string userId)
         {
-            return (await _categoryService.GetListAsync()).Where(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Product.Any()).ToList();
+            return (await _categoryService.GetListAsync())
+                .Where(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Product.Any())
+                .OrderBy(x => x.Name)
+                .ToList();
         }
     }
 
