@@ -32,6 +32,7 @@ namespace WebUI.Helpers
             {
                 return _categoryService.GetList()
                     .Where(x => x.TypeOfFlowID == flowId && x.UserId == user.Id)
+                    .OrderBy(x => x.Name)
                     .ToList();
             }
             catch (ServiceException e)
