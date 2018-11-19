@@ -16,11 +16,11 @@ namespace BussinessLogic.Providers
         public string GetIpAddresses(string ipAdresses)
         {
             var outAdresses = new StringBuilder();
-            var adresses = ipAdresses.Split(new char[','], StringSplitOptions.RemoveEmptyEntries);
+            var adresses = ipAdresses.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var ip in adresses)
-            {
-                return _singleIpAddressProvider.GetIpAddress(ip);
+            { 
+                outAdresses.Append(_singleIpAddressProvider.GetIpAddress(ip));
             }
 
             return outAdresses.ToString();

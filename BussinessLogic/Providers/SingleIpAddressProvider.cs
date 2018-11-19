@@ -21,8 +21,8 @@ namespace BussinessLogic.Providers
 
                 if(ipAddress.Contains(":"))
                 {
-                    var ipAddressWithouPort = ipAddress.Substring(0, ipAddress.Length - ipAddress.Substring(ipAddress.IndexOf(':')).Length);
-                    ip = IPAddress.Parse(ipAddressWithouPort);
+                    var ipAddressWithoutPort = ipAddress.Substring(0, ipAddress.Length - ipAddress.Substring(ipAddress.IndexOf(':')).Length);
+                    ip = IPAddress.Parse(ipAddressWithoutPort);
                     return ip.ToString();
                 }
 
