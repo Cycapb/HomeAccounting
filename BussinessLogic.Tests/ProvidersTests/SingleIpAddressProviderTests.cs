@@ -85,5 +85,16 @@ namespace BussinessLogic.Tests.ProvidersTests
 
             Assert.AreEqual("192.168.1.1", result);
         }
+
+        [TestMethod]
+        [TestCategory("SingleIpAddressProviderTests")]
+        public void GetIpAddress_InputLocalIpV6_ReturnsValidStringIpV6()
+        {
+            var localIp = "::1";
+
+            var result = _ipAddressProvider.GetIpAddress(localIp);
+
+            Assert.AreEqual("::1", result);
+        }
     }
 }
