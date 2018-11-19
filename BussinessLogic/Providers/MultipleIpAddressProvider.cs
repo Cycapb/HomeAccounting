@@ -19,8 +19,15 @@ namespace BussinessLogic.Providers
             var adresses = ipAdresses.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var ip in adresses)
-            { 
-                outAdresses.Append(_singleIpAddressProvider.GetIpAddress(ip));
+            {
+                if (outAdresses.Length == 0)
+                {
+                    outAdresses.Append(_singleIpAddressProvider.GetIpAddress(ip));
+                }
+                else
+                {
+                    outAdresses.Append("," + _singleIpAddressProvider.GetIpAddress(ip));
+                }                
             }
 
             return outAdresses.ToString();
