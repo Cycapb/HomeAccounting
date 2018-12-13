@@ -26,7 +26,7 @@ namespace WebUI.Infrastructure
             var userHostAddress = filterContext.HttpContext.Request.UserHostAddress;
             var hostAddresses = string.IsNullOrEmpty(xForwardedFor)
                 ? userHostAddress
-                : $"{xForwardedFor}, {userHostAddress}";
+                : $"{xForwardedFor},{userHostAddress}";
             var allIpAddresses = _multipleIpAddressProvider.GetIpAddresses(hostAddresses);
 
             var loggingModel = new MvcLoggingModel()
