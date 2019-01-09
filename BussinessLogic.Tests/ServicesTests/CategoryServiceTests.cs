@@ -23,13 +23,13 @@ namespace BussinessLogic.Tests.ServicesTests
 
         [TestMethod]
         [TestCategory("CategoryServiceTests")]
-        public async Task GetActiveGategoriesByUser_ReturnsNull()
-        {
-            _catRepository.Setup(m => m.GetListAsync()).ReturnsAsync(null);
+        public async Task GetActiveGategoriesByUser_ReturnsZero()
+        {            
+            _catRepository.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>());            
 
-            var result = await _service.GetActiveGategoriesByUser(It.IsAny<string>());
+            var result = await _service.GetActiveGategoriesByUser(It.IsAny<string>());            
 
-            Assert.IsNull(result);
+            Assert.AreEqual(0, result.Count());
         }
 
         [TestMethod]
