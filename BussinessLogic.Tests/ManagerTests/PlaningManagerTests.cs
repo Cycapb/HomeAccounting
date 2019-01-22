@@ -25,7 +25,7 @@ namespace BussinessLogic.Tests.ManagerTests
             _planItemServiceMoq.Setup(m => m.GetListAsync(It.IsAny<string>())).ThrowsAsync(new ServiceException());
             var target = new PlaningManager(_planItemServiceMoq.Object);
 
-            await target.ClosePlaningPeriod(It.IsAny<string>(), DateTime.Today);
+            await target.ClosePlaningPeriod(It.IsAny<string>(), It.IsAny<DateTime>());
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace BussinessLogic.Tests.ManagerTests
 
             try
             {
-                await target.ClosePlaningPeriod(It.IsAny<string>(), DateTime.Today);
+                await target.ClosePlaningPeriod(It.IsAny<string>(), It.IsAny<DateTime>());
             }
             catch (Exception e)
             {
