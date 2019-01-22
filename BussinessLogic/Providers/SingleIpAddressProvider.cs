@@ -7,6 +7,8 @@ namespace BussinessLogic.Providers
 {
     public class SingleIpAddressProvider : ISingleIpAddressProvider
     {
+        private const string IpV6LoopBack = "::1";
+
         public string GetIpAddress(string ipAddress)
         {
             try
@@ -19,10 +21,15 @@ namespace BussinessLogic.Providers
                     return ip.ToString();
                 }
 
-                if(ipAddress.Contains(":"))
+                if (ipAddress == IpV6LoopBack)
                 {
-                    var ipAddressWithouPort = ipAddress.Substring(0, ipAddress.Length - ipAddress.Substring(ipAddress.IndexOf(':')).Length);
-                    ip = IPAddress.Parse(ipAddressWithouPort);
+                    return IPAddress.Parse(ipAddress).ToString();
+                }
+
+                if(ipAddress.Contains(":"))
+                {                    
+                    var ipAddressWithoutPort = ipAddress.Substring(0, ipAddress.Length - ipAddress.Substring(ipAddress.IndexOf(':')).Length);
+                    ip = IPAddress.Parse(ipAddressWithoutPort);
                     return ip.ToString();
                 }
 
@@ -31,19 +38,19 @@ namespace BussinessLogic.Providers
             }
             catch (ArgumentNullException e)
             {
-                throw new ServiceException($"Ошибка в аргументе {nameof(ipAddress)} при получении IP", e);
+                throw new ServiceException($"Ошибка в аргументе {nameof(ipAddress)} при получении IP. Получено значение {ipAddress}", e);
             }
             catch (NullReferenceException e)
             {
-                throw new ServiceException($"Ошибка в аргументе {nameof(ipAddress)} при получении IP", e);
+                throw new ServiceException($"Ошибка в аргументе {nameof(ipAddress)} при получении IP. Получено значение {ipAddress}", e);
             }
             catch (FormatException e)
             {
-                throw new ServiceException($"Неверный формат данных параметра {nameof(ipAddress)}", e);
+                throw new ServiceException($"Неверный формат данных параметра {nameof(ipAddress)}. Получено значение {ipAddress}", e);
             }
             catch (Exception e)
             {
-                throw new ServiceException($"Ошибка при получении IP из параметра {nameof(ipAddress)}", e);
+                throw new ServiceException($"Ошибка при получении IP из параметра {nameof(ipAddress)}. Получено значение {ipAddress}", e);
             }
         }
     }

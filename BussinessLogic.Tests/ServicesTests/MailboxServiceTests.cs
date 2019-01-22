@@ -76,8 +76,8 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestMethod]
         [TestCategory("MailboxServiceTests")]
         public async Task GetItemAsync_ReturnsNull()
-        {
-            _repository.Setup(m => m.GetItemAsync(5)).ReturnsAsync(null);
+        {            
+            _repository.Setup(m => m.GetItemAsync(5)).ReturnsAsync(new List<NotificationMailBox>().FirstOrDefault());            
 
             var result = await _service.GetItemAsync(5);
 
