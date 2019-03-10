@@ -12,11 +12,13 @@
         @Html.Hidden("TypeOfFlowId",typeOfFlowId)
         <div>
             <label class="form-group">Категория:</label>
-            @Html.DropDownList("catId", Model.Select(x => new SelectListItem()
+            <p>
+               @Html.DropDownList("catId", Model.Select(x => new SelectListItem()
                {
                    Text = x.Name,
                    Value = x.CategoryID.ToString()
                }), new {@class = "selectpicker" })
+            </p>            
 
             <label class="form-group">Начальная дата:</label>
             @Html.TextBox("DtFrom", null, new
