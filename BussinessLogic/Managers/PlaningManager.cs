@@ -63,5 +63,10 @@ namespace BussinessLogic.Managers
         {
             return date.Month == 1 ? new DateTime(date.Year - 1, 12, 1) : new DateTime(date.Year, date.Month - 1, 1);
         }
+
+        private DateTime GetNextDate(DateTime date)
+        {
+            return date.Month == 12 ? new DateTime(date.Year + 1, 1, 1) : new DateTime(date.Year, date.Month + 1, 1);
+        }
     }
 }
