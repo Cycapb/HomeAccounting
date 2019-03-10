@@ -18,11 +18,13 @@
                 @Html.HiddenFor(x => x.PayingItem.ItemID)
                 @Html.HiddenFor(x => x.PayingItem.UserId)
                 <label>Категория:</label>
-                @Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
+                <p>
+                    @Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
                 {
                     Text = x.Name,
                     Value = x.CategoryID.ToString()
                 }), new {@class = "selectpicker", onchange = "changeCategoryEdit()"})
+                </p>                
             </div>
 
             @if (Model.PayingItemProducts == null || !Model.PayingItemProducts.Any())
@@ -99,11 +101,13 @@
 
             <div class="form-group">
                 <label>Счет:</label>
-                @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
+                <p>
+                    @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
                    {
                        Text = x.AccountName,
                        Value = x.AccountID.ToString()
                    }), new {@class = "selectpicker" })
+                </p>                
             </div>
 
             <div class="form-group">
