@@ -45,7 +45,7 @@ namespace WebUI.Controllers
             ViewBag.TypeOfFlowId = id;
             try
             {
-                var items = _reportControllerHelper.GetCategoriesByType(user, id);
+                var items = _reportControllerHelper.GetActiveCategoriesByType(user, id);
                 return PartialView("_CreateByTypeOfFlowView", items);
             }
             catch (ServiceException e)

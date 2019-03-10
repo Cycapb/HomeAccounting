@@ -109,7 +109,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = target.CreateByTypeOfFlowView(user, flowId);
 
-            mockReportHelper.Verify(m=>m.GetCategoriesByType(user, flowId),Times.Once);
+            mockReportHelper.Verify(m=>m.GetActiveCategoriesByType(user, flowId),Times.Once);
             Assert.AreEqual(((PartialViewResult)result).ViewBag.TypeOfFlowId, flowId);
             Assert.IsInstanceOfType(result,typeof(PartialViewResult));
             Assert.IsNotNull(((PartialViewResult)result).Model);

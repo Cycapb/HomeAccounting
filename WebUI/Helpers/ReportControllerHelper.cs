@@ -32,6 +32,7 @@ namespace WebUI.Helpers
             {
                 return _categoryService.GetList()
                     .Where(x => x.TypeOfFlowID == flowId && x.UserId == user.Id)
+                    .OrderBy(x => x.Name)
                     .ToList();
             }
             catch (ServiceException e)
@@ -159,6 +160,22 @@ namespace WebUI.Helpers
                     break;
                 }
             }
+        }
+
+        public IEnumerable<Category> GetActiveCategoriesByType(WebUser user, int flowId)
+        {
+            try
+            {
+                return _categoryService.GetList()
+                .Where(c => c.UserId == user.Id && c.Active && c.TypeOfFlowID == flowId)
+                .OrderBy(c => c.Name)
+                .ToList();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetActiveCategoriesByType)}", e);
+            }            
         }
     }
 }

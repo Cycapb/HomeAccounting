@@ -7,7 +7,7 @@ namespace DomainModels.Model
         public AccountingContext()
             : base("name=AccountingEntities")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext,Migrations.Configuration>("AccountingEntities"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext,Migrations.Configuration>());
         }
 
         public virtual DbSet<Account> Account { get; set; }

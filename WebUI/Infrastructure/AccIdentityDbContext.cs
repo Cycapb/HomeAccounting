@@ -12,11 +12,11 @@ namespace WebUI.Infrastructure
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public AccIdentityDbContext() : base("accounting_identity") { }
+        public AccIdentityDbContext() : base("name=accounting_identity") { }
 
         static AccIdentityDbContext()
         {
-            System.Data.Entity.Database.SetInitializer<AccIdentityDbContext>(new MigrateDatabaseToLatestVersion<AccIdentityDbContext,Migrations.Configuration>());
+            Database.SetInitializer<AccIdentityDbContext>(new MigrateDatabaseToLatestVersion<AccIdentityDbContext,Migrations.Configuration>());
         }
 
         public static AccIdentityDbContext Create()

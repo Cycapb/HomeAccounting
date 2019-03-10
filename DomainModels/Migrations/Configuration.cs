@@ -1,8 +1,12 @@
 namespace DomainModels.Migrations
 {
-    using System.Data.Entity.Migrations;    
+    using DomainModels.Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DomainModels.Model.AccountingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AccountingContext>
     {
         public Configuration()
         {
@@ -10,9 +14,50 @@ namespace DomainModels.Migrations
             ContextKey = "DomainModels.Model.AccountingContext";
         }
 
-        protected override void Seed(DomainModels.Model.AccountingContext context)
+        protected override void Seed(AccountingContext context)
         {
-            
+            InitializeTypeOfFlow(context);
+            InitializeNotificationMailBox(context);
+
+            base.Seed(context);
+        }
+
+        private void InitializeNotificationMailBox(AccountingContext context)
+        {
+            if (!context.NotificationMailBox.Any())
+            {
+                var mailBox = new NotificationMailBox()
+                {
+                    MailBoxName = "Accounting",
+                    MailFrom = "home.accounting@list.ru",
+                    UserName = "home.accounting@list.ru",
+                    Password = "23we45rt",
+                    UseSsl = true,
+                    Server = "smtp.list.ru",
+                    Port = 587
+                };
+
+                context.NotificationMailBox.Add(mailBox);
+            }
+        }
+
+        private void InitializeTypeOfFlow(AccountingContext context)
+        {
+            if (!context.TypeOfFlow.Any())
+            {
+                var typesOfFlow = new List<TypeOfFlow>()
+                {
+                    new TypeOfFlow()
+                    {
+                        TypeName = "Доход"
+                    },
+                     new TypeOfFlow()
+                     {
+                         TypeName = "Расход"
+                     }
+                };
+                context.TypeOfFlow.AddRange(typesOfFlow);
+            }
         }
     }
 }
