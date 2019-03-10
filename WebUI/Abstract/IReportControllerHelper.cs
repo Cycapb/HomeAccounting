@@ -12,5 +12,6 @@ namespace WebUI.Abstract
         IEnumerable<PayingItem> GetPayingItemsForLastYear(WebUser user);
         IEnumerable<OverAllItem> GetOverallList(WebUser user, DateTime dateFrom, DateTime dateTo, int flowId);
         IEnumerable<PayingItem> GetPayingItemsInDates(DateTime dtFrom, DateTime dtTo, WebUser user);
+        IEnumerable<Category> GetActiveCategoriesByType(WebUser user, int flowId);
     }
 }
