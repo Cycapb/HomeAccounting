@@ -9,7 +9,7 @@
                                     type: 'GET',
                                     url: '@Url.Action("GetItems")/' + id,
                                     success: function (data) {
-                                        $('#ToId').replaceWith(data);
+                                        $('#Transfer_To').replaceWith(data);
                                     }
                                 });
                             });
@@ -28,7 +28,7 @@
     {
         @Html.ValidationSummary(true)
         <div class="panel-body">
-            <div class="form-group">
+            <div class="form-group" id="Transfer_From">
                 <label>Исходный счет:</label>
                 @Html.DropDownListFor(x => x.FromId, Model.FromAccounts.Select(x => new SelectListItem()
                    {
@@ -37,7 +37,7 @@
                    }), new {@class = "selectpicker" })
                 @Html.ValidationMessageFor(x => x.FromId)
             </div>
-            <div class="form-group">
+            <div class="form-group" id="Transfer_To">
                 <label>Конечный счет:</label>
                 @Html.DropDownListFor(x => x.ToId, Model.ToAccounts.Select(x => new SelectListItem()
                    {

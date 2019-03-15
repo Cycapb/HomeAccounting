@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<DomainModels.Model.Account>
-<select id="ToId" name="ToId" class="selectpicker">
-    @foreach (var item in Model)
-    {
-        <option value="@item.AccountID">@item.AccountName</option>
-    }
-</select>
+
+<div class="form-group" id="Transfer_To">
+    <label>Конечный счет:</label>
+    @Html.DropDownList("AccountId", Model.Select(x => new SelectListItem()
+       {
+           Text = x.AccountName,
+           Value = x.AccountID.ToString()
+       }), new {@class = "selectpicker" })
+</div>
 <script type="text/javascript">
-        $(document).ready(
-            function () {
-                $('.selectpicker').selectpicker();
-            });
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
 </script>
