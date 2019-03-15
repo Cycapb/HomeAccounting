@@ -1,6 +1,15 @@
 ﻿@model IEnumerable<Product>
-@Html.DropDownList("OrderDetail.ProductId", Model.Select(x => new SelectListItem()
-   {
-       Text = x.ProductName,
-       Value = x.ProductID.ToString()
-   }), new { @class = "form-control" })
+<div class="form-group" id="OrderDetail">
+    <label>Подкатегории</label>
+    @Html.DropDownList("OrderDetail.ProductId", Model.Select(x => new SelectListItem()
+{
+   Text = x.ProductName,
+   Value = x.ProductID.ToString()
+}), new { @class = "selectpicker" })
+</div>
+<script type="text/javascript">
+$(document).ready(
+    function () {
+        $('.selectpicker').selectpicker();
+    });
+</script>
