@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
-using Paginator.Abstract;
 using WebUI.Abstract;
 using WebUI.Models;
 using WebUI.Infrastructure.Attributes;
@@ -109,6 +108,7 @@ namespace WebUI.Controllers
         }
 
         [UserHasAnyCategories]
+        [UserHasAnyAccount]
         public async Task<ActionResult> Add(WebUser user, int typeOfFlow)
         {
             await FillViewBag(user, typeOfFlow);
