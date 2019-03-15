@@ -9,7 +9,7 @@
     {
         Url = Url.Action("Edit"),
         UpdateTargetId = "categoryDiv"
-    },new {@class="form-inline"}))
+    }, new { @class = "form-inline" }))
     {
         @Html.ValidationSummary(true)
         @Html.ValidationMessageFor(x => x.Name)
@@ -18,15 +18,15 @@
             @Html.HiddenFor(x => x.UserId)
             <div class="form-group">
                 <label class="form-group">Название:</label>
-                @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label class="form-group">Тип:</label>
                 @Html.DropDownListFor(x => x.TypeOfFlowID, list.Select(x => new SelectListItem()
-                {
-                    Text = x.TypeName,
-                    Value = x.TypeID.ToString()
-                }), new {@class = "form-control"})
+                   {
+                       Text = x.TypeName,
+                       Value = x.TypeID.ToString()
+                   }), new {@class = "selectpicker" })
             </div>
             <div class="checkbox">
                 <label>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
+            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
             @Ajax.ActionLink("Назад", "Index", "Category", null, new AjaxOptions()
             {
                 Url = Url.Action("Index"),
@@ -54,7 +54,7 @@
     }
     <div class="panel-heading">Подкатегории</div>
     <div class="panel-body" id="productsDiv">
-        @Html.Action("EditableList", "Product", new {categoryId = Model.CategoryID})
+        @Html.Action("EditableList", "Product", new { categoryId = Model.CategoryID })
     </div>
     <div class="panel-footer">
         @Ajax.ActionLink("Добавить подкатегорию", "Add", "Product",
@@ -67,4 +67,9 @@
             new {@class = "btn btn-primary btn-raised btn-sm"})
     </div>
 </div>
-
+<script type="text/javascript">
+        $(document).ready(
+            function () {
+                $('.selectpicker').selectpicker();
+            });
+</script>
