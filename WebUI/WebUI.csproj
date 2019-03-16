@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebUI</RootNamespace>
     <AssemblyName>WebUI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -489,7 +489,7 @@
     <Compile Include="Infrastructure\Modules\TotalTimeModule.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\TransferModelAttribute.cs" />
-    <Compile Include="Infrastructure\Attributes\UserHasAnyCategoriesAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\UserHasCategoriesAttribute.cs" />
     <Compile Include="Infrastructure\UserHasNoAccountsActiontResult.cs" />
     <Compile Include="Infrastructure\UserHasNoCategoriesActionResult.cs" />
     <Compile Include="Migrations\Configuration.cs" />

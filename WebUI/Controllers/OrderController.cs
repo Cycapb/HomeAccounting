@@ -85,7 +85,7 @@ namespace WebUI.Controllers
 
         
         [HttpPost]
-        [UserHasAnyCategories]
+        [UserHasCategoriesAttribute]
         public async Task<ActionResult> Add(WebUser user)
         {
             try
