@@ -55,7 +55,7 @@ namespace WebUI.Controllers
             }
         }
         
-        [UserHasAnyCategories]
+        [UserHasCategoriesAttribute]
         public ActionResult GetTypeOfFlowReport(TempReportModel model, WebUser user, int page = 1)
         {
             try
@@ -76,7 +76,7 @@ namespace WebUI.Controllers
             return PartialView("_CreateByDatesView");
         }
 
-        [UserHasAnyCategories]
+        [UserHasCategoriesAttribute]
         public ActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
             try
@@ -94,7 +94,7 @@ namespace WebUI.Controllers
             }
         }
 
-        [UserHasAnyCategories]
+        [UserHasCategoriesAttribute]
         public ActionResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo,
             int typeOfFlowId)
         {
