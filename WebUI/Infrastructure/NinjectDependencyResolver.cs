@@ -25,9 +25,9 @@ using Services.Triggers;
 
 namespace WebUI.Infrastructure
 {
-    public class NinjectDependencyResolver:IDependencyResolver
+    public class NinjectDependencyResolver : IDependencyResolver
     {
-        private readonly IKernel _kernel;        
+        private readonly IKernel _kernel;
         public NinjectDependencyResolver(IKernel kernel)
         {
             _kernel = kernel;
@@ -97,7 +97,7 @@ namespace WebUI.Infrastructure
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-           return _kernel.GetAll(serviceType);
+            return _kernel.GetAll(serviceType);
         }
     }
 }

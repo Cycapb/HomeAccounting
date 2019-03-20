@@ -1,10 +1,9 @@
-namespace DomainModels.Migrations
+namespace DomainModels.EntityORM.Migrations
 {
-    using DomainModels.Model;
-    using System;
-    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Collections.Generic;
+    using DomainModels.Model;
 
     internal sealed class Configuration : DbMigrationsConfiguration<AccountingContext>
     {

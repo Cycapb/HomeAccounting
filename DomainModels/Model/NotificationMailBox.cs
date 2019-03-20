@@ -11,7 +11,7 @@ namespace DomainModels.Model
 
         [Required]
         [StringLength(50)]
-        [Index("UQ_NotificationMailBox_MailBoxName",IsUnique = true)]
+        //[Index("UQ_NotificationMailBox_MailBoxName",IsUnique = true)]
         public string MailBoxName { get; set; }
         [Required]
         [StringLength(50)]

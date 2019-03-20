@@ -8,6 +8,7 @@ using WebUI.Models;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using DomainModels.EntityORM;
 
 namespace WebUI.Helpers
 {
@@ -67,6 +68,7 @@ namespace WebUI.Helpers
             }
         }
 
+        //ToDo Изменить логику работы этого метода
         private async Task<List<ProductPrice>> FillProductPrices(int catId,DateTime dateFrom,DateTime dateTo)
         {
             var context = new AccountingContext();
