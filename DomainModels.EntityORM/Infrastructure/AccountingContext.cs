@@ -1,13 +1,14 @@
-namespace DomainModels.Model
+namespace DomainModels.EntityORM
 {
     using System.Data.Entity;
+    using DomainModels.Model;
 
     public partial class AccountingContext : DbContext
     {
         public AccountingContext()
             : base("name=AccountingEntities")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext,Migrations.Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext, Migrations.Configuration>());
         }
 
         public virtual DbSet<Account> Account { get; set; }
