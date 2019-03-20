@@ -9,7 +9,7 @@ using DomainModels.Exceptions;
 
 namespace DomainModels.EntityORM
 {
-    public class EntityRepository<T>:IRepository<T> where T:class
+    public class EntityRepository<T> : IRepository<T> where T : class
     {
         private readonly DbSet<T> _dbSet;
         private readonly AccountingContext _context;
@@ -53,9 +53,9 @@ namespace DomainModels.EntityORM
                 return _dbSet;
             }
             catch (Exception ex)
-            {                
+            {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T>)}", ex);
-            }            
+            }
         }
 
         public virtual Task<IEnumerable<T>> GetListAsync()
@@ -67,7 +67,7 @@ namespace DomainModels.EntityORM
             catch (Exception ex)
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
-            }            
+            }
         }
 
         public void Create(T item)
@@ -80,7 +80,7 @@ namespace DomainModels.EntityORM
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Create)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
-            
+
         }
 
         public virtual Task<T> CreateAsync(T item)
@@ -93,7 +93,7 @@ namespace DomainModels.EntityORM
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(CreateAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
-            
+
         }
 
         public void Delete(int id)
@@ -127,7 +127,7 @@ namespace DomainModels.EntityORM
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
-            
+
         }
 
         public void Update(T item)
@@ -140,7 +140,7 @@ namespace DomainModels.EntityORM
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Update)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
-            
+
         }
 
         public virtual Task UpdateAsync(T item)
@@ -156,7 +156,7 @@ namespace DomainModels.EntityORM
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(UpdateAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
-            
+
         }
 
         public void Save()
