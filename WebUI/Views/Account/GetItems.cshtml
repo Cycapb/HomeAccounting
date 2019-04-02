@@ -2,7 +2,7 @@
 
 <div class="form-group" id="Transfer_To">
     <label>Конечный счет:</label>
-    @Html.DropDownList("AccountId", Model.Select(x => new SelectListItem()
+    @Html.DropDownList("ToId", Model.Select(x => new SelectListItem()
        {
            Text = x.AccountName,
            Value = x.AccountID.ToString()
