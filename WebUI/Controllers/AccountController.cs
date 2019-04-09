@@ -7,7 +7,6 @@ using System.Web.SessionState;
 using DomainModels.Model;
 using WebUI.Models;
 using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
 
 namespace WebUI.Controllers
