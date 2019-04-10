@@ -296,11 +296,6 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\Production_Release.pubxml" />
-    <None Include="Properties\PublishProfiles\Production_Test.pubxml" />
-    <None Include="Properties\PublishProfiles\Release_Prod.pubxml" />
-    <None Include="Properties\PublishProfiles\Release_Test.pubxml" />
-    <None Include="Properties\PublishProfiles\Test_Release.pubxml" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -695,6 +690,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj">
