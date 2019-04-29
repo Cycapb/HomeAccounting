@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DomainModels.Model;
-using WebUI.Models;
+using WebUI.Models.DebtViewModels;
 using WebUI.Infrastructure.Attributes;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -20,7 +21,6 @@ namespace WebUI.Controllers
         private readonly IDebtService _debtService;
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IAccountService _accService;
-
 
         public DebtController(IDebtService debtService, 
             ICreateCloseDebtService createCloseDebtService, 
@@ -33,11 +33,11 @@ namespace WebUI.Controllers
 
         public PartialViewResult Index(WebUser user)
         {
-            DebtsSumModel model;
+            DebtsSumViewModel model;
             try
             {
                 var items = _debtService.GetOpenUserDebts(user.Id).ToList();
-                model = new DebtsSumModel()
+                model = new DebtsSumViewModel()
                 {
                     MyDebtsSumm = items.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
                     DebtsToMeSumm = items.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
@@ -53,11 +53,11 @@ namespace WebUI.Controllers
 
         public PartialViewResult DebtList(WebUser user)
         {
-            DebtsModel model;
+            DebtsCollectionViewModel model;
             try
             {
                 var items = _debtService.GetOpenUserDebts(user.Id).ToList();
-                model = new DebtsModel()
+                model = new DebtsCollectionViewModel()
                 {
                     MyDebts = items.Where(x => x.TypeOfFlowId == 1).ToList(),
                     DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
@@ -74,7 +74,7 @@ namespace WebUI.Controllers
         [UserHasAnyAccount]
         public async Task<ActionResult> Add(WebUser user)
         {
-            var model = new DebtsAddModel()
+            var model = new DebtAddingViewModel()
             {
                 Accounts = (await AccountList(user.Id)).ToList()
             };
@@ -82,7 +82,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, DebtsAddModel model)
+        public async Task<ActionResult> Add(WebUser user, DebtAddingViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace WebUI.Controllers
                     return RedirectToAction("DebtList");
                 }
 
-                var debtEditModel = new DebtEditViewModel();
+                var debtEditModel = new DebtEditingViewModel();
                 FillDebtViewModel(debt, debtEditModel);
 
                 return PartialView("_ClosePartially", debtEditModel);
@@ -147,7 +147,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ClosePartially(DebtEditViewModel model)
+        public async Task<ActionResult> ClosePartially(DebtEditingViewModel model)
         {
             Debt debt = null;
             if (ModelState.IsValid)
@@ -208,7 +208,7 @@ namespace WebUI.Controllers
             }
         }
 
-        private void FillDebtViewModel(Debt debt, DebtEditViewModel model)
+        private void FillDebtViewModel(Debt debt, DebtEditingViewModel model)
         {
             model.DebtId = debt.DebtID;
             model.Sum = debt.Summ;

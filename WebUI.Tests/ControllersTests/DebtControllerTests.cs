@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DomainModels.Exceptions;
 using DomainModels.Model;
 using WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,7 +8,7 @@ using Moq;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
-using WebUI.Models;
+using WebUI.Models.DebtViewModels;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -113,7 +112,7 @@ namespace WebUI.Tests.ControllersTests
             _debtController.ModelState.AddModelError("","");
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
 
-            var result = await _debtController.ClosePartially(new DebtEditViewModel(){ DebtId = 1 });
+            var result = await _debtController.ClosePartially(new DebtEditingViewModel(){ DebtId = 1 });
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.AreEqual("_ClosePartially", ((PartialViewResult)result).ViewName);
@@ -123,7 +122,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("DebtControllerTests")]
         public async Task ClosePartially_Post_ValidModelState_ReturnRedirectToAction_DebtList()
         {
-            var result = await _debtController.ClosePartially(new DebtEditViewModel());
+            var result = await _debtController.ClosePartially(new DebtEditingViewModel());
             var routeValues = ((RedirectToRouteResult) result).RouteValues;
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
@@ -138,7 +137,7 @@ namespace WebUI.Tests.ControllersTests
                 .Throws<ArgumentOutOfRangeException>();
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
 
-            var result =  await _debtController.ClosePartially(new DebtEditViewModel() { DebtId = 1 });
+            var result =  await _debtController.ClosePartially(new DebtEditingViewModel() { DebtId = 1 });
             
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }

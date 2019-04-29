@@ -1,4 +1,5 @@
-﻿@model DebtEditViewModel
+﻿@using WebUI.Models.DebtViewModels
+@model DebtEditingViewModel
 @{
     var typeOfFlowId = Model.TypeOfFlowId;
     var caption = typeOfFlowId == 1 ? "Я должен" : "Мне должны";
