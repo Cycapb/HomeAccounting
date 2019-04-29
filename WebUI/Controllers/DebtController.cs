@@ -107,7 +107,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("DebtList");
             }
             model.Accounts = (await AccountList(user.Id)).ToList();
-            return PartialView("_Add", model);
+            return PartialView("_Add", model);            
         }
 
         [HttpPost]

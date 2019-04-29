@@ -563,7 +563,7 @@
     <Compile Include="Models\Budget.cs" />
     <Compile Include="Models\BudgetModel.cs" />
     <Compile Include="Models\CategoryToView.cs" />
-    <Compile Include="Models\DebtModel.cs" />
+    <Compile Include="Models\Debt\DebtModel.cs" />
     <Compile Include="Models\NotificationMailboxViewModels.cs" />
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\OverAllItem.cs" />
