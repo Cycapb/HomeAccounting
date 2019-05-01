@@ -203,6 +203,7 @@ namespace WebUI.Controllers
             model.Date = debt.DateBegin.ToShortDateString();
             model.Person = debt.Person;
             model.TypeOfFlowId = debt.TypeOfFlowId;
+            model.AccountId = debt.AccountId;
         }
 
     }
