@@ -36,12 +36,13 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task CloseAsync(int id)
+        public async Task CloseAsync(int id, int accountId)
         {
             try
             {
                 var debt = await _debtRepo.GetItemAsync(id);
                 debt.DateEnd = DateTime.Now;
+                debt.AccountId = accountId;
                 await _debtRepo.UpdateAsync(debt);
                 await _debtRepo.SaveAsync();
                 await ChangeAccountMoney(debt, debt.Summ);
@@ -52,7 +53,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task PartialCloseAsync(int debtId, decimal sum)
+        public async Task PartialCloseAsync(int debtId, decimal sum, int accountId)
         {
             Debt debt;
             try
@@ -73,6 +74,7 @@ namespace BussinessLogic.Services
                 throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");
             }
             debt.Summ -= sum;
+            debt.AccountId = accountId;
             await ChangeAccountMoney(debt, sum);
             if (debt.Summ == 0M)
             {

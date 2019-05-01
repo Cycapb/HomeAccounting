@@ -31,21 +31,21 @@ namespace BussinessLogic.Services
             await CreateOpenedDebtPayingItem(debt);
         }
 
-        public async Task CloseAsync(int id)
+        public async Task CloseAsync(int id, int accountId)
         {
             var debt = await _debtRepository.GetItemAsync(id);
-            await _createCloseDebtService.CloseAsync(id);
+            await _createCloseDebtService.CloseAsync(id, accountId);
             await CreateClosedDebtPayingItem(debt);
         }
 
-        public async Task PartialCloseAsync(int debtId, decimal sum)
+        public async Task PartialCloseAsync(int debtId, decimal sum, int accountId)
         {
             var debt = await _debtRepository.GetItemAsync(debtId);
             if (debt.Summ < sum)
             {
                 throw new ArgumentOutOfRangeException(nameof(sum), "Введенная сумма больше суммы долга");
             }
-            await _createCloseDebtService.PartialCloseAsync(debtId, sum);
+            await _createCloseDebtService.PartialCloseAsync(debtId, sum, accountId);
             await CreateClosedDebtPayingItem(debt, sum);
         }
 

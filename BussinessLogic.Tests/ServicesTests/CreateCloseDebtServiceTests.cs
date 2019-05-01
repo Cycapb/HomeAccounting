@@ -34,7 +34,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(debt);
             _accountRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { Cash = 500 });
 
-            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200);
+            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200, It.IsAny<int>());
 
             Assert.AreEqual(300, debt.Summ);
         }
@@ -47,7 +47,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(debt);
             _accountRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { Cash = 500 });
 
-            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200);
+            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200, It.IsAny<int>());
 
             Assert.AreEqual(300, debt.Summ);
         }
@@ -61,7 +61,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(debt);
             _accountRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(account);
 
-            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200);
+            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200, It.IsAny<int>());
 
             Assert.AreEqual(800, account.Cash);
         }
@@ -75,7 +75,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(debt);
             _accountRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(account);
 
-            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200);
+            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 200, It.IsAny<int>());
 
             Assert.AreEqual(1200, account.Cash);
         }
@@ -87,7 +87,7 @@ namespace BussinessLogic.Tests.ServicesTests
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(InitIncomingDebt());
 
-            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 600);
+            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), 600, It.IsAny<int>());
         }
 
         [TestMethod]
@@ -97,7 +97,7 @@ namespace BussinessLogic.Tests.ServicesTests
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<DomainModelsException>();
 
-            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>());
+            await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<int>());
         }
 
         private Debt InitIncomingDebt()

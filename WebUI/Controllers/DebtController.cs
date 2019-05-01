@@ -110,21 +110,6 @@ namespace WebUI.Controllers
             return PartialView("_Add", model);            
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Close(int id)
-        {
-            try
-            {
-                await _createCloseDebtService.CloseAsync(id);
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Close)}", e);
-            }
-            
-            return RedirectToAction("DebtList");
-        }
-
         public async Task<ActionResult> ClosePartially(int id)
         {
             try
@@ -136,7 +121,7 @@ namespace WebUI.Controllers
                 }
 
                 var debtEditModel = new DebtEditingViewModel();
-                FillDebtViewModel(debt, debtEditModel);
+                await FillDebtViewModel(debt, debtEditModel);
 
                 return PartialView("_ClosePartially", debtEditModel);
             }
@@ -154,7 +139,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await _createCloseDebtService.PartialCloseAsync(model.DebtId, model.Sum);
+                    await _createCloseDebtService.PartialCloseAsync(model.DebtId, model.Sum, model.AccountId);
                 }
                 catch (ServiceException e)
                 {
@@ -165,7 +150,7 @@ namespace WebUI.Controllers
                 {
                     ModelState.AddModelError("", "Введенная сумма больше суммы долга");
                     debt = await _debtService.GetItemAsync(model.DebtId);
-                    FillDebtViewModel(debt, model);
+                    await FillDebtViewModel(debt, model);
 
                     return PartialView("_ClosePartially", model);
                 }
@@ -173,7 +158,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("DebtList");
             }
             debt = await _debtService.GetItemAsync(model.DebtId);
-            FillDebtViewModel(debt, model);
+            await FillDebtViewModel(debt, model);
             
             return PartialView("_ClosePartially", model);
         }
@@ -208,11 +193,13 @@ namespace WebUI.Controllers
             }
         }
 
-        private void FillDebtViewModel(Debt debt, DebtEditingViewModel model)
+        private async Task FillDebtViewModel(Debt debt, DebtEditingViewModel model)
         {
+            var accounts = (await _accService.GetListAsync()).Where(a => a.UserId == debt.UserId).ToList();
+
             model.DebtId = debt.DebtID;
             model.Sum = debt.Summ;
-            model.AccountName = debt.Account?.AccountName;
+            model.Accounts = accounts;
             model.Date = debt.DateBegin.ToShortDateString();
             model.Person = debt.Person;
             model.TypeOfFlowId = debt.TypeOfFlowId;

@@ -1,5 +1,4 @@
-﻿@using WebUI.Models.DebtViewModels
-@model DebtEditingViewModel
+﻿@model DebtEditingViewModel
 @{
     var typeOfFlowId = Model.TypeOfFlowId;
     var caption = typeOfFlowId == 1 ? "Я должен" : "Мне должны";
@@ -37,10 +36,16 @@
                             @Html.ValidationMessageFor(x => x.Sum)
                         </td>
                         <td>@Model.Person</td>
-                        <td>@Model.AccountName</td>
+                        <td>
+                            @Html.DropDownListFor(x => x.AccountId, Model.Accounts.Select(a => new SelectListItem()
+                            {
+                                Text = a.AccountName,
+                                Value = a.AccountID.ToString()
+                            }), new {@class = "selectpicker"})
+                        </td>
                         <td>@Model.Date</td>
                         <td class="text-center">
-                            <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть частично" />
+                            <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг"/>
                         </td>
                     </tr>
                 </table>
@@ -54,3 +59,9 @@
         }, new {@class = "btn btn-default btn-raised btn-sm pull-right"})
     </div>
 }
+<script type="text/javascript">
+    $(document).ready(
+        function() {
+            $('.selectpicker').selectpicker();
+        });
+</script>

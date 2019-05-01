@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DomainModels.Model;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace WebUI.Models.DebtViewModels
@@ -14,7 +16,9 @@ namespace WebUI.Models.DebtViewModels
 
         public string Person { get; set; }
 
-        public string AccountName { get; set; }
+        public int AccountId { get; set; }
+
+        public IEnumerable<Account> Accounts { get; set; }
 
         public string Date { get; set; }
 

@@ -102,7 +102,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
-            await _target.CloseAsync(debt.DebtID);
+            await _target.CloseAsync(debt.DebtID, It.IsAny<int>());
 
             Assert.AreEqual("Закрыл свой долг", payingItem.Comment);
         }
@@ -126,7 +126,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
-            await _target.CloseAsync(debt.DebtID);
+            await _target.CloseAsync(debt.DebtID, It.IsAny<int>());
 
             Assert.AreEqual("Мне вернули долг", payingItem.Comment);
         }
@@ -149,7 +149,7 @@ namespace BussinessLogic.Tests.ServicesTests
                 }
             });
 
-            await _target.PartialCloseAsync(It.IsAny<int>(), 300);
+            await _target.PartialCloseAsync(It.IsAny<int>(), 300, It.IsAny<int>());
 
             Assert.IsNotNull(payingItem);
         }
@@ -174,7 +174,7 @@ namespace BussinessLogic.Tests.ServicesTests
                 }
             });
 
-            await _target.PartialCloseAsync(It.IsAny<int>(), 300);
+            await _target.PartialCloseAsync(It.IsAny<int>(), 300, It.IsAny<int>());
 
             Assert.AreEqual(300, payingItem.Summ);
         }
@@ -190,7 +190,7 @@ namespace BussinessLogic.Tests.ServicesTests
                 .ReturnsAsync(new PayingItem())
                 .Callback<PayingItem>(x => payingItem = x);
 
-            await _target.PartialCloseAsync(It.IsAny<int>(), 300);
+            await _target.PartialCloseAsync(It.IsAny<int>(), 300, It.IsAny<int>());
 
             Assert.AreEqual(300, payingItem.Summ);
         }

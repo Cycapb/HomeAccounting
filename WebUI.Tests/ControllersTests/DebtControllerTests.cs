@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DomainModels.Model;
@@ -18,12 +19,14 @@ namespace WebUI.Tests.ControllersTests
         private readonly Mock<IDebtService> _debtService;
         private readonly Mock<ICreateCloseDebtService> _createCloseDebtService;
         private readonly DebtController _debtController;
+        private readonly Mock<IAccountService> _accountServiceMock;
 
         public DebtControllerTests()
         {
             _debtService = new Mock<IDebtService>();
             _createCloseDebtService = new Mock<ICreateCloseDebtService>();
-            _debtController = new DebtController(_debtService.Object, _createCloseDebtService.Object, null);
+            _accountServiceMock = new Mock<IAccountService>();
+            _debtController = new DebtController(_debtService.Object, _createCloseDebtService.Object, _accountServiceMock.Object);
         }
 
         [TestMethod]
@@ -71,6 +74,7 @@ namespace WebUI.Tests.ControllersTests
                     AccountName = "TestAccount"
                 }
             });
+            _accountServiceMock.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Account>());
 
             var result = await _debtController.ClosePartially(It.IsAny<int>());
             var viewResult = result as PartialViewResult;
@@ -111,6 +115,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _debtController.ModelState.AddModelError("","");
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
+            _accountServiceMock.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Account>());
 
             var result = await _debtController.ClosePartially(new DebtEditingViewModel(){ DebtId = 1 });
 
@@ -133,9 +138,10 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("DebtControllerTests")]
         public async Task ClosePartially_Post_IfSumGreaterThanDebtSum_Returns_PartialViewResult()
         {
-            _createCloseDebtService.Setup(x => x.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>()))
+            _createCloseDebtService.Setup(x => x.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<int>()))
                 .Throws<ArgumentOutOfRangeException>();
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Debt());
+            _accountServiceMock.Setup(x => x.GetListAsync()).ReturnsAsync(new List<Account>());
 
             var result =  await _debtController.ClosePartially(new DebtEditingViewModel() { DebtId = 1 });
             
