@@ -1,64 +1,65 @@
 ﻿@model DebtEditingViewModel
 @{
     var typeOfFlowId = Model.TypeOfFlowId;
-    var caption = typeOfFlowId == 1 ? "Я должен" : "Мне должны";
+    var personality = typeOfFlowId == 1 ? "Кому я должен" : "Кто мне должен";
+    var populatedAccount = typeOfFlowId == 1 ? "Счет для списания" : "Счет для пополнения";
 }
-@using (Ajax.BeginForm("ClosePartially", new AjaxOptions()
-{
-    Url = Url.Action("ClosePartially"),
-    UpdateTargetId = "payingDiv",
-    OnSuccess = "updateAfterDebt"
-}))
-{
-    <div class="panel panel-primary">
-        <div class="panel-heading">Долги</div>
-        <div class="panel-body" id="debtPanel">
+<div class="panel panel-primary">
+    <div class="panel-heading">Закрытие долга: @Model.Person</div>
+    @using (Ajax.BeginForm("ClosePartially", new AjaxOptions()
+    {
+        Url = Url.Action("ClosePartially"),
+        UpdateTargetId = "payingDiv",
+        OnSuccess = "updateAfterDebt"
+    }))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(x => x.DebtId)
+            @Html.ValidationSummary(true)
             <div class="form-group">
-                @Html.HiddenFor(x => x.DebtId)
-                <table class="table table-hover">
-                    <caption>@caption</caption>
-                    <tr>
-                        <th>Сколько</th>
-                        <th>Кому</th>
-                        <th>Счет</th>
-                        <th>Дата займа</th>
-                        <th colspan="2" class="text-center">Действия</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.EditorFor(x => x.Sum, new
-                            {
-                                htmlAttributes = new
-                                {
-                                    @class = "form-control"
-                                }
-                            })
-                            @Html.ValidationMessageFor(x => x.Sum)
-                        </td>
-                        <td>@Model.Person</td>
-                        <td>
-                            @Html.DropDownListFor(x => x.AccountId, Model.Accounts.Select(a => new SelectListItem()
-                            {
-                                Text = a.AccountName,
-                                Value = a.AccountID.ToString()
-                            }), new {@class = "selectpicker"})
-                        </td>
-                        <td>@Model.Date</td>
-                        <td class="text-center">
-                            <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг"/>
-                        </td>
-                    </tr>
-                </table>
-                @Html.ValidationSummary(true)
+                <label>Сумма долга:</label>
+                @Html.EditorFor(x => x.Sum, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control"
+                    }
+                })
+                @Html.ValidationMessageFor(x => x.Sum)
+            </div>
+            <div class="form-group">
+                <label>@personality:</label>
+                <div>
+                    @Html.DisplayFor(x => x.Person)
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Дата займа:</label>
+                <div>
+                    @Html.DisplayFor(x => x.Date)
+                </div>
+            </div>
+            <div class="form-group">
+                <label>@populatedAccount:</label>
+                <p>
+                    @Html.DropDownListFor(x => x.AccountId, Model.Accounts.Select(a => new SelectListItem()
+                    {
+                        Text = a.AccountName,
+                        Value = a.AccountID.ToString()
+                    }), new {@class = "selectpicker"})
+                </p>
             </div>
         </div>
-        @Ajax.ActionLink("К списку долгов", "DebtList", "Debt", null, new AjaxOptions()
-        {
-            Url = Url.Action("DebtList", "Debt"),
-            UpdateTargetId = "payingDiv"
-        }, new {@class = "btn btn-default btn-raised btn-sm pull-right"})
-    </div>
-}
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг"/>
+            @Ajax.ActionLink("К списку долгов", "DebtList", "Debt", null, new AjaxOptions()
+            {
+                Url = Url.Action("DebtList", "Debt"),
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-default btn-raised btn-sm pull-right"})
+        </div>
+    }
+</div>
 <script type="text/javascript">
     $(document).ready(
         function() {
