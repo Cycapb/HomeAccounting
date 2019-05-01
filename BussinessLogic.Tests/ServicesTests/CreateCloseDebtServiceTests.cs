@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Threading.Tasks;
 using BussinessLogic.Services;
@@ -83,7 +84,7 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestMethod]
         [TestCategory("CreateCloseDebtServiceTests")]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public async Task PartialCloseAsync_InputSum600_DebtWas500_ThrowsArgumentOutOfrange()
+        public async Task PartialCloseAsync_InputSum600_DebtWas500_ThrowsArgumentOutOfRange()
         {
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(InitIncomingDebt());
 
@@ -98,6 +99,37 @@ namespace BussinessLogic.Tests.ServicesTests
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<DomainModelsException>();
 
             await _createCloseDebtService.PartialCloseAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<int>());
+        }
+
+        [TestMethod]
+        [TestCategory("CreateCloseDebtServiceTests")]
+        public async Task PartialCloseAsync_RemovesMoneyFromChosenAccount()
+        {
+            var accountList = new List<Account>()
+            {
+                new Account()
+                {
+                    AccountID = 1,
+                    Cash = 1000M,
+                    AccountName = "Test1"
+                },
+                new Account()
+                {
+                    AccountID = 2,
+                    Cash = 2000M,
+                    AccountName = "Test2"
+                }
+            };
+            var debt = InitIncomingDebt();
+            _accountRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(accountList);
+            _accountRepositoryMock.Setup(x => x.GetItemAsync(2)).ReturnsAsync(accountList.FirstOrDefault(x => x.AccountID == 2));
+            _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(debt);
+
+            debt.AccountId = 2;
+            await _createCloseDebtService.PartialCloseAsync(debt.DebtID, 200, 2);
+
+            Assert.AreEqual(1000M, accountList[0].Cash);
+            Assert.AreEqual(1800M, accountList[1].Cash);
         }
 
         private Debt InitIncomingDebt()
