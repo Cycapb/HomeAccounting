@@ -9,8 +9,8 @@ namespace WebUI.Infrastructure.Attributes
 {
     public class UserHasAnyAccountAttribute : FilterAttribute, IActionFilter
     {
-        private IAccountService _accService;
-        private IMessageProvider _messageProvider;
+        private readonly IAccountService _accService;
+        private readonly IMessageProvider _messageProvider;
 
         public UserHasAnyAccountAttribute()
         {
@@ -24,8 +24,8 @@ namespace WebUI.Infrastructure.Attributes
             var user = (WebUser)session?["WebUser"];
             if (user != null)
             {
-                var anyAccounts = _accService.GetList().Any(x => x.UserId == user.Id);
-                if (!anyAccounts)
+                var accounts = _accService.GetList(x => x.UserId == user.Id);
+                if (accounts.Any())
                 {
                     filterContext.Result = new UserHasNoAccountsActiontResult(_messageProvider);
                 }
