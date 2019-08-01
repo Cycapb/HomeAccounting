@@ -1,16 +1,16 @@
-﻿using System;
+﻿using DomainModels.Exceptions;
+using DomainModels.Model;
+using DomainModels.Repositories;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DomainModels.Model;
-using DomainModels.Repositories;
-using DomainModels.Exceptions;
-using Services.Exceptions;
-using Services;
 
 namespace BussinessLogic.Services
 {
-    public class DbHelper:IDbHelper
+    public class DbHelper : IDbHelper
     {
         private readonly IRepository<PayingItem> _pItemRepo;
         private readonly IRepository<Account> _accRepo;
@@ -25,8 +25,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _pItemRepo.GetList()
-                    .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date) && d.UserId == user.Id)
+                return _pItemRepo.GetList(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date) && d.UserId == user.Id)
                     .OrderBy(d => d.Date)
                     .ToList();
             }
@@ -42,8 +41,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _pItemRepo.GetList()
-                    .Where(d => d.Date == date.Date && d.UserId == user.Id)
+                return _pItemRepo.GetList(d => d.Date == date.Date && d.UserId == user.Id)
                     .ToList();
             }
             catch (DomainModelsException e)
@@ -58,9 +56,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList()
-                        where pItem.UserId == user.Id
-                        select new PayItem()
+                return _pItemRepo.GetList(pItem => pItem.UserId == user.Id && pItem.Date == date.Date)
+                        .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
                             CategoryName = pItem.Category.Name,
@@ -69,7 +66,6 @@ namespace BussinessLogic.Services
                             Date = pItem.Date,
                             ItemId = pItem.ItemID
                         })
-                    .Where(d => d.Date == date.Date)
                     .ToList();
             }
             catch (DomainModelsException e)
@@ -84,9 +80,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList()
-                        where pItem.UserId == user.Id
-                        select new PayItem()
+                return _pItemRepo.GetList(pItem => pItem.UserId == user.Id && (pItem.Date >= dateFrom.Date && pItem.Date <= dateTo.Date))
+                        .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
                             CategoryName = pItem.Category.Name,
@@ -96,7 +91,6 @@ namespace BussinessLogic.Services
                             ItemId = pItem.ItemID,
                             TypeOfFlowId = pItem.Category.TypeOfFlowID
                         })
-                    .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date))
                     .OrderBy(d => d.Date)
                     .ToList();
             }
@@ -112,9 +106,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList()
-                        where pItem.CategoryID == categoryId && pItem.UserId == user.Id
-                        select new PayItem()
+                return _pItemRepo.GetList(pItem => pItem.CategoryID == categoryId && pItem.UserId == user.Id && (pItem.Date == date.Date))
+                        .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
                             CategoryName = pItem.Category.Name,
@@ -123,7 +116,6 @@ namespace BussinessLogic.Services
                             Date = pItem.Date,
                             ItemId = pItem.ItemID
                         })
-                    .Where(d => d.Date == date.Date)
                     .ToList();
             }
             catch (DomainModelsException e)
@@ -139,7 +131,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList(p => p.CategoryID == categoryId && p.UserId == user.Id && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))                        
+                return (from pItem in _pItemRepo.GetList(p => p.CategoryID == categoryId && p.UserId == user.Id && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))
                         select new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
@@ -148,7 +140,7 @@ namespace BussinessLogic.Services
                             Summ = pItem.Summ,
                             Date = pItem.Date,
                             ItemId = pItem.ItemID
-                        })                    
+                        })
                     .OrderBy(d => d.Date)
                     .ToList();
             }
@@ -165,9 +157,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList()
-                        where pItem.Category.TypeOfFlowID == typeOfFlowId && pItem.UserId == user.Id
-                        select new PayItem()
+                return _pItemRepo.GetList(pItem => pItem.Category.TypeOfFlowID == typeOfFlowId && pItem.UserId == user.Id && pItem.Date >= dateFrom.Date && pItem.Date <= dateTo.Date)
+                        .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
                             CategoryName = pItem.Category.Name,
@@ -176,7 +167,6 @@ namespace BussinessLogic.Services
                             Date = pItem.Date,
                             ItemId = pItem.ItemID
                         })
-                    .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date))
                     .OrderBy(d => d.Date)
                     .ToList();
             }
@@ -194,8 +184,7 @@ namespace BussinessLogic.Services
             {
                 try
                 {
-                    return _accRepo.GetList()
-                        .Where(i => i.UserId == user.Id)
+                    return _accRepo.GetList(i => i.UserId == user.Id)                        
                         .Sum(s => s.Cash)
                         .ToString("c");
                 }
@@ -214,8 +203,7 @@ namespace BussinessLogic.Services
                 {
                     try
                     {
-                        return _accRepo.GetList()
-                            .Where(b => b.Use && b.UserId == user.Id)
+                        return _accRepo.GetList(b => b.Use && b.UserId == user.Id)                            
                             .Sum(s => s.Cash)
                             .ToString("c");
                     }
@@ -239,7 +227,7 @@ namespace BussinessLogic.Services
         public decimal GetSummForWeek(List<PayingItem> collection)
         {
             var currentDayOfWeek = (int)DateTime.Now.Date.DayOfWeek;
-            currentDayOfWeek = currentDayOfWeek == 0 ? 7 : currentDayOfWeek; 
+            currentDayOfWeek = currentDayOfWeek == 0 ? 7 : currentDayOfWeek;
             return collection
                 .Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(currentDayOfWeek - 1))
                 .Sum(i => i.Summ);
