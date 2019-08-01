@@ -100,8 +100,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _repository.GetList()
-                .Where(u => u.UserId == user.Id && u.Category.TypeOfFlowID == typeOfFlow);
+                return _repository.GetList(u => u.UserId == user.Id && u.Category.TypeOfFlowID == typeOfFlow);                
             }
             catch (DomainModelsException e)
             {
