@@ -4,12 +4,11 @@ using DomainModels.Model;
 
 namespace Services
 {
-    public interface IAccountService
+    public interface IAccountService: IService<Account>
     {
         Task CreateAsync(Account item);
         Task<Account> GetItemAsync(int id);
-        Task<IEnumerable<Account>> GetListAsync();
-        IEnumerable<Account> GetList();
+        Task<IEnumerable<Account>> GetListAsync();        
         Task DeleteAsync(int id);
         Task UpdateAsync(Account item);
         bool HasAnyDependencies(int accountId);

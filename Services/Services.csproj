@@ -64,6 +64,7 @@
     <Compile Include="IPayingItemService.cs" />
     <Compile Include="IPlanItemService.cs" />
     <Compile Include="IProductService.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="ITypeOfFlowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triggers\IServiceTrigger.cs" />
