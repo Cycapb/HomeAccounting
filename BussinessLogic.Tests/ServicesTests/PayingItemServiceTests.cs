@@ -8,6 +8,8 @@ using DomainModels.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using WebUI.Models;
+using System.Linq.Expressions;
+using System;
 
 namespace BussinessLogic.Tests.ServicesTests
 {
@@ -60,8 +62,8 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestCategory("PayingItemServiceTests")]
         public void GetListByTypeOfFlow1()
         {
-            _mockRepo.Setup(m => m.GetList()).Returns(_listOfItems);
-
+            var userId = "1";
+            _mockRepo.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem,bool>>>())).Returns(_listOfItems.Where(x => x.UserId == userId));
 
             var result = _service.GetListByTypeOfFlow(new WebUser() { Id = "1" }, 1).ToList();
 
