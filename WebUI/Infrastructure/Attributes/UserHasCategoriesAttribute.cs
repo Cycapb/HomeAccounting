@@ -25,17 +25,16 @@ namespace WebUI.Infrastructure.Attributes
             var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
             {
-                object value;
-                if (filterContext.RequestContext.RouteData.Values.TryGetValue("typeOfFlow", out value))
+                if (filterContext.RequestContext.RouteData.Values.TryGetValue("typeOfFlow", out object value))
                 {
                     var tofId = int.Parse((string)value);
-                    userHasCategories = _categoryService.GetList().Any(x => x.UserId == curUser.Id && x.Active && x.TypeOfFlowID == tofId);
+                    userHasCategories = _categoryService.GetList(x => x.UserId == curUser.Id && x.Active && x.TypeOfFlowID == tofId).Any();
                 }
                 else
                 {
-                    userHasCategories = _categoryService.GetList().Any(x => x.UserId == curUser.Id && x.Active);
-                } 
-                
+                    userHasCategories = _categoryService.GetList(x => x.UserId == curUser.Id && x.Active).Any();
+                }
+
             }
             if (!userHasCategories)
             {

@@ -30,8 +30,7 @@ namespace WebUI.Helpers
         {
             try
             {
-                return _categoryService.GetList()
-                    .Where(x => x.TypeOfFlowID == flowId && x.UserId == user.Id)
+                return _categoryService.GetList(x => x.TypeOfFlowID == flowId && x.UserId == user.Id)                    
                     .OrderBy(x => x.Name)
                     .ToList();
             }
@@ -166,8 +165,7 @@ namespace WebUI.Helpers
         {
             try
             {
-                return _categoryService.GetList()
-                .Where(c => c.UserId == user.Id && c.Active && c.TypeOfFlowID == flowId)
+                return _categoryService.GetList(c => c.UserId == user.Id && c.Active && c.TypeOfFlowID == flowId)                
                 .OrderBy(c => c.Name)
                 .ToList();
             }

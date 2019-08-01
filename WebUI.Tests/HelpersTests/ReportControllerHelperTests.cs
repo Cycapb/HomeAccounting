@@ -1,7 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DomainModels.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Linq.Expressions;
 using WebUI.Exceptions;
 using WebUI.Helpers;
 using WebUI.Models;
@@ -25,7 +28,7 @@ namespace WebUI.Tests.HelpersTests
         [ExpectedException(typeof(WebUiHelperException))]
         public void GetCategoriesByType_ThrowsWebuiHelperException()
         {
-            _categoryService.Setup(m => m.GetList()).Throws<ServiceException>();
+            _categoryService.Setup(m => m.GetList(It.IsAny<Expression<Func<Category,bool>>>())).Throws<ServiceException>();
             var target = new ReportControllerHelper(_categoryService.Object, null, null);
 
             target.GetCategoriesByType(new WebUser(), 1);

@@ -7,7 +7,7 @@ namespace Services
     /// <summary>
     /// Интерфейс сервиса для работы с Category
     /// </summary>
-    public interface ICategoryService
+    public interface ICategoryService : IService<Category>
     {
         /// <summary>
         /// Асинхронно создает Category
@@ -32,11 +32,6 @@ namespace Services
         /// </summary>
         /// <returns>Задачу, которая возвращает перечисление Category</returns>
         Task<IEnumerable<Category>> GetListAsync();
-        /// <summary>
-        /// Возвращает перечисление Category
-        /// </summary>
-        /// <returns>Gеречисление Category</returns>
-        IEnumerable<Category> GetList();
         /// <summary>
         /// Асинхронно удаляет Category по Id
         /// </summary>
