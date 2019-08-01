@@ -139,8 +139,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList()
-                        where pItem.CategoryID == categoryId && pItem.UserId == user.Id
+                return (from pItem in _pItemRepo.GetList(p => p.CategoryID == categoryId && p.UserId == user.Id && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))                        
                         select new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
@@ -149,8 +148,7 @@ namespace BussinessLogic.Services
                             Summ = pItem.Summ,
                             Date = pItem.Date,
                             ItemId = pItem.ItemID
-                        })
-                    .Where(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date))
+                        })                    
                     .OrderBy(d => d.Date)
                     .ToList();
             }
