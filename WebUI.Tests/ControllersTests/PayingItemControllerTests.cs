@@ -213,7 +213,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public void Can_Paginate()
         {
-            DateTime date = DateTime.Now - TimeSpan.FromDays(2);
+            DateTime date = DateTime.Today.AddDays(-2);
             var itemList = new PayingItem[]
             {
                     new PayingItem()
@@ -237,7 +237,7 @@ namespace WebUI.Tests.ControllersTests
                         Category = new Category() {Name = "Cat4"}
                     }
             };
-            _payingItemService.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(itemList.Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == "1"));
+            _payingItemService.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(itemList.Where(i => i.Date >= DateTime.Today.AddDays(-2) && i.UserId == "1"));
             var target = new PayingItemController(null, null, _payingItemService.Object, null, null) { ItemsPerPage = 2 };
 
             var pItemToView = ((PartialViewResult)target.List(new WebUser() { Id = "1" }, 2)).Model as PayingItemToView;

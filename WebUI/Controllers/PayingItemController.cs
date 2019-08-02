@@ -55,8 +55,8 @@ namespace WebUI.Controllers
         {
             PayingItemToView pItemToView;
             try
-            {
-                var items = _payingItemService.GetList(i => DbFunctions.DiffDays(DbFunctions.TruncateTime(DateTime.Now), i.Date) <= 2 && i.UserId == user.Id).ToList();
+            {                
+                var items = _payingItemService.GetList(i => i.UserId == user.Id && i.Date >= DbFunctions.AddDays(DateTime.Today, -2)).ToList();
                 pItemToView = new PayingItemToView()
                 {
                     PayingItems = items
@@ -91,7 +91,7 @@ namespace WebUI.Controllers
             IEnumerable<PayingItem> items;
             try
             {
-                var payingItems = _payingItemService.GetList(i => DbFunctions.DiffDays(DbFunctions.TruncateTime(DateTime.Now), i.Date) <= 2 && i.UserId == user.Id).ToList();
+                var payingItems = _payingItemService.GetList(i => i.Date >= DbFunctions.AddDays(DateTime.Today, -2) && i.UserId == user.Id).ToList();
                 items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)

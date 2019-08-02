@@ -25,7 +25,7 @@ namespace WebUI.Infrastructure.Attributes
             if (user != null)
             {
                 var accounts = _accService.GetList(x => x.UserId == user.Id);
-                if (accounts.Any())
+                if (!accounts.Any())
                 {
                     filterContext.Result = new UserHasNoAccountsActiontResult(_messageProvider);
                 }
