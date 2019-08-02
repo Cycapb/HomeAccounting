@@ -55,8 +55,8 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("ReportControllerHelperTests")]
         [ExpectedException(typeof(WebUiHelperException))]
         public void GetPayingItemsForLastYear_ThrowsWebUiHelperException()
-        {
-            _payingItemService.Setup(m => m.GetList()).Throws<ServiceException>();
+        {            
+            _payingItemService.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Throws<ServiceException>();
             var target = new ReportControllerHelper(null, _payingItemService.Object, null);
 
             target.GetPayingItemsForLastYear(new WebUser());
