@@ -26,9 +26,9 @@ namespace WebUI.Infrastructure.Attributes
 
             if ((string)HttpContext.Current.Request.RequestContext.RouteData.Values["action"] != "Edit")
             {
-                var any = _mailboxService.GetList().Any(x => x.MailBoxName == val);
+                var mailBoxes = _mailboxService.GetList(x => x.MailBoxName == val);
 
-                if (any)
+                if (mailBoxes.Any())
                 {
                     var result = new ValidationResult(ErrorMessage = ErrorMessageString);
                     return result;

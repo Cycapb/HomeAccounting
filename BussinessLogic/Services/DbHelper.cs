@@ -131,17 +131,18 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (from pItem in _pItemRepo.GetList(p => p.CategoryID == categoryId && p.UserId == user.Id && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))
-                        select new PayItem()
-                        {
-                            AccountName = pItem.Account.AccountName,
-                            CategoryName = pItem.Category.Name,
-                            Comment = pItem.Comment,
-                            Summ = pItem.Summ,
-                            Date = pItem.Date,
-                            ItemId = pItem.ItemID
-                        })
-                    .OrderBy(d => d.Date)
+                var items = _pItemRepo.GetList(p => p.CategoryID == categoryId && p.UserId == user.Id && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))
+                    .Select(pItem => new PayItem()
+                    {
+                        AccountName = pItem.Account.AccountName,
+                        CategoryName = pItem.Category.Name,
+                        Comment = pItem.Comment,
+                        Summ = pItem.Summ,
+                        Date = pItem.Date,
+                        ItemId = pItem.ItemID
+                    })
+                    .OrderBy(d => d.Date);
+                return items                       
                     .ToList();
             }
             catch (DomainModelsException e)

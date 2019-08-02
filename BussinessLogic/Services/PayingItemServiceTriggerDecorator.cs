@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
 using Services.Triggers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class PayingItemServiceTriggerDecorator:IPayingItemService
+    public class PayingItemServiceTriggerDecorator : IPayingItemService
     {
         private readonly IPayingItemService _payingItemService;
         private readonly IServiceTrigger<PayingItem> _serviceTrigger;
         private readonly ICategoryService _categoryService;
         private readonly ITypeOfFlowService _typeOfFlowService;
 
-        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService, 
-            IServiceTrigger<PayingItem> serviceTrigger, 
+        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService,
+            IServiceTrigger<PayingItem> serviceTrigger,
             ICategoryService categoryService,
             ITypeOfFlowService typeOfFlowService)
         {
@@ -106,6 +108,11 @@ namespace BussinessLogic.Services
                 }
                 return categoryId;
             });
+        }
+
+        public IEnumerable<PayingItem> GetList(Expression<Func<PayingItem, bool>> predicate)
+        {
+            return _payingItemService.GetList(predicate);
         }
     }
 }

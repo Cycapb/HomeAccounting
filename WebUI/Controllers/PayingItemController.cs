@@ -1,16 +1,17 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
 using WebUI.Abstract;
-using WebUI.Models;
-using WebUI.Infrastructure.Attributes;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Infrastructure.Attributes;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebUI.Controllers
         {
             return View();
         }
-        
+
         public ActionResult MainPage()
         {
             return PartialView("_MainPage");
@@ -55,21 +56,19 @@ namespace WebUI.Controllers
             PayingItemToView pItemToView;
             try
             {
+                var items = _payingItemService.GetList(i => DbFunctions.DiffDays(DbFunctions.TruncateTime(DateTime.Now), i.Date) <= 2 && i.UserId == user.Id).ToList();
                 pItemToView = new PayingItemToView()
                 {
-                    PayingItems = _payingItemService.GetList()
-                        .Where(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(2) && i.UserId == user.Id)
+                    PayingItems = items
                         .OrderByDescending(i => i.Date)
                         .ThenBy(x => x.Category.Name)
                         .Skip((page - 1) * ItemsPerPage)
-                        .Take(ItemsPerPage)
-                        .ToList(),
+                        .Take(ItemsPerPage),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
                         ItemsPerPage = ItemsPerPage,
-                        TotalItems = _payingItemService.GetList()
-                            .Count(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(2) && i.UserId == user.Id)
+                        TotalItems = items.Count
                     }
                 };
             }
@@ -86,18 +85,18 @@ namespace WebUI.Controllers
             return PartialView("_List", pItemToView);
         }
 
+
         public ActionResult ListAjax(WebUser user, int page)
         {
-            List<PayingItem> items;
+            IEnumerable<PayingItem> items;
             try
             {
-                items = _payingItemService.GetList()
-                    .Where(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(2) && i.UserId == user.Id)
+                var payingItems = _payingItemService.GetList(i => DbFunctions.DiffDays(DbFunctions.TruncateTime(DateTime.Now), i.Date) <= 2 && i.UserId == user.Id).ToList();
+                items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)
                     .Skip((page - 1) * ItemsPerPage)
-                    .Take(ItemsPerPage)
-                    .ToList();
+                    .Take(ItemsPerPage);
             }
             catch (ServiceException e)
             {
@@ -114,7 +113,7 @@ namespace WebUI.Controllers
             await FillViewBag(user, typeOfFlow);
             var piModel = new PayingItemModel()
             {
-                PayingItem = new PayingItem() {UserId = user.Id},
+                PayingItem = new PayingItem() { UserId = user.Id },
                 Products = new List<Product>()
             };
             return PartialView(piModel);
@@ -297,13 +296,13 @@ namespace WebUI.Controllers
             }
 
             var outList = (from item in tempList
-                    group item by item.Category.Name
+                           group item by item.Category.Name
                     into grouping
-                    select new OverAllItem()
-                    {
-                        Category = grouping.Key,
-                        Summ = grouping.Sum(x => x.Summ)
-                    })
+                           select new OverAllItem()
+                           {
+                               Category = grouping.Key,
+                               Summ = grouping.Sum(x => x.Summ)
+                           })
                 .OrderByDescending(x => x.Summ)
                 .Take(ItemsPerPage)
                 .ToList();
