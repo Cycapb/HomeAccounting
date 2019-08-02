@@ -137,17 +137,11 @@ namespace WebUI.Helpers
 
             try
             {
-                var sw = new Stopwatch();
-                _logger.Debug("Started getting items with new logic");
-                sw.Start();
                 payingItemProducts = _pItemProductService.GetList(x => x.PayingItemID == payingItemId)
                     .ToList();
                 products =
-                    _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID)
+                    _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID)
                     .ToList();
-                sw.Stop();
-                _logger.Debug($"Query ended in {sw.ElapsedMilliseconds} ms");
-                _logger.Debug("Ended getting items with new logic");
             }
             catch (ServiceException e)
             {

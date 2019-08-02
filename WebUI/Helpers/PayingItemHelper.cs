@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DomainModels.Model;
-using WebUI.Abstract;
-using WebUI.Models;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
+using WebUI.Abstract;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Helpers
 {
-    public class PayingItemHelper:IPayingItemHelper
+    public class PayingItemHelper : IPayingItemHelper
     {
         private readonly IProductService _productService;
 
@@ -26,7 +26,7 @@ namespace WebUI.Helpers
                 try
                 {
                     products =
-                        _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+                        _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
                 }
                 catch (ServiceException e)
                 {
@@ -41,7 +41,7 @@ namespace WebUI.Helpers
                         comment += products.Single(x => x.ProductID == item.ProductID).ProductName + ", ";
                     }
                 }
-                model.PayingItem.Comment = string.IsNullOrEmpty(comment)?comment : comment.Remove(comment.LastIndexOf(","));
+                model.PayingItem.Comment = string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(","));
             }
         }
 
@@ -57,7 +57,7 @@ namespace WebUI.Helpers
                 throw new WebUiHelperException(
                     $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileEdit)}", e);
             }
-            
+
             model.PayingItem.Comment = "";
             var comment = string.Empty;
             foreach (var item in model.PricesAndIdsInItem)

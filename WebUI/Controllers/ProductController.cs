@@ -1,13 +1,13 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -26,7 +26,7 @@ namespace WebUI.Controllers
         public ActionResult Add(WebUser user, int categoryId)
         {
             ViewBag.CategoryId = categoryId;
-            return PartialView(new Product() {UserID = user.Id});
+            return PartialView(new Product() { UserID = user.Id });
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace WebUI.Controllers
                     throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(Add)}",
                         e);
                 }
-                return RedirectToAction("EditableList", new {categoryId = product.CategoryID});
+                return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
             }
             ViewBag.CategoryId = product.CategoryID;
             return PartialView(product);
@@ -53,9 +53,9 @@ namespace WebUI.Controllers
         {
             try
             {
-                var products = _productService.GetList()
-                    .Where(p => p.CategoryID == categoryId)
+                var products = _productService.GetList(p => p.CategoryID == categoryId)
                     .ToList();
+
                 return PartialView(products);
             }
             catch (ServiceException e)
@@ -69,9 +69,9 @@ namespace WebUI.Controllers
         {
             try
             {
-                var products = _productService.GetList()
-                    .Where(p => p.CategoryID == categoryId)
+                var products = _productService.GetList(p => p.CategoryID == categoryId)
                     .ToList();
+
                 return PartialView(products);
             }
             catch (ServiceException e)
@@ -88,7 +88,7 @@ namespace WebUI.Controllers
             {
                 var product = await _productService.GetItemAsync(id);
                 await _productService.DeleteAsync(id);
-                return RedirectToAction("EditableList", new {categoryId = product.CategoryID});
+                return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
             }
             catch (ServiceException e)
             {
