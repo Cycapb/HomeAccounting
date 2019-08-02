@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using DomainModels.Model;
-using WebUI.Abstract;
-using WebUI.Models;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
+using System.Linq;
 using WebGrease.Css.Extensions;
+using WebUI.Abstract;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Helpers
 {
-    public class ReportControllerHelper:IReportControllerHelper
+    public class ReportControllerHelper : IReportControllerHelper
     {
         private readonly ICategoryService _categoryService;
         private readonly IPayingItemService _payingItemService;
@@ -30,7 +31,7 @@ namespace WebUI.Helpers
         {
             try
             {
-                return _categoryService.GetList(x => x.TypeOfFlowID == flowId && x.UserId == user.Id)                    
+                return _categoryService.GetList(x => x.TypeOfFlowID == flowId && x.UserId == user.Id)
                     .OrderBy(x => x.Name)
                     .ToList();
             }
@@ -46,8 +47,7 @@ namespace WebUI.Helpers
             var dateFrom = DateTime.Parse(DateTime.Today.ToString("Y", CultureInfo.CurrentCulture));
             try
             {
-                return _payingItemService.GetList()
-                    .Where(x => x.UserId == user.Id && x.Date <= dateFrom.AddMonths(1) && x.Date >= dateFrom.AddYears(-1))
+                return _payingItemService.GetList(x => x.UserId == user.Id && x.Date <= DbFunctions.AddMonths(dateFrom, 1) && x.Date >= DbFunctions.AddYears(dateFrom, -1))
                     .ToList();
             }
             catch (ServiceException e)
@@ -128,7 +128,7 @@ namespace WebUI.Helpers
 
         private void FillMonths(IEnumerable<MonthSumm> listMonths, ReportMonthsModel model)
         {
-            listMonths.ForEach(x=>model.MonthInOuts.Add(new MonthInOut()
+            listMonths.ForEach(x => model.MonthInOuts.Add(new MonthInOut()
             {
                 Month = x.Date,
                 Date = DateTime.Parse(x.Date)
@@ -165,7 +165,7 @@ namespace WebUI.Helpers
         {
             try
             {
-                return _categoryService.GetList(c => c.UserId == user.Id && c.Active && c.TypeOfFlowID == flowId)                
+                return _categoryService.GetList(c => c.UserId == user.Id && c.Active && c.TypeOfFlowID == flowId)
                 .OrderBy(c => c.Name)
                 .ToList();
             }
@@ -173,7 +173,7 @@ namespace WebUI.Helpers
             {
                 throw new WebUiHelperException(
                     $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetActiveCategoriesByType)}", e);
-            }            
+            }
         }
     }
 }

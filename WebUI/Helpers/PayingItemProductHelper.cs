@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Model;
-using WebUI.Abstract;
-using WebUI.Models;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using WebUI.Abstract;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Helpers
 {
-    public class PayingItemProductHelper:IPayingItemProductHelper
+    public class PayingItemProductHelper : IPayingItemProductHelper
     {
+        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IPayingItemProductService _pItemProductService;
         private readonly IProductService _productService;
 
@@ -26,8 +27,7 @@ namespace WebUI.Helpers
         {
             try
             {
-                var paiyngItemProducts = _pItemProductService.GetList()
-                    .Where(x => x.PayingItemID == pItem.PayingItem.ItemID);
+                var paiyngItemProducts = _pItemProductService.GetList(x => x.PayingItemID == pItem.PayingItem.ItemID);
 
                 foreach (var item in paiyngItemProducts)
                 {
@@ -137,11 +137,17 @@ namespace WebUI.Helpers
 
             try
             {
-                payingItemProducts = _pItemProductService.GetList() //Находим платежки, связанные с этой транзакцией
-                    .Where(x => x.PayingItemID == payingItemId)
+                var sw = new Stopwatch();
+                _logger.Debug("Started getting items with new logic");
+                sw.Start();
+                payingItemProducts = _pItemProductService.GetList(x => x.PayingItemID == payingItemId)
                     .ToList();
                 products =
-                    _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList(); // Находим продукты, которые привязаны к данной категории
+                    _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID)
+                    .ToList();
+                sw.Stop();
+                _logger.Debug($"Query ended in {sw.ElapsedMilliseconds} ms");
+                _logger.Debug("Ended getting items with new logic");
             }
             catch (ServiceException e)
             {
