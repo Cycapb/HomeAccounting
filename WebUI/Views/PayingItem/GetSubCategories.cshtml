@@ -1,8 +1,19 @@
 ﻿@model List<Product>
 
 
-@if (Model.Count() != 0)
+@if (Model.Count != 0)
     {
+    <div id="subcategories">
+            @if (Model.Any())
+            {
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="showSubcategoriesCheckBox" value="" />
+                        <span class="checkbox-material"><span class="check"></span></span>
+                        Показать подкатегории
+                    </label>
+                </div>
+            }
         <div id="divProducts">
             <table class="table table-striped">
                 <tr>
@@ -11,7 +22,7 @@
                     <th>Описание</th>
                     <th>Цена</th>
                 </tr>
-                @for (int i = 0; i < Model.Count(); i++)
+                @for (int i = 0; i < Model.Count; i++)
                 {
                     <tr>
                         @Html.Hidden("Products[" + i + "].UserID", Model[i].UserID)
@@ -19,7 +30,7 @@
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" name="Products[@i].ProductID" value="@Model[i].ProductID" />
-                                    <span class="checkbox-material"><span class="check"></span></span>		
+                                    <span class="checkbox-material"><span class="check"></span></span>
                                 </label>
                             </div>
                         </td>
@@ -37,8 +48,21 @@
                 }
             </table>
         </div>
+    </div>
     }
 else
 {
-  <div id="divProducts"></div>
+  <div id="subcategories"></div>
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#showSubcategoriesCheckBox').change(function() {
+            if(this.checked) {
+                $('#divProducts').removeAttr('hidden');
+            } else {
+                $('#divProducts').attr('hidden', true);
+            }
+        });
+    });
+</script>
