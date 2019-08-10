@@ -164,11 +164,13 @@ namespace WebUI.Helpers
                         ProductDescription = y.Description,
                         Price = x.Summ
                     })
+                    .OrderBy(x => x.ProductName)
                     .ToList();
                 var productsNotInItem = payingItemProducts.Join(products,
                     x => x.ProductID,
                     y => y.ProductID,
                     (x, y) => y)
+                    .OrderBy(x => x.ProductName)
                     .ToList();
 
                 model.ProductsInItem = productsInItem;
