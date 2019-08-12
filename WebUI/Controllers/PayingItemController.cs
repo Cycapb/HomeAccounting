@@ -318,7 +318,7 @@ namespace WebUI.Controllers
                     .Product
                     .OrderBy(x => x.ProductName)
                     .ToList();
-                return PartialView(products);
+                return PartialView("_GetSubCategories", products);
             }
             catch (Exception e)
             {

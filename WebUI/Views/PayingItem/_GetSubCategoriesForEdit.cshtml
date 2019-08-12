@@ -6,13 +6,7 @@
         <th>Описание</th>
         <th>Цена</th>
     </tr>
-    @if (!Model.Any())
-    {
-        <tr>
-            <td colspan="4" class="text-center">Нет подкатегорий</td>
-        </tr>
-    }
-    else
+    @if (Model.Any())
     {
         for (int i = 0; i < Model.Count; i++)
         {
@@ -37,7 +31,8 @@
 {
     <script type="text/javascript">
             $(function() {
-                $('#readOnlySum').attr('hidden', true);
+                $('#sumInputDiv').attr('hidden', true);
+                $('#sumInputDiv').val('0');
             });
     </script>
 }

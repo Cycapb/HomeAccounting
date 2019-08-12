@@ -634,7 +634,7 @@
     <Content Include="Views\Product\EditableList.cshtml" />
     <Content Include="Views\Product\Add.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\PayingItem\GetSubCategories.cshtml" />
+    <Content Include="Views\PayingItem\_GetSubCategories.cshtml" />
     <Content Include="Views\PayingItem\_GetSubCategoriesForEdit.cshtml" />
     <Content Include="Views\Report\_OverallLastYearMonths.cshtml" />
     <Content Include="Views\Report\_SubcategoriesReport.cshtml" />
