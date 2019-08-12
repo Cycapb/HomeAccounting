@@ -644,7 +644,7 @@
     <Content Include="Views\Planing\Edit.cshtml" />
     <Content Include="Views\PayingItem\_ExpensiveCategories.cshtml" />
     <Content Include="Views\Planing\BalancesPartial.cshtml" />
-    <Content Include="Views\PayingItem\PayingItemsPartial.cshtml" />
+    <Content Include="Views\PayingItem\_PayingItemsPartial.cshtml" />
     <Content Include="Views\Planing\EditView.cshtml" />
     <Content Include="Views\Planing\PlanItemsOutgoPartial.cshtml" />
     <Content Include="Views\Planing\PlanItemsIncomePartial.cshtml" />
@@ -661,7 +661,7 @@
     <Content Include="Scripts\knockout.validation.min.js.map" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\PayingItem\Index.cshtml" />
-    <Content Include="Views\PayingItem\PageLinksPartial.cshtml" />
+    <Content Include="Views\PayingItem\_PageLinksPartial.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPagesByType.cshtml" />
     <Content Include="Views\Category\GetCategoriesAndPages.cshtml" />
     <Content Include="Views\MainBar\_MainBar.cshtml" />
