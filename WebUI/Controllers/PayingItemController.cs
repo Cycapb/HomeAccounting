@@ -332,7 +332,7 @@ namespace WebUI.Controllers
             try
             {
                 var products = (await _categoryService.GetProducts(id)).ToList();
-                return PartialView(products);
+                return PartialView("_GetSubCategoriesForEdit", products);
             }
             catch (ServiceException e)
             {
