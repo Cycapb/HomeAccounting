@@ -189,10 +189,10 @@ namespace WebUI.Controllers
 
                 if (!CheckForSubCategories(pItem))
                 {
-                    return PartialView(pItemEditModel);
+                    return PartialView("_Edit", pItemEditModel);
                 }
                 _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
-                return PartialView(pItemEditModel);
+                return PartialView("_Edit", pItemEditModel);
             }
             catch (ServiceException e)
             {
