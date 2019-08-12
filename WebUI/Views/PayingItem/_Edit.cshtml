@@ -30,7 +30,7 @@
             @if (Model.PayingItemProducts == null || !Model.PayingItemProducts.Any())
             {
                 <script type="text/javascript">
-                    $('#ReadOnlySumm').prop('readonly', false);
+                    $('#readOnlySum').prop('readonly', false);
                 </script>
             }
             else
@@ -96,7 +96,7 @@
             @Html.ValidationMessageFor(x => x.PayingItem.Summ)
             <div class="form-group">
                 <label>Сумма:</label>
-                <input type="text" id="ReadOnlySumm" name="PayingItem.Summ" readonly="readonly" value="@Model.PayingItem.Summ" class="form-control"/>
+                <input type="text" id="readOnlySum" name="PayingItem.Summ" readonly="readonly" value="@Model.PayingItem.Summ" class="form-control"/>
             </div>
 
             <div class="form-group">

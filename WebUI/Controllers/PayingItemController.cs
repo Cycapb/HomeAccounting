@@ -173,21 +173,21 @@ namespace WebUI.Controllers
             await FillViewBag(user, typeOfFlowId);
             try
             {
-                var pItem = await _payingItemService.GetItemAsync(id);
+                var payingItem = await _payingItemService.GetItemAsync(id);
 
-                if (pItem == null)
+                if (payingItem == null)
                 {
                     return RedirectToAction("ListAjax", 1);
                 }
 
                 var pItemEditModel = new PayingItemEditModel()
                 {
-                    PayingItem = pItem,
+                    PayingItem = payingItem,
                     PayingItemProducts = new List<PaiyngItemProduct>()
                 };
-                PayingItemEditModel.OldCategoryId = pItem.CategoryID;
+                PayingItemEditModel.OldCategoryId = payingItem.CategoryID;
 
-                if (!CheckForSubCategories(pItem))
+                if (!CheckForSubCategories(payingItem))
                 {
                     return PartialView("_Edit", pItemEditModel);
                 }
@@ -261,7 +261,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("List");
             }
             await FillViewBag(user, await GetTypeOfFlowId(pItem.PayingItem));
-            return PartialView(pItem);
+            return PartialView("_Edit", pItem);
         }
 
         [HttpPost]
@@ -382,8 +382,8 @@ namespace WebUI.Controllers
         {
             try
             {
-                return _payingItemService.GetList()
-                    .Any(x => x.CategoryID == item.CategoryID);
+                return _payingItemService.GetList(x => x.CategoryID == item.CategoryID)
+                    .Any();
             }
             catch (ServiceException e)
             {

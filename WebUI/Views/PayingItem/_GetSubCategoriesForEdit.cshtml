@@ -6,7 +6,7 @@
         <th>Описание</th>
         <th>Цена</th>
     </tr>
-    @if (Model.Count() == 0)
+    @if (!Model.Any())
     {
         <tr>
             <td colspan="4" class="text-center">Нет подкатегорий</td>
@@ -14,7 +14,7 @@
     }
     else
     {
-        for (int i = 0; i < Model.Count(); i++)
+        for (int i = 0; i < Model.Count; i++)
         {
             <tr>
                 <td>
@@ -33,21 +33,11 @@
         }
     }
 </table>
-@if (Model.Count == 0)
+@if (Model.Count != 0)
 {
     <script type="text/javascript">
             $(function() {
-                $('#ReadOnlySumm').prop('readonly', false);
-                $('#ReadOnlySumm').val(0);
-            });
-    </script>
-}
-else
-{
-    <script type="text/javascript">
-            $(function() {
-                $('#ReadOnlySumm').prop('readonly', true);
-                $('#ReadOnlySumm').val(0);
+                $('#readOnlySum').attr('hidden', true);
             });
     </script>
 }

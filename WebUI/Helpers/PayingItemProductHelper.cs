@@ -1,4 +1,5 @@
-﻿using DomainModels.Model;
+﻿using System;
+using DomainModels.Model;
 using Services;
 using Services.Exceptions;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace WebUI.Helpers
 {
     public class PayingItemProductHelper : IPayingItemProductHelper
     {
-        private readonly IPayingItemProductService _pItemProductService;
+        private readonly IPayingItemProductService _payingItemProductService;
         private readonly IProductService _productService;
 
-        public PayingItemProductHelper(IPayingItemProductService pItemProductService, IProductService productService)
+        public PayingItemProductHelper(IPayingItemProductService payingItemProductService, IProductService productService)
         {
-            _pItemProductService = pItemProductService;
+            _payingItemProductService = payingItemProductService;
             _productService = productService;
         }
 
@@ -26,13 +27,13 @@ namespace WebUI.Helpers
         {
             try
             {
-                var payingItemProducts = _pItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID);
+                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID);
 
                 foreach (var item in payingItemProducts)
                 {
-                    await _pItemProductService.DeleteAsync(item.ItemID);
+                    await _payingItemProductService.DeleteAsync(item.ItemID);
                 }
-                await _pItemProductService.SaveAsync();
+                await _payingItemProductService.SaveAsync();
 
                 foreach (var item in model.PricesAndIdsInItem)
                 {
@@ -44,10 +45,10 @@ namespace WebUI.Helpers
                             Summ = item.Price,
                             ProductID = item.Id
                         };
-                        await _pItemProductService.CreateAsync(pItemProd);
+                        await _payingItemProductService.CreateAsync(pItemProd);
                     }
                 }
-                await _pItemProductService.SaveAsync();
+                await _payingItemProductService.SaveAsync();
             }
             catch (ServiceException e)
             {
@@ -64,19 +65,19 @@ namespace WebUI.Helpers
                 {
                     if (item.Id != 0)
                     {
-                        var itemToUpdate = await _pItemProductService.GetItemAsync(item.PayingItemProductId);
+                        var itemToUpdate = await _payingItemProductService.GetItemAsync(item.PayingItemProductId);
                         if (itemToUpdate != null)
                         {
                             itemToUpdate.Summ = item.Price;
-                            await _pItemProductService.UpdateAsync(itemToUpdate);
+                            await _payingItemProductService.UpdateAsync(itemToUpdate);
                         }
                     }
                     if (item.Id == 0 && item.Price != 0)
                     {
-                        await _pItemProductService.DeleteAsync(item.PayingItemProductId);
+                        await _payingItemProductService.DeleteAsync(item.PayingItemProductId);
                     }
                 }
-                await _pItemProductService.SaveAsync();
+                await _payingItemProductService.SaveAsync();
 
                 if (model.PricesAndIdsNotInItem != null)
                 {
@@ -90,10 +91,10 @@ namespace WebUI.Helpers
                                 Summ = item.Price,
                                 ProductID = item.Id
                             };
-                            await _pItemProductService.CreateAsync(payingItemProduct);
+                            await _payingItemProductService.CreateAsync(payingItemProduct);
                         }
                     }
-                    await _pItemProductService.SaveAsync();
+                    await _payingItemProductService.SaveAsync();
                 }
             }
             catch (ServiceException e)
@@ -117,8 +118,8 @@ namespace WebUI.Helpers
                             Summ = item.Price,
                             ProductID = item.ProductID
                         };
-                        await _pItemProductService.CreateAsync(pItemProd);
-                        await _pItemProductService.SaveAsync();
+                        await _payingItemProductService.CreateAsync(pItemProd);
+                        await _payingItemProductService.SaveAsync();
                     }
                 }
             }
@@ -131,16 +132,46 @@ namespace WebUI.Helpers
 
         public void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId)
         {
-            var payingItemProducts = new List<PaiyngItemProduct>();
-            var products = new List<Product>();
-
             try
             {
-                payingItemProducts = _pItemProductService.GetList(x => x.PayingItemID == payingItemId)
+                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == payingItemId)
                     .ToList();
-                products =
+                var products =
                     _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID)
                     .ToList();
+
+                model.PayingItemProducts = payingItemProducts;
+
+                if (payingItemProducts.Count != 0)
+                {
+                    var productsInItem = payingItemProducts.Join(products,
+                            x => x.ProductID,
+                            y => y.ProductID,
+                            (x, y) => new IdNamePrice()
+                            {
+                                PayingItemProductId = x.ItemID,
+                                ProductId = x.ProductID,
+                                ProductName = y.ProductName,
+                                ProductDescription = y.Description,
+                                Price = x.Summ
+                            })
+                        .OrderBy(x => x.ProductName)
+                        .ToList();
+
+                    var productsNotInItem = payingItemProducts.Join(products,
+                            x => x.ProductID,
+                            y => y.ProductID,
+                            (x, y) => y)
+                        .OrderBy(x => x.ProductName)
+                        .ToList();
+
+                    model.ProductsInItem = productsInItem;
+                    model.ProductsNotInItem = products.Except(productsNotInItem).ToList();
+                }
+                else
+                {
+                    model.ProductsNotInItem = products;
+                }
             }
             catch (ServiceException e)
             {
@@ -148,36 +179,10 @@ namespace WebUI.Helpers
                     $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
             }
 
-            model.PayingItemProducts = payingItemProducts;
-
-            if (payingItemProducts.Count != 0)
+            catch (Exception e)
             {
-                var productsInItem = payingItemProducts.Join(products,
-                    x => x.ProductID,
-                    y => y.ProductID,
-                    (x, y) => new IdNamePrice()
-                    {
-                        PayingItemProductId = x.ItemID,
-                        ProductId = x.ProductID,
-                        ProductName = y.ProductName,
-                        ProductDescription = y.Description,
-                        Price = x.Summ
-                    })
-                    .OrderBy(x => x.ProductName)
-                    .ToList();
-                var productsNotInItem = payingItemProducts.Join(products,
-                    x => x.ProductID,
-                    y => y.ProductID,
-                    (x, y) => y)
-                    .OrderBy(x => x.ProductName)
-                    .ToList();
-
-                model.ProductsInItem = productsInItem;
-                model.ProductsNotInItem = products.Except(productsNotInItem).ToList();
-            }
-            else
-            {
-                model.ProductsNotInItem = products;
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
             }
         }
     }
