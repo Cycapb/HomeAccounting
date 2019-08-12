@@ -116,7 +116,7 @@ namespace WebUI.Controllers
                 PayingItem = new PayingItem() { UserId = user.Id },
                 Products = new List<Product>()
             };
-            return PartialView(piModel);
+            return PartialView("_Add", piModel);
         }
 
         [HttpPost]
@@ -165,7 +165,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("List");
             }
             await FillViewBag(user, typeOfFlow);
-            return PartialView(model);
+            return PartialView("_Add", model);
         }
 
         public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)

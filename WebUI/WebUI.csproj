@@ -595,7 +595,7 @@
     <Content Include="Views\NavRight\MenuOutgo.cshtml" />
     <Content Include="Views\NavLeft\GetAccounts.cshtml" />
     <Content Include="Views\NavLeft\GetBudgets.cshtml" />
-    <Content Include="Views\PayingItem\Add.cshtml" />
+    <Content Include="Views\PayingItem\_Add.cshtml" />
     <Content Include="Views\PayingItem\_Edit.cshtml" />
     <Content Include="Views\NavTypeOfFlow\List.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
