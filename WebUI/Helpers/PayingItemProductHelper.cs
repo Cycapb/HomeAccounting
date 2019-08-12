@@ -13,7 +13,6 @@ namespace WebUI.Helpers
 {
     public class PayingItemProductHelper : IPayingItemProductHelper
     {
-        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IPayingItemProductService _pItemProductService;
         private readonly IProductService _productService;
 
@@ -23,25 +22,25 @@ namespace WebUI.Helpers
             _productService = productService;
         }
 
-        public async Task CreatePayingItemProduct(PayingItemEditModel pItem)
+        public async Task CreatePayingItemProduct(PayingItemEditModel model)
         {
             try
             {
-                var paiyngItemProducts = _pItemProductService.GetList(x => x.PayingItemID == pItem.PayingItem.ItemID);
+                var payingItemProducts = _pItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID);
 
-                foreach (var item in paiyngItemProducts)
+                foreach (var item in payingItemProducts)
                 {
                     await _pItemProductService.DeleteAsync(item.ItemID);
                 }
                 await _pItemProductService.SaveAsync();
 
-                foreach (var item in pItem.PricesAndIdsInItem)
+                foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
                     {
                         var pItemProd = new PaiyngItemProduct()
                         {
-                            PayingItemID = pItem.PayingItem.ItemID,
+                            PayingItemID = model.PayingItem.ItemID,
                             Summ = item.Price,
                             ProductID = item.Id
                         };
@@ -57,11 +56,11 @@ namespace WebUI.Helpers
             }
         }
 
-        public async Task UpdatePayingItemProduct(PayingItemEditModel pItem)
+        public async Task UpdatePayingItemProduct(PayingItemEditModel model)
         {
             try
             {
-                foreach (var item in pItem.PricesAndIdsInItem)
+                foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
                     {
@@ -79,15 +78,15 @@ namespace WebUI.Helpers
                 }
                 await _pItemProductService.SaveAsync();
 
-                if (pItem.PricesAndIdsNotInItem != null)
+                if (model.PricesAndIdsNotInItem != null)
                 {
-                    foreach (var item in pItem.PricesAndIdsNotInItem)
+                    foreach (var item in model.PricesAndIdsNotInItem)
                     {
                         if (item.Id != 0)
                         {
                             var payingItemProduct = new PaiyngItemProduct()
                             {
-                                PayingItemID = pItem.PayingItem.ItemID,
+                                PayingItemID = model.PayingItem.ItemID,
                                 Summ = item.Price,
                                 ProductID = item.Id
                             };
@@ -104,17 +103,17 @@ namespace WebUI.Helpers
             }
         }
 
-        public async Task CreatePayingItemProduct(PayingItemModel pItem)
+        public async Task CreatePayingItemProduct(PayingItemModel model)
         {
             try
             {
-                foreach (var item in pItem.Products)
+                foreach (var item in model.Products)
                 {
                     if (item.ProductID != 0)
                     {
                         var pItemProd = new PaiyngItemProduct()
                         {
-                            PayingItemID = pItem.PayingItem.ItemID,
+                            PayingItemID = model.PayingItem.ItemID,
                             Summ = item.Price,
                             ProductID = item.ProductID
                         };

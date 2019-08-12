@@ -120,31 +120,31 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, PayingItemModel pItem, int typeOfFlow)
+        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
         {
             if (ModelState.IsValid)
             {
-                if (pItem.PayingItem.Date.Month > DateTime.Today.Date.Month ||
-                    pItem.PayingItem.Date.Year > DateTime.Today.Year)
+                if (model.PayingItem.Date.Month > DateTime.Today.Date.Month ||
+                    model.PayingItem.Date.Year > DateTime.Today.Year)
                 {
-                    pItem.PayingItem.Date = DateTime.Today.Date;
+                    model.PayingItem.Date = DateTime.Today.Date;
                 }
                 try
                 {
-                    if (pItem.Products == null)
+                    if (model.Products == null)
                     {
-                        await _payingItemService.CreateAsync(pItem.PayingItem);
+                        await _payingItemService.CreateAsync(model.PayingItem);
                     }
                     else
                     {
-                        var summ = pItem.Products.Sum(x => x.Price);
-                        if (summ != 0)
+                        var sum = model.Products.Sum(x => x.Price);
+                        if (sum != 0)
                         {
-                            pItem.PayingItem.Summ = summ;
+                            model.PayingItem.Summ = sum;
                         }
-                        _payingItemHelper.CreateCommentWhileAdd(pItem);
-                        await _payingItemService.CreateAsync(pItem.PayingItem);
-                        await _pItemProductHelper.CreatePayingItemProduct(pItem);
+                        _payingItemHelper.CreateCommentWhileAdd(model);
+                        await _payingItemService.CreateAsync(model.PayingItem);
+                        await _pItemProductHelper.CreatePayingItemProduct(model);
                     }
                 }
                 catch (ServiceException e)
@@ -165,7 +165,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("List");
             }
             await FillViewBag(user, typeOfFlow);
-            return PartialView(pItem);
+            return PartialView(model);
         }
 
         public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)
@@ -229,7 +229,7 @@ namespace WebUI.Controllers
                     }
                     else
                     {
-                        pItem.PayingItem.Summ = GetSummForPayingItem(pItem);
+                        pItem.PayingItem.Summ = GetSumForPayingItem(pItem);
                         _payingItemHelper.CreateCommentWhileEdit(pItem);
                         await _payingItemService.UpdateAsync(pItem.PayingItem);
 
@@ -392,14 +392,14 @@ namespace WebUI.Controllers
             }
         }
 
-        private decimal GetSummForPayingItem(PayingItemEditModel pItem)
+        private decimal GetSumForPayingItem(PayingItemEditModel model)
         {
-            if (pItem.PricesAndIdsNotInItem == null)
+            if (model.PricesAndIdsNotInItem == null)
             {
-                return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+                return model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
             }
-            return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
-                   pItem.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+            return model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
+                   model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
         }
     }
 }
