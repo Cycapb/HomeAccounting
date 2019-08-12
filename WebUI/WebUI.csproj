@@ -642,7 +642,7 @@
     <Content Include="Views\Shared\_PlaningLayout.cshtml" />
     <Content Include="Views\Planing\ViewPlan.cshtml" />
     <Content Include="Views\Planing\Edit.cshtml" />
-    <Content Include="Views\PayingItem\ExpensiveCategories.cshtml" />
+    <Content Include="Views\PayingItem\_ExpensiveCategories.cshtml" />
     <Content Include="Views\Planing\BalancesPartial.cshtml" />
     <Content Include="Views\PayingItem\PayingItemsPartial.cshtml" />
     <Content Include="Views\Planing\EditView.cshtml" />

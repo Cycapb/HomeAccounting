@@ -307,7 +307,7 @@ namespace WebUI.Controllers
                 .Take(ItemsPerPage)
                 .ToList();
 
-            return PartialView(outList);
+            return PartialView("_ExpensiveCategories", outList);
         }
 
         public async Task<ActionResult> GetSubCategories(int id)
