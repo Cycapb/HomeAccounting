@@ -1,19 +1,19 @@
-﻿using System;
+﻿using DomainModels.EntityORM;
+using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DomainModels.Model;
 using WebUI.Abstract;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
-using DomainModels.EntityORM;
+using WebUI.Models;
 
 namespace WebUI.Helpers
 {
-    public class PayItemSubcategoriesHelper:IPayItemSubcategoriesHelper
-    {        
+    public class PayItemSubcategoriesHelper : IPayItemSubcategoriesHelper
+    {
         private readonly IPayingItemService _payingItemService;
 
         public PayItemSubcategoriesHelper(IPayingItemService payingItemService)
@@ -26,8 +26,7 @@ namespace WebUI.Helpers
         {
             try
             {
-                var pItems = _payingItemService.GetList() //Отфильтрованный по дате,юзеру,типу список транзакций
-                    .Where(x => x.UserId == user.Id && x.Date >= dateFrom.Date && (x.Date <= dateTo.Date) && x.Category.TypeOfFlowID == typeOfFlowId)
+                var pItems = _payingItemService.GetList(x => x.UserId == user.Id && x.Date >= dateFrom.Date && (x.Date <= dateTo.Date) && x.Category.TypeOfFlowID == typeOfFlowId)
                     .ToList();
 
                 var payItemSubcategoriesList = new List<PayItemSubcategories>();
@@ -69,7 +68,7 @@ namespace WebUI.Helpers
         }
 
         //ToDo Изменить логику работы этого метода
-        private async Task<List<ProductPrice>> FillProductPrices(int catId,DateTime dateFrom,DateTime dateTo)
+        private async Task<List<ProductPrice>> FillProductPrices(int catId, DateTime dateFrom, DateTime dateTo)
         {
             var context = new AccountingContext();
             var tmp = await context.Database.SqlQuery<ProductPrice>(

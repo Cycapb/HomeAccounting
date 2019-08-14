@@ -8,6 +8,7 @@ using DomainModels.Model;
 using Services;
 using NLog;
 using Services.Exceptions;
+using System.Linq.Expressions;
 
 namespace BussinessLogic.Services
 {
@@ -101,6 +102,18 @@ namespace BussinessLogic.Services
             try
             {
                 return _repository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public IEnumerable<NotificationMailBox> GetList(Expression<Func<NotificationMailBox, bool>> predicate)
+        {
+            try
+            {
+                return _repository.GetList(predicate);
             }
             catch (DomainModelsException e)
             {

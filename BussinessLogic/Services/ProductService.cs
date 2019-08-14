@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class ProductService:IProductService
+    public class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
 
@@ -107,6 +109,18 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
+            }
+        }
+
+        public IEnumerable<Product> GetList(Expression<Func<Product, bool>> predicate)
+        {
+            try
+            {
+                return _productRepository.GetList(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
     }

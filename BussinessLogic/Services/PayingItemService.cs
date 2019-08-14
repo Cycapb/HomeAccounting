@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Services.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
-using DomainModels.Exceptions;
+using Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class PayingItemService:IPayingItemService
+    public class PayingItemService : IPayingItemService
     {
         private readonly IRepository<PayingItem> _repository;
 
@@ -40,7 +41,7 @@ namespace BussinessLogic.Services
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
             }
-            
+
         }
 
         public async Task<IEnumerable<PayingItem>> GetListAsync()
@@ -100,14 +101,25 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _repository.GetList()
-                .Where(u => u.UserId == user.Id && u.Category.TypeOfFlowID == typeOfFlow);
+                return _repository.GetList(u => u.UserId == user.Id && u.Category.TypeOfFlowID == typeOfFlow);
             }
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetListByTypeOfFlow)} при обращении к БД", e);
             }
-            
+
+        }
+
+        public IEnumerable<PayingItem> GetList(Expression<Func<PayingItem, bool>> predicate)
+        {
+            try
+            {
+                return _repository.GetList(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
         }
     }
 }

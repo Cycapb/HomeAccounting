@@ -6,13 +6,12 @@ namespace Services
     /// <summary>
     /// Служит для управления почтовыми ящиками системы уведомлений
     /// </summary>
-    public interface IMailboxService
+    public interface IMailboxService : IService<NotificationMailBox>
     {
         Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox);
         Task<NotificationMailBox> GetItemAsync(int id);
         Task<IEnumerable<NotificationMailBox>> GetListAsync();
         Task DeleteAsync(int id);
-        Task UpdateAsync(NotificationMailBox item);
-        IEnumerable<NotificationMailBox> GetList();
+        Task UpdateAsync(NotificationMailBox item);        
     }
 }

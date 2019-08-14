@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class CategoryService:ICategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
 
@@ -147,6 +148,18 @@ namespace BussinessLogic.Services
             try
             {
                 return _categoryRepository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public IEnumerable<Category> GetList(Expression<Func<Category, bool>> predicate)
+        {
+            try
+            {
+                return _categoryRepository.GetList(predicate);
             }
             catch (DomainModelsException e)
             {

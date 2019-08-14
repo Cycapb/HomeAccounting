@@ -63,7 +63,7 @@
                                     @Model.ProductsInItem[i].ProductDescription
                                 </td>
                                 <td>
-                                    @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model.ProductsInItem[i].Price, new {@class = "form-control"})
+                                    @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model.ProductsInItem[i].Price.ToString("F"), new {@class = "form-control"})
                                 </td>
                             </tr>
                         }
@@ -85,7 +85,7 @@
                                     @Model.ProductsNotInItem[i].Description
                                 </td>
                                 <td>
-                                    @Html.TextBox("PricesAndIdsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price, new {@class = "form-control"})
+                                    @Html.TextBox("PricesAndIdsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price.ToString("F"), new {@class = "form-control"})
                                 </td>
                             </tr>
                         }

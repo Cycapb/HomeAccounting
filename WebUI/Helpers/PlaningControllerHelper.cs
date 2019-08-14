@@ -1,24 +1,24 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DomainModels.Model;
 using WebUI.Abstract;
 using WebUI.Models;
-using Services;
 
 namespace WebUI.Helpers
 {
     [Authorize]
-    public class PlaningControllerHelper:IPlanningHelper
+    public class PlaningControllerHelper : IPlanningHelper
     {
         private readonly IPlanItemService _planItemService;
         private readonly ICategoryService _categoryService;
         private readonly IPayingItemService _pItemService;
 
-        public PlaningControllerHelper(IPlanItemService planItemService, 
+        public PlaningControllerHelper(IPlanItemService planItemService,
             ICategoryService categoryService, IPayingItemService pItemService)
         {
             _planItemService = planItemService;
@@ -71,22 +71,21 @@ namespace WebUI.Helpers
         public async Task SpreadPlanItems(WebUser user, PlanItem item)
         {
             var planItems = (await _planItemService.GetListAsync(user.Id))
-                .Where(x => x.Closed == false 
+                .Where(x => x.Closed == false
                 && x.Month.Date >= item.Month.Date
                 && x.CategoryId == item.CategoryId)
                 .ToList();
-                foreach (var planItem in planItems)
-                {
-                    planItem.SummPlan = item.SummPlan;
-                    await _planItemService.UpdateAsync(planItem);
-                }
-                await _planItemService.SaveAsync();
+            foreach (var planItem in planItems)
+            {
+                planItem.SummPlan = item.SummPlan;
+                await _planItemService.UpdateAsync(planItem);
+            }
+            await _planItemService.SaveAsync();
         }
 
         public async Task ActualizePlanItems(string userId)
         {
-            var items = _pItemService.GetList()
-                .Where(x => x.UserId == userId && x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
+            var items = _pItemService.GetList(x => x.UserId == userId && x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
                 .ToList();
             var planItems = (await _planItemService.GetListAsync(userId))
                 .Where(x => x.Month.Month == DateTime.Today.Month && x.Month.Year == DateTime.Today.Year)
@@ -144,7 +143,7 @@ namespace WebUI.Helpers
             {
                 categories = (await _categoryService.GetActiveGategoriesByUser(user.Id)).Where(x => x.ViewInPlan == true).ToList();
             }
-           
+
 
             model.CategoryPlanItemsIncome = categories.Where(x => x.TypeOfFlowID == 1).OrderBy(x => x.Name).ToList();
             model.CategoryPlanItemsOutgo = categories.Where(x => x.TypeOfFlowID == 2).OrderBy(x => x.Name).ToList();
@@ -157,9 +156,9 @@ namespace WebUI.Helpers
                 .Select(x => x.Key)
                 .ToList();
 
-            model.PlanItemsIncomePlan = model.CategoryPlanItemsIncome.Any()? model.CategoryPlanItemsIncome.First().PlanItem.Where(x => x.Closed == false).ToList()
+            model.PlanItemsIncomePlan = model.CategoryPlanItemsIncome.Any() ? model.CategoryPlanItemsIncome.First().PlanItem.Where(x => x.Closed == false).ToList()
                 : null;
-            model.PlanItemsOutgoPlan = model.CategoryPlanItemsOutgo.Any()? model.CategoryPlanItemsOutgo.First().PlanItem.Where(x => x.Closed == false).ToList()
+            model.PlanItemsOutgoPlan = model.CategoryPlanItemsOutgo.Any() ? model.CategoryPlanItemsOutgo.First().PlanItem.Where(x => x.Closed == false).ToList()
                 : null;
 
             var months = planItems
@@ -176,7 +175,7 @@ namespace WebUI.Helpers
             return model;
         }
 
-        private PlanItem CreatePlanItem(WebUser user,int catId, DateTime date)
+        private PlanItem CreatePlanItem(WebUser user, int catId, DateTime date)
         {
             return new PlanItem()
             {
@@ -189,10 +188,10 @@ namespace WebUI.Helpers
                 IncomeOutgoFact = 0,
                 Closed = false,
                 UserId = user.Id,
-                BalancePlan = 0,  
+                BalancePlan = 0,
                 BalanceFact = 0,
             };
         }
- 
+
     }
 }

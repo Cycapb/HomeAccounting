@@ -5,9 +5,9 @@ namespace WebUI.Abstract
 {
     public interface IPayingItemProductHelper
     {
-        Task CreatePayingItemProduct(PayingItemEditModel pItem);
-        Task UpdatePayingItemProduct(PayingItemEditModel pItem);
-        Task CreatePayingItemProduct(PayingItemModel pItem);
+        Task CreatePayingItemProduct(PayingItemEditModel model);
+        Task UpdatePayingItemProduct(PayingItemEditModel model);
+        Task CreatePayingItemProduct(PayingItemModel model);
         void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId);
     }
 }

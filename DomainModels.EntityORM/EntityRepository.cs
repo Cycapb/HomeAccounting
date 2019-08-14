@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DomainModels.Exceptions;
+using DomainModels.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using DomainModels.Model;
-using DomainModels.Repositories;
-using DomainModels.Exceptions;
 
 namespace DomainModels.EntityORM
 {
@@ -220,6 +220,18 @@ namespace DomainModels.EntityORM
             catch (Exception ex)
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItemAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+            }
+        }
+
+        public virtual IEnumerable<T> GetList(Expression<Func<T, bool>> predicate)
+        {
+            try
+            {
+                return _dbSet.Where(predicate);
+            }
+            catch (Exception ex)
+            {
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
     }

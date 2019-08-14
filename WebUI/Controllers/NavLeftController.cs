@@ -27,9 +27,9 @@ namespace WebUI.Controllers
         {
             try
             {
-                var accounts = _accService.GetList()
-                    .Where(u => u.UserId == user.Id)
+                var accounts = _accService.GetList(u => u.UserId == user.Id)                    
                     .ToList();
+
                 return PartialView(accounts);
             }
             catch (ServiceException e)

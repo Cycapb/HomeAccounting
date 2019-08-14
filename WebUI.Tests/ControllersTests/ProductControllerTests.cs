@@ -10,6 +10,8 @@ using Moq;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -84,21 +86,22 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ProductControllerTests")]
         public void Can_List_Products()
         {
-            _productServiceMock.Setup(m => m.GetList()).Returns(new List<Product>
+            var products = new List<Product>
             {
                 new Product() {CategoryID = 1,ProductID = 1,UserID = "1"},
                 new Product() {CategoryID = 1,ProductID = 2,UserID = "1"},
                 new Product() {CategoryID = 2,ProductID = 3,UserID = "1"},
                 new Product() {CategoryID = 3,ProductID = 2,UserID = "1"},
-            });
-            var target = new ProductController(_productServiceMock.Object);
+            };
             var categoryId = 1;
+            _productServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<Product, bool>>>())).Returns(products.Where(p => p.CategoryID == categoryId));
+            var target = new ProductController(_productServiceMock.Object);            
 
             var result = target.List(categoryId).ViewData.Model as List<Product>;
 
-            Assert.AreEqual(result.Count,2);
-            Assert.AreEqual(result[0].CategoryID,categoryId);
-            Assert.AreEqual(result[1].CategoryID,categoryId);
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(categoryId, result[0].CategoryID);
+            Assert.AreEqual(categoryId, result[1].CategoryID);
         }
 
         [TestMethod]
@@ -106,7 +109,7 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public void List_RaisesWebUiException()
         {
-            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            _productServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<Product, bool>>>())).Throws<ServiceException>();
             var target = new ProductController(_productServiceMock.Object);
 
             target.List(It.IsAny<int>());
@@ -116,7 +119,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ProductControllerTests")]
         public void List_RaisesWebUiExceptionWithInnerServiceException()
         {
-            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            _productServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<Product, bool>>>())).Throws<ServiceException>();
             var target = new ProductController(_productServiceMock.Object);
 
             try
@@ -135,7 +138,7 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public void EditableList_RaisesWebUiException()
         {
-            _productServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
+            _productServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<Product, bool>>>())).Throws<ServiceException>();
             var target = new ProductController(_productServiceMock.Object);
 
             target.EditableList(It.IsAny<int>());

@@ -20,7 +20,7 @@ namespace BussinessLogic.Providers
         private EmailSettings GetMailSettings()
         {
             var mailSettings = new EmailSettings();
-            var mailBox = _repository.GetList().SingleOrDefault(x => x.MailBoxName == "Accounting");
+            var mailBox = _repository.GetList(x => x.MailBoxName == "Accounting").SingleOrDefault();
 
             if (mailBox != null)
             {

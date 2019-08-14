@@ -48,7 +48,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _debtRepo.GetList().Where(x => x.UserId == userId);
+                return _debtRepo.GetList(x => x.UserId == userId);
             }
             catch (DomainModelsException e)
             {
@@ -60,7 +60,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _debtRepo.GetList().Where(x => x.UserId == userId && x.DateEnd == null);
+                return _debtRepo.GetList(x => x.UserId == userId && x.DateEnd == null);
             }
             catch (DomainModelsException e)
             {

@@ -4,9 +4,8 @@ using DomainModels.Model;
 
 namespace Services
 {
-    public interface IPayingItemService
-    {
-        IEnumerable<PayingItem> GetList();
+    public interface IPayingItemService : IService<PayingItem>
+    {        
         Task<PayingItem> GetItemAsync(int id);
         Task<IEnumerable<PayingItem>> GetListAsync();
         Task DeleteAsync(int id);

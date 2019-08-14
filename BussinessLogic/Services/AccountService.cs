@@ -6,6 +6,8 @@ using DomainModels.Repositories;
 using DomainModels.Exceptions;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Linq.Expressions;
 
 namespace BussinessLogic.Services
 {
@@ -104,6 +106,18 @@ namespace BussinessLogic.Services
             try
             {
                 return _accountRepository.GetList();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public IEnumerable<Account> GetList(Expression<Func<Account, bool>> predicate)
+        {
+            try
+            {
+                return _accountRepository.GetList(predicate);
             }
             catch (DomainModelsException e)
             {

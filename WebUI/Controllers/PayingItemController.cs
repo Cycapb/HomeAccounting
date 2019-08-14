@@ -1,16 +1,17 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
 using WebUI.Abstract;
-using WebUI.Models;
-using WebUI.Infrastructure.Attributes;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Infrastructure.Attributes;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebUI.Controllers
         {
             return View();
         }
-        
+
         public ActionResult MainPage()
         {
             return PartialView("_MainPage");
@@ -54,22 +55,20 @@ namespace WebUI.Controllers
         {
             PayingItemToView pItemToView;
             try
-            {
+            {                
+                var items = _payingItemService.GetList(i => i.UserId == user.Id && i.Date >= DbFunctions.AddDays(DateTime.Today, -2)).ToList();
                 pItemToView = new PayingItemToView()
                 {
-                    PayingItems = _payingItemService.GetList()
-                        .Where(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(2) && i.UserId == user.Id)
+                    PayingItems = items
                         .OrderByDescending(i => i.Date)
                         .ThenBy(x => x.Category.Name)
                         .Skip((page - 1) * ItemsPerPage)
-                        .Take(ItemsPerPage)
-                        .ToList(),
+                        .Take(ItemsPerPage),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
                         ItemsPerPage = ItemsPerPage,
-                        TotalItems = _payingItemService.GetList()
-                            .Count(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(2) && i.UserId == user.Id)
+                        TotalItems = items.Count
                     }
                 };
             }
@@ -86,18 +85,18 @@ namespace WebUI.Controllers
             return PartialView("_List", pItemToView);
         }
 
+
         public ActionResult ListAjax(WebUser user, int page)
         {
-            List<PayingItem> items;
+            IEnumerable<PayingItem> items;
             try
             {
-                items = _payingItemService.GetList()
-                    .Where(i => (DateTime.Now.Date - i.Date) <= TimeSpan.FromDays(2) && i.UserId == user.Id)
+                var payingItems = _payingItemService.GetList(i => i.Date >= DbFunctions.AddDays(DateTime.Today, -2) && i.UserId == user.Id).ToList();
+                items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)
                     .Skip((page - 1) * ItemsPerPage)
-                    .Take(ItemsPerPage)
-                    .ToList();
+                    .Take(ItemsPerPage);
             }
             catch (ServiceException e)
             {
@@ -114,38 +113,38 @@ namespace WebUI.Controllers
             await FillViewBag(user, typeOfFlow);
             var piModel = new PayingItemModel()
             {
-                PayingItem = new PayingItem() {UserId = user.Id},
+                PayingItem = new PayingItem() { UserId = user.Id },
                 Products = new List<Product>()
             };
             return PartialView(piModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, PayingItemModel pItem, int typeOfFlow)
+        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
         {
             if (ModelState.IsValid)
             {
-                if (pItem.PayingItem.Date.Month > DateTime.Today.Date.Month ||
-                    pItem.PayingItem.Date.Year > DateTime.Today.Year)
+                if (model.PayingItem.Date.Month > DateTime.Today.Date.Month ||
+                    model.PayingItem.Date.Year > DateTime.Today.Year)
                 {
-                    pItem.PayingItem.Date = DateTime.Today.Date;
+                    model.PayingItem.Date = DateTime.Today.Date;
                 }
                 try
                 {
-                    if (pItem.Products == null)
+                    if (model.Products == null)
                     {
-                        await _payingItemService.CreateAsync(pItem.PayingItem);
+                        await _payingItemService.CreateAsync(model.PayingItem);
                     }
                     else
                     {
-                        var summ = pItem.Products.Sum(x => x.Price);
-                        if (summ != 0)
+                        var sum = model.Products.Sum(x => x.Price);
+                        if (sum != 0)
                         {
-                            pItem.PayingItem.Summ = summ;
+                            model.PayingItem.Summ = sum;
                         }
-                        _payingItemHelper.CreateCommentWhileAdd(pItem);
-                        await _payingItemService.CreateAsync(pItem.PayingItem);
-                        await _pItemProductHelper.CreatePayingItemProduct(pItem);
+                        _payingItemHelper.CreateCommentWhileAdd(model);
+                        await _payingItemService.CreateAsync(model.PayingItem);
+                        await _pItemProductHelper.CreatePayingItemProduct(model);
                     }
                 }
                 catch (ServiceException e)
@@ -166,7 +165,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("List");
             }
             await FillViewBag(user, typeOfFlow);
-            return PartialView(pItem);
+            return PartialView(model);
         }
 
         public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)
@@ -230,7 +229,7 @@ namespace WebUI.Controllers
                     }
                     else
                     {
-                        pItem.PayingItem.Summ = GetSummForPayingItem(pItem);
+                        pItem.PayingItem.Summ = GetSumForPayingItem(pItem);
                         _payingItemHelper.CreateCommentWhileEdit(pItem);
                         await _payingItemService.UpdateAsync(pItem.PayingItem);
 
@@ -297,13 +296,13 @@ namespace WebUI.Controllers
             }
 
             var outList = (from item in tempList
-                    group item by item.Category.Name
+                           group item by item.Category.Name
                     into grouping
-                    select new OverAllItem()
-                    {
-                        Category = grouping.Key,
-                        Summ = grouping.Sum(x => x.Summ)
-                    })
+                           select new OverAllItem()
+                           {
+                               Category = grouping.Key,
+                               Summ = grouping.Sum(x => x.Summ)
+                           })
                 .OrderByDescending(x => x.Summ)
                 .Take(ItemsPerPage)
                 .ToList();
@@ -393,14 +392,14 @@ namespace WebUI.Controllers
             }
         }
 
-        private decimal GetSummForPayingItem(PayingItemEditModel pItem)
+        private decimal GetSumForPayingItem(PayingItemEditModel model)
         {
-            if (pItem.PricesAndIdsNotInItem == null)
+            if (model.PricesAndIdsNotInItem == null)
             {
-                return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+                return model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
             }
-            return pItem.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
-                   pItem.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+            return model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
+                   model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
         }
     }
 }
