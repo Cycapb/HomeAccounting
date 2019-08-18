@@ -19,7 +19,7 @@
                     Value = x.CategoryID.ToString()
                 }), new {@class = "selectpicker", onchange = "changeCategoryAdd()"})
             </div>
-            <div id="subcategories"></div>
+            <div id="subcategoriesAddDiv"></div>
             <div class="form-group" id="divPayingItemSum">
                 <label>Сумма:</label>
                 @Html.EditorFor(x => x.PayingItem.Summ, new
@@ -34,14 +34,12 @@
             </div>
 
             <div class="form-group">
-                <label>Счет:</label>
-                <p>
+                <label>Счет:</label>                
                     @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
                    {
                        Text = x.AccountName,
                        Value = x.AccountID.ToString()
-                   }), new {@class = "selectpicker" })
-                </p>
+                   }), new {@class = "selectpicker" })                
             </div>
 
             <div class="form-group">
@@ -80,7 +78,7 @@
             type: 'GET',
             url: '@Url.Action("GetSubCategories")/' + id,
             success: function (data) {
-                $('#subcategories').replaceWith(data);
+                $('#subcategoriesAddDiv').replaceWith(data);
                 $('#divProducts').attr('hidden', true);
             }
         });

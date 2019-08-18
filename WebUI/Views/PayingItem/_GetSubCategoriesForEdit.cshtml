@@ -1,18 +1,26 @@
 ﻿@model List<Product>
-<table class="table table-striped" id="Products">
-    <tr>
-        <th>Добавить</th>
-        <th>Наименование</th>
-        <th>Описание</th>
-        <th>Цена</th>
-    </tr>
-    @if (Model.Any())
-    {
-        for (int i = 0; i < Model.Count; i++)
-        {
+
+@if (Model.Count != 0)
+{
+    <div class="form-group" id="subcategoriesEditDiv">
+        <div><label>Подкатегории</label></div>
+        <table class="table table-striped" id="productsEditTable">
+            <tr>
+                <th>Добавить</th>
+                <th>Наименование</th>
+                <th>Описание</th>
+                <th>Цена</th>
+            </tr>
+            @for (int i = 0; i < Model.Count; i++)
+            {
             <tr>
                 <td>
-                    <input type="checkbox" name="PricesAndIdsInItem[@i].Id" value="@Model[i].ProductID"/>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="PricesAndIdsInItem[@i].Id" value="@Model[i].ProductID" />
+                            <span class="checkbox-material"><span class="check"></span></span>
+                        </label>
+                    </div>
                 </td>
                 <td>
                     @Model[i].ProductName
@@ -24,15 +32,21 @@
                     @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model[i].Price, new { @class = "form-control", placeholder = "Цена" })
                 </td>
             </tr>
-        }
-    }
-</table>
-@if (Model.Count != 0)
+            }
+        </table>
+    </div>
+}
+else
 {
-    <script type="text/javascript">
-            $(function() {
+    <div class="form-group" id="subcategoriesEditDiv"></div>
+}
+
+@*@if (Model.Count != 0)
+    {
+        <script type="text/javascript">
+            $(function () {
                 $('#sumInputDiv').attr('hidden', true);
                 $('#sumInputDiv').val('0');
             });
-    </script>
-}
+        </script>
+    }*@
