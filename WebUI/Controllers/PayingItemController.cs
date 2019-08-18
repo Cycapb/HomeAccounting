@@ -180,7 +180,7 @@ namespace WebUI.Controllers
                     return RedirectToAction("ListAjax", 1);
                 }
 
-                var pItemEditModel = new PayingItemEditModel()
+                var payingItemEditModel = new PayingItemEditModel()
                 {
                     PayingItem = payingItem,
                     PayingItemProducts = new List<PaiyngItemProduct>()
@@ -189,10 +189,10 @@ namespace WebUI.Controllers
 
                 if (!CheckForSubCategories(payingItem))
                 {
-                    return PartialView("_Edit", pItemEditModel);
+                    return PartialView("_Edit", payingItemEditModel);
                 }
-                _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
-                return PartialView("_Edit", pItemEditModel);
+                _pItemProductHelper.FillPayingItemEditModel(payingItemEditModel, id);
+                return PartialView("_Edit", payingItemEditModel);
             }
             catch (ServiceException e)
             {

@@ -19,7 +19,7 @@
                     Value = x.CategoryID.ToString()
                 }), new {@class = "selectpicker", onchange = "changeCategoryAdd()"})
             </div>
-            <div id="subcategoriesAddDiv"></div>
+            <div id="subcategoriesDiv"></div>
             <div class="form-group" id="divPayingItemSum">
                 <label>Сумма:</label>
                 @Html.EditorFor(x => x.PayingItem.Summ, new
@@ -78,7 +78,7 @@
             type: 'GET',
             url: '@Url.Action("GetSubCategories")/' + id,
             success: function (data) {
-                $('#subcategoriesAddDiv').replaceWith(data);
+                $('#subcategoriesDiv').replaceWith(data);
                 $('#divProducts').attr('hidden', true);
             }
         });

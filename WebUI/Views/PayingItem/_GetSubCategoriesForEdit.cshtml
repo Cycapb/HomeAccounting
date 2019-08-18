@@ -2,7 +2,7 @@
 
 @if (Model.Count != 0)
 {
-    <div class="form-group" id="subcategoriesEditDiv">
+    <div class="form-group" id="subcategoriesDiv">
         <div><label>Подкатегории</label></div>
         <table class="table table-striped" id="productsEditTable">
             <tr>
@@ -38,8 +38,14 @@
 }
 else
 {
-    <div class="form-group" id="subcategoriesEditDiv"></div>
+    <div class="form-group" id="subcategoriesDiv"></div>
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        showSubcategoriesCheckBoxClick();
+    });
+</script>
 
 @*@if (Model.Count != 0)
     {
