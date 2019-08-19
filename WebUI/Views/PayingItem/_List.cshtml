@@ -12,12 +12,12 @@
             <th class="hidden-xs">Действия</th>
         </tr>
         <tbody id="payingTable">
-            @Html.Partial("PayingItemsPartial", Model.PayingItems)
+            @Html.Partial("_PayingItemsPartial", Model.PayingItems)
         </tbody>
     </table>
 </div>
 
 <div class="pager">
-    @Html.Partial("PageLinksPartial",Model.PagingInfo)
+    @Html.Partial("_PageLinksPartial",Model.PagingInfo)
 </div>
 
