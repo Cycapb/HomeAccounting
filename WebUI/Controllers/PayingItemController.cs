@@ -217,29 +217,29 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel pItem)
+        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (pItem.PricesAndIdsInItem == null)
+                    if (model.PricesAndIdsInItem == null)
                     {
-                        await _payingItemService.UpdateAsync(pItem.PayingItem);
+                        await _payingItemService.UpdateAsync(model.PayingItem);
                     }
                     else
                     {
-                        pItem.PayingItem.Summ = GetSumForPayingItem(pItem);
-                        _payingItemHelper.CreateCommentWhileEdit(pItem);
-                        await _payingItemService.UpdateAsync(pItem.PayingItem);
+                        model.PayingItem.Summ = GetSumForPayingItem(model);
+                        _payingItemHelper.CreateCommentWhileEdit(model);
+                        await _payingItemService.UpdateAsync(model.PayingItem);
 
-                        if (PayingItemEditModel.OldCategoryId != pItem.PayingItem.CategoryID)
+                        if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
-                            await _pItemProductHelper.CreatePayingItemProduct(pItem);
+                            await _pItemProductHelper.CreatePayingItemProduct(model);
                         }
                         else
                         {
-                            await _pItemProductHelper.UpdatePayingItemProduct(pItem);
+                            await _pItemProductHelper.UpdatePayingItemProduct(model);
                         }
                     }
                 }
@@ -260,8 +260,8 @@ namespace WebUI.Controllers
                 }
                 return RedirectToAction("List");
             }
-            await FillViewBag(user, await GetTypeOfFlowId(pItem.PayingItem));
-            return PartialView("_Edit", pItem);
+            await FillViewBag(user, await GetTypeOfFlowId(model.PayingItem));
+            return PartialView("_Edit", model);
         }
 
         [HttpPost]

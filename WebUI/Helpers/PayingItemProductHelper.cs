@@ -1,9 +1,7 @@
-﻿using System;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
