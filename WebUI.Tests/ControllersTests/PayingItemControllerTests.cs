@@ -254,6 +254,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _payingItemService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1 });
             _payingItemService.Setup(x => x.GetList()).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
+            _payingItemService.Setup(x => x.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
             var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
                 _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
