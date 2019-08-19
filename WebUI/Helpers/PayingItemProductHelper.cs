@@ -36,14 +36,9 @@ namespace WebUI.Helpers
                 foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
-                    {
-                        var pItemProd = new PaiyngItemProduct()
-                        {
-                            PayingItemID = model.PayingItem.ItemID,
-                            Summ = item.Price,
-                            ProductID = item.Id
-                        };
-                        await _payingItemProductService.CreateAsync(pItemProd);
+                    {                        
+                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
+                        await _payingItemProductService.CreateAsync(payingItemProduct);
                     }
                 }
                 await _payingItemProductService.SaveAsync();
@@ -59,23 +54,23 @@ namespace WebUI.Helpers
         {
             try
             {
+                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID).ToList();
+
+                foreach (var item in payingItemProducts)
+                {
+                    await _payingItemProductService.DeleteAsync(item.ItemID);
+                }
+
+                await _payingItemProductService.SaveAsync();
+
                 foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
                     {
-                        var itemToUpdate = await _payingItemProductService.GetItemAsync(item.PayingItemProductId);
-                        if (itemToUpdate != null)
-                        {
-                            itemToUpdate.Summ = item.Price;
-                            await _payingItemProductService.UpdateAsync(itemToUpdate);
-                        }
-                    }
-                    if (item.Id == 0 && item.Price != 0)
-                    {
-                        await _payingItemProductService.DeleteAsync(item.PayingItemProductId);
-                    }
-                }
-                await _payingItemProductService.SaveAsync();
+                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
+                        await _payingItemProductService.CreateAsync(payingItemProduct);
+                    }                                  
+                }                
 
                 if (model.PricesAndIdsNotInItem != null)
                 {
@@ -83,17 +78,13 @@ namespace WebUI.Helpers
                     {
                         if (item.Id != 0)
                         {
-                            var payingItemProduct = new PaiyngItemProduct()
-                            {
-                                PayingItemID = model.PayingItem.ItemID,
-                                Summ = item.Price,
-                                ProductID = item.Id
-                            };
+                            var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
                             await _payingItemProductService.CreateAsync(payingItemProduct);
                         }
-                    }
-                    await _payingItemProductService.SaveAsync();
+                    }                    
                 }
+
+                await _payingItemProductService.SaveAsync();
             }
             catch (ServiceException e)
             {
@@ -182,6 +173,16 @@ namespace WebUI.Helpers
                 throw new WebUiHelperException(
                     $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
             }
+        }
+
+        private PaiyngItemProduct CreateItem(int payingItemId, int productId, decimal price)
+        {
+            return new PaiyngItemProduct()
+            {
+                PayingItemID = payingItemId,
+                ProductID = productId,
+                Summ = price
+            };
         }
     }
 }

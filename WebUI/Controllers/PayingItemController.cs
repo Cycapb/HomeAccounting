@@ -229,7 +229,13 @@ namespace WebUI.Controllers
                     }
                     else
                     {
-                        model.PayingItem.Summ = GetSumForPayingItem(model);
+                        var sum = GetSumForPayingItem(model);
+
+                        if (sum != 0 )
+                        {
+                            model.PayingItem.Summ = sum;
+                        }
+                        
                         _payingItemHelper.CreateCommentWhileEdit(model);
                         await _payingItemService.UpdateAsync(model.PayingItem);
 
