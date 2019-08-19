@@ -1,58 +1,78 @@
 ﻿@model List<Product>
 
-@if (Model.Count != 0)
+@if (Model != null && Model.Count != 0)
 {
-    <div class="form-group" id="subcategoriesDiv">
-        <div><label>Подкатегории</label></div>
-        <table class="table table-striped" id="productsEditTable">
-            <tr>
-                <th>Добавить</th>
-                <th>Наименование</th>
-                <th>Описание</th>
-                <th>Цена</th>
-            </tr>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="PricesAndIdsInItem[@i].Id" value="@Model[i].ProductID" />
-                            <span class="checkbox-material"><span class="check"></span></span>
-                        </label>
-                    </div>
-                </td>
-                <td>
-                    @Model[i].ProductName
-                </td>
-                <td>
-                    @Model[i].Description
-                </td>
-                <td>
-                    @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model[i].Price, new { @class = "form-control", placeholder = "Цена" })
-                </td>
-            </tr>
-            }
-        </table>
+    <div id="subcategoriesDiv">
+        @if (Model.Any())
+        {
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="showSubcategoriesCheckBox" value="" />
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Показать подкатегории
+                </label>
+            </div>
+        }
+
+        <div id="divProducts">
+            <table class="table table-striped" id="productsEditTable">
+                <tr>
+                    <th>Добавить</th>
+                    <th>Наименование</th>
+                    <th>Описание</th>
+                    <th>Цена</th>
+                </tr>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="PricesAndIdsInItem[@i].Id" value="@Model[i].ProductID" />
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            @Model[i].ProductName
+                        </td>
+                        <td>
+                            @Model[i].Description
+                        </td>
+                        <td>
+                            @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model[i].Price, new { @class = "form-control", placeholder = "Цена" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 }
 else
 {
-    <div class="form-group" id="subcategoriesDiv"></div>
+    <div hidden="hidden" id="subcategoriesDiv"></div>
+}
+
+@if (Model != null && Model.Count != 0)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {            
+            $('#divPayingItemSum').attr('hidden', true);
+        });
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#divPayingItemSum').removeAttr('hidden');
+        });
+    </script>
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
         showSubcategoriesCheckBoxClick();
+        $('#sumInput').val('0');
     });
 </script>
-
-@*@if (Model.Count != 0)
-    {
-        <script type="text/javascript">
-            $(function () {
-                $('#sumInputDiv').attr('hidden', true);
-                $('#sumInputDiv').val('0');
-            });
-        </script>
-    }*@

@@ -19,7 +19,7 @@
                     Value = x.CategoryID.ToString()
                 }), new {@class = "selectpicker", onchange = "changeCategoryAdd()"})
             </div>
-            <div id="subcategoriesDiv"></div>
+            <div id="subcategoriesDiv" hidden="hidden"></div>
             <div class="form-group" id="divPayingItemSum">
                 <label>Сумма:</label>
                 @Html.EditorFor(x => x.PayingItem.Summ, new
