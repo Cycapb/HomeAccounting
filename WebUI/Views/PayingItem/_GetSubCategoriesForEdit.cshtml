@@ -53,26 +53,9 @@ else
     <div hidden="hidden" id="subcategoriesDiv"></div>
 }
 
-@if (Model != null && Model.Count != 0)
-{
-    <script type="text/javascript">
-        $(document).ready(function () {            
-            $('#divPayingItemSum').attr('hidden', true);
-        });
-    </script>
-}
-else
-{
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#divPayingItemSum').removeAttr('hidden');
-        });
-    </script>
-}
-
 <script type="text/javascript">
     $(document).ready(function () {
         showSubcategoriesCheckBoxClick();
-        $('#sumInput').val('0');
+        $('#divPayingItemSum').removeAttr('hidden');        
     });
 </script>

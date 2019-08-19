@@ -71,7 +71,8 @@ namespace WebUI
                 "~/Scripts/ChangeButtonColor.js",
                 "~/Scripts/CalendarScript.js",
                 "~/Scripts/Buttons.js",
-                "~/Scripts/LoaderScripts.js"));
+                "~/Scripts/LoaderScripts.js",
+                "~/Scripts/PayingItemScripts.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-validation").Include(
                 "~/Scripts/jquery-{version}.js",
