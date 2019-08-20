@@ -31,12 +31,11 @@ namespace WebUI.Helpers
                 {
                     await _payingItemProductService.DeleteAsync(item.ItemID);
                 }
-                await _payingItemProductService.SaveAsync();
 
                 foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
-                    {                        
+                    {
                         var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
                         await _payingItemProductService.CreateAsync(payingItemProduct);
                     }
@@ -61,16 +60,14 @@ namespace WebUI.Helpers
                     await _payingItemProductService.DeleteAsync(item.ItemID);
                 }
 
-                await _payingItemProductService.SaveAsync();
-
                 foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
                     {
                         var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
                         await _payingItemProductService.CreateAsync(payingItemProduct);
-                    }                                  
-                }                
+                    }
+                }
 
                 if (model.PricesAndIdsNotInItem != null)
                 {
@@ -81,7 +78,7 @@ namespace WebUI.Helpers
                             var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
                             await _payingItemProductService.CreateAsync(payingItemProduct);
                         }
-                    }                    
+                    }
                 }
 
                 await _payingItemProductService.SaveAsync();
