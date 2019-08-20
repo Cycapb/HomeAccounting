@@ -484,7 +484,6 @@
     <Compile Include="Abstract\IMessageProvider.cs" />
     <Compile Include="Abstract\IPagingInfoCreator.cs" />
     <Compile Include="Abstract\IPayingItemHelper.cs" />
-    <Compile Include="Abstract\IPayingItemProductHelper.cs" />
     <Compile Include="Abstract\IPayItemSubcategoriesHelper.cs" />
     <Compile Include="Abstract\IPlanningHelper.cs" />
     <Compile Include="Abstract\IReportControllerHelper.cs" />
@@ -531,7 +530,6 @@
     </Compile>
     <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\PayingItemHelper.cs" />
-    <Compile Include="Helpers\PayingItemProductHelper.cs" />
     <Compile Include="Helpers\PayItemSubcategoriesHelper.cs" />
     <Compile Include="Helpers\PlaningControllerHelper.cs" />
     <Compile Include="Helpers\ReportControllerHelper.cs" />

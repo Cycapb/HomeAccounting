@@ -110,7 +110,7 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProducts)}", e);
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreatePayingItemProducts)}", e);
             }
         }
 
@@ -138,7 +138,7 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProducts)}", e);
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreatePayingItemProducts)}", e);
             }
         }
 
@@ -188,13 +188,13 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
             }
 
             catch (Exception e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
             }
         }
 
@@ -235,7 +235,7 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(UpdatePayingItemProducts)}", e);
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(UpdatePayingItemProducts)}", e);
             }
         }
 

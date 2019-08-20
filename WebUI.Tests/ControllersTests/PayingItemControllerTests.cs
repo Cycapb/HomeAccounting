@@ -20,16 +20,14 @@ namespace WebUI.Tests.ControllersTests
 
     [TestClass]
     public class PayingItemTest
-    {
-        private readonly Mock<IPayingItemProductHelper> _pItemProductHelper;
+    {        
         private readonly Mock<IPayingItemHelper> _payingItemHelper;
         private readonly Mock<IPayingItemService> _payingItemService;
         private readonly Mock<ICategoryService> _categoryService;
         private readonly Mock<IAccountService> _accountService;
 
         public PayingItemTest()
-        {
-            _pItemProductHelper = new Mock<IPayingItemProductHelper>();
+        {            
             _payingItemHelper = new Mock<IPayingItemHelper>();
             _payingItemService = new Mock<IPayingItemService>();
             _categoryService = new Mock<ICategoryService>();
@@ -258,8 +256,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
-
-            _pItemProductHelper.Verify(m => m.FillPayingItemEditModel(model, It.IsAny<int>()));
+            
             Assert.AreEqual(PayingItemEditModel.OldCategoryId, 1);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
