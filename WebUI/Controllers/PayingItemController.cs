@@ -236,18 +236,19 @@ namespace WebUI.Controllers
                             model.PayingItem.Summ = sum;
                         }
                         
-                        _payingItemHelper.CreateCommentWhileEdit(model);
-                        await _payingItemService.UpdateAsync(model.PayingItem);
+                        _payingItemHelper.CreateCommentWhileEdit(model);                        
 
                         if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
-                            await _payingItemProductHelper.CreatePayingItemProduct(model);                            
+                            await _payingItemHelper.CreatePayingItemProducts(model);                            
                         }
                         else
                         {
-                            await _payingItemProductHelper.UpdatePayingItemProduct(model);
+                            await _payingItemHelper.UpdatePayingItemProducts(model);
                         }
                     }
+
+                    await _payingItemService.UpdateAsync(model.PayingItem);
                 }
                 catch (ServiceException e)
                 {
