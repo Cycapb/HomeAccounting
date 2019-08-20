@@ -19,7 +19,7 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class PayingItemController : Controller
     {
-        private readonly IPayingItemProductHelper _pItemProductHelper;
+        private readonly IPayingItemProductHelper _payingItemProductHelper;
         private readonly IPayingItemHelper _payingItemHelper;
         private readonly IPayingItemService _payingItemService;
         private readonly ICategoryService _categoryService;
@@ -38,7 +38,7 @@ namespace WebUI.Controllers
             _payingItemService = payingItemService;
             _categoryService = categoryService;
             _accountService = accountService;
-            _pItemProductHelper = payingItemProductHelper;
+            _payingItemProductHelper = payingItemProductHelper;
         }
 
         public ActionResult Index()
@@ -144,7 +144,7 @@ namespace WebUI.Controllers
                         }
                         _payingItemHelper.CreateCommentWhileAdd(model);
                         await _payingItemService.CreateAsync(model.PayingItem);
-                        await _pItemProductHelper.CreatePayingItemProduct(model);
+                        await _payingItemProductHelper.CreatePayingItemProduct(model);
                     }
                 }
                 catch (ServiceException e)
@@ -191,7 +191,7 @@ namespace WebUI.Controllers
                 {
                     return PartialView("_Edit", payingItemEditModel);
                 }
-                _pItemProductHelper.FillPayingItemEditModel(payingItemEditModel, id);
+                _payingItemProductHelper.FillPayingItemEditModel(payingItemEditModel, id);
                 return PartialView("_Edit", payingItemEditModel);
             }
             catch (ServiceException e)
@@ -241,11 +241,11 @@ namespace WebUI.Controllers
 
                         if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
-                            await _pItemProductHelper.CreatePayingItemProduct(model);
+                            await _payingItemProductHelper.CreatePayingItemProduct(model);
                         }
                         else
                         {
-                            await _pItemProductHelper.UpdatePayingItemProduct(model);
+                            await _payingItemProductHelper.UpdatePayingItemProduct(model);
                         }
                     }
                 }
