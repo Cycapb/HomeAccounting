@@ -47,74 +47,7 @@ namespace WebUI.Helpers
                 throw new WebUiHelperException(
                     $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProduct)}", e);
             }
-        }
-
-        public async Task UpdatePayingItemProduct(PayingItemEditModel model)
-        {
-            try
-            {
-                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID).ToList();
-
-                foreach (var item in payingItemProducts)
-                {
-                    await _payingItemProductService.DeleteAsync(item.ItemID);
-                }
-
-                foreach (var item in model.PricesAndIdsInItem)
-                {
-                    if (item.Id != 0)
-                    {
-                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
-                        await _payingItemProductService.CreateAsync(payingItemProduct);
-                    }
-                }
-
-                if (model.PricesAndIdsNotInItem != null)
-                {
-                    foreach (var item in model.PricesAndIdsNotInItem)
-                    {
-                        if (item.Id != 0)
-                        {
-                            var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
-                            await _payingItemProductService.CreateAsync(payingItemProduct);
-                        }
-                    }
-                }
-
-                await _payingItemProductService.SaveAsync();
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(UpdatePayingItemProduct)}", e);
-            }
-        }
-
-        public async Task CreatePayingItemProduct(PayingItemModel model)
-        {
-            try
-            {
-                foreach (var item in model.Products)
-                {
-                    if (item.ProductID != 0)
-                    {
-                        var pItemProd = new PaiyngItemProduct()
-                        {
-                            PayingItemID = model.PayingItem.ItemID,
-                            Summ = item.Price,
-                            ProductID = item.ProductID
-                        };
-                        await _payingItemProductService.CreateAsync(pItemProd);
-                        await _payingItemProductService.SaveAsync();
-                    }
-                }
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProduct)}", e);
-            }
-        }
+        }                
 
         public void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId)
         {
