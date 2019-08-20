@@ -82,5 +82,15 @@ namespace WebUI.Helpers
                 model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(","));
             }
         }
+
+        public void CreatePayingItemProducts(PayingItemEditModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdatePayingItemProduct(PayingItemEditModel model)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

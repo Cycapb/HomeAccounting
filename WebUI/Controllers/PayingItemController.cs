@@ -241,7 +241,7 @@ namespace WebUI.Controllers
 
                         if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
-                            await _payingItemProductHelper.CreatePayingItemProduct(model);
+                            await _payingItemProductHelper.CreatePayingItemProduct(model);                            
                         }
                         else
                         {
