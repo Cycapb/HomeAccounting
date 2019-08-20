@@ -42,7 +42,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>())).ReturnsAsync(new List<Category>());
             _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, null, null, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, null, _categoryService.Object, _accountService.Object);
 
             var result = await target.Add(new WebUser() { Id = "1" }, 1);
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
@@ -61,7 +61,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>())).ReturnsAsync(new List<Category>());
             _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, null, null, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, null, _categoryService.Object, _accountService.Object);
             target.ModelState.AddModelError("", "");
 
             var result = await target.Add(new WebUser(), new PayingItemModel() { PayingItem = new PayingItem(), Products = new List<Product>() }, 1);
@@ -92,7 +92,7 @@ namespace WebUI.Tests.ControllersTests
                 PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = new DateTime(year, month, 1), UserId = "1", ItemID = 1 },
                 Products = null,
             };
-            var target = new PayingItemController(null, null, _payingItemService.Object, null, null);
+            var target = new PayingItemController(null, _payingItemService.Object, null, null);
 
             //Act
             var tmpResult = await target.Add(new WebUser() { Id = "1" }, pItemModel, 1);
@@ -111,13 +111,12 @@ namespace WebUI.Tests.ControllersTests
                 PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = DateTime.Today, UserId = "1", ItemID = 1 },
                 Products = new List<Product>()
             };
-            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object, _payingItemService.Object, null, null);
+            var target = new PayingItemController(_payingItemHelper.Object, _payingItemService.Object, null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, pItemModel, 2);
 
             _payingItemHelper.Verify(m => m.CreateCommentWhileAdd(pItemModel), Times.Exactly(1));
-            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));
-            _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
+            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));            
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
 
@@ -134,13 +133,12 @@ namespace WebUI.Tests.ControllersTests
                     new Product(){ Price = 200}
                 }
             };
-            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object, _payingItemService.Object, null, null);
+            var target = new PayingItemController(_payingItemHelper.Object, _payingItemService.Object, null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, pItemModel, 2);
 
             _payingItemHelper.Verify(m => m.CreateCommentWhileAdd(pItemModel), Times.Exactly(1));
-            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));
-            _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemModel), Times.Exactly(1));
+            _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));            
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
 
@@ -150,7 +148,7 @@ namespace WebUI.Tests.ControllersTests
         {
             PayingItem pItem = null;
             _payingItemService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(pItem);
-            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
             var routes = (result as RedirectToRouteResult).RouteValues;
@@ -163,7 +161,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Delete_RedirectsToActionList()
         {
-            PayingItemController target = new PayingItemController(null, null, _payingItemService.Object, null, null);
+            PayingItemController target = new PayingItemController(null, _payingItemService.Object, null, null);
 
             var result = await target.Delete(new WebUser(), It.IsAny<int>());
             var redirect = (RedirectToRouteResult)result;
@@ -202,7 +200,7 @@ namespace WebUI.Tests.ControllersTests
                 };
             _payingItemService.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>()))
                 .Returns(itemList.Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == "1"));
-            PayingItemController target = new PayingItemController(null, null, _payingItemService.Object, null, null);
+            PayingItemController target = new PayingItemController(null, _payingItemService.Object, null, null);
 
             var result = ((PartialViewResult)target.List(new WebUser() { Id = "1" })).Model as PayingItemToView;
 
@@ -238,7 +236,7 @@ namespace WebUI.Tests.ControllersTests
                     }
             };
             _payingItemService.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(itemList.Where(i => i.Date >= DateTime.Today.AddDays(-2) && i.UserId == "1"));
-            var target = new PayingItemController(null, null, _payingItemService.Object, null, null) { ItemsPerPage = 2 };
+            var target = new PayingItemController(null, _payingItemService.Object, null, null) { ItemsPerPage = 2 };
 
             var pItemToView = ((PartialViewResult)target.List(new WebUser() { Id = "1" }, 2)).Model as PayingItemToView;
             var result = pItemToView?.PayingItems.ToArray();
@@ -255,7 +253,7 @@ namespace WebUI.Tests.ControllersTests
             _payingItemService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1 });
             _payingItemService.Setup(x => x.GetList()).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
             _payingItemService.Setup(x => x.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
-            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
+            var target = new PayingItemController(_payingItemHelper.Object,
                 _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
@@ -270,7 +268,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_Get_ReturnsRedirectToListAjax()
         {
-            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
             var redirectResult = (RedirectToRouteResult)result;
@@ -285,7 +283,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _payingItemService.Setup(x => x.GetList()).Returns(new List<PayingItem>());
             _payingItemService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { ItemID = 6 });
-            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 6);
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
@@ -302,7 +300,7 @@ namespace WebUI.Tests.ControllersTests
             _accountService.Setup(x => x.GetList()).Returns(new List<Account>());
             _categoryService.Setup(x => x.GetList()).Returns(new List<Category>());
             _categoryService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category() { TypeOfFlowID = 1 });
-            var target = new PayingItemController(null, null, null, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, null, _categoryService.Object, _accountService.Object);
             var pItemEditModel = new PayingItemEditModel() { PayingItem = new PayingItem() { } };
             target.ModelState.AddModelError("error", "error");
 
@@ -327,7 +325,7 @@ namespace WebUI.Tests.ControllersTests
                 },
                 PricesAndIdsInItem = null
             };
-            var target = new PayingItemController(null, null, _payingItemService.Object, null, null);
+            var target = new PayingItemController(null, _payingItemService.Object, null, null);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
             var redirectResult = (RedirectToRouteResult)result;
@@ -346,7 +344,7 @@ namespace WebUI.Tests.ControllersTests
                 PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
                 PayingItem = new PayingItem() { CategoryID = 2 }
             };
-            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
+            var target = new PayingItemController(_payingItemHelper.Object,
                 _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
@@ -354,8 +352,7 @@ namespace WebUI.Tests.ControllersTests
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual(routeResult.RouteValues["action"], "List");
-            _payingItemService.Verify(m => m.UpdateAsync(pItemEditModel.PayingItem));
-            _pItemProductHelper.Verify(m => m.CreatePayingItemProduct(pItemEditModel));
+            _payingItemService.Verify(m => m.UpdateAsync(pItemEditModel.PayingItem));            
         }
 
         [TestMethod]
@@ -367,7 +364,7 @@ namespace WebUI.Tests.ControllersTests
             _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
                 .ReturnsAsync(new List<Category>());
             _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             await target.Edit(new WebUser(), 1, It.IsAny<int>());
         }
@@ -380,7 +377,7 @@ namespace WebUI.Tests.ControllersTests
             _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
                 .ReturnsAsync(new List<Category>());
             _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             try
             {
@@ -400,7 +397,7 @@ namespace WebUI.Tests.ControllersTests
             _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
                 .ReturnsAsync(new List<Category>());
             _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             try
             {
@@ -421,7 +418,7 @@ namespace WebUI.Tests.ControllersTests
             _categoryService.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
                 .ReturnsAsync(new List<Category>());
             _accountService.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(_pItemProductHelper.Object, null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
+            var target = new PayingItemController(null, _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             try
             {
@@ -443,7 +440,7 @@ namespace WebUI.Tests.ControllersTests
                 PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
                 PayingItem = new PayingItem() { CategoryID = 2 }
             };
-            var target = new PayingItemController(_pItemProductHelper.Object, _payingItemHelper.Object,
+            var target = new PayingItemController(_payingItemHelper.Object,
                 _payingItemService.Object, _categoryService.Object, _accountService.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
@@ -451,8 +448,7 @@ namespace WebUI.Tests.ControllersTests
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual(routeResult.RouteValues["action"], "List");
-            _payingItemService.Verify(m => m.UpdateAsync(pItemEditModel.PayingItem));
-            _pItemProductHelper.Verify(m => m.UpdatePayingItemProduct(pItemEditModel));
+            _payingItemService.Verify(m => m.UpdateAsync(pItemEditModel.PayingItem));            
         }
 
         [TestMethod]
@@ -469,7 +465,7 @@ namespace WebUI.Tests.ControllersTests
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
                 });
             WebUser user = new WebUser() { Id = "1" };
-            PayingItemController target = new PayingItemController(null, null, _payingItemService.Object, null, null);
+            PayingItemController target = new PayingItemController(null, _payingItemService.Object, null, null);
 
             //Act
             var result = ((PartialViewResult)target.ExpensiveCategories(user)).ViewData.Model as List<OverAllItem>;

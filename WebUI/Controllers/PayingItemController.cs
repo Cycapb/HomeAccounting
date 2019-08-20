@@ -18,8 +18,7 @@ namespace WebUI.Controllers
     [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class PayingItemController : Controller
-    {
-        private readonly IPayingItemProductHelper _payingItemProductHelper;
+    {        
         private readonly IPayingItemHelper _payingItemHelper;
         private readonly IPayingItemService _payingItemService;
         private readonly ICategoryService _categoryService;
@@ -27,8 +26,7 @@ namespace WebUI.Controllers
 
         public int ItemsPerPage = 10;
 
-        public PayingItemController(
-            IPayingItemProductHelper payingItemProductHelper,
+        public PayingItemController(            
             IPayingItemHelper payingItemHelper,
             IPayingItemService payingItemService,
             ICategoryService categoryService,
@@ -37,8 +35,7 @@ namespace WebUI.Controllers
             _payingItemHelper = payingItemHelper;
             _payingItemService = payingItemService;
             _categoryService = categoryService;
-            _accountService = accountService;
-            _payingItemProductHelper = payingItemProductHelper;
+            _accountService = accountService;            
         }
 
         public ActionResult Index()
@@ -143,8 +140,9 @@ namespace WebUI.Controllers
                             model.PayingItem.Summ = sum;
                         }
                         _payingItemHelper.CreateCommentWhileAdd(model);
+                        _payingItemHelper.CreatePayingItemProducts(model);
+
                         await _payingItemService.CreateAsync(model.PayingItem);
-                        await _payingItemProductHelper.CreatePayingItemProduct(model);
                     }
                 }
                 catch (ServiceException e)
@@ -191,7 +189,7 @@ namespace WebUI.Controllers
                 {
                     return PartialView("_Edit", payingItemEditModel);
                 }
-                _payingItemProductHelper.FillPayingItemEditModel(payingItemEditModel, id);
+                _payingItemHelper.FillPayingItemEditModel(payingItemEditModel, id);
                 return PartialView("_Edit", payingItemEditModel);
             }
             catch (ServiceException e)

@@ -3,7 +3,6 @@ using Services;
 using Services.Exceptions;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
@@ -19,35 +18,7 @@ namespace WebUI.Helpers
         {
             _payingItemProductService = payingItemProductService;
             _productService = productService;
-        }
-
-        public async Task CreatePayingItemProduct(PayingItemEditModel model)
-        {
-            try
-            {
-                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID);
-
-                foreach (var item in payingItemProducts)
-                {
-                    await _payingItemProductService.DeleteAsync(item.ItemID);
-                }
-
-                foreach (var item in model.PricesAndIdsInItem)
-                {
-                    if (item.Id != 0)
-                    {
-                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
-                        await _payingItemProductService.CreateAsync(payingItemProduct);
-                    }
-                }
-                await _payingItemProductService.SaveAsync();
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProduct)}", e);
-            }
-        }                
+        }        
 
         public void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId)
         {
@@ -103,16 +74,6 @@ namespace WebUI.Helpers
                 throw new WebUiHelperException(
                     $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
             }
-        }
-
-        private PaiyngItemProduct CreateItem(int payingItemId, int productId, decimal price)
-        {
-            return new PaiyngItemProduct()
-            {
-                PayingItemID = payingItemId,
-                ProductID = productId,
-                Summ = price
-            };
         }
     }
 }

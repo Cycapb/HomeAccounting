@@ -7,7 +7,9 @@ namespace WebUI.Abstract
     {
         void CreateCommentWhileAdd(PayingItemModel model);
         void CreateCommentWhileEdit(PayingItemEditModel model);
+        void CreatePayingItemProducts(PayingItemModel model);
         Task CreatePayingItemProducts(PayingItemEditModel model);
         Task UpdatePayingItemProducts(PayingItemEditModel model);
+        void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId);
     }
 }
