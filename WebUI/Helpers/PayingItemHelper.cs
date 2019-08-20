@@ -3,6 +3,7 @@ using Services;
 using Services.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
@@ -12,10 +13,12 @@ namespace WebUI.Helpers
     public class PayingItemHelper : IPayingItemHelper
     {
         private readonly IProductService _productService;
+        private readonly IPayingItemProductService _payingItemProductService;
 
-        public PayingItemHelper(IProductService productService)
+        public PayingItemHelper(IProductService productService, IPayingItemProductService payingItemProductService)
         {
             _productService = productService;
+            _payingItemProductService = payingItemProductService;
         }
 
         public void CreateCommentWhileAdd(PayingItemModel model)
@@ -50,7 +53,7 @@ namespace WebUI.Helpers
             var products = new List<Product>();
             try
             {
-                products = _productService.GetList().Where(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+                products = _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
             }
             catch (ServiceException e)
             {
@@ -83,14 +86,83 @@ namespace WebUI.Helpers
             }
         }
 
-        public void CreatePayingItemProducts(PayingItemEditModel model)
+        public async Task CreatePayingItemProducts(PayingItemEditModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID);
+
+                foreach (var item in payingItemProducts)
+                {
+                    await _payingItemProductService.DeleteAsync(item.ItemID);
+                }
+
+                foreach (var item in model.PricesAndIdsInItem)
+                {
+                    if (item.Id != 0)
+                    {
+                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
+                        await _payingItemProductService.CreateAsync(payingItemProduct);
+                    }
+                }
+                await _payingItemProductService.SaveAsync();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(CreatePayingItemProducts)}", e);
+            }
         }
 
-        public void UpdatePayingItemProduct(PayingItemEditModel model)
+        public async Task UpdatePayingItemProducts(PayingItemEditModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID).ToList();
+
+                foreach (var item in payingItemProducts)
+                {
+                    await _payingItemProductService.DeleteAsync(item.ItemID);
+                }
+
+                foreach (var item in model.PricesAndIdsInItem)
+                {
+                    if (item.Id != 0)
+                    {
+                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
+                        await _payingItemProductService.CreateAsync(payingItemProduct);
+                    }
+                }
+
+                if (model.PricesAndIdsNotInItem != null)
+                {
+                    foreach (var item in model.PricesAndIdsNotInItem)
+                    {
+                        if (item.Id != 0)
+                        {
+                            var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
+                            await _payingItemProductService.CreateAsync(payingItemProduct);
+                        }
+                    }
+                }
+
+                await _payingItemProductService.SaveAsync();
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemProductHelper)} в методе {nameof(UpdatePayingItemProducts)}", e);
+            }
+        }
+
+        private PaiyngItemProduct CreateItem(int payingItemId, int productId, decimal price)
+        {
+            return new PaiyngItemProduct()
+            {
+                PayingItemID = payingItemId,
+                ProductID = productId,
+                Summ = price
+            };
         }
     }
 }
