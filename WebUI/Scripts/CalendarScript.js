@@ -6,8 +6,7 @@
     $('#PayingItem_Date').on('changeDate', function (ev) {
         $(this).datepicker('hide');
     });
-};
-
+}
 
 
 function clickDtFrom() {
@@ -18,7 +17,7 @@ function clickDtFrom() {
     $('#DtFrom').on('changeDate', function (ev) {
         $(this).datepicker('hide');
     });
-};
+}
 
 function clickDtTo() {
 
@@ -29,7 +28,7 @@ function clickDtTo() {
     $('#DtTo').on('changeDate', function (ev) {
         $(this).datepicker('hide');
     });
-};
+}
 
 function clickDateFrom() {
     $('#DateFrom').datepicker({
@@ -39,7 +38,7 @@ function clickDateFrom() {
     $('#DateFrom').on('changeDate', function (ev) {
         $(this).datepicker('hide');
     });
-};
+}
 
 function clickDateTo() {
     $('#DateTo').datepicker({
@@ -49,4 +48,4 @@ function clickDateTo() {
     $('#DateTo').on('changeDate', function (ev) {
         $(this).datepicker('hide');
     });
-};
+}

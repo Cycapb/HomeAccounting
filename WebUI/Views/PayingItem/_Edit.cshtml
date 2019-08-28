@@ -18,26 +18,16 @@
                 @Html.HiddenFor(x => x.PayingItem.ItemID)
                 @Html.HiddenFor(x => x.PayingItem.UserId)
                 <label>Категория:</label>
-                <p>
-                    @Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
+                @Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
                 {
                     Text = x.Name,
                     Value = x.CategoryID.ToString()
-                }), new {@class = "selectpicker", onchange = "changeCategoryEdit()"})
-                </p>                
+                }), new { @class = "selectpicker", onchange = "changeCategoryEdit()" })
             </div>
-
-            @if (Model.PayingItemProducts == null || !Model.PayingItemProducts.Any())
+            @if (Model.PayingItemProducts != null && Model.PayingItemProducts.Any())
             {
-                <script type="text/javascript">
-                    $('#ReadOnlySumm').prop('readonly', false);
-                </script>
-            }
-            else
-            {
-                <div class="form-group">
-                    <label>Подкатегории</label>
-                    <table class="table table-striped" id="Products">
+                <div class="form-group" id="subcategoriesDiv">
+                    <table class="table table-striped" id="productsEditTable">
                         <tr>
                             <th></th>
                             <th>Наименование</th>
@@ -52,7 +42,9 @@
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" checked="checked" name="PricesAndIdsInItem[@i].Id" value="@Model.ProductsInItem[i].ProductId" />
-                                            <span class="checkbox-material"><span class="check"></span></span>		
+                                            <span class="checkbox-material">
+                                                <span class="check"></span>
+                                            </span>
                                         </label>
                                     </div>
                                 </td>
@@ -63,7 +55,7 @@
                                     @Model.ProductsInItem[i].ProductDescription
                                 </td>
                                 <td>
-                                    @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model.ProductsInItem[i].Price.ToString("F"), new {@class = "form-control"})
+                                    @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model.ProductsInItem[i].Price.ToString("F"), new { @class = "form-control" })
                                 </td>
                             </tr>
                         }
@@ -74,7 +66,9 @@
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="PricesAndIdsNotInItem[@i].Id" value="@Model.ProductsNotInItem[i].ProductID" />
-                                            <span class="checkbox-material"><span class="check"></span></span>
+                                            <span class="checkbox-material">
+                                                <span class="check"></span>
+                                            </span>
                                         </label>
                                     </div>
                                 </td>
@@ -85,66 +79,80 @@
                                     @Model.ProductsNotInItem[i].Description
                                 </td>
                                 <td>
-                                    @Html.TextBox("PricesAndIdsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price.ToString("F"), new {@class = "form-control"})
+                                    @Html.TextBox("PricesAndIdsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price.ToString("F"), new { @class = "form-control" })
                                 </td>
                             </tr>
                         }
                     </table>
                 </div>
             }
+            else
+            {
+                <div id="subcategoriesDiv" hidden="hidden"></div>
+            }
 
-            @Html.ValidationMessageFor(x => x.PayingItem.Summ)
-            <div class="form-group">
+            <div class="form-group" id="divPayingItemSum">
                 <label>Сумма:</label>
-                <input type="text" id="ReadOnlySumm" name="PayingItem.Summ" readonly="readonly" value="@Model.PayingItem.Summ" class="form-control"/>
+                <input type="text" id="sumInput" name="PayingItem.Summ" value="@Model.PayingItem.Summ.ToString("F")" class="form-control" />
+                @Html.ValidationMessageFor(x => x.PayingItem.Summ)
             </div>
 
             <div class="form-group">
                 <label>Счет:</label>
-                <p>
-                    @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
-                   {
-                       Text = x.AccountName,
-                       Value = x.AccountID.ToString()
-                   }), new {@class = "selectpicker" })
-                </p>                
+                @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
+                {
+                    Text = x.AccountName,
+                    Value = x.AccountID.ToString()
+                }), new { @class = "selectpicker" })
             </div>
 
             <div class="form-group">
                 <label>Дата:</label>
-                @Html.TextBoxFor(x => x.PayingItem.Date, new {@class = "datepicker form-control", onclick = "clickDate()", Value = DateTime.Today.ToShortDateString()})
+                @Html.TextBoxFor(x => x.PayingItem.Date, new { @class = "datepicker form-control", onclick = "clickDate()", Value = DateTime.Today.ToShortDateString() })
                 @Html.ValidationMessageFor(x => x.PayingItem.Date)
             </div>
 
             <div class="form-group">
                 <label>Комментарий:</label>
-                @Html.TextAreaFor(x => x.PayingItem.Comment, new {@class = "form-control"})
+                @Html.TextAreaFor(x => x.PayingItem.Comment, new { @class = "form-control" })
             </div>
         </div>
 
         <div class="panel-footer">
-            <input type="submit" value="Сохранить изменения" class="btn btn-success btn-raised btn-sm"/>
+            <input type="submit" value="Сохранить изменения" class="btn btn-success btn-raised btn-sm" />
             @Ajax.ActionLink("Назад", "List", null, new AjaxOptions()
             {
                 Url = Url.Action("List"),
                 UpdateTargetId = "payingDiv"
-            }, new {@class = "btn btn-default btn-raised btn-sm"})
+            }, new { @class = "btn btn-default btn-raised btn-sm" })
         </div>
     }
 </div>
+
+@if (Model.PayingItemProducts != null && Model.PayingItemProducts.Count != 0)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#divPayingItemSum').attr('hidden', true);
+        });
+    </script>
+}
 <script type="text/javascript">
     function changeCategoryEdit() {
         var id = $('#PayingItem_CategoryID').val();
         $.ajax({
             type: 'GET',
             url: '@Url.Action("GetSubCategoriesForEdit")/' + id,
-            success: function (data) {
-                $('#Products').replaceWith(data);
+            success: function(data) {
+                $('#subcategoriesDiv').replaceWith(data);
+                $('#divProducts').attr('hidden', true);
+                $('#PayingItem_Comment').val('');
+                $('#sumInput').val('0');
             }
         });
     };
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.selectpicker').selectpicker();
         clickDate();
     });

@@ -1,9 +1,9 @@
 ﻿@model List<Product>
 
 
-@if (Model.Count != 0)
+@if (Model != null && Model.Count != 0)
     {
-    <div id="subcategories">
+    <div id="subcategoriesDiv">
             @if (Model.Any())
             {
                 <div class="checkbox">
@@ -52,19 +52,11 @@
     }
 else
 {
-  <div id="subcategories"></div>
+  <div id="subcategoriesDiv" hidden="hidden"></div>
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#showSubcategoriesCheckBox').change(function() {
-            if(this.checked) {
-                $('#divProducts').removeAttr('hidden');
-                $('#divPayingItemSum').attr('hidden', true);
-            } else {
-                $('#divProducts').attr('hidden', true);
-                $('#divPayingItemSum').removeAttr('hidden');
-            }
-        });
+        showSubcategoriesCheckBoxClick();
     });
 </script>

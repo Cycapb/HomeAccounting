@@ -116,7 +116,7 @@ namespace WebUI.Controllers
                 PayingItem = new PayingItem() { UserId = user.Id },
                 Products = new List<Product>()
             };
-            return PartialView(piModel);
+            return PartialView("_Add", piModel);
         }
 
         [HttpPost]
@@ -165,7 +165,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("List");
             }
             await FillViewBag(user, typeOfFlow);
-            return PartialView(model);
+            return PartialView("_Add", model);
         }
 
         public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)
@@ -173,26 +173,26 @@ namespace WebUI.Controllers
             await FillViewBag(user, typeOfFlowId);
             try
             {
-                var pItem = await _payingItemService.GetItemAsync(id);
+                var payingItem = await _payingItemService.GetItemAsync(id);
 
-                if (pItem == null)
+                if (payingItem == null)
                 {
                     return RedirectToAction("ListAjax", 1);
                 }
 
-                var pItemEditModel = new PayingItemEditModel()
+                var payingItemEditModel = new PayingItemEditModel()
                 {
-                    PayingItem = pItem,
+                    PayingItem = payingItem,
                     PayingItemProducts = new List<PaiyngItemProduct>()
                 };
-                PayingItemEditModel.OldCategoryId = pItem.CategoryID;
+                PayingItemEditModel.OldCategoryId = payingItem.CategoryID;
 
-                if (!CheckForSubCategories(pItem))
+                if (!CheckForSubCategories(payingItem))
                 {
-                    return PartialView(pItemEditModel);
+                    return PartialView("_Edit", payingItemEditModel);
                 }
-                _pItemProductHelper.FillPayingItemEditModel(pItemEditModel, id);
-                return PartialView(pItemEditModel);
+                _pItemProductHelper.FillPayingItemEditModel(payingItemEditModel, id);
+                return PartialView("_Edit", payingItemEditModel);
             }
             catch (ServiceException e)
             {
@@ -217,29 +217,29 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel pItem)
+        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (pItem.PricesAndIdsInItem == null)
+                    if (model.PricesAndIdsInItem == null)
                     {
-                        await _payingItemService.UpdateAsync(pItem.PayingItem);
+                        await _payingItemService.UpdateAsync(model.PayingItem);
                     }
                     else
                     {
-                        pItem.PayingItem.Summ = GetSumForPayingItem(pItem);
-                        _payingItemHelper.CreateCommentWhileEdit(pItem);
-                        await _payingItemService.UpdateAsync(pItem.PayingItem);
+                        model.PayingItem.Summ = GetSumForPayingItem(model);
+                        _payingItemHelper.CreateCommentWhileEdit(model);
+                        await _payingItemService.UpdateAsync(model.PayingItem);
 
-                        if (PayingItemEditModel.OldCategoryId != pItem.PayingItem.CategoryID)
+                        if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
-                            await _pItemProductHelper.CreatePayingItemProduct(pItem);
+                            await _pItemProductHelper.CreatePayingItemProduct(model);
                         }
                         else
                         {
-                            await _pItemProductHelper.UpdatePayingItemProduct(pItem);
+                            await _pItemProductHelper.UpdatePayingItemProduct(model);
                         }
                     }
                 }
@@ -260,8 +260,8 @@ namespace WebUI.Controllers
                 }
                 return RedirectToAction("List");
             }
-            await FillViewBag(user, await GetTypeOfFlowId(pItem.PayingItem));
-            return PartialView(pItem);
+            await FillViewBag(user, await GetTypeOfFlowId(model.PayingItem));
+            return PartialView("_Edit", model);
         }
 
         [HttpPost]
@@ -307,7 +307,7 @@ namespace WebUI.Controllers
                 .Take(ItemsPerPage)
                 .ToList();
 
-            return PartialView(outList);
+            return PartialView("_ExpensiveCategories", outList);
         }
 
         public async Task<ActionResult> GetSubCategories(int id)
@@ -318,7 +318,7 @@ namespace WebUI.Controllers
                     .Product
                     .OrderBy(x => x.ProductName)
                     .ToList();
-                return PartialView(products);
+                return PartialView("_GetSubCategories", products);
             }
             catch (Exception e)
             {
@@ -332,7 +332,7 @@ namespace WebUI.Controllers
             try
             {
                 var products = (await _categoryService.GetProducts(id)).ToList();
-                return PartialView(products);
+                return PartialView("_GetSubCategoriesForEdit", products);
             }
             catch (ServiceException e)
             {
@@ -382,8 +382,8 @@ namespace WebUI.Controllers
         {
             try
             {
-                return _payingItemService.GetList()
-                    .Any(x => x.CategoryID == item.CategoryID);
+                return _payingItemService.GetList(x => x.CategoryID == item.CategoryID)
+                    .Any();
             }
             catch (ServiceException e)
             {
