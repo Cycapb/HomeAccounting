@@ -103,7 +103,7 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ListAjax)}", e);
             }
-            return PartialView("PayingItemsPartial", items);
+            return PartialView("_PayingItemsPartial", items);
         }
 
         [UserHasCategoriesAttribute]
