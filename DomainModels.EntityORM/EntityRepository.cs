@@ -234,5 +234,39 @@ namespace DomainModels.EntityORM
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
+
+        public void DeleteRange(IEnumerable<T> items)
+        {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            try
+            {
+                _dbSet.RemoveRange(items);
+            }
+            catch (Exception ex)
+            {
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRange)} репозитория {nameof(EntityRepository<T>)}", ex);
+            }            
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<T> items)
+        {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            try
+            {
+                return Task.Run(() => _dbSet.RemoveRange(items));
+            }
+            catch (Exception ex)
+            {
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRangeAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+            }
+        }
     }
 }
