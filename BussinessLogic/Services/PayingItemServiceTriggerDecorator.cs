@@ -114,5 +114,10 @@ namespace BussinessLogic.Services
         {
             return _payingItemService.GetList(predicate);
         }
+
+        public async Task SaveAsync()
+        {
+            await _payingItemService.SaveAsync();                                                
+        }
     }
 }
