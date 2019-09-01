@@ -286,7 +286,7 @@ namespace WebUI.Tests.ControllersTests
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
 
             Assert.AreEqual(model.PayingItem.ItemID, 6);
-            Assert.AreEqual(model.PayingItemProducts.Count, 0);
+            Assert.AreEqual(model.PayingItemProductsCount, 0);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 

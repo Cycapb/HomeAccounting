@@ -180,8 +180,7 @@ namespace WebUI.Controllers
 
                 var payingItemEditModel = new PayingItemEditModel()
                 {
-                    PayingItem = payingItem,
-                    PayingItemProducts = new List<PaiyngItemProduct>()
+                    PayingItem = payingItem                    
                 };
                 PayingItemEditModel.OldCategoryId = payingItem.CategoryID;
 
@@ -213,6 +212,7 @@ namespace WebUI.Controllers
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
             }
         }
+        //ToDo Write test to check correct filling of the PayingItemEditViewModel
 
         [HttpPost]
         public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel model)
@@ -221,24 +221,20 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    if (model.PricesAndIdsInItem == null)
-                    {
-                        await _payingItemService.UpdateAsync(model.PayingItem);
-                    }
-                    else
+                    if (model.PricesAndIdsInItem != null)
                     {
                         var sum = GetSumForPayingItem(model);
 
-                        if (sum != 0 )
+                        if (sum != 0)
                         {
                             model.PayingItem.Summ = sum;
                         }
-                        
-                        _payingItemHelper.CreateCommentWhileEdit(model);                        
+
+                        _payingItemHelper.CreateCommentWhileEdit(model);
 
                         if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
-                            await _payingItemHelper.CreatePayingItemProducts(model);                            
+                            await _payingItemHelper.CreatePayingItemProducts(model);
                         }
                         else
                         {
@@ -247,6 +243,7 @@ namespace WebUI.Controllers
                     }
 
                     await _payingItemService.UpdateAsync(model.PayingItem);
+                    return RedirectToAction("List");
                 }
                 catch (ServiceException e)
                 {
@@ -262,9 +259,9 @@ namespace WebUI.Controllers
                 {
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
-                }
-                return RedirectToAction("List");
+                }                
             }
+
             await FillViewBag(user, await GetTypeOfFlowId(model.PayingItem));
             return PartialView("_Edit", model);
         }

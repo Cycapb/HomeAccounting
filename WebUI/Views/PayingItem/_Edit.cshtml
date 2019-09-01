@@ -24,7 +24,7 @@
                     Value = x.CategoryID.ToString()
                 }), new { @class = "selectpicker", onchange = "changeCategoryEdit()" })
             </div>
-            @if (Model.PayingItemProducts != null && Model.PayingItemProducts.Any())
+            @if (Model.PayingItemProductsCount != 0)
             {
                 <div class="form-group" id="subcategoriesDiv">
                     <table class="table table-striped" id="productsEditTable">
@@ -129,7 +129,7 @@
     }
 </div>
 
-@if (Model.PayingItemProducts != null && Model.PayingItemProducts.Count != 0)
+@if (Model.PayingItemProductsCount != 0)
 {
     <script type="text/javascript">
         $(document).ready(function () {

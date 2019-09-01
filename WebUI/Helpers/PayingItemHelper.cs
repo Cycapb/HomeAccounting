@@ -1,8 +1,10 @@
 ﻿using DomainModels.Model;
+using NLog;
 using Services;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
@@ -15,11 +17,14 @@ namespace WebUI.Helpers
     {
         private readonly IProductService _productService;
         private readonly IPayingItemProductService _payingItemProductService;
+        private readonly IPayingItemService _payingItemService;
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public PayingItemHelper(IProductService productService, IPayingItemProductService payingItemProductService)
+        public PayingItemHelper(IProductService productService, IPayingItemProductService payingItemProductService, IPayingItemService payingItemService)
         {
             _productService = productService;
             _payingItemProductService = payingItemProductService;
+            _payingItemService = payingItemService;
         }
 
         public void CreateCommentWhileAdd(PayingItemModel model)
@@ -118,22 +123,21 @@ namespace WebUI.Helpers
         {
             try
             {
-                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID);
+                var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
+                payingItem.PaiyngItemProduct.Clear();
 
-                foreach (var item in payingItemProducts)
+                var itemsToAdd = model.PricesAndIdsInItem.Where(i => i.Id != 0).Select(i => new PaiyngItemProduct()
                 {
-                    await _payingItemProductService.DeleteAsync(item.ItemID);
+                    ProductID = i.Id,
+                    Summ = i.Price,
+                    PayingItemID = payingItem.ItemID
+                });
+
+                foreach (var item in itemsToAdd)
+                {
+                    payingItem.PaiyngItemProduct.Add(item);
                 }
 
-                foreach (var item in model.PricesAndIdsInItem)
-                {
-                    if (item.Id != 0)
-                    {
-                        var payingItemProduct = CreateItem(model.PayingItem.ItemID, item.Id, item.Price);
-                        await _payingItemProductService.CreateAsync(payingItemProduct);
-                    }
-                }
-                await _payingItemProductService.SaveAsync();
             }
             catch (ServiceException e)
             {
@@ -151,8 +155,7 @@ namespace WebUI.Helpers
                 var products =
                     _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID)
                     .ToList();
-
-                model.PayingItemProducts = payingItemProducts;
+                model.PayingItemProductsCount = payingItemProducts.Count;
 
                 if (payingItemProducts.Count != 0)
                 {

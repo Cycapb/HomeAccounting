@@ -11,8 +11,8 @@ namespace WebUI.Models
         public List<IdNamePrice> ProductsInItem { get; set; }
         public List<Product> ProductsNotInItem { get; set; }
         public List<PriceAndIdForEdit> PricesAndIdsInItem { get; set; }
-        public List<PriceAndIdForEdit> PricesAndIdsNotInItem { get; set; } 
-        public List<PaiyngItemProduct> PayingItemProducts { get; set; }
+        public List<PriceAndIdForEdit> PricesAndIdsNotInItem { get; set; }         
+        public int PayingItemProductsCount { get; set; }
     }
 
     public class IdNamePrice
