@@ -171,11 +171,11 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public virtual Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             try
             {
-                return Task.Run(() => _context.SaveChanges());
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
