@@ -112,8 +112,7 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(_payingItemHelper.Object, _payingItemService.Object, null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, pItemModel, 2);
-
-            _payingItemHelper.Verify(m => m.CreateCommentWhileAdd(pItemModel), Times.Exactly(1));
+                        
             _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));            
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
@@ -134,8 +133,7 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(_payingItemHelper.Object, _payingItemService.Object, null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, pItemModel, 2);
-
-            _payingItemHelper.Verify(m => m.CreateCommentWhileAdd(pItemModel), Times.Exactly(1));
+                        
             _payingItemService.Verify(m => m.CreateAsync(It.IsAny<PayingItem>()), Times.Exactly(1));            
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }

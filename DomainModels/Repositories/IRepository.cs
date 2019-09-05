@@ -12,7 +12,7 @@ namespace DomainModels.Repositories
         Task<IEnumerable<T>> GetListAsync();
         T GetItem(int id);
         Task<T> GetItemAsync(int id);
-        void Create(T item);
+        T Create(T item);
         Task<T> CreateAsync(T item);
         void Delete(int id);
         Task DeleteAsync(int id);

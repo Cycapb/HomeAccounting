@@ -70,11 +70,11 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public void Create(T item)
+        public T Create(T item)
         {
             try
             {
-                _dbSet.Add(item);
+                return _dbSet.Add(item);
             }
             catch (Exception ex)
             {

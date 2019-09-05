@@ -1,10 +1,10 @@
-﻿using DomainModels.Model;
+﻿using DomainModels.EntityORM;
+using DomainModels.Model;
 using NLog;
 using Services;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
@@ -25,34 +25,7 @@ namespace WebUI.Helpers
             _productService = productService;
             _payingItemProductService = payingItemProductService;
             _payingItemService = payingItemService;
-        }
-
-        public void CreateCommentWhileAdd(PayingItemModel model)
-        {
-            if (string.IsNullOrEmpty(model.PayingItem.Comment))
-            {
-                var products = new List<Product>();
-                try
-                {
-                    products =
-                        _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
-                }
-                catch (ServiceException e)
-                {
-                    throw new WebUiHelperException(
-                        $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileAdd)}", e);
-                }
-                var comment = string.Empty;
-                foreach (var item in model.Products)
-                {
-                    if (item.ProductID != 0)
-                    {
-                        comment += products.Single(x => x.ProductID == item.ProductID).ProductName + ", ";
-                    }
-                }
-                model.PayingItem.Comment = string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(","));
-            }
-        }
+        }        
 
         public void CreateCommentWhileEdit(PayingItemEditModel model)
         {
@@ -60,39 +33,41 @@ namespace WebUI.Helpers
             try
             {
                 products = _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileEdit)}", e);
-            }
+                model.PayingItem.Comment = "";
+                var comment = string.Empty;
 
-            model.PayingItem.Comment = "";
-            var comment = string.Empty;
-            foreach (var item in model.PricesAndIdsInItem)
-            {
-                if (item.Id != 0)
-                {
-                    comment += products.Single(x => x.ProductID == item.Id).ProductName + ", ";
-                }
-            }
-            if (model.PricesAndIdsNotInItem != null)
-            {
-                foreach (var item in model.PricesAndIdsNotInItem)
+                foreach (var item in model.PricesAndIdsInItem)
                 {
                     if (item.Id != 0)
                     {
                         comment += products.Single(x => x.ProductID == item.Id).ProductName + ", ";
                     }
                 }
+
+                if (model.PricesAndIdsNotInItem != null)
+                {
+                    foreach (var item in model.PricesAndIdsNotInItem)
+                    {
+                        if (item.Id != 0)
+                        {
+                            comment += products.Single(x => x.ProductID == item.Id).ProductName + ", ";
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(comment))
+                {
+                    model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(","));
+                }
             }
-            if (!string.IsNullOrEmpty(comment))
+            catch (ServiceException e)
             {
-                model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(","));
+                throw new WebUiHelperException(
+                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileEdit)}", e);
             }
         }
 
-        public void CreatePayingItemProducts(PayingItemModel model)
+        public void CreatePayingItem(PayingItemModel model)
         {
             if (model is null)
             {
@@ -101,16 +76,30 @@ namespace WebUI.Helpers
 
             try
             {
-                var itemsToAdd = model.Products.Where(x => x.ProductID != 0).ToList();
-                foreach (var item in itemsToAdd)
+                if (model.Products != null)
                 {
-                    model.PayingItem.PaiyngItemProduct.Add(new PaiyngItemProduct()
+                    var sum = model.Products.Sum(x => x.Price);
+                    if (sum != 0)
                     {
-                        PayingItemID = model.PayingItem.ItemID,
-                        ProductID = item.ProductID,
-                        Summ = item.Price
-                    });
+                        model.PayingItem.Summ = sum;
+                    }
+
+                    CreateCommentWhileAdd(model);
+
+                    var itemsToAdd = model.Products.Where(x => x.ProductID != 0)
+                        .Select(product => new PaiyngItemProduct()
+                        {
+                            PayingItemID = model.PayingItem.ItemID,
+                            ProductID = product.ProductID,
+                            Summ = product.Price
+                        });
+
+                    foreach (var item in itemsToAdd)
+                    {
+                        model.PayingItem.PaiyngItemProduct.Add(item);
+                    }
                 }
+                _payingItemService.CreateAsync(model.PayingItem);
             }
             catch (ServiceException e)
             {
@@ -137,6 +126,8 @@ namespace WebUI.Helpers
                 {
                     payingItem.PaiyngItemProduct.Add(item);
                 }
+
+                await _payingItemService.SaveAsync();
 
             }
             catch (ServiceException e)
@@ -250,6 +241,47 @@ namespace WebUI.Helpers
                 ProductID = productId,
                 Summ = price
             };
+        }
+
+        public void SetSumForPayingItem(PayingItemEditModel model)
+        {
+            var sum = 0M;
+
+            if (model.PricesAndIdsNotInItem == null)
+            {
+                sum = model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+            }
+
+            sum = model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
+                   model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+
+            if (sum != 0)
+            {
+                model.PayingItem.Summ = sum;
+            }
+        }
+
+        private void CreateCommentWhileAdd(PayingItemModel model)
+        {
+            if (string.IsNullOrEmpty(model.PayingItem.Comment))
+            {                
+                try
+                {
+                    var comment = string.Empty;
+
+                    foreach (var item in model.Products.Where(p => p.ProductID != 0))
+                    {
+                        comment += item.ProductName + ", ";
+                    }
+
+                    model.PayingItem.Comment = string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(","));
+                }
+                catch (ServiceException e)
+                {
+                    throw new WebUiHelperException(
+                        $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileAdd)}", e);
+                }                
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace WebUI.Controllers
     [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class PayingItemController : Controller
-    {        
+    {
         private readonly IPayingItemHelper _payingItemHelper;
         private readonly IPayingItemService _payingItemService;
         private readonly ICategoryService _categoryService;
@@ -26,7 +26,7 @@ namespace WebUI.Controllers
 
         public int ItemsPerPage = 10;
 
-        public PayingItemController(            
+        public PayingItemController(
             IPayingItemHelper payingItemHelper,
             IPayingItemService payingItemService,
             ICategoryService categoryService,
@@ -35,7 +35,7 @@ namespace WebUI.Controllers
             _payingItemHelper = payingItemHelper;
             _payingItemService = payingItemService;
             _categoryService = categoryService;
-            _accountService = accountService;            
+            _accountService = accountService;
         }
 
         public ActionResult Index()
@@ -52,7 +52,7 @@ namespace WebUI.Controllers
         {
             PayingItemToView pItemToView;
             try
-            {                
+            {
                 var items = _payingItemService.GetList(i => i.UserId == user.Id && i.Date >= DbFunctions.AddDays(DateTime.Today, -2)).ToList();
                 pItemToView = new PayingItemToView()
                 {
@@ -128,22 +128,7 @@ namespace WebUI.Controllers
                 }
                 try
                 {
-                    if (model.Products == null)
-                    {
-                        await _payingItemService.CreateAsync(model.PayingItem);
-                    }
-                    else
-                    {
-                        var sum = model.Products.Sum(x => x.Price);
-                        if (sum != 0)
-                        {
-                            model.PayingItem.Summ = sum;
-                        }
-                        _payingItemHelper.CreateCommentWhileAdd(model);
-                        _payingItemHelper.CreatePayingItemProducts(model);
-
-                        await _payingItemService.CreateAsync(model.PayingItem);
-                    }
+                    _payingItemHelper.CreatePayingItem(model);
                 }
                 catch (ServiceException e)
                 {
@@ -180,7 +165,7 @@ namespace WebUI.Controllers
 
                 var payingItemEditModel = new PayingItemEditModel()
                 {
-                    PayingItem = payingItem                    
+                    PayingItem = payingItem
                 };
                 PayingItemEditModel.OldCategoryId = payingItem.CategoryID;
 
@@ -223,13 +208,7 @@ namespace WebUI.Controllers
                 {
                     if (model.PricesAndIdsInItem != null)
                     {
-                        var sum = GetSumForPayingItem(model);
-
-                        if (sum != 0)
-                        {
-                            model.PayingItem.Summ = sum;
-                        }
-
+                        _payingItemHelper.SetSumForPayingItem(model);
                         _payingItemHelper.CreateCommentWhileEdit(model);
 
                         if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
@@ -240,9 +219,11 @@ namespace WebUI.Controllers
                         {
                             await _payingItemHelper.UpdatePayingItemProducts(model);
                         }
-                    }
 
+                        return RedirectToAction("List");
+                    }
                     await _payingItemService.UpdateAsync(model.PayingItem);
+
                     return RedirectToAction("List");
                 }
                 catch (ServiceException e)
@@ -259,7 +240,7 @@ namespace WebUI.Controllers
                 {
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
-                }                
+                }
             }
 
             await FillViewBag(user, await GetTypeOfFlowId(model.PayingItem));
@@ -392,16 +373,6 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
             }
-        }
-
-        private decimal GetSumForPayingItem(PayingItemEditModel model)
-        {
-            if (model.PricesAndIdsNotInItem == null)
-            {
-                return model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
-            }
-            return model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
-                   model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
         }
     }
 }
