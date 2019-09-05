@@ -1,6 +1,4 @@
-﻿using DomainModels.EntityORM;
-using DomainModels.Model;
-using NLog;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
 using System;
@@ -18,14 +16,14 @@ namespace WebUI.Helpers
         private readonly IProductService _productService;
         private readonly IPayingItemProductService _payingItemProductService;
         private readonly IPayingItemService _payingItemService;
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public PayingItemHelper(IProductService productService, IPayingItemProductService payingItemProductService, IPayingItemService payingItemService)
+        public PayingItemHelper(IProductService productService, IPayingItemProductService payingItemProductService,
+            IPayingItemService payingItemService)
         {
             _productService = productService;
             _payingItemProductService = payingItemProductService;
             _payingItemService = payingItemService;
-        }        
+        }
 
         public void CreateCommentWhileEdit(PayingItemEditModel model)
         {
@@ -99,6 +97,7 @@ namespace WebUI.Helpers
                         model.PayingItem.PaiyngItemProducts.Add(item);
                     }
                 }
+
                 await _payingItemService.CreateAsync(model.PayingItem);
             }
             catch (ServiceException e)
@@ -128,7 +127,6 @@ namespace WebUI.Helpers
                 }
 
                 await _payingItemService.SaveAsync();
-
             }
             catch (ServiceException e)
             {
@@ -145,7 +143,7 @@ namespace WebUI.Helpers
                     .ToList();
                 var products =
                     _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID)
-                    .ToList();
+                        .ToList();
                 model.PayingItemProductsCount = payingItemProducts.Count;
 
                 if (payingItemProducts.Count != 0)
@@ -196,7 +194,8 @@ namespace WebUI.Helpers
         {
             try
             {
-                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == model.PayingItem.ItemID).ToList();
+                var payingItemProducts = _payingItemProductService
+                    .GetList(x => x.PayingItemID == model.PayingItem.ItemID).ToList();
 
                 foreach (var item in payingItemProducts)
                 {
@@ -253,7 +252,7 @@ namespace WebUI.Helpers
             }
 
             sum = model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
-                   model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+                  model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
 
             if (sum != 0)
             {
@@ -264,7 +263,7 @@ namespace WebUI.Helpers
         private void CreateCommentWhileAdd(PayingItemModel model)
         {
             if (string.IsNullOrEmpty(model.PayingItem.Comment))
-            {                
+            {
                 try
                 {
                     var comment = string.Empty;
@@ -274,13 +273,15 @@ namespace WebUI.Helpers
                         comment += item.ProductName + ", ";
                     }
 
-                    model.PayingItem.Comment = string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(","));
+                    model.PayingItem.Comment = string.IsNullOrEmpty(comment)
+                        ? comment
+                        : comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
                 }
                 catch (Exception e)
                 {
                     throw new WebUiHelperException(
                         $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileAdd)}", e);
-                }                
+                }
             }
         }
     }
