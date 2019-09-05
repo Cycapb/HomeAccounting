@@ -67,7 +67,7 @@ namespace WebUI.Helpers
             }
         }
 
-        public void CreatePayingItem(PayingItemModel model)
+        public async Task CreatePayingItem(PayingItemModel model)
         {
             if (model is null)
             {
@@ -99,7 +99,7 @@ namespace WebUI.Helpers
                         model.PayingItem.PaiyngItemProduct.Add(item);
                     }
                 }
-                _payingItemService.CreateAsync(model.PayingItem);
+                await _payingItemService.CreateAsync(model.PayingItem);
             }
             catch (ServiceException e)
             {

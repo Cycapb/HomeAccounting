@@ -128,7 +128,9 @@ namespace WebUI.Controllers
                 }
                 try
                 {
-                    _payingItemHelper.CreatePayingItem(model);
+                    await _payingItemHelper.CreatePayingItem(model);
+
+                    return RedirectToAction("List");
                 }
                 catch (ServiceException e)
                 {
@@ -144,8 +146,7 @@ namespace WebUI.Controllers
                 {
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
-                }
-                return RedirectToAction("List");
+                }                
             }
             await FillViewBag(user, typeOfFlow);
             return PartialView("_Add", model);

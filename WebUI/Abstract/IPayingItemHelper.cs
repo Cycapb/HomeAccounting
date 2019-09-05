@@ -6,7 +6,7 @@ namespace WebUI.Abstract
     public interface IPayingItemHelper
     {        
         void CreateCommentWhileEdit(PayingItemEditModel model);
-        void CreatePayingItem(PayingItemModel model);
+        Task CreatePayingItem(PayingItemModel model);
         Task CreatePayingItemProducts(PayingItemEditModel model);
         Task UpdatePayingItemProducts(PayingItemEditModel model);
         void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId);
