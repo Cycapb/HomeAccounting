@@ -11,17 +11,17 @@ namespace DomainModels.EntityORM
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext, Migrations.Configuration>());
         }
 
-        public virtual DbSet<Account> Account { get; set; }
-        public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<Debt> Debt { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetail { get; set; }
-        public virtual DbSet<PaiyngItemProduct> PaiyngItemProduct { get; set; }
-        public virtual DbSet<PayingItem> PayingItem { get; set; }
-        public virtual DbSet<PlanItem> PlanItem { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<TypeOfFlow> TypeOfFlow { get; set; }
-        public virtual DbSet<NotificationMailBox> NotificationMailBox { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Debt> Debts { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<PaiyngItemProduct> PaiyngItemProducts { get; set; }
+        public virtual DbSet<PayingItem> PayingItems { get; set; }
+        public virtual DbSet<PlanItem> PlanItems { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<TypeOfFlow> TypeOfFlows { get; set; }
+        public virtual DbSet<NotificationMailBox> NotificationMailBoxes { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()

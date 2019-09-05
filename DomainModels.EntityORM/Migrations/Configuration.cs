@@ -23,7 +23,7 @@ namespace DomainModels.EntityORM.Migrations
 
         private void InitializeNotificationMailBox(AccountingContext context)
         {
-            if (!context.NotificationMailBox.Any())
+            if (!context.NotificationMailBoxes.Any())
             {
                 var mailBox = new NotificationMailBox()
                 {
@@ -36,13 +36,13 @@ namespace DomainModels.EntityORM.Migrations
                     Port = 587
                 };
 
-                context.NotificationMailBox.Add(mailBox);
+                context.NotificationMailBoxes.Add(mailBox);
             }
         }
 
         private void InitializeTypeOfFlow(AccountingContext context)
         {
-            if (!context.TypeOfFlow.Any())
+            if (!context.TypeOfFlows.Any())
             {
                 var typesOfFlow = new List<TypeOfFlow>()
                 {
@@ -55,7 +55,7 @@ namespace DomainModels.EntityORM.Migrations
                          TypeName = "Расход"
                      }
                 };
-                context.TypeOfFlow.AddRange(typesOfFlow);
+                context.TypeOfFlows.AddRange(typesOfFlow);
             }
         }
     }
