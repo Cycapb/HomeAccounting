@@ -276,7 +276,7 @@ namespace WebUI.Helpers
 
                     model.PayingItem.Comment = string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(","));
                 }
-                catch (ServiceException e)
+                catch (Exception e)
                 {
                     throw new WebUiHelperException(
                         $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileAdd)}", e);
