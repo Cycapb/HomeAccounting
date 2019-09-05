@@ -2,7 +2,6 @@
 using Services;
 using Services.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
@@ -27,10 +26,9 @@ namespace WebUI.Helpers
 
         public void CreateCommentWhileEdit(PayingItemEditModel model)
         {
-            var products = new List<Product>();
             try
             {
-                products = _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
+                var products = _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
                 model.PayingItem.Comment = "";
                 var comment = string.Empty;
 
@@ -55,7 +53,7 @@ namespace WebUI.Helpers
 
                 if (!string.IsNullOrEmpty(comment))
                 {
-                    model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(","));
+                    model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
                 }
             }
             catch (ServiceException e)
@@ -74,6 +72,12 @@ namespace WebUI.Helpers
 
             try
             {
+                if (model.PayingItem.Date.Month > DateTime.Today.Date.Month ||
+                    model.PayingItem.Date.Year > DateTime.Today.Year)
+                {
+                    model.PayingItem.Date = DateTime.Today.Date;
+                }
+
                 if (model.Products != null)
                 {
                     var sum = model.Products.Sum(x => x.Price);

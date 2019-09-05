@@ -49,12 +49,11 @@ namespace WebUI.Controllers
         }
 
         public ActionResult List(WebUser user, int page = 1)
-        {
-            PayingItemToView pItemToView;
+        {            
             try
             {
                 var items = _payingItemService.GetList(i => i.UserId == user.Id && i.Date >= DbFunctions.AddDays(DateTime.Today, -2)).ToList();
-                pItemToView = new PayingItemToView()
+                var pItemToView = new PayingItemToView()
                 {
                     PayingItems = items
                         .OrderByDescending(i => i.Date)
@@ -68,6 +67,8 @@ namespace WebUI.Controllers
                         TotalItems = items.Count
                     }
                 };
+
+                return PartialView("_List", pItemToView);
             }
             catch (ServiceException e)
             {
@@ -78,8 +79,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(List)}",
                     e);
-            }
-            return PartialView("_List", pItemToView);
+            }            
         }
 
 
@@ -121,11 +121,6 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.PayingItem.Date.Month > DateTime.Today.Date.Month ||
-                    model.PayingItem.Date.Year > DateTime.Today.Year)
-                {
-                    model.PayingItem.Date = DateTime.Today.Date;
-                }
                 try
                 {
                     await _payingItemHelper.CreatePayingItem(model);
