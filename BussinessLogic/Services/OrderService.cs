@@ -105,13 +105,13 @@ namespace BussinessLogic.Services
             message.Append($"Номер списка: {order.OrderID}\n");
             message.Append("Список покупок:\n");
 
-            foreach (var orderDetail in order.OrderDetail)
+            foreach (var orderDetail in order.OrderDetails)
             {
                 message.Append($"Название: {orderDetail.Product.ProductName}, Цена: {orderDetail.ProductPrice?.ToString("c")}\n");
             }
             message.Append("----------------------------------\n");
             message.Append("");
-            message.Append($"Итого: {order.OrderDetail.Sum(x => x.ProductPrice)?.ToString("F")}");
+            message.Append($"Итого: {order.OrderDetails.Sum(x => x.ProductPrice)?.ToString("F")}");
 
             try
             {                

@@ -156,9 +156,9 @@ namespace WebUI.Helpers
                 .Select(x => x.Key)
                 .ToList();
 
-            model.PlanItemsIncomePlan = model.CategoryPlanItemsIncome.Any() ? model.CategoryPlanItemsIncome.First().PlanItem.Where(x => x.Closed == false).ToList()
+            model.PlanItemsIncomePlan = model.CategoryPlanItemsIncome.Any() ? model.CategoryPlanItemsIncome.First().PlanItems.Where(x => x.Closed == false).ToList()
                 : null;
-            model.PlanItemsOutgoPlan = model.CategoryPlanItemsOutgo.Any() ? model.CategoryPlanItemsOutgo.First().PlanItem.Where(x => x.Closed == false).ToList()
+            model.PlanItemsOutgoPlan = model.CategoryPlanItemsOutgo.Any() ? model.CategoryPlanItemsOutgo.First().PlanItems.Where(x => x.Closed == false).ToList()
                 : null;
 
             var months = planItems

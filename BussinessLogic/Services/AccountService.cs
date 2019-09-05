@@ -87,7 +87,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _accountRepository.GetItem(accountId).PayingItem.Any();
+                return _accountRepository.GetItem(accountId).PayingItems.Any();
             }
             catch (DomainModelsException e)
             {

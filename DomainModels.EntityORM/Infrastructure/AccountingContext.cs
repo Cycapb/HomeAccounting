@@ -37,7 +37,7 @@ namespace DomainModels.EntityORM
                 .IsUnicode(false);
 
             modelBuilder.Entity<Account>()
-                .HasMany(e => e.PayingItem)
+                .HasMany(e => e.PayingItems)
                 .WithRequired(e => e.Account)
                 .WillCascadeOnDelete(false);
 
@@ -50,7 +50,7 @@ namespace DomainModels.EntityORM
                 .IsUnicode(false);
 
             modelBuilder.Entity<Category>()
-                .HasMany(e => e.PayingItem)
+                .HasMany(e => e.PayingItems)
                 .WithRequired(e => e.Category)
                 .WillCascadeOnDelete(false);
 
@@ -91,7 +91,7 @@ namespace DomainModels.EntityORM
                 .IsUnicode(false);
 
             modelBuilder.Entity<PayingItem>()
-                .HasMany(e => e.PaiyngItemProduct)
+                .HasMany(e => e.PaiyngItemProducts)
                 .WithRequired(e => e.PayingItem)
                 .HasForeignKey(e => e.PayingItemID);
 
@@ -140,7 +140,7 @@ namespace DomainModels.EntityORM
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
-                .HasMany(e => e.PaiyngItemProduct)
+                .HasMany(e => e.PaiyngItemProducts)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
 
@@ -149,13 +149,13 @@ namespace DomainModels.EntityORM
                 .IsUnicode(false);
 
             modelBuilder.Entity<TypeOfFlow>()
-                .HasMany(e => e.Category)
+                .HasMany(e => e.Categorys)
                 .WithRequired(e => e.TypeOfFlow)
                 .HasForeignKey(e => e.TypeOfFlowID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TypeOfFlow>()
-                .HasMany(e => e.Debt)
+                .HasMany(e => e.Debts)
                 .WithRequired(e => e.TypeOfFlow)
                 .HasForeignKey(e => e.TypeOfFlowId);
         }

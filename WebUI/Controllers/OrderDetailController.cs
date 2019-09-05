@@ -53,7 +53,7 @@ namespace WebUI.Controllers
                 {
                     OrderId = id,
                     Categories = categories,
-                    Products = categories.FirstOrDefault()?.Product ?? new List<Product>()
+                    Products = categories.FirstOrDefault()?.Products ?? new List<Product>()
                 };
             }
             catch (ServiceException e)
@@ -92,14 +92,14 @@ namespace WebUI.Controllers
                     throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(GetSubCategories)}", e);
                 }
             }
-            var products = categories.FirstOrDefault(x => x.CategoryID == id)?.Product.OrderBy(x => x.ProductName);
+            var products = categories.FirstOrDefault(x => x.CategoryID == id)?.Products.OrderBy(x => x.ProductName);
             return PartialView("_SubCategories", products);
         }
 
         private async Task<IEnumerable<Category>> GetCategories(string userId)
         {
             return (await _categoryService.GetListAsync())
-                .Where(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Product.Any())
+                .Where(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Products.Any())
                 .OrderBy(x => x.Name)
                 .ToList();
         }

@@ -10,8 +10,8 @@ namespace DomainModels.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TypeOfFlow()
         {
-            Category = new HashSet<Category>();
-            Debt = new HashSet<Debt>();
+            Categorys = new HashSet<Category>();
+            Debts = new HashSet<Debt>();
         }
 
         [Key]
@@ -22,9 +22,9 @@ namespace DomainModels.Model
         public string TypeName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Category { get; set; }
+        public virtual ICollection<Category> Categorys { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Debt> Debt { get; set; }
+        public virtual ICollection<Debt> Debts { get; set; }
     }
 }

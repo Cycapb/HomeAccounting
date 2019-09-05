@@ -111,7 +111,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (await _categoryRepository.GetItemAsync(id)).Product;
+                return (await _categoryRepository.GetItemAsync(id)).Products;
             }
             catch (DomainModelsException e)
             {
@@ -123,7 +123,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (await _categoryRepository.GetItemAsync(id)).PayingItem.Any();
+                return (await _categoryRepository.GetItemAsync(id)).PayingItems.Any();
             }
             catch (DomainModelsException e)
             {

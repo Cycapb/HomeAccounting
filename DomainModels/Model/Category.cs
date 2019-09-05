@@ -10,9 +10,9 @@ namespace DomainModels.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            PayingItem = new HashSet<PayingItem>();
-            PlanItem = new HashSet<PlanItem>();
-            Product = new HashSet<Product>();
+            PayingItems = new HashSet<PayingItem>();
+            PlanItems = new HashSet<PlanItem>();
+            Products = new HashSet<Product>();
         }
 
         public int CategoryID { get; set; }
@@ -31,13 +31,13 @@ namespace DomainModels.Model
         public bool Active { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PayingItem> PayingItem { get; set; }
+        public virtual ICollection<PayingItem> PayingItems { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlanItem> PlanItem { get; set; }
+        public virtual ICollection<PlanItem> PlanItems { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
         public virtual TypeOfFlow TypeOfFlow { get; set; }
     }

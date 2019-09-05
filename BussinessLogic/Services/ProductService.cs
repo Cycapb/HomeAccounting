@@ -73,7 +73,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var dependencies = (await _productRepository.GetItemAsync(id)).PaiyngItemProduct.Any();
+                var dependencies = (await _productRepository.GetItemAsync(id)).PaiyngItemProducts.Any();
                 if (dependencies)
                 {
                     return;

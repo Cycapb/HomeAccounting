@@ -96,7 +96,7 @@ namespace WebUI.Helpers
 
                     foreach (var item in itemsToAdd)
                     {
-                        model.PayingItem.PaiyngItemProduct.Add(item);
+                        model.PayingItem.PaiyngItemProducts.Add(item);
                     }
                 }
                 await _payingItemService.CreateAsync(model.PayingItem);
@@ -113,7 +113,7 @@ namespace WebUI.Helpers
             try
             {
                 var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
-                payingItem.PaiyngItemProduct.Clear();
+                payingItem.PaiyngItemProducts.Clear();
 
                 var itemsToAdd = model.PricesAndIdsInItem.Where(i => i.Id != 0).Select(i => new PaiyngItemProduct()
                 {
@@ -124,7 +124,7 @@ namespace WebUI.Helpers
 
                 foreach (var item in itemsToAdd)
                 {
-                    payingItem.PaiyngItemProduct.Add(item);
+                    payingItem.PaiyngItemProducts.Add(item);
                 }
 
                 await _payingItemService.SaveAsync();

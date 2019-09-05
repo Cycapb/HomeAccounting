@@ -10,8 +10,8 @@ namespace DomainModels.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            OrderDetail = new HashSet<OrderDetail>();
-            PaiyngItemProduct = new HashSet<PaiyngItemProduct>();
+            OrderDetails = new HashSet<OrderDetail>();
+            PaiyngItemProducts = new HashSet<PaiyngItemProduct>();
         }
 
         public int ProductID { get; set; }
@@ -32,9 +32,9 @@ namespace DomainModels.Model
         public virtual Category Category { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaiyngItemProduct> PaiyngItemProduct { get; set; }
+        public virtual ICollection<PaiyngItemProduct> PaiyngItemProducts { get; set; }
     }
 }

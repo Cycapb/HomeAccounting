@@ -63,7 +63,7 @@ namespace BussinessLogic.Services
             var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
             var oldCategoryId = await GetCategoryIdAsync(categories, item.ItemID);
             var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
-            var oldPayingItem = oldCategory.PayingItem.FirstOrDefault(x => x.ItemID == item.ItemID);
+            var oldPayingItem = oldCategory.PayingItems.FirstOrDefault(x => x.ItemID == item.ItemID);
             var newItem = new PayingItem()
             {
                 Category = oldCategory,
@@ -93,7 +93,7 @@ namespace BussinessLogic.Services
                 var categoryId = 0;
                 foreach (var category in categories)
                 {
-                    foreach (var payingItem in category.PayingItem)
+                    foreach (var payingItem in category.PayingItems)
                     {
                         if (payingItem.ItemID == itemId)
                         {

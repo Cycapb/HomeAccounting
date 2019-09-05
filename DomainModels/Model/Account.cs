@@ -10,8 +10,8 @@ namespace DomainModels.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Account()
         {
-            Debt = new HashSet<Debt>();
-            PayingItem = new HashSet<PayingItem>();
+            Debts = new HashSet<Debt>();
+            PayingItems = new HashSet<PayingItem>();
         }
 
         public int AccountID { get; set; }
@@ -30,9 +30,9 @@ namespace DomainModels.Model
         public string UserId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Debt> Debt { get; set; }
+        public virtual ICollection<Debt> Debts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PayingItem> PayingItem { get; set; }
+        public virtual ICollection<PayingItem> PayingItems { get; set; }
     }
 }

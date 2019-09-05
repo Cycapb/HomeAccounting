@@ -299,7 +299,7 @@ namespace WebUI.Controllers
             try
             {
                 var products = (await _categoryService.GetItemAsync(id))
-                    .Product
+                    .Products
                     .OrderBy(x => x.ProductName)
                     .ToList();
                 return PartialView("_GetSubCategories", products);
