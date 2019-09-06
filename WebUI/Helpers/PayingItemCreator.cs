@@ -8,7 +8,7 @@ using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
 
-namespace WebUI.Implementations
+namespace WebUI.Helpers
 {
     public class PayingItemCreator : IPayingItemCreator
     {

@@ -535,7 +535,7 @@
     <Compile Include="Helpers\PlaningControllerHelper.cs" />
     <Compile Include="Helpers\ReportControllerHelper.cs" />
     <Compile Include="HtmlHelpers\IdentityHelpers.cs" />
-    <Compile Include="Implementations\PayingItemCreator.cs" />
+    <Compile Include="Helpers\PayingItemCreator.cs" />
     <Compile Include="Infrastructure\AccIdentityDbContext.cs" />
     <Compile Include="Infrastructure\AccRoleManager.cs" />
     <Compile Include="Infrastructure\AccUserManager.cs" />
