@@ -129,12 +129,7 @@ namespace WebUI.Controllers
 
                     return RedirectToAction("List");
                 }
-                catch (ServiceException e)
-                {
-                    throw new WebUiException(
-                        $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
-                }
-                catch (WebUiHelperException e)
+                catch (WebUiException e)
                 {
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
