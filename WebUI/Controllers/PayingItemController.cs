@@ -23,19 +23,21 @@ namespace WebUI.Controllers
         private readonly IPayingItemService _payingItemService;
         private readonly ICategoryService _categoryService;
         private readonly IAccountService _accountService;
-
+        private readonly IPayingItemCreator _payingItemCreator;
         public int ItemsPerPage = 10;
 
         public PayingItemController(
             IPayingItemHelper payingItemHelper,
             IPayingItemService payingItemService,
             ICategoryService categoryService,
-            IAccountService accountService)
+            IAccountService accountService,
+            IPayingItemCreator payingItemCreator)
         {
             _payingItemHelper = payingItemHelper;
             _payingItemService = payingItemService;
             _categoryService = categoryService;
             _accountService = accountService;
+            _payingItemCreator = payingItemCreator;
         }
 
         public ActionResult Index()
@@ -123,7 +125,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await _payingItemHelper.CreatePayingItem(model);
+                    await _payingItemCreator.CreatePayingItem(model);
 
                     return RedirectToAction("List");
                 }
