@@ -94,34 +94,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckPayingItemSumCorrectnessIfProductsNotNull()
         {
-            var payingItemModel = new PayingItemModel()
-            {
-                PayingItem = new PayingItem()
-                {
-                    Date = DateTime.Today
-                },
-                Products = new List<Product>()
-                {
-                    new Product()
-                    {
-                        CategoryID = 1,
-                        ProductID = 1,
-                        Price = 100
-                    },
-                    new Product()
-                    {
-                        CategoryID = 1,
-                        ProductID = 2,
-                        Price = 100
-                    },
-                    new Product()
-                    {
-                        CategoryID = 1,
-                        ProductID = 3,
-                        Price = 100
-                    }
-                }
-            };
+            var payingItemModel = CreatePayingItemModel();
             var target = new PayingItemCreator(_payingItemService.Object);
 
             await target.CreatePayingItem(payingItemModel);
@@ -133,11 +106,24 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckCommentCorrectnessIfPayingItemCommentIsEmpty()
         {
+            var payingItemModel = CreatePayingItemModel();
+            var target = new PayingItemCreator(_payingItemService.Object);
+
+            await target.CreatePayingItem(payingItemModel);
+
+            Assert.AreEqual("Product_1, Product_2, Product_3", payingItemModel.PayingItem.Comment);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemCreatorTests")]
+        public async Task CheckCommentCorrectnessIfPayingItemCommentIsNotEmpty()
+        {
             var payingItemModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem()
                 {
-                    Date = DateTime.Today
+                    Date = DateTime.Today,
+                    Comment = "PayingItemComment"
                 },
                 Products = new List<Product>()
                 {
@@ -146,7 +132,7 @@ namespace WebUI.Tests.HelpersTests
                         CategoryID = 1,
                         ProductName = "Product_1",
                         ProductID = 1,
-                        Price = 100                        
+                        Price = 100
                     },
                     new Product()
                     {
@@ -168,7 +154,42 @@ namespace WebUI.Tests.HelpersTests
 
             await target.CreatePayingItem(payingItemModel);
 
-            Assert.AreEqual("Product_1, Product_2, Product_3", payingItemModel.PayingItem.Comment);
+            Assert.AreEqual("PayingItemComment", payingItemModel.PayingItem.Comment);
+        }
+
+        private PayingItemModel CreatePayingItemModel()
+        {
+            return new PayingItemModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    Date = DateTime.Today
+                },
+                Products = new List<Product>()
+                {
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductName = "Product_1",
+                        ProductID = 1,
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 2,
+                        ProductName = "Product_2",
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 3,
+                        ProductName = "Product_3",
+                        Price = 100
+                    }
+                }
+            };
         }
     }
 }
