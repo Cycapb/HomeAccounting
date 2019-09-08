@@ -74,22 +74,16 @@ namespace WebUI.Helpers
         {
             if (string.IsNullOrEmpty(model.PayingItem.Comment))
             {
-                try
+                var comment = string.Empty;
+
+                foreach (var item in model.Products.Where(p => p.ProductID != 0))
                 {
-                    var comment = string.Empty;
-
-                    foreach (var item in model.Products.Where(p => p.ProductID != 0))
-                    {
-                        comment += item.ProductName + ", ";
-                    }
-
-                    model.PayingItem.Comment = string.IsNullOrEmpty(comment)
-                        ? comment
-                        : comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
+                    comment += item.ProductName + ", ";
                 }
-                catch (Exception e)
+
+                if (!string.IsNullOrEmpty(comment))
                 {
-                    throw new WebUiException($"Ошибка в типе {nameof(PayingItemCreator)} в методе {nameof(CreateCommentWhileAdd)}", e);
+                    model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
                 }
             }
         }

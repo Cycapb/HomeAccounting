@@ -7,6 +7,8 @@ using Services;
 using DomainModels.Model;
 using WebUI.Helpers;
 using System.Threading.Tasks;
+using WebUI.Models;
+using System.Linq;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -67,6 +69,106 @@ namespace WebUI.Tests.HelpersTests
         {
             var target = new PayingItemCreator(null);
             await target.CreatePayingItem(null);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemCreatorTests")]
+        public async Task CheckForCorrectPayingItemDate()
+        {
+            var payingItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    Date = DateTime.Today.AddMonths(1)
+                },
+                Products = null
+            };
+            var target = new PayingItemCreator(_payingItemService.Object);
+
+            await target.CreatePayingItem(payingItemModel);
+
+            Assert.AreEqual(DateTime.Today.Date, payingItemModel.PayingItem.Date);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemCreatorTests")]
+        public async Task CheckPayingItemSumCorrectnessIfProductsNotNull()
+        {
+            var payingItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    Date = DateTime.Today
+                },
+                Products = new List<Product>()
+                {
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 1,
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 2,
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 3,
+                        Price = 100
+                    }
+                }
+            };
+            var target = new PayingItemCreator(_payingItemService.Object);
+
+            await target.CreatePayingItem(payingItemModel);
+
+            Assert.AreEqual(payingItemModel.Products.Sum(x => x.Price), payingItemModel.PayingItem.Summ);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemCreatorTests")]
+        public async Task CheckCommentCorrectnessIfPayingItemCommentIsEmpty()
+        {
+            var payingItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    Date = DateTime.Today
+                },
+                Products = new List<Product>()
+                {
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductName = "Product_1",
+                        ProductID = 1,
+                        Price = 100                        
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 2,
+                        ProductName = "Product_2",
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 3,
+                        ProductName = "Product_3",
+                        Price = 100
+                    }
+                }
+            };
+            var target = new PayingItemCreator(_payingItemService.Object);
+
+            await target.CreatePayingItem(payingItemModel);
+
+            Assert.AreEqual("Product_1, Product_2, Product_3", payingItemModel.PayingItem.Comment);
         }
     }
 }
