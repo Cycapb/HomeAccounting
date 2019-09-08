@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using DomainModels.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
-using DomainModels.Model;
-using WebUI.Helpers;
-using System.Threading.Tasks;
-using WebUI.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using WebUI.Helpers;
+using WebUI.Models;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -155,6 +154,49 @@ namespace WebUI.Tests.HelpersTests
             await target.CreatePayingItem(payingItemModel);
 
             Assert.AreEqual("PayingItemComment", payingItemModel.PayingItem.Comment);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemCreatorTests")]
+        public async Task CheckIfPayingItemProductsAreAddedCorrectly()
+        {
+            var payingItemModel = new PayingItemModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    Date = DateTime.Today
+                },
+                Products = new List<Product>()
+                {
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductName = "Product_1",
+                        ProductID = 1,
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 2,
+                        ProductName = "Product_2",
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        CategoryID = 1,
+                        ProductID = 0,
+                        ProductName = "Product_3",
+                        Price = 100
+                    }
+                }
+            };
+            var target = new PayingItemCreator(_payingItemService.Object);
+
+            await target.CreatePayingItem(payingItemModel);
+                        
+            // PayingItem.PayingItemProducts  must include only those PayingTemModel.Products where ProductId != 0
+            Assert.AreEqual(2, payingItemModel.PayingItem.PaiyngItemProducts.Count);
         }
 
         private PayingItemModel CreatePayingItemModel()
