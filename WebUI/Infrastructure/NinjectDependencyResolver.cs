@@ -87,7 +87,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<ICreateCloseDebtService>().To<CreateCloseDebtServicePayingItemDecorator>();
             _kernel.Bind<ICreateCloseDebtService>().To<CreateCloseDebtService>()
                 .WhenInjectedInto<CreateCloseDebtServicePayingItemDecorator>();
-            _kernel.Bind<IPayingItemCreator>().To<IPayingItemCreator>();
+            _kernel.Bind<IPayingItemCreator>().To<PayingItemCreator>();
         }
 
         public object GetService(Type serviceType)
