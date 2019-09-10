@@ -2,12 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Helpers;
 using WebUI.Models;
+using WebUI.Exceptions;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -197,6 +199,24 @@ namespace WebUI.Tests.HelpersTests
                         
             // PayingItem.PayingItemProducts  must include only those PayingTemModel.Products where ProductId != 0
             Assert.AreEqual(2, payingItemModel.PayingItem.PaiyngItemProducts.Count);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemCreatorTests")]
+        public async Task ThrowsWebUiExceptionWithInnerServiceException()
+        {
+            _payingItemService.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ThrowsAsync(new ServiceException());
+            var target = new PayingItemCreator(_payingItemService.Object);
+            var payingItemModel = CreatePayingItemModel();
+
+            try
+            {
+                await target.CreatePayingItem(payingItemModel);
+            }
+            catch (WebUiException ex)
+            {
+                Assert.IsInstanceOfType(ex.InnerException, typeof(ServiceException));
+            }
         }
 
         private PayingItemModel CreatePayingItemModel()
