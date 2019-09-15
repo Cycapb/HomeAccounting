@@ -76,7 +76,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckForCorrectPayingItemDate()
         {
-            var payingItemModel = new PayingItemModel()
+            var payingItemModel = new PayingItemViewModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -119,7 +119,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckCommentCorrectnessIfPayingItemCommentIsNotEmpty()
         {
-            var payingItemModel = new PayingItemModel()
+            var payingItemModel = new PayingItemViewModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -162,7 +162,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckIfPayingItemProductsAreAddedCorrectly()
         {
-            var payingItemModel = new PayingItemModel()
+            var payingItemModel = new PayingItemViewModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -219,9 +219,9 @@ namespace WebUI.Tests.HelpersTests
             }
         }
 
-        private PayingItemModel CreatePayingItemModel()
+        private PayingItemViewModel CreatePayingItemModel()
         {
-            return new PayingItemModel()
+            return new PayingItemViewModel()
             {
                 PayingItem = new PayingItem()
                 {

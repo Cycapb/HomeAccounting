@@ -110,7 +110,7 @@ namespace WebUI.Controllers
         public async Task<ActionResult> Add(WebUser user, int typeOfFlow)
         {
             await FillViewBag(user, typeOfFlow);
-            var piModel = new PayingItemModel()
+            var piModel = new PayingItemViewModel()
             {
                 PayingItem = new PayingItem() { UserId = user.Id },
                 Products = new List<Product>()
@@ -119,7 +119,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
+        public async Task<ActionResult> Add(WebUser user, PayingItemViewModel model, int typeOfFlow)
         {
             if (ModelState.IsValid)
             {

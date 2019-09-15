@@ -45,7 +45,7 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(null, null, _categoryServiceMock.Object, _accountServiceMock.Object, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, 1);
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
+            var model = ((PartialViewResult)result).ViewData.Model as PayingItemViewModel;
             var viewBag = ((PartialViewResult)result).ViewBag;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
@@ -64,9 +64,9 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(null, null, _categoryServiceMock.Object, _accountServiceMock.Object, null);
             target.ModelState.AddModelError("", "");
 
-            var result = await target.Add(new WebUser(), new PayingItemModel() { PayingItem = new PayingItem(), Products = new List<Product>() }, 1);
+            var result = await target.Add(new WebUser(), new PayingItemViewModel() { PayingItem = new PayingItem(), Products = new List<Product>() }, 1);
             var viewBag = ((PartialViewResult)result).ViewBag;
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
+            var model = ((PartialViewResult)result).ViewData.Model as PayingItemViewModel;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.AreEqual(0, model.Products.Count);
@@ -79,7 +79,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Add_ValidModel_ReturnsRedirect_ToAction_List()
         {
-            var payingItemModel = new PayingItemModel()
+            var payingItemModel = new PayingItemViewModel()
             {
                 PayingItem = new PayingItem() { AccountID = 1, CategoryID = 1, Date = DateTime.Today, UserId = "1", ItemID = 1 },
                 Products = new List<Product>()
@@ -96,10 +96,10 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Add_ValidModel_Throws_WebUiExceptionWithInnerWebUiException()
         {
-            _payingItemCreator.Setup(m => m.CreatePayingItemFromViewModel(It.IsAny<PayingItemModel>())).ThrowsAsync(new WebUiException());
+            _payingItemCreator.Setup(m => m.CreatePayingItemFromViewModel(It.IsAny<PayingItemViewModel>())).ThrowsAsync(new WebUiException());
             var target = new PayingItemController(null, null, null, null, _payingItemCreator.Object);
             var user = new WebUser();
-            var payingItemModel = new PayingItemModel()
+            var payingItemModel = new PayingItemViewModel()
             {
                 PayingItem = new PayingItem(),
                 Products = new List<Product>()

@@ -19,7 +19,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;
         }
 
-        public async Task CreatePayingItemFromViewModel(PayingItemModel model)
+        public async Task CreatePayingItemFromViewModel(PayingItemViewModel model)
         {
             if (model is null)
             {
@@ -70,7 +70,7 @@ namespace WebUI.Helpers
             }
         }
 
-        private void CreateCommentWhileAdd(PayingItemModel model)
+        private void CreateCommentWhileAdd(PayingItemViewModel model)
         {
             if (string.IsNullOrEmpty(model.PayingItem.Comment))
             {
