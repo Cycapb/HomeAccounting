@@ -24,6 +24,7 @@ namespace WebUI.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IAccountService _accountService;
         private readonly IPayingItemCreator _payingItemCreator;
+        private readonly IPayingItemEditViewModelCreator _payingItemEditViewModelCreator;
         public int ItemsPerPage = 10;
 
         public PayingItemController(
@@ -31,13 +32,15 @@ namespace WebUI.Controllers
             IPayingItemService payingItemService,
             ICategoryService categoryService,
             IAccountService accountService,
-            IPayingItemCreator payingItemCreator)
+            IPayingItemCreator payingItemCreator,
+            IPayingItemEditViewModelCreator payingItemEditViewModelCreator)
         {
             _payingItemHelper = payingItemHelper;
             _payingItemService = payingItemService;
             _categoryService = categoryService;
             _accountService = accountService;
             _payingItemCreator = payingItemCreator;
+            _payingItemEditViewModelCreator = payingItemEditViewModelCreator;
         }
 
         public ActionResult Index()
@@ -157,10 +160,7 @@ namespace WebUI.Controllers
 
                 await FillViewBag(user, typeOfFlowId);
 
-                var payingItemEditModel = new PayingItemEditViewModel()
-                {
-                    PayingItem = payingItem
-                };
+                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(payingItem);
                 PayingItemEditViewModel.OldCategoryId = payingItem.CategoryID;
 
                 //if (!CheckForSubCategories(payingItem))
