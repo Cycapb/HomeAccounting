@@ -19,7 +19,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;
         }
 
-        public async Task CreatePayingItem(PayingItemModel model)
+        public async Task CreatePayingItemFromViewModel(PayingItemModel model)
         {
             if (model is null)
             {
@@ -62,11 +62,11 @@ namespace WebUI.Helpers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в типе {nameof(PayingItemCreator)} в методе {nameof(CreatePayingItem)}", e);
+                throw new WebUiException($"Ошибка в типе {nameof(PayingItemCreator)} в методе {nameof(CreatePayingItemFromViewModel)}", e);
             }
             catch(Exception e)
             {
-                throw new WebUiException($"Ошибка в типе {nameof(PayingItemCreator)} в методе {nameof(CreatePayingItem)}", e);
+                throw new WebUiException($"Ошибка в типе {nameof(PayingItemCreator)} в методе {nameof(CreatePayingItemFromViewModel)}", e);
             }
         }
 

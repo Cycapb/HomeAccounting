@@ -214,6 +214,6 @@ namespace WebUI.Helpers
             {
                 model.PayingItem.Summ = sum;
             }
-        }        
+        }
     }
 }

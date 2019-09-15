@@ -69,7 +69,7 @@ namespace WebUI.Tests.HelpersTests
         public async Task CreatePayingItem_Throws_ArgumentNullException()
         {
             var target = new PayingItemCreator(null);
-            await target.CreatePayingItem(null);
+            await target.CreatePayingItemFromViewModel(null);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace WebUI.Tests.HelpersTests
             };
             var target = new PayingItemCreator(_payingItemService.Object);
 
-            await target.CreatePayingItem(payingItemModel);
+            await target.CreatePayingItemFromViewModel(payingItemModel);
 
             Assert.AreEqual(DateTime.Today.Date, payingItemModel.PayingItem.Date);
         }
@@ -98,7 +98,7 @@ namespace WebUI.Tests.HelpersTests
             var payingItemModel = CreatePayingItemModel();
             var target = new PayingItemCreator(_payingItemService.Object);
 
-            await target.CreatePayingItem(payingItemModel);
+            await target.CreatePayingItemFromViewModel(payingItemModel);
 
             Assert.AreEqual(payingItemModel.Products.Sum(x => x.Price), payingItemModel.PayingItem.Summ);
         }
@@ -110,7 +110,7 @@ namespace WebUI.Tests.HelpersTests
             var payingItemModel = CreatePayingItemModel();
             var target = new PayingItemCreator(_payingItemService.Object);
 
-            await target.CreatePayingItem(payingItemModel);
+            await target.CreatePayingItemFromViewModel(payingItemModel);
 
             Assert.AreEqual("Product_1, Product_2, Product_3", payingItemModel.PayingItem.Comment);
         }
@@ -153,7 +153,7 @@ namespace WebUI.Tests.HelpersTests
             };
             var target = new PayingItemCreator(_payingItemService.Object);
 
-            await target.CreatePayingItem(payingItemModel);
+            await target.CreatePayingItemFromViewModel(payingItemModel);
 
             Assert.AreEqual("PayingItemComment", payingItemModel.PayingItem.Comment);
         }
@@ -195,7 +195,7 @@ namespace WebUI.Tests.HelpersTests
             };
             var target = new PayingItemCreator(_payingItemService.Object);
 
-            await target.CreatePayingItem(payingItemModel);
+            await target.CreatePayingItemFromViewModel(payingItemModel);
                         
             // PayingItem.PayingItemProducts  must include only those PayingTemModel.Products where ProductId != 0
             Assert.AreEqual(2, payingItemModel.PayingItem.PaiyngItemProducts.Count);
@@ -211,7 +211,7 @@ namespace WebUI.Tests.HelpersTests
 
             try
             {
-                await target.CreatePayingItem(payingItemModel);
+                await target.CreatePayingItemFromViewModel(payingItemModel);
             }
             catch (WebUiException ex)
             {

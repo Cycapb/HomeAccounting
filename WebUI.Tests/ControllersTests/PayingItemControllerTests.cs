@@ -96,7 +96,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Add_ValidModel_Throws_WebUiExceptionWithInnerWebUiException()
         {
-            _payingItemCreator.Setup(m => m.CreatePayingItem(It.IsAny<PayingItemModel>())).ThrowsAsync(new WebUiException());
+            _payingItemCreator.Setup(m => m.CreatePayingItemFromViewModel(It.IsAny<PayingItemModel>())).ThrowsAsync(new WebUiException());
             var target = new PayingItemController(null, null, null, null, _payingItemCreator.Object);
             var user = new WebUser();
             var payingItemModel = new PayingItemModel()

@@ -125,7 +125,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await _payingItemCreator.CreatePayingItem(model);
+                    await _payingItemCreator.CreatePayingItemFromViewModel(model);
 
                     return RedirectToAction("List");
                 }
@@ -145,8 +145,7 @@ namespace WebUI.Controllers
         }
 
         public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)
-        {
-            await FillViewBag(user, typeOfFlowId);
+        {            
             try
             {
                 var payingItem = await _payingItemService.GetItemAsync(id);
@@ -156,17 +155,21 @@ namespace WebUI.Controllers
                     return RedirectToAction("ListAjax", 1);
                 }
 
+                await FillViewBag(user, typeOfFlowId);
+
                 var payingItemEditModel = new PayingItemEditModel()
                 {
                     PayingItem = payingItem
                 };
                 PayingItemEditModel.OldCategoryId = payingItem.CategoryID;
 
-                if (!CheckForSubCategories(payingItem))
-                {
-                    return PartialView("_Edit", payingItemEditModel);
-                }
+                //if (!CheckForSubCategories(payingItem))
+                //{
+                //    return PartialView("_Edit", payingItemEditModel);
+                //}
+
                 _payingItemHelper.FillPayingItemEditModel(payingItemEditModel, id);
+
                 return PartialView("_Edit", payingItemEditModel);
             }
             catch (ServiceException e)
@@ -366,6 +369,11 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
             }
+        }
+
+        private async Task<PayingItemEditModel> CreatePayingItemEditModel()
+        {
+            return null;
         }
     }
 }

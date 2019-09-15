@@ -5,6 +5,6 @@ namespace WebUI.Abstract
 {
     public interface IPayingItemCreator
     {
-        Task CreatePayingItem(PayingItemModel model);
+        Task CreatePayingItemFromViewModel(PayingItemModel model);
     }
 }
