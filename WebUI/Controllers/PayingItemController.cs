@@ -157,11 +157,11 @@ namespace WebUI.Controllers
 
                 await FillViewBag(user, typeOfFlowId);
 
-                var payingItemEditModel = new PayingItemEditModel()
+                var payingItemEditModel = new PayingItemEditViewModel()
                 {
                     PayingItem = payingItem
                 };
-                PayingItemEditModel.OldCategoryId = payingItem.CategoryID;
+                PayingItemEditViewModel.OldCategoryId = payingItem.CategoryID;
 
                 //if (!CheckForSubCategories(payingItem))
                 //{
@@ -196,7 +196,7 @@ namespace WebUI.Controllers
         //ToDo Write test to check correct filling of the PayingItemEditViewModel
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel model)
+        public async Task<ActionResult> Edit(WebUser user, PayingItemEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -207,7 +207,7 @@ namespace WebUI.Controllers
                         _payingItemHelper.SetSumForPayingItem(model);
                         _payingItemHelper.CreateCommentWhileEdit(model);
 
-                        if (PayingItemEditModel.OldCategoryId != model.PayingItem.CategoryID)
+                        if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
                         {
                             await _payingItemHelper.CreatePayingItemProducts(model);
                         }
@@ -371,7 +371,7 @@ namespace WebUI.Controllers
             }
         }
 
-        private async Task<PayingItemEditModel> CreatePayingItemEditModel()
+        private async Task<PayingItemEditViewModel> CreatePayingItemEditModel()
         {
             return null;
         }

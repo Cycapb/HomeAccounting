@@ -231,9 +231,9 @@ namespace WebUI.Tests.ControllersTests
                 _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
+            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditViewModel;
 
-            Assert.AreEqual(PayingItemEditModel.OldCategoryId, 1);
+            Assert.AreEqual(PayingItemEditViewModel.OldCategoryId, 1);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
@@ -259,7 +259,7 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 6);
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditModel;
+            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditViewModel;
 
             Assert.AreEqual(model.PayingItem.ItemID, 6);
             Assert.AreEqual(model.PayingItemProductsCount, 0);
@@ -274,7 +274,7 @@ namespace WebUI.Tests.ControllersTests
             _categoryServiceMock.Setup(x => x.GetList()).Returns(new List<Category>());
             _categoryServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category() { TypeOfFlowID = 1 });
             var target = new PayingItemController(null, null, _categoryServiceMock.Object, _accountServiceMock.Object, null);
-            var pItemEditModel = new PayingItemEditModel() { PayingItem = new PayingItem() { } };
+            var pItemEditModel = new PayingItemEditViewModel() { PayingItem = new PayingItem() { } };
             target.ModelState.AddModelError("error", "error");
 
             //Action
@@ -288,7 +288,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_Post_PricesAndIdsInItemAreNull_ReturnsRedirectToList()
         {
-            var pItemEditModel = new PayingItemEditModel()
+            var pItemEditModel = new PayingItemEditViewModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -311,8 +311,8 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_Post_SavePayingItemWithChangedCategory_RedirectsToList()
         {
-            PayingItemEditModel.OldCategoryId = 1;
-            var pItemEditModel = new PayingItemEditModel()
+            PayingItemEditViewModel.OldCategoryId = 1;
+            var pItemEditModel = new PayingItemEditViewModel()
             {
                 PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
                 PayingItem = new PayingItem() { CategoryID = 2 }
@@ -406,8 +406,8 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Can_Save_PayingItem_With_Same_Category()
         {
-            PayingItemEditModel.OldCategoryId = 2;
-            var pItemEditModel = new PayingItemEditModel()
+            PayingItemEditViewModel.OldCategoryId = 2;
+            var pItemEditModel = new PayingItemEditViewModel()
             {
                 PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
                 PayingItem = new PayingItem() { CategoryID = 2 }

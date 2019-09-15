@@ -24,7 +24,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;
         }
 
-        public void CreateCommentWhileEdit(PayingItemEditModel model)
+        public void CreateCommentWhileEdit(PayingItemEditViewModel model)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace WebUI.Helpers
             }
         }
 
-        public async Task CreatePayingItemProducts(PayingItemEditModel model)
+        public async Task CreatePayingItemProducts(PayingItemEditViewModel model)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace WebUI.Helpers
             }
         }
 
-        public void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId)
+        public void FillPayingItemEditModel(PayingItemEditViewModel model, int payingItemId)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace WebUI.Helpers
             }
         }
 
-        public async Task UpdatePayingItemProducts(PayingItemEditModel model)
+        public async Task UpdatePayingItemProducts(PayingItemEditViewModel model)
         {
             try
             {
@@ -198,7 +198,7 @@ namespace WebUI.Helpers
             };
         }
 
-        public void SetSumForPayingItem(PayingItemEditModel model)
+        public void SetSumForPayingItem(PayingItemEditViewModel model)
         {
             var sum = 0M;
 

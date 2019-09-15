@@ -5,10 +5,10 @@ namespace WebUI.Abstract
 {
     public interface IPayingItemHelper
     {        
-        void CreateCommentWhileEdit(PayingItemEditModel model);        
-        Task CreatePayingItemProducts(PayingItemEditModel model);
-        Task UpdatePayingItemProducts(PayingItemEditModel model);
-        void FillPayingItemEditModel(PayingItemEditModel model, int payingItemId);
-        void SetSumForPayingItem(PayingItemEditModel model);
+        void CreateCommentWhileEdit(PayingItemEditViewModel model);        
+        Task CreatePayingItemProducts(PayingItemEditViewModel model);
+        Task UpdatePayingItemProducts(PayingItemEditViewModel model);
+        void FillPayingItemEditModel(PayingItemEditViewModel model, int payingItemId);
+        void SetSumForPayingItem(PayingItemEditViewModel model);
     }
 }

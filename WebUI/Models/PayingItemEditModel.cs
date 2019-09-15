@@ -4,7 +4,7 @@ using DomainModels.Model;
 
 namespace WebUI.Models
 {
-    public class PayingItemEditModel
+    public class PayingItemEditViewModel
     {
         public static int OldCategoryId { get; set; }
         public PayingItem PayingItem { get; set; }
