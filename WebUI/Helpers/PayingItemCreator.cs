@@ -19,7 +19,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;
         }
 
-        public async Task CreatePayingItemFromViewModel(PayingItemViewModel model)
+        public async Task<PayingItem> CreatePayingItemFromViewModel(PayingItemViewModel model)
         {
             if (model is null)
             {
@@ -58,7 +58,7 @@ namespace WebUI.Helpers
                     }
                 }
 
-                await _payingItemService.CreateAsync(model.PayingItem);
+                return await _payingItemService.CreateAsync(model.PayingItem);
             }
             catch (ServiceException e)
             {
