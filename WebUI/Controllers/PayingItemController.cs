@@ -166,9 +166,7 @@ namespace WebUI.Controllers
                 //if (!CheckForSubCategories(payingItem))
                 //{
                 //    return PartialView("_Edit", payingItemEditModel);
-                //}
-
-                _payingItemHelper.FillPayingItemEditModel(payingItemEditModel, id);
+                //}                
 
                 return PartialView("_Edit", payingItemEditModel);
             }

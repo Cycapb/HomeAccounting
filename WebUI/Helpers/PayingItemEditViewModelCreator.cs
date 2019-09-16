@@ -24,7 +24,10 @@ namespace WebUI.Helpers
             try
             {
                 var payingItem = await _payingItemService.GetItemAsync(payingItemId);
-                var model = new PayingItemEditViewModel();
+                var model = new PayingItemEditViewModel()
+                {
+                    PayingItem = payingItem
+                };
                 var payingItemProducts = payingItem.PaiyngItemProducts;
                 var productsByCategory = payingItem.Category.Products.ToList();
                     
@@ -32,29 +35,19 @@ namespace WebUI.Helpers
 
                 if (payingItemProducts.Count != 0)
                 {
-                    var productsInItem = payingItemProducts.Join(productsByCategory,
-                            x => x.ProductID,
-                            y => y.ProductID,
-                            (x, y) => new IdNamePrice()
-                            {
-                                PayingItemProductId = x.ItemID,
-                                ProductId = x.ProductID,
-                                ProductName = y.ProductName,
-                                ProductDescription = y.Description,
-                                Price = x.Summ
-                            })
-                        .OrderBy(x => x.ProductName)
-                        .ToList();
-
-                    var productsNotInItem = payingItemProducts.Join(productsByCategory,
-                            x => x.ProductID,
-                            y => y.ProductID,
-                            (x, y) => y)
-                        .OrderBy(x => x.ProductName)
+                    var productsInItem = payingItem.PaiyngItemProducts
+                        .Select(pip => new IdNamePrice()
+                        {
+                            PayingItemProductId = pip.ItemID,
+                            Price = pip.Summ,
+                            ProductId = pip.ProductID,
+                            ProductDescription = pip.Product.Description,
+                            ProductName = pip.Product.ProductName
+                        })
                         .ToList();
 
                     model.ProductsInItem = productsInItem;
-                    model.ProductsNotInItem = productsByCategory.Except(productsNotInItem).ToList();
+                    model.ProductsNotInItem = productsByCategory.Except(payingItemProducts.Select(x => x.Product)).ToList();
                 }
                 else
                 {
