@@ -531,6 +531,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CategoryHelper.cs" />
+    <Compile Include="Helpers\PayingItemEditViewModelCreator.cs" />
     <Compile Include="Helpers\PayingItemHelper.cs" />
     <Compile Include="Helpers\PayItemSubcategoriesHelper.cs" />
     <Compile Include="Helpers\PlaningControllerHelper.cs" />

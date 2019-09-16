@@ -160,7 +160,7 @@ namespace WebUI.Controllers
 
                 await FillViewBag(user, typeOfFlowId);
 
-                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(payingItem);
+                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(id);
                 PayingItemEditViewModel.OldCategoryId = payingItem.CategoryID;
 
                 //if (!CheckForSubCategories(payingItem))
