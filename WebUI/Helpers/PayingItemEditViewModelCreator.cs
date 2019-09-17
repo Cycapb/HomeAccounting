@@ -1,6 +1,8 @@
-﻿using Services;
+﻿using DomainModels.Model;
+using Services;
 using Services.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
@@ -25,12 +27,12 @@ namespace WebUI.Helpers
                 var payingItem = await _payingItemService.GetItemAsync(payingItemId);
                 var model = new PayingItemEditViewModel()
                 {
-                    PayingItem = payingItem
+                    PayingItem = payingItem,
+                    ProductsInItem = new List<Product>(),
+                    ProductsNotInItem = new List<Product>()
                 };
                 var productsInItem = payingItem.PaiyngItemProducts.Select(x => x.Product).ToList();
-                var productsByCategory = payingItem.Category.Products.ToList();
-                    
-                //model.PayingItemProductsCount = payingItemProducts.Count;
+                var productsByCategory = payingItem.Category.Products.ToList();                
 
                 if (productsInItem.Count != 0)
                 {
