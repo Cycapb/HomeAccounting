@@ -5,8 +5,7 @@ using DomainModels.Model;
 namespace WebUI.Models
 {
     public class PayingItemEditViewModel
-    {
-        public static int OldCategoryId { get; set; }
+    {        
         public PayingItem PayingItem { get; set; }
         public List<Product> ProductsInItem { get; set; }
         public List<Product> ProductsNotInItem { get; set; }
