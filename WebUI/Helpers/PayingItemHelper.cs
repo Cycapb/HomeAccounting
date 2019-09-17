@@ -91,61 +91,6 @@ namespace WebUI.Helpers
             }
         }
 
-        public void FillPayingItemEditModel(PayingItemEditViewModel model, int payingItemId)
-        {
-            try
-            {
-                var payingItemProducts = _payingItemProductService.GetList(x => x.PayingItemID == payingItemId)
-                    .ToList();
-                var products =
-                    _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID)
-                        .ToList();
-                model.PayingItemProductsCount = payingItemProducts.Count;
-
-                if (payingItemProducts.Count != 0)
-                {
-                    var productsInItem = payingItemProducts.Join(products,
-                            x => x.ProductID,
-                            y => y.ProductID,
-                            (x, y) => new IdNamePrice()
-                            {
-                                PayingItemProductId = x.ItemID,
-                                ProductId = x.ProductID,
-                                ProductName = y.ProductName,
-                                ProductDescription = y.Description,
-                                Price = x.Summ
-                            })
-                        .OrderBy(x => x.ProductName)
-                        .ToList();
-
-                    var productsNotInItem = payingItemProducts.Join(products,
-                            x => x.ProductID,
-                            y => y.ProductID,
-                            (x, y) => y)
-                        .OrderBy(x => x.ProductName)
-                        .ToList();
-
-                    model.ProductsInItem = productsInItem;
-                    model.ProductsNotInItem = products.Except(productsNotInItem).ToList();
-                }
-                else
-                {
-                    model.ProductsNotInItem = products;
-                }
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
-            }
-
-            catch (Exception e)
-            {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(FillPayingItemEditModel)}", e);
-            }
-        }
-
         public async Task UpdatePayingItemProducts(PayingItemEditViewModel model)
         {
             try

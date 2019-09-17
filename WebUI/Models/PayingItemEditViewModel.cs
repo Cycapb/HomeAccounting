@@ -15,16 +15,6 @@ namespace WebUI.Models
         public int PayingItemProductsCount { get; set; }
     }
 
-    public class IdNamePrice
-    {
-        public int PayingItemProductId { get; set; }
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
-        [DataType(DataType.Currency)]
-        public decimal Price { get; set; }
-    }
-
     public class PriceAndIdForEdit
     {
         public int PayingItemProductId { get; set; }
