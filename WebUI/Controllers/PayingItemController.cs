@@ -160,12 +160,7 @@ namespace WebUI.Controllers
 
                 await FillViewBag(user, typeOfFlowId);
 
-                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(id);                
-
-                //if (!CheckForSubCategories(payingItem))
-                //{
-                //    return PartialView("_Edit", payingItemEditModel);
-                //}                
+                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(id);             
 
                 return PartialView("_Edit", payingItemEditModel);
             }
