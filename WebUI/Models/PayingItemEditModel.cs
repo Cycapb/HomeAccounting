@@ -8,7 +8,7 @@ namespace WebUI.Models
     {
         public static int OldCategoryId { get; set; }
         public PayingItem PayingItem { get; set; }
-        public List<IdNamePrice> ProductsInItem { get; set; }
+        public List<Product> ProductsInItem { get; set; }
         public List<Product> ProductsNotInItem { get; set; }
         public List<PriceAndIdForEdit> PricesAndIdsInItem { get; set; }
         public List<PriceAndIdForEdit> PricesAndIdsNotInItem { get; set; }         

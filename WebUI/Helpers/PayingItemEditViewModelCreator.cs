@@ -1,5 +1,4 @@
-﻿using DomainModels.Model;
-using Services;
+﻿using Services;
 using Services.Exceptions;
 using System;
 using System.Linq;
@@ -28,26 +27,15 @@ namespace WebUI.Helpers
                 {
                     PayingItem = payingItem
                 };
-                var payingItemProducts = payingItem.PaiyngItemProducts;
+                var productsInItem = payingItem.PaiyngItemProducts.Select(x => x.Product).ToList();
                 var productsByCategory = payingItem.Category.Products.ToList();
                     
-                model.PayingItemProductsCount = payingItemProducts.Count;
+                //model.PayingItemProductsCount = payingItemProducts.Count;
 
-                if (payingItemProducts.Count != 0)
+                if (productsInItem.Count != 0)
                 {
-                    var productsInItem = payingItem.PaiyngItemProducts
-                        .Select(pip => new IdNamePrice()
-                        {
-                            PayingItemProductId = pip.ItemID,
-                            Price = pip.Summ,
-                            ProductId = pip.ProductID,
-                            ProductDescription = pip.Product.Description,
-                            ProductName = pip.Product.ProductName
-                        })
-                        .ToList();
-
                     model.ProductsInItem = productsInItem;
-                    model.ProductsNotInItem = productsByCategory.Except(payingItemProducts.Select(x => x.Product)).ToList();
+                    model.ProductsNotInItem = productsByCategory.Except(productsInItem).ToList();
                 }
                 else
                 {
