@@ -151,16 +151,14 @@ namespace WebUI.Controllers
         {            
             try
             {
-                var payingItem = await _payingItemService.GetItemAsync(id);
+                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(id);
 
-                if (payingItem == null)
+                if (payingItemEditModel == null)
                 {
                     return RedirectToAction("ListAjax", 1);
                 }
 
-                await FillViewBag(user, typeOfFlowId);
-
-                var payingItemEditModel = await _payingItemEditViewModelCreator.CreateViewModel(id);             
+                await FillViewBag(user, typeOfFlowId);                
 
                 return PartialView("_Edit", payingItemEditModel);
             }
@@ -199,14 +197,14 @@ namespace WebUI.Controllers
                         _payingItemHelper.SetSumForPayingItem(model);
                         _payingItemHelper.CreateCommentWhileEdit(model);
 
-                        if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
-                        {
-                            await _payingItemHelper.CreatePayingItemProducts(model);
-                        }
-                        else
-                        {
-                            await _payingItemHelper.UpdatePayingItemProducts(model);
-                        }
+                        //if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
+                        //{
+                        //    await _payingItemHelper.CreatePayingItemProducts(model);
+                        //}
+                        //else
+                        //{
+                        //    await _payingItemHelper.UpdatePayingItemProducts(model);
+                        //}
 
                         return RedirectToAction("List");
                     }
@@ -361,11 +359,6 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
             }
-        }
-
-        private async Task<PayingItemEditViewModel> CreatePayingItemEditModel()
-        {
-            return null;
         }
     }
 }

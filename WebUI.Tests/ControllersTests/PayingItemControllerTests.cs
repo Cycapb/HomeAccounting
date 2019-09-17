@@ -220,22 +220,22 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(2, result[1].AccountID);
         }
 
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Get_Can_Get_PayingItem_For_Edit_With_SubCategories()
-        {
-            _payingItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1 });
-            _payingItemServiceMock.Setup(x => x.GetList()).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
-            _payingItemServiceMock.Setup(x => x.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
-            var target = new PayingItemController(_payingItemHelperMock.Object,
-                _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
+        //[TestMethod]
+        //[TestCategory("PayingItemControllerTests")]
+        //public async Task Edit_Get_Can_Get_PayingItem_For_Edit_With_SubCategories()
+        //{
+        //    _payingItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1 });
+        //    _payingItemServiceMock.Setup(x => x.GetList()).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
+        //    _payingItemServiceMock.Setup(x => x.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
+        //    var target = new PayingItemController(_payingItemHelperMock.Object,
+        //        _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
 
-            var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditViewModel;
+        //    var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
+        //    var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditViewModel;
 
-            Assert.AreEqual(PayingItemEditViewModel.OldCategoryId, 1);
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-        }
+        //    Assert.AreEqual(PayingItemEditViewModel.OldCategoryId, 1);
+        //    Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        //}
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
@@ -307,25 +307,25 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(redirectResult.RouteValues["action"], "List");
         }
 
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Post_SavePayingItemWithChangedCategory_RedirectsToList()
-        {
-            PayingItemEditViewModel.OldCategoryId = 1;
-            var pItemEditModel = new PayingItemEditViewModel()
-            {
-                PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
-                PayingItem = new PayingItem() { CategoryID = 2 }
-            };
-            var target = new PayingItemController(_payingItemHelperMock.Object,
-                _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
+        //[TestMethod]
+        //[TestCategory("PayingItemControllerTests")]
+        //public async Task Edit_Post_SavePayingItemWithChangedCategory_RedirectsToList()
+        //{
+        //    PayingItemEditViewModel.OldCategoryId = 1;
+        //    var pItemEditModel = new PayingItemEditViewModel()
+        //    {
+        //        PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
+        //        PayingItem = new PayingItem() { CategoryID = 2 }
+        //    };
+        //    var target = new PayingItemController(_payingItemHelperMock.Object,
+        //        _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
 
-            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-            var routeResult = (RedirectToRouteResult)result;
+        //    var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
+        //    var routeResult = (RedirectToRouteResult)result;
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(routeResult.RouteValues["action"], "List");
-        }
+        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        //    Assert.AreEqual(routeResult.RouteValues["action"], "List");
+        //}
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
@@ -402,30 +402,30 @@ namespace WebUI.Tests.ControllersTests
             }
         }
 
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Can_Save_PayingItem_With_Same_Category()
-        {
-            PayingItemEditViewModel.OldCategoryId = 2;
-            var pItemEditModel = new PayingItemEditViewModel()
-            {
-                PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
-                PayingItem = new PayingItem() { CategoryID = 2 }
-            };
-            var target = new PayingItemController(
-                _payingItemHelperMock.Object,
-                _payingItemServiceMock.Object,
-                _categoryServiceMock.Object,
-                _accountServiceMock.Object,
-                null,
-                null);
+        //[TestMethod]
+        //[TestCategory("PayingItemControllerTests")]
+        //public async Task Can_Save_PayingItem_With_Same_Category()
+        //{
+        //    PayingItemEditViewModel.OldCategoryId = 2;
+        //    var pItemEditModel = new PayingItemEditViewModel()
+        //    {
+        //        PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
+        //        PayingItem = new PayingItem() { CategoryID = 2 }
+        //    };
+        //    var target = new PayingItemController(
+        //        _payingItemHelperMock.Object,
+        //        _payingItemServiceMock.Object,
+        //        _categoryServiceMock.Object,
+        //        _accountServiceMock.Object,
+        //        null,
+        //        null);
 
-            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-            var routeResult = (RedirectToRouteResult)result;
+        //    var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
+        //    var routeResult = (RedirectToRouteResult)result;
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(routeResult.RouteValues["action"], "List");
-        }
+        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        //    Assert.AreEqual(routeResult.RouteValues["action"], "List");
+        //}
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]

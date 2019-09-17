@@ -25,12 +25,19 @@ namespace WebUI.Helpers
             try
             {
                 var payingItem = await _payingItemService.GetItemAsync(payingItemId);
+
+                if (payingItem == null)
+                {
+                    return null;
+                }
+
                 var model = new PayingItemEditViewModel()
                 {
                     PayingItem = payingItem,
                     ProductsInItem = new List<Product>(),
                     ProductsNotInItem = new List<Product>()
                 };
+                
                 var productsInItem = payingItem.PaiyngItemProducts.Select(x => x.Product).ToList();
                 var productsByCategory = payingItem.Category.Products.ToList();                
 
@@ -48,14 +55,14 @@ namespace WebUI.Helpers
             }
             catch (ServiceException e)
             {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateViewModel)}", e);
+                throw new WebUiException(
+                    $"Ошибка в типе {nameof(PayingItemEditViewModelCreator)} в методе {nameof(CreateViewModel)}", e);
             }
 
             catch (Exception e)
             {
-                throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateViewModel)}", e);
+                throw new WebUiException(
+                    $"Ошибка в типе {nameof(PayingItemEditViewModelCreator)} в методе {nameof(CreateViewModel)}", e);
             }
         }
     }
