@@ -26,6 +26,7 @@ namespace WebUI.Tests.ControllersTests
         private readonly Mock<ICategoryService> _categoryServiceMock;
         private readonly Mock<IAccountService> _accountServiceMock;
         private readonly Mock<IPayingItemCreator> _payingItemCreator;
+        private readonly Mock<IPayingItemEditViewModelCreator> _payingItemEditViewModelCreatorMock;
 
         public PayingItemTest()
         {
@@ -34,6 +35,7 @@ namespace WebUI.Tests.ControllersTests
             _categoryServiceMock = new Mock<ICategoryService>();
             _accountServiceMock = new Mock<IAccountService>();
             _payingItemCreator = new Mock<IPayingItemCreator>();
+            _payingItemEditViewModelCreatorMock = new Mock<IPayingItemEditViewModelCreator>();
         }
 
         [TestCategory("PayingItemControllerTests")]
@@ -118,17 +120,39 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Cannot_Get_PayingItem_Returns_RedirectToRouteResult()
+        public async Task Edit_CannotGetPayingItemEditViewModel_ReturnsRedirectToListAjax()
         {
-            PayingItem pItem = null;
-            _payingItemServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(pItem);
-            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
+            PayingItemEditViewModel viewModel = null;
+            _payingItemEditViewModelCreatorMock.Setup(x => x.CreateViewModel(It.IsAny<int>())).ReturnsAsync(viewModel);
+            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, _payingItemEditViewModelCreatorMock.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
             var routes = (result as RedirectToRouteResult).RouteValues;
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual(routes["action"], "ListAjax");
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_GetPayingItemEditViewModel_ReturnsPartialViewResult()
+        {
+            PayingItemEditViewModel viewModel = new PayingItemEditViewModel();
+            _payingItemEditViewModelCreatorMock.Setup(x => x.CreateViewModel(It.IsAny<int>())).ReturnsAsync(viewModel);
+            _accountServiceMock.Setup(x => x.GetList()).Returns(new List<Account>());
+            _categoryServiceMock.Setup(x => x.GetList()).Returns(new List<Category>());
+            _categoryServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category() { TypeOfFlowID = 1 });
+            var target = new PayingItemController(
+                null, 
+                null,
+                _categoryServiceMock.Object, 
+                _accountServiceMock.Object, 
+                null, 
+                _payingItemEditViewModelCreatorMock.Object);
+
+            var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);            
+
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));            
         }
 
         [TestMethod]
@@ -220,52 +244,6 @@ namespace WebUI.Tests.ControllersTests
             Assert.AreEqual(2, result[1].AccountID);
         }
 
-        //[TestMethod]
-        //[TestCategory("PayingItemControllerTests")]
-        //public async Task Edit_Get_Can_Get_PayingItem_For_Edit_With_SubCategories()
-        //{
-        //    _payingItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1 });
-        //    _payingItemServiceMock.Setup(x => x.GetList()).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
-        //    _payingItemServiceMock.Setup(x => x.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(new List<PayingItem>() { new PayingItem() { CategoryID = 1 } });
-        //    var target = new PayingItemController(_payingItemHelperMock.Object,
-        //        _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
-
-        //    var result = await target.Edit(new WebUser() { Id = "1" }, 1, 1);
-        //    var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditViewModel;
-
-        //    Assert.AreEqual(PayingItemEditViewModel.OldCategoryId, 1);
-        //    Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-        //}
-
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Get_ReturnsRedirectToListAjax()
-        {
-            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
-
-            var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
-            var redirectResult = (RedirectToRouteResult)result;
-
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"], "ListAjax");
-        }
-
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Get_WithOutSubCategories_ReturnsPartialView()
-        {
-            _payingItemServiceMock.Setup(x => x.GetList()).Returns(new List<PayingItem>());
-            _payingItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { ItemID = 6 });
-            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
-
-            var result = await target.Edit(new WebUser() { Id = "1" }, 1, 6);
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemEditViewModel;
-
-            Assert.AreEqual(model.PayingItem.ItemID, 6);
-            Assert.AreEqual(model.PayingItemProductsCount, 0);
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-        }
-
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_Post_InvalidModel_ReturnsPartialView()
@@ -276,11 +254,9 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(null, null, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
             var pItemEditModel = new PayingItemEditViewModel() { PayingItem = new PayingItem() { } };
             target.ModelState.AddModelError("error", "error");
-
-            //Action
+                        
             var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-
-            //Assert
+                        
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
@@ -345,11 +321,14 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_RaisesWebUiExceptionWithInnerServiceException()
         {
-            _payingItemServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
-            _categoryServiceMock.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
-                .ReturnsAsync(new List<Category>());
-            _accountServiceMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
+            _payingItemEditViewModelCreatorMock.Setup(x => x.CreateViewModel(It.IsAny<int>())).Throws(new ServiceException());
+            var target = new PayingItemController(
+                null, 
+                null,
+                null, 
+                null, 
+                null, 
+                _payingItemEditViewModelCreatorMock.Object);
 
             try
             {
@@ -358,47 +337,6 @@ namespace WebUI.Tests.ControllersTests
             catch (WebUiException e)
             {
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
-            }
-        }
-
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_RaisesWebUiExceptionWithInnerWebUiException()
-        {
-            _payingItemServiceMock.Setup(m => m.GetList()).Throws<ServiceException>();
-            _categoryServiceMock.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
-                .ReturnsAsync(new List<Category>());
-            _accountServiceMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
-
-            try
-            {
-                await target.Edit(new WebUser(), It.IsAny<int>(), It.IsAny<int>());
-            }
-            catch (Exception e)
-            {
-                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiException));
-            }
-        }
-
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_RaisesWebuiExceptionWithInnerWebUiHelperException()
-        {
-            _payingItemServiceMock.Setup(m => m.GetList()).Returns(new List<PayingItem>());
-            _payingItemServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new PayingItem() { CategoryID = 1 });
-            _categoryServiceMock.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
-                .ReturnsAsync(new List<Category>());
-            _accountServiceMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
-            var target = new PayingItemController(null, _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
-
-            try
-            {
-                await target.Edit(new WebUser(), 1, 1);
-            }
-            catch (WebUiHelperException e)
-            {
-                Assert.IsInstanceOfType(e.InnerException, typeof(WebUiHelperException));
             }
         }
 

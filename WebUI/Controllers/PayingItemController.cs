@@ -172,18 +172,12 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
             }
-            catch (WebUiHelperException e)
-            {
-                throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
-            }
             catch (Exception e)
             {
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
             }
-        }
-        //ToDo Write test to check correct filling of the PayingItemEditViewModel
+        }        
 
         [HttpPost]
         public async Task<ActionResult> Edit(WebUser user, PayingItemEditViewModel model)
