@@ -24,7 +24,7 @@
                     Value = x.CategoryID.ToString()
                 }), new { @class = "selectpicker", onchange = "changeCategoryEdit()" })
             </div>
-            @if (Model.PayingItemProductsCount != 0)
+            @if (Model.ProductsInItem.Count != 0)
             {
                 <div class="form-group" id="subcategoriesDiv">
                     <table class="table table-striped" id="productsEditTable">
@@ -35,13 +35,13 @@
                             <th>Цена</th>
                         </tr>
 
-                        @for (int i = 0; i < Model.ProductsInItem.Count(); i++)
+                        @for (int i = 0; i < Model.ProductsInItem.Count; i++)
                         {
                             <tr>
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" checked="checked" name="PricesAndIdsInItem[@i].Id" value="@Model.ProductsInItem[i].ProductId" />
+                                            <input type="checkbox" checked="checked" name="ProductsInItem[@i].ProductID" value="@Model.ProductsInItem[i].ProductID" />
                                             <span class="checkbox-material">
                                                 <span class="check"></span>
                                             </span>
@@ -52,20 +52,20 @@
                                     @Model.ProductsInItem[i].ProductName
                                 </td>
                                 <td>
-                                    @Model.ProductsInItem[i].ProductDescription
+                                    @Model.ProductsInItem[i].Description
                                 </td>
                                 <td>
-                                    @Html.TextBox("PricesAndIdsInItem[" + i + "].Price", Model.ProductsInItem[i].Price.ToString("F"), new { @class = "form-control" })
+                                    @Html.TextBox("ProductsInItem[" + i + "].Price", Model.ProductsInItem[i].Price.ToString("F"), new { @class = "form-control" })
                                 </td>
                             </tr>
                         }
-                        @for (int i = 0; i < Model.ProductsNotInItem.Count(); i++)
+                        @for (int i = 0; i < Model.ProductsNotInItem.Count; i++)
                         {
                             <tr>
                                 <td>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="PricesAndIdsNotInItem[@i].Id" value="@Model.ProductsNotInItem[i].ProductID" />
+                                            <input type="checkbox" name="ProductsNotInItem[@i].ProductID" value="@Model.ProductsNotInItem[i].ProductID" />
                                             <span class="checkbox-material">
                                                 <span class="check"></span>
                                             </span>
@@ -79,7 +79,7 @@
                                     @Model.ProductsNotInItem[i].Description
                                 </td>
                                 <td>
-                                    @Html.TextBox("PricesAndIdsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price.ToString("F"), new { @class = "form-control" })
+                                    @Html.TextBox("ProductsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price.ToString("F"), new { @class = "form-control" })
                                 </td>
                             </tr>
                         }
