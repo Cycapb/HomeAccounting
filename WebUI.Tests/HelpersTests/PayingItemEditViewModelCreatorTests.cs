@@ -85,8 +85,8 @@ namespace WebUI.Tests.HelpersTests
 
             var result = await target.CreateViewModel(1);
 
-            Assert.AreEqual(result.ProductsInItem.Count, 0);
-            Assert.AreEqual(result.ProductsNotInItem.Count, 2);
+            Assert.AreEqual(0, result.ProductsInItem.Count);
+            Assert.AreEqual(2, result.ProductsNotInItem.Count);
         }
 
         [TestMethod]
@@ -123,8 +123,8 @@ namespace WebUI.Tests.HelpersTests
 
             var result = await target.CreateViewModel(1);
 
-            Assert.AreEqual(result.ProductsInItem.Count, 2);
-            Assert.AreEqual(result.ProductsNotInItem.Count, 0);
+            Assert.AreEqual(2, result.ProductsInItem.Count);
+            Assert.AreEqual(0, result.ProductsNotInItem.Count);
         }
 
         [TestMethod]
@@ -155,8 +155,8 @@ namespace WebUI.Tests.HelpersTests
 
             var result = await target.CreateViewModel(1);
 
-            Assert.AreEqual(result.ProductsInItem.Count, 2);
-            Assert.AreEqual(result.ProductsNotInItem.Count, 2);
+            Assert.AreEqual(2, result.ProductsInItem.Count);
+            Assert.AreEqual(2, result.ProductsNotInItem.Count);
         }
 
         [TestMethod]
@@ -177,8 +177,8 @@ namespace WebUI.Tests.HelpersTests
 
             var result = await target.CreateViewModel(1);
 
-            Assert.AreEqual(result.ProductsInItem.Count, 0);
-            Assert.AreEqual(result.ProductsNotInItem.Count, 0);
+            Assert.AreEqual(0, result.ProductsInItem.Count);
+            Assert.AreEqual(0, result.ProductsNotInItem.Count);
         }
 
         [TestMethod]
@@ -217,8 +217,8 @@ namespace WebUI.Tests.HelpersTests
 
             var result = await target.CreateViewModel(1);
 
-            Assert.AreEqual(result.ProductsInItem.Count, 4);
-            Assert.AreEqual(result.ProductsNotInItem.Count, 0);
+            Assert.AreEqual(4, result.ProductsInItem.Count);
+            Assert.AreEqual(0, result.ProductsNotInItem.Count);
         }
 
         [TestMethod]

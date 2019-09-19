@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
 using WebUI.Exceptions;
+using WebUI.Infrastructure.Comparers;
 using WebUI.Models;
 
 namespace WebUI.Helpers
@@ -38,13 +39,21 @@ namespace WebUI.Helpers
                     ProductsNotInItem = new List<Product>()
                 };
                 
-                var productsInItem = payingItem.PaiyngItemProducts.Select(x => x.Product).ToList();
+                var productsInItem = payingItem.PaiyngItemProducts
+                    .Select(x => new Product()
+                    {
+                        Price = x.Summ,
+                        ProductID = x.Product.ProductID,
+                        Description = x.Product.Description,
+                        ProductName = x.Product.ProductName
+                    })
+                    .ToList();
                 var productsByCategory = payingItem.Category.Products.ToList();                
 
                 if (productsInItem.Count != 0)
                 {
                     model.ProductsInItem = productsInItem;
-                    model.ProductsNotInItem = productsByCategory.Except(productsInItem).ToList();
+                    model.ProductsNotInItem = productsByCategory.Except(productsInItem, new ProductEqualityComparer()).ToList();
                 }
                 else
                 {

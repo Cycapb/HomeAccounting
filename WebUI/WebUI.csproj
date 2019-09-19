@@ -545,6 +545,7 @@
     <Compile Include="Infrastructure\Attributes\IsUniqueAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\UserHasAnyAccountAttribute.cs" />
     <Compile Include="Infrastructure\Binders\WebUserModelBinder.cs" />
+    <Compile Include="Infrastructure\Comparers\ProductEqualityComparer.cs" />
     <Compile Include="Infrastructure\CustomErrorAttribute.cs" />
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\CustomUserValidator.cs" />

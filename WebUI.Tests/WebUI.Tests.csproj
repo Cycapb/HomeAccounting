@@ -108,6 +108,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ComparersTests\ProductEqualityComparerTests.cs" />
     <Compile Include="ControllersTests\AccountControllerTests.cs" />
     <Compile Include="ControllersTests\CategoryControllerTests.cs" />
     <Compile Include="ControllersTests\NavLeftControllerTests.cs" />
