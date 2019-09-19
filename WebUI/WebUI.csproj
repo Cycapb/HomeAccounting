@@ -486,6 +486,7 @@
     <Compile Include="Abstract\IPayingItemCreator.cs" />
     <Compile Include="Abstract\IPayingItemEditViewModelCreator.cs" />
     <Compile Include="Abstract\IPayingItemHelper.cs" />
+    <Compile Include="Abstract\IPayingItemUpdater.cs" />
     <Compile Include="Abstract\IPayItemSubcategoriesHelper.cs" />
     <Compile Include="Abstract\IPlanningHelper.cs" />
     <Compile Include="Abstract\IReportControllerHelper.cs" />
