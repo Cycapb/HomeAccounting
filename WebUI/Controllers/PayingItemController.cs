@@ -26,6 +26,7 @@ namespace WebUI.Controllers
         private readonly IAccountService _accountService;
         private readonly IPayingItemCreator _payingItemCreator;
         private readonly IPayingItemEditViewModelCreator _payingItemEditViewModelCreator;
+        private readonly IPayingItemUpdater _payingItemUpdater;
         public int ItemsPerPage = 10;
 
         public PayingItemController(
@@ -34,7 +35,8 @@ namespace WebUI.Controllers
             ICategoryService categoryService,
             IAccountService accountService,
             IPayingItemCreator payingItemCreator,
-            IPayingItemEditViewModelCreator payingItemEditViewModelCreator)
+            IPayingItemEditViewModelCreator payingItemEditViewModelCreator,
+            IPayingItemUpdater payingItemUpdater)
         {
             _payingItemHelper = payingItemHelper;
             _payingItemService = payingItemService;
@@ -42,6 +44,7 @@ namespace WebUI.Controllers
             _accountService = accountService;
             _payingItemCreator = payingItemCreator;
             _payingItemEditViewModelCreator = payingItemEditViewModelCreator;
+            _payingItemUpdater = payingItemUpdater;
         }
 
         public ActionResult Index()
@@ -189,8 +192,8 @@ namespace WebUI.Controllers
                 {
                     if (model.PricesAndIdsInItem != null)
                     {
-                        _payingItemHelper.SetSumForPayingItem(model);
-                        _payingItemHelper.CreateCommentWhileEdit(model);
+                        //_payingItemHelper.SetSumForPayingItem(model);
+                        //_payingItemHelper.CreateCommentWhileEdit(model);
 
                         //if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
                         //{
@@ -200,6 +203,7 @@ namespace WebUI.Controllers
                         //{
                         //    await _payingItemHelper.UpdatePayingItemProducts(model);
                         //}
+                        await _payingItemUpdater.UpdatePayingItemFromViewModel(model);
 
                         return RedirectToAction("List");
                     }

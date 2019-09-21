@@ -24,6 +24,7 @@
                 </tr>
                 @for (int i = 0; i < Model.Count; i++)
                 {
+                    @Html.HiddenFor(x => x[i].UserID)
                     <tr>
                         <td>
                             <div class="checkbox">
@@ -35,6 +36,7 @@
                         </td>
                         <td>
                             @Model[i].ProductName
+                            @Html.HiddenFor(x => x[i].ProductName)
                         </td>
                         <td>
                             @Model[i].Description

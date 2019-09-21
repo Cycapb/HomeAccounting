@@ -534,6 +534,7 @@
     <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\PayingItemEditViewModelCreator.cs" />
     <Compile Include="Helpers\PayingItemHelper.cs" />
+    <Compile Include="Helpers\PayingItemUpdater.cs" />
     <Compile Include="Helpers\PayItemSubcategoriesHelper.cs" />
     <Compile Include="Helpers\PlaningControllerHelper.cs" />
     <Compile Include="Helpers\ReportControllerHelper.cs" />
