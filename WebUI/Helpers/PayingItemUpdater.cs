@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DomainModels.Model;
+using Services;
 using WebUI.Abstract;
 using WebUI.Models.PayingItemViewModels;
 
@@ -7,27 +10,37 @@ namespace WebUI.Helpers
 {
     public class PayingItemUpdater : IPayingItemUpdater
     {
-        public Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditViewModel model)
+        private readonly IPayingItemService _payingItemService;
+
+        public PayingItemUpdater(IPayingItemService payingItemService)
         {
-            throw new System.NotImplementedException();
+            _payingItemService = payingItemService;
         }
 
-        private void SetSumForPayingItem(PayingItemEditViewModel model)
+        public async Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditViewModel model)
         {
-            //var sum = 0M;
+            var sum = GetSumFromProducts(model);
+            var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
+            payingItem.Summ = sum == 0 ? payingItem.Summ : sum;
 
-            //if (model.PricesAndIdsNotInItem == null)
-            //{
-            //    sum = model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price);
-            //}
+            return payingItem;
+        }
 
-            //sum = model.PricesAndIdsInItem.Where(x => x.Id != 0).Sum(x => x.Price) +
-            //      model.PricesAndIdsNotInItem.Where(x => x.Id != 0).Sum(x => x.Price);
+        private decimal GetSumFromProducts(PayingItemEditViewModel model)
+        {            
+            var products = new List<Product>();
 
-            //if (sum != 0)
-            //{
-            //    model.PayingItem.Summ = sum;
-            //}
+            if (model.ProductsInItem != null)
+            {
+                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
+            }
+
+            if (model.ProductsNotInItem != null)
+            {
+                products.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).ToList());
+            }
+
+            return products.Sum(x => x.Price);
         }
 
         private void CreateCommentWhileEdit(PayingItemEditViewModel model)
