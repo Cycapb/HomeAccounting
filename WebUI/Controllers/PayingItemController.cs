@@ -190,33 +190,22 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    if (model.PricesAndIdsInItem != null)
-                    {
-                        //_payingItemHelper.SetSumForPayingItem(model);
-                        //_payingItemHelper.CreateCommentWhileEdit(model);
+                    //_payingItemHelper.SetSumForPayingItem(model);
+                    //_payingItemHelper.CreateCommentWhileEdit(model);
 
-                        //if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
-                        //{
-                        //    await _payingItemHelper.CreatePayingItemProducts(model);
-                        //}
-                        //else
-                        //{
-                        //    await _payingItemHelper.UpdatePayingItemProducts(model);
-                        //}
-                        await _payingItemUpdater.UpdatePayingItemFromViewModel(model);
-
-                        return RedirectToAction("List");
-                    }
-                    await _payingItemService.UpdateAsync(model.PayingItem);
+                    //if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
+                    //{
+                    //    await _payingItemHelper.CreatePayingItemProducts(model);
+                    //}
+                    //else
+                    //{
+                    //    await _payingItemHelper.UpdatePayingItemProducts(model);
+                    //}
+                    await _payingItemUpdater.UpdatePayingItemFromViewModel(model);
 
                     return RedirectToAction("List");
                 }
                 catch (ServiceException e)
-                {
-                    throw new WebUiException(
-                        $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);
-                }
-                catch (WebUiHelperException e)
                 {
                     throw new WebUiException(
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Edit)}", e);

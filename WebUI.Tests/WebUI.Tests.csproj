@@ -120,6 +120,7 @@
     <Compile Include="HelpersTests\PayingItemCreatorTests.cs" />
     <Compile Include="HelpersTests\ReportControllerHelperTests.cs" />
     <Compile Include="HelpersTests\PayingItemEditViewModelCreatorTests.cs" />
+    <Compile Include="HelpersTests\PayingItemUpdaterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ControllersTests\OrderControllerTests.cs" />
     <Compile Include="ControllersTests\OrderDetailControllerTests.cs" />
