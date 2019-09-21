@@ -73,7 +73,6 @@
     <Compile Include="PartialModel\Debt.cs" />
     <Compile Include="PartialModel\PayingItem.cs" />
     <Compile Include="PartialModel\PlanItem.cs" />
-    <Compile Include="PartialModel\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

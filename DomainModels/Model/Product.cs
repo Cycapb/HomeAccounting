@@ -16,7 +16,8 @@ namespace DomainModels.Model
 
         public int ProductID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо ввести наименование")]
+        [Display(Name = "Наименование")]
         [StringLength(50)]
         public string ProductName { get; set; }
 
@@ -28,6 +29,9 @@ namespace DomainModels.Model
 
         [StringLength(50)]
         public string Description { get; set; }
+
+        [NotMapped]
+        public decimal Price { get; set; }
 
         public virtual Category Category { get; set; }
 

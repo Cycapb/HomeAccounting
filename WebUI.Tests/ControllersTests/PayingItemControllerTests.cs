@@ -14,6 +14,7 @@ using WebUI.Abstract;
 using WebUI.Controllers;
 using WebUI.Exceptions;
 using WebUI.Models;
+using WebUI.Models.PayingItemViewModels;
 
 namespace WebUI.Tests.ControllersTests
 {

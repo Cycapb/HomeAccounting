@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
 using WebUI.Exceptions;
-using WebUI.Models;
+using WebUI.Models.PayingItemViewModels;
 
 namespace WebUI.Helpers
 {

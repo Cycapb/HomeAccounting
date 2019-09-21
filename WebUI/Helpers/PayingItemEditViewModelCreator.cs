@@ -9,6 +9,7 @@ using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Infrastructure.Comparers;
 using WebUI.Models;
+using WebUI.Models.PayingItemViewModels;
 
 namespace WebUI.Helpers
 {
@@ -45,7 +46,8 @@ namespace WebUI.Helpers
                         Price = x.Summ,
                         ProductID = x.Product.ProductID,
                         Description = x.Product.Description,
-                        ProductName = x.Product.ProductName
+                        ProductName = x.Product.ProductName,
+                        UserID = x.Product.UserID
                     })
                     .ToList();
                 var productsByCategory = payingItem.Category.Products.ToList();                

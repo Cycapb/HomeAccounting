@@ -1,4 +1,4 @@
-﻿@model PayingItemEditViewModel
+﻿@model WebUI.Models.PayingItemViewModels.PayingItemEditViewModel
 @{
     List<Category> catList = ViewBag.Categories;
     List<Account> accList = ViewBag.Accounts;
@@ -37,6 +37,7 @@
 
                         @for (int i = 0; i < Model.ProductsInItem.Count; i++)
                         {
+                            @Html.HiddenFor(x => x.ProductsInItem[i].UserID)
                             <tr>
                                 <td>
                                     <div class="checkbox">
@@ -50,6 +51,7 @@
                                 </td>
                                 <td>
                                     @Model.ProductsInItem[i].ProductName
+                                    @Html.HiddenFor(x => x.ProductsInItem[i].ProductName)
                                 </td>
                                 <td>
                                     @Model.ProductsInItem[i].Description
@@ -61,6 +63,7 @@
                         }
                         @for (int i = 0; i < Model.ProductsNotInItem.Count; i++)
                         {
+                            @Html.HiddenFor(x => x.ProductsInItem[i].UserID)
                             <tr>
                                 <td>
                                     <div class="checkbox">
@@ -74,6 +77,7 @@
                                 </td>
                                 <td>
                                     @Model.ProductsNotInItem[i].ProductName
+                                    @Html.HiddenFor(x => x.ProductsInItem[i].ProductName)
                                 </td>
                                 <td>
                                     @Model.ProductsNotInItem[i].Description

@@ -12,6 +12,7 @@ using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Infrastructure.Attributes;
 using WebUI.Models;
+using WebUI.Models.PayingItemViewModels;
 
 namespace WebUI.Controllers
 {

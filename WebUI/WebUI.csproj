@@ -577,7 +577,7 @@
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\OverAllItem.cs" />
     <Compile Include="Models\PagingInfo.cs" />
-    <Compile Include="Models\PayingItemEditViewModel.cs" />
+    <Compile Include="Models\PayingItemViewModels\PayingItemEditViewModel.cs" />
     <Compile Include="Models\PayingItemViewModel.cs" />
     <Compile Include="Models\PayingItemToView.cs" />
     <Compile Include="Models\PayItemForView.cs" />

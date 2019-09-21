@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using DomainModels.Model;
 
-namespace WebUI.Models
+namespace WebUI.Models.PayingItemViewModels
 {
     public class PayingItemEditViewModel
     {        
@@ -14,11 +14,9 @@ namespace WebUI.Models
     }
 
     public class PriceAndIdForEdit
-    {
-        public int PayingItemProductId { get; set; }
+    {        
         public int Id { get; set; }
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
     }
-
 }

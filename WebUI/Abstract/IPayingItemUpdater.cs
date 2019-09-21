@@ -1,6 +1,7 @@
 ﻿using DomainModels.Model;
 using System.Threading.Tasks;
 using WebUI.Models;
+using WebUI.Models.PayingItemViewModels;
 
 namespace WebUI.Abstract
 {
