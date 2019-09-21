@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DomainModels.Model;
+using Services;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DomainModels.Model;
-using Services;
 using WebUI.Abstract;
 using WebUI.Models.PayingItemViewModels;
 
@@ -22,12 +23,14 @@ namespace WebUI.Helpers
             var sum = GetSumFromProducts(model);
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
             payingItem.Summ = sum == 0 ? payingItem.Summ : sum;
+            var comment = CreateCommentForPayingItem(model);
+            payingItem.Comment = string.IsNullOrEmpty(comment) ? payingItem.Comment : comment;
 
             return payingItem;
         }
 
         private decimal GetSumFromProducts(PayingItemEditViewModel model)
-        {            
+        {
             var products = new List<Product>();
 
             if (model.ProductsInItem != null)
@@ -43,43 +46,27 @@ namespace WebUI.Helpers
             return products.Sum(x => x.Price);
         }
 
-        private void CreateCommentWhileEdit(PayingItemEditViewModel model)
+        private string CreateCommentForPayingItem(PayingItemEditViewModel model)
         {
-            //try
-            //{
-            //    var products = _productService.GetList(x => x.CategoryID == model.PayingItem.CategoryID).ToList();
-            //    model.PayingItem.Comment = "";
-            //    var comment = string.Empty;
+            var productsNames = new List<string>();
+            var comment = string.Empty;
 
-            //    foreach (var item in model.PricesAndIdsInItem)
-            //    {
-            //        if (item.Id != 0)
-            //        {
-            //            comment += products.Single(x => x.ProductID == item.Id).ProductName + ", ";
-            //        }
-            //    }
+            if (model.ProductsInItem != null)
+            {
+                productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName).ToList());
+            }
 
-            //    if (model.PricesAndIdsNotInItem != null)
-            //    {
-            //        foreach (var item in model.PricesAndIdsNotInItem)
-            //        {
-            //            if (item.Id != 0)
-            //            {
-            //                comment += products.Single(x => x.ProductID == item.Id).ProductName + ", ";
-            //            }
-            //        }
-            //    }
+            if (model.ProductsNotInItem != null)
+            {
+                productsNames.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName).ToList());
+            }
 
-            //    if (!string.IsNullOrEmpty(comment))
-            //    {
-            //        model.PayingItem.Comment = comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
-            //    }
-            //}
-            //catch (ServiceException e)
-            //{
-            //    throw new WebUiHelperException(
-            //        $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(CreateCommentWhileEdit)}", e);
-            //}
+            foreach (var productName in productsNames)
+            {
+                comment += productName + ", ";
+            }
+
+            return string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
         }
     }
 }
