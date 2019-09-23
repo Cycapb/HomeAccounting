@@ -190,18 +190,8 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    //_payingItemHelper.SetSumForPayingItem(model);
-                    //_payingItemHelper.CreateCommentWhileEdit(model);
-
-                    //if (PayingItemEditViewModel.OldCategoryId != model.PayingItem.CategoryID)
-                    //{
-                    //    await _payingItemHelper.CreatePayingItemProducts(model);
-                    //}
-                    //else
-                    //{
-                    //    await _payingItemHelper.UpdatePayingItemProducts(model);
-                    //}
                     await _payingItemUpdater.UpdatePayingItemFromViewModel(model);
+                    //await _payingItemHelper.CreatePayingItemProducts(model);
 
                     return RedirectToAction("List");
                 }
@@ -218,6 +208,7 @@ namespace WebUI.Controllers
             }
 
             await FillViewBag(user, await GetTypeOfFlowId(model.PayingItem));
+
             return PartialView("_Edit", model);
         }
 

@@ -11,7 +11,7 @@ namespace DomainModels.Model
         public Product()
         {
             OrderDetails = new HashSet<OrderDetail>();
-            PaiyngItemProducts = new HashSet<PaiyngItemProduct>();
+            PaiyngItemProducts = new HashSet<PaiyngItemProduct>();            
         }
 
         public int ProductID { get; set; }
@@ -39,6 +39,6 @@ namespace DomainModels.Model
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaiyngItemProduct> PaiyngItemProducts { get; set; }
+        public virtual ICollection<PaiyngItemProduct> PaiyngItemProducts { get; set; }        
     }
 }

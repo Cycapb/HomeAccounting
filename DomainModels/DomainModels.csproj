@@ -59,6 +59,7 @@
     <Compile Include="Model\OrderDetail.cs" />
     <Compile Include="Model\PaiyngItemProduct.cs" />
     <Compile Include="Model\PayingItem.cs" />
+    <Compile Include="Model\PayingItemProduct.cs" />
     <Compile Include="Model\PlanItem.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\TypeOfFlow.cs" />

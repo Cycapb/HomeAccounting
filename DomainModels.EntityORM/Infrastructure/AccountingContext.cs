@@ -22,6 +22,7 @@ namespace DomainModels.EntityORM
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<TypeOfFlow> TypeOfFlows { get; set; }
         public virtual DbSet<NotificationMailBox> NotificationMailBoxes { get; set; }
+        public virtual DbSet<PayingItemProduct> PayingItemProductsty { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()

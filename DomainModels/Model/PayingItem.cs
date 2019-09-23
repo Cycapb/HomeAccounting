@@ -12,6 +12,7 @@ namespace DomainModels.Model
         public PayingItem()
         {
             PaiyngItemProducts = new HashSet<PaiyngItemProduct>();
+            PayingItemProducts = new HashSet<PayingItemProduct>();
         }
 
         [Key]
@@ -40,5 +41,6 @@ namespace DomainModels.Model
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaiyngItemProduct> PaiyngItemProducts { get; set; }
+        public virtual ICollection<PayingItemProduct> PayingItemProducts { get; set; }
     }
 }
