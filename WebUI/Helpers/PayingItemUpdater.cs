@@ -11,13 +11,11 @@ namespace WebUI.Helpers
 {
     public class PayingItemUpdater : IPayingItemUpdater
     {
-        private readonly IPayingItemService _payingItemService;
-        private readonly IPayingItemProductService _payingItemProductService;
+        private readonly IPayingItemService _payingItemService;        
 
-        public PayingItemUpdater(IPayingItemService payingItemService, IPayingItemProductService payingItemProductService)
+        public PayingItemUpdater(IPayingItemService payingItemService)
         {
-            _payingItemService = payingItemService;
-            _payingItemProductService = payingItemProductService;
+            _payingItemService = payingItemService;            
         }
 
         public async Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditViewModel model)
