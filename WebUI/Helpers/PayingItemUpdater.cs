@@ -35,74 +35,44 @@ namespace WebUI.Helpers
                 await _payingItemService.SaveAsync();
                 return payingItem;
             }
-            await CreatePayingItemProduct(model, payingItem);
 
-            return payingItem;
+            return await CreatePayingItemProduct(model, payingItem);            
         }
 
-        private async Task CreatePayingItemProduct(PayingItemEditViewModel model, PayingItem payingItem)
+        private async Task<PayingItem> CreatePayingItemProduct(PayingItemEditViewModel model, PayingItem payingItem)
         {
-            var products = new List<Product>();
+            var payingItemProducts = new List<PayingItemProduct>();
 
             if (model.ProductsInItem != null)
             {
-                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
+                payingItemProducts.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(p => new PayingItemProduct()
+                {
+                    PayingItemId = payingItem.ItemID,
+                    ProductId = p.ProductID,
+                    Price = p.Price
+                })
+                .ToList());
             }
 
             if (model.ProductsNotInItem != null)
             {
-                products.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).ToList());
-            }
-
-            if (payingItem.PayingItemProducts.Count != 0)
-            {
-                payingItem.PayingItemProducts.Clear();
-            }
-
-            foreach (var product in products)
-            {
-                payingItem.PayingItemProducts.Add(new PayingItemProduct()
+                payingItemProducts.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).Select(p => new PayingItemProduct()
                 {
                     PayingItemId = payingItem.ItemID,
-                    ProductId = product.ProductID,
-                    Price = product.Price
-                });
+                    ProductId = p.ProductID,
+                    Price = p.Price
+                }).ToList());
+            }            
+
+            foreach (var payingItemProduct in payingItemProducts)
+            {
+                payingItem.PayingItemProducts.Add(payingItemProduct);
             }
 
             await _payingItemService.SaveAsync();
-        }
 
-        private async Task CreatePayingItemProducts(PayingItemEditViewModel model, PayingItem payingItem)
-        {
-            var products = new List<Product>();
-
-            if (model.ProductsInItem != null)
-            {
-                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
-            }
-
-            if (model.ProductsNotInItem != null)
-            {
-                products.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).ToList());
-            }
-
-            foreach (var item in payingItem.PaiyngItemProducts)
-            {
-                await _payingItemProductService.DeleteAsync(item.ItemID);
-            }
-
-            foreach (var product  in products)
-            {
-                await _payingItemProductService.CreateAsync(new PaiyngItemProduct()
-                {
-                    PayingItemID = model.PayingItem.ItemID,
-                    ProductID = product.ProductID,
-                    Summ = product.Price
-                });
-            }
-
-            await _payingItemProductService.SaveAsync();
-        }
+            return payingItem;
+        }        
 
         private decimal GetSumFromProducts(PayingItemEditViewModel model)
         {
