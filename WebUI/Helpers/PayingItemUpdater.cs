@@ -22,7 +22,7 @@ namespace WebUI.Helpers
 
         public async Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditViewModel model)
         {
-            var sum = GetSumFromProducts(model);
+            var sum = GetSumOfTheProducts(model);
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
             payingItem.Summ = sum == 0 ? payingItem.Summ : sum;
             var comment = CreateCommentForPayingItem(model);
@@ -74,7 +74,7 @@ namespace WebUI.Helpers
             return payingItem;
         }        
 
-        private decimal GetSumFromProducts(PayingItemEditViewModel model)
+        private decimal GetSumOfTheProducts(PayingItemEditViewModel model)
         {
             var products = new List<Product>();
 
