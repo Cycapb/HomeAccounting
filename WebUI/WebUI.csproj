@@ -485,7 +485,6 @@
     <Compile Include="Abstract\IPagingInfoCreator.cs" />
     <Compile Include="Abstract\IPayingItemCreator.cs" />
     <Compile Include="Abstract\IPayingItemEditViewModelCreator.cs" />
-    <Compile Include="Abstract\IPayingItemHelper.cs" />
     <Compile Include="Abstract\IPayingItemUpdater.cs" />
     <Compile Include="Abstract\IPayItemSubcategoriesHelper.cs" />
     <Compile Include="Abstract\IPlanningHelper.cs" />
@@ -533,7 +532,6 @@
     </Compile>
     <Compile Include="Helpers\CategoryHelper.cs" />
     <Compile Include="Helpers\PayingItemEditViewModelCreator.cs" />
-    <Compile Include="Helpers\PayingItemHelper.cs" />
     <Compile Include="Helpers\PayingItemUpdater.cs" />
     <Compile Include="Helpers\PayItemSubcategoriesHelper.cs" />
     <Compile Include="Helpers\PlaningControllerHelper.cs" />

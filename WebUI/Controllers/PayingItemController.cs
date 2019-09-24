@@ -19,8 +19,7 @@ namespace WebUI.Controllers
     [Authorize]
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class PayingItemController : Controller
-    {
-        private readonly IPayingItemHelper _payingItemHelper;
+    {        
         private readonly IPayingItemService _payingItemService;
         private readonly ICategoryService _categoryService;
         private readonly IAccountService _accountService;
@@ -29,16 +28,14 @@ namespace WebUI.Controllers
         private readonly IPayingItemUpdater _payingItemUpdater;
         public int ItemsPerPage = 10;
 
-        public PayingItemController(
-            IPayingItemHelper payingItemHelper,
+        public PayingItemController(     
             IPayingItemService payingItemService,
             ICategoryService categoryService,
             IAccountService accountService,
             IPayingItemCreator payingItemCreator,
             IPayingItemEditViewModelCreator payingItemEditViewModelCreator,
             IPayingItemUpdater payingItemUpdater)
-        {
-            _payingItemHelper = payingItemHelper;
+        {            
             _payingItemService = payingItemService;
             _categoryService = categoryService;
             _accountService = accountService;
@@ -190,8 +187,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await _payingItemUpdater.UpdatePayingItemFromViewModel(model);
-                    //await _payingItemHelper.CreatePayingItemProducts(model);
+                    await _payingItemUpdater.UpdatePayingItemFromViewModel(model);                    
 
                     return RedirectToAction("List");
                 }

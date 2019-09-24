@@ -47,8 +47,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IRepository<OrderDetail>>().To<EntityRepository<OrderDetail>>();
             _kernel.Bind<IReportMenu>().To<ReportMenu>();
             _kernel.Bind<IReporter>().To<EmailUserReporter>();
-            _kernel.Bind<IPlanningHelper>().To<PlaningControllerHelper>();
-            _kernel.Bind<IPayingItemHelper>().To<PayingItemHelper>();
+            _kernel.Bind<IPlanningHelper>().To<PlaningControllerHelper>();            
             _kernel.Bind<IPayItemSubcategoriesHelper>().To<PayItemSubcategoriesHelper>();
             _kernel.Bind<IReportControllerHelper>().To<ReportControllerHelper>();
             _kernel.Bind<IReportModelCreator>().To<ReportModelCreator>();

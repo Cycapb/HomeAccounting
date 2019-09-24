@@ -38,7 +38,7 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetCategoriesByType)}", e);
+                    $"Ошибка в типе {nameof(ReportControllerHelper)} в методе {nameof(GetCategoriesByType)}", e);
             }
         }
 
@@ -53,7 +53,7 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetPayingItemsForLastYear)}", e);
+                    $"Ошибка в типе {nameof(ReportControllerHelper)} в методе {nameof(GetPayingItemsForLastYear)}", e);
             }
         }
 
@@ -88,7 +88,7 @@ namespace WebUI.Helpers
             catch (WebUiHelperException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetOverallList)}", e);
+                    $"Ошибка в типе {nameof(ReportControllerHelper)} в методе {nameof(GetOverallList)}", e);
             }
             return (from l in pItemList
                     group l by l.CategoryName
@@ -110,7 +110,7 @@ namespace WebUI.Helpers
             catch (WebUiHelperException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetPayingItemsInDates)}", e);
+                    $"Ошибка в типе {nameof(ReportControllerHelper)} в методе {nameof(GetPayingItemsInDates)}", e);
             }
         }
 
@@ -172,7 +172,7 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(PayingItemHelper)} в методе {nameof(GetActiveCategoriesByType)}", e);
+                    $"Ошибка в типе {nameof(ReportControllerHelper)} в методе {nameof(GetActiveCategoriesByType)}", e);
             }
         }
     }
