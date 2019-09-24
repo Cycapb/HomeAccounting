@@ -62,7 +62,9 @@ namespace WebUI.Helpers
                     ProductId = p.ProductID,
                     Price = p.Price
                 }).ToList());
-            }            
+            }
+
+            payingItem.PayingItemProducts.Clear();
 
             foreach (var payingItemProduct in payingItemProducts)
             {
