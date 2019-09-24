@@ -99,16 +99,16 @@ namespace WebUI.Tests.HelpersTests
                 {
                     Products = new List<Product>()
                 },
-                PaiyngItemProducts = new List<PaiyngItemProduct>()
+                PayingItemProducts = new List<PayingItemProduct>()
                 {
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = new Product()
                         {
                             ProductName = "P1"
                         }
                     },
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = new Product()
                         {
@@ -137,13 +137,13 @@ namespace WebUI.Tests.HelpersTests
                 {
                     Products = _products
                 },
-                PaiyngItemProducts = new List<PaiyngItemProduct>()
+                PayingItemProducts = new List<PayingItemProduct>()
                 {
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = _products[0]
                     },
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = _products[1]
                     }
@@ -191,21 +191,21 @@ namespace WebUI.Tests.HelpersTests
                 {
                     Products = _products
                 },
-                PaiyngItemProducts = new List<PaiyngItemProduct>()
+                PayingItemProducts = new List<PayingItemProduct>()
                 {
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = _products[0]
                     },
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = _products[1]
                     },
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = _products[2]
                     },
-                    new PaiyngItemProduct()
+                    new PayingItemProduct()
                     {
                         Product = _products[3]
                     }

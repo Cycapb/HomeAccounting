@@ -40,10 +40,10 @@ namespace WebUI.Helpers
                     ProductsNotInItem = new List<Product>()
                 };
                 
-                var productsInItem = payingItem.PaiyngItemProducts
+                var productsInItem = payingItem.PayingItemProducts
                     .Select(x => new Product()
                     {
-                        Price = x.Summ,
+                        Price = x.Price,
                         ProductID = x.Product.ProductID,
                         Description = x.Product.Description,
                         ProductName = x.Product.ProductName,

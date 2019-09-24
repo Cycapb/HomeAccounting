@@ -259,28 +259,6 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Post_PricesAndIdsInItemAreNull_ReturnsRedirectToList()
-        {
-            var pItemEditModel = new PayingItemEditViewModel()
-            {
-                PayingItem = new PayingItem()
-                {
-                    CategoryID = 1,
-                    AccountID = 1,
-                    ItemID = 1
-                }
-            };
-            var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
-
-            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-            var redirectResult = (RedirectToRouteResult)result;
-
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"], "List");
-        }
-
         //[TestMethod]
         //[TestCategory("PayingItemControllerTests")]
         //public async Task Edit_Post_SavePayingItemWithChangedCategory_RedirectsToList()
