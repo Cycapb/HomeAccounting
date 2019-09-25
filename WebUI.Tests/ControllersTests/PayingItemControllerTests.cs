@@ -27,6 +27,7 @@ namespace WebUI.Tests.ControllersTests
         private readonly Mock<IAccountService> _accountServiceMock;
         private readonly Mock<IPayingItemCreator> _payingItemCreator;
         private readonly Mock<IPayingItemEditViewModelCreator> _payingItemEditViewModelCreatorMock;
+        private readonly Mock<IPayingItemUpdater> _payingItemUpdaterMock;
 
         public PayingItemTest()
         {        
@@ -35,6 +36,7 @@ namespace WebUI.Tests.ControllersTests
             _accountServiceMock = new Mock<IAccountService>();
             _payingItemCreator = new Mock<IPayingItemCreator>();
             _payingItemEditViewModelCreatorMock = new Mock<IPayingItemEditViewModelCreator>();
+            _payingItemUpdaterMock = new Mock<IPayingItemUpdater>();
         }
 
         [TestCategory("PayingItemControllerTests")]
@@ -259,30 +261,28 @@ namespace WebUI.Tests.ControllersTests
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
-        //[TestMethod]
-        //[TestCategory("PayingItemControllerTests")]
-        //public async Task Edit_Post_SavePayingItemWithChangedCategory_RedirectsToList()
-        //{
-        //    PayingItemEditViewModel.OldCategoryId = 1;
-        //    var pItemEditModel = new PayingItemEditViewModel()
-        //    {
-        //        PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
-        //        PayingItem = new PayingItem() { CategoryID = 2 }
-        //    };
-        //    var target = new PayingItemController(_payingItemHelperMock.Object,
-        //        _payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, null);
+        [TestMethod]
+        [TestCategory("PayingItemControllerTests")]
+        public async Task Edit_Post_ModelIsValid_CanUpdate_RedirectsToList()
+        {            
+            var pItemEditModel = new PayingItemEditViewModel()
+            {                
+                PayingItem = new PayingItem() { CategoryID = 2 }
+            };
+            _payingItemUpdaterMock.Setup(m => m.UpdatePayingItemFromViewModel(It.IsAny<PayingItemEditViewModel>())).ReturnsAsync(pItemEditModel.PayingItem);
+            var target = new PayingItemController(null,null,null, null, null, _payingItemUpdaterMock.Object);
 
-        //    var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-        //    var routeResult = (RedirectToRouteResult)result;
+            var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
+            var routeResult = (RedirectToRouteResult)result;
 
-        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-        //    Assert.AreEqual(routeResult.RouteValues["action"], "List");
-        //}
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(routeResult.RouteValues["action"], "List");
+        }
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
         [ExpectedException(typeof(WebUiException))]
-        public async Task Edit_RaisesServiceException()
+        public async Task Edit_Get_RaisesServiceException()
         {
             _payingItemServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
             _categoryServiceMock.Setup(m => m.GetActiveGategoriesByUser(It.IsAny<string>()))
@@ -295,7 +295,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_RaisesWebUiExceptionWithInnerServiceException()
+        public async Task Edit_Get_RaisesWebUiExceptionWithInnerServiceException()
         {
             _payingItemEditViewModelCreatorMock.Setup(x => x.CreateViewModel(It.IsAny<int>())).Throws(new ServiceException());
             var target = new PayingItemController(                 
@@ -316,36 +316,10 @@ namespace WebUI.Tests.ControllersTests
             }
         }
 
-        //[TestMethod]
-        //[TestCategory("PayingItemControllerTests")]
-        //public async Task Can_Save_PayingItem_With_Same_Category()
-        //{
-        //    PayingItemEditViewModel.OldCategoryId = 2;
-        //    var pItemEditModel = new PayingItemEditViewModel()
-        //    {
-        //        PricesAndIdsInItem = new List<PriceAndIdForEdit>(),
-        //        PayingItem = new PayingItem() { CategoryID = 2 }
-        //    };
-        //    var target = new PayingItemController(
-        //        _payingItemHelperMock.Object,
-        //        _payingItemServiceMock.Object,
-        //        _categoryServiceMock.Object,
-        //        _accountServiceMock.Object,
-        //        null,
-        //        null);
-
-        //    var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-        //    var routeResult = (RedirectToRouteResult)result;
-
-        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-        //    Assert.AreEqual(routeResult.RouteValues["action"], "List");
-        //}
-
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
         public void ExpensiveCategories()
-        {
-            //Arrange
+        { 
             _payingItemServiceMock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
                 {
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100},
