@@ -12,7 +12,7 @@ namespace BussinessLogic.Tests.ServicesTests
     public class OrderDetailServiceTests
     {
         private readonly OrderDetailService _orderDetailService;
-        private readonly Mock<IRepository<PaiyngItemProduct>> _pItemProductRepo;
+        private readonly Mock<IRepository<PayingItemProduct>> _pItemProductRepo;
         private readonly Mock<IRepository<OrderDetail>> _orderDetailRepo;
 
         private readonly List<OrderDetail> _orderDetails = new List<OrderDetail>()
@@ -25,7 +25,7 @@ namespace BussinessLogic.Tests.ServicesTests
 
     public OrderDetailServiceTests()
         {
-            _pItemProductRepo = new Mock<IRepository<PaiyngItemProduct>>();
+            _pItemProductRepo = new Mock<IRepository<PayingItemProduct>>();
             _orderDetailRepo = new Mock<IRepository<OrderDetail>>();
             _orderDetailService = new OrderDetailService(_orderDetailRepo.Object,_pItemProductRepo.Object);
         }
@@ -48,11 +48,11 @@ namespace BussinessLogic.Tests.ServicesTests
         public async Task CreateOrderDetails()
         {
             var productId = 2;
-            _pItemProductRepo.Setup(m => m.GetListAsync()).ReturnsAsync(new List<PaiyngItemProduct>()
+            _pItemProductRepo.Setup(m => m.GetListAsync()).ReturnsAsync(new List<PayingItemProduct>()
             {
-                new PaiyngItemProduct() {ItemID = 1,Summ = 100, ProductID = 1},
-                new PaiyngItemProduct() {ItemID = 2, ProductID = 2, Summ = 200},
-                new PaiyngItemProduct() {ItemID = 3, ProductID = 2,Summ = 300}
+                new PayingItemProduct() {Id = 1, Price = 100, ProductId = 1},
+                new PayingItemProduct() {Id = 2, ProductId = 2, Price = 200},
+                new PayingItemProduct() {Id = 3, ProductId = 2, Price = 300}
             });
 
             var orderDetail = await _orderDetailService.CreateAsync(new OrderDetail() { ProductId = productId });

@@ -13,10 +13,10 @@ namespace DomainModels.Model
         [Key]
         [Column(Order = 2)]
         public int PayingItemId { get; set; }
-        public int? ProductId { get; set; }
+        public int ProductId { get; set; }
         public decimal Price { get; set; }
         [ForeignKey("PayingItemId")]
-        public PayingItem PayingItem { get; set; }
-        public Product Product { get; set; }
+        public virtual PayingItem PayingItem { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

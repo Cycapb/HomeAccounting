@@ -77,7 +77,7 @@ namespace WebUI.Tests.HelpersTests
                         }
                     }
                 },
-                PaiyngItemProducts = new List<PaiyngItemProduct>()
+                PayingItemProducts = new List<PayingItemProduct>()
             };
 
             _payingItemServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
@@ -169,7 +169,7 @@ namespace WebUI.Tests.HelpersTests
                 {
                     Products = new List<Product>()
                 },
-                PaiyngItemProducts = new List<PaiyngItemProduct>()
+                PayingItemProducts = new List<PayingItemProduct>()
             };
 
             _payingItemServiceMock.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);

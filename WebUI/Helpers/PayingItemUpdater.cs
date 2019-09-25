@@ -22,11 +22,13 @@ namespace WebUI.Helpers
         {
             var sum = GetSumOfTheProducts(model);
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
-            payingItem.Summ = sum == 0 ? payingItem.Summ : sum;
+            payingItem.Summ = sum == 0 ? model.PayingItem.Summ : sum;
             var comment = CreateCommentForPayingItem(model);
             payingItem.Comment = string.IsNullOrEmpty(comment) ? payingItem.Comment : comment;
             payingItem.CategoryID = model.PayingItem.CategoryID;
-            payingItem.AccountID = model.PayingItem.AccountID;           
+            payingItem.AccountID = model.PayingItem.AccountID;
+
+            payingItem.PayingItemProducts.Clear();
 
             if (model.ProductsInItem == null && model.ProductsNotInItem == null)
             {
@@ -60,9 +62,7 @@ namespace WebUI.Helpers
                     ProductId = p.ProductID,
                     Price = p.Price
                 }).ToList());
-            }
-
-            payingItem.PayingItemProducts.Clear();
+            }            
 
             foreach (var payingItemProduct in payingItemProducts)
             {

@@ -10,6 +10,7 @@ namespace DomainModels.EntityORM.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "DomainModels.Model.AccountingContext";
         }
 

@@ -12,14 +12,14 @@ namespace BussinessLogic.Services
 {
     public class PayingItemProductService : IPayingItemProductService
     {
-        private readonly IRepository<PaiyngItemProduct> _pItemRepository;
+        private readonly IRepository<PayingItemProduct> _pItemRepository;
 
-        public PayingItemProductService(IRepository<PaiyngItemProduct> pItemRepository)
+        public PayingItemProductService(IRepository<PayingItemProduct> pItemRepository)
         {
             _pItemRepository = pItemRepository;
         }
 
-        public async Task CreateAsync(PaiyngItemProduct product)
+        public async Task CreateAsync(PayingItemProduct product)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task<PaiyngItemProduct> GetItemAsync(int id)
+        public async Task<PayingItemProduct> GetItemAsync(int id)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public IEnumerable<PaiyngItemProduct> GetList()
+        public IEnumerable<PayingItemProduct> GetList()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task<IEnumerable<PaiyngItemProduct>> GetListAsync()
+        public async Task<IEnumerable<PayingItemProduct>> GetListAsync()
         {
             try
             {
@@ -79,7 +79,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task UpdateAsync(PaiyngItemProduct item)
+        public async Task UpdateAsync(PayingItemProduct item)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public IEnumerable<PaiyngItemProduct> GetList(Expression<Func<PaiyngItemProduct, bool>> predicate)
+        public IEnumerable<PayingItemProduct> GetList(Expression<Func<PayingItemProduct, bool>> predicate)
         {
             try
             {

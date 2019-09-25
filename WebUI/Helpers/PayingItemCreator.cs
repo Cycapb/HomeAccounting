@@ -45,16 +45,16 @@ namespace WebUI.Helpers
                     CreateCommentWhileAdd(model);
 
                     var itemsToAdd = model.Products.Where(x => x.ProductID != 0)
-                        .Select(product => new PaiyngItemProduct()
+                        .Select(product => new PayingItemProduct()
                         {
-                            PayingItemID = model.PayingItem.ItemID,
-                            ProductID = product.ProductID,
-                            Summ = product.Price
+                            PayingItemId = model.PayingItem.ItemID,
+                            ProductId = product.ProductID,
+                            Price = product.Price
                         });
 
                     foreach (var item in itemsToAdd)
                     {
-                        model.PayingItem.PaiyngItemProducts.Add(item);
+                        model.PayingItem.PayingItemProducts.Add(item);
                     }
                 }
 

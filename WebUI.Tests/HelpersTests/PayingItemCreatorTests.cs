@@ -198,7 +198,7 @@ namespace WebUI.Tests.HelpersTests
             await target.CreatePayingItemFromViewModel(payingItemModel);
                         
             // PayingItem.PayingItemProducts  must include only those PayingTemModel.Products where ProductId != 0
-            Assert.AreEqual(2, payingItemModel.PayingItem.PaiyngItemProducts.Count);
+            Assert.AreEqual(2, payingItemModel.PayingItem.PayingItemProducts.Count);
         }
 
         [TestMethod]

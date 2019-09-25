@@ -13,9 +13,9 @@ namespace BussinessLogic.Services
     public class OrderDetailService:IOrderDetailService
     {
         private readonly IRepository<OrderDetail> _orderDetailRepository;
-        private readonly IRepository<PaiyngItemProduct> _pItemProductRepository;
+        private readonly IRepository<PayingItemProduct> _pItemProductRepository;
 
-        public OrderDetailService(IRepository<OrderDetail> orderDetailRepository, IRepository<PaiyngItemProduct> pItemProductRepository)
+        public OrderDetailService(IRepository<OrderDetail> orderDetailRepository, IRepository<PayingItemProduct> pItemProductRepository)
         {
             _orderDetailRepository = orderDetailRepository;
             _pItemProductRepository = pItemProductRepository;
@@ -63,8 +63,8 @@ namespace BussinessLogic.Services
             try
             {
                 orderDetail.ProductPrice =
-                (await _pItemProductRepository.GetListAsync()).LastOrDefault(p => p.ProductID == orderDetail.ProductId)?
-                    .Summ;
+                (await _pItemProductRepository.GetListAsync()).LastOrDefault(p => p.ProductId == orderDetail.ProductId)?
+                    .Price;
 
                 await _orderDetailRepository.CreateAsync(orderDetail);
                 await _orderDetailRepository.SaveAsync();

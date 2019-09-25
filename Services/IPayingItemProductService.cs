@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IPayingItemProductService : IService<PaiyngItemProduct>
+    public interface IPayingItemProductService : IService<PayingItemProduct>
     {
-        Task CreateAsync(PaiyngItemProduct product);
-        Task<PaiyngItemProduct> GetItemAsync(int id);
-        Task<IEnumerable<PaiyngItemProduct>> GetListAsync();
+        Task CreateAsync(PayingItemProduct product);
+        Task<PayingItemProduct> GetItemAsync(int id);
+        Task<IEnumerable<PayingItemProduct>> GetListAsync();
         Task DeleteAsync(int id);
-        Task UpdateAsync(PaiyngItemProduct item);
+        Task UpdateAsync(PayingItemProduct item);
         Task SaveAsync();
     }
 }
