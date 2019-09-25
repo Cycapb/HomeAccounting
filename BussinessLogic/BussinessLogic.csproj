@@ -59,9 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Converters\RouteDataConverter.cs" />
     <Compile Include="Loggers\NlogExceptionLogger.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AccountingNotificationMailBoxProvider.cs" />
     <Compile Include="Providers\SingleIpAddressProviderLoggingDecorator.cs" />
     <Compile Include="Providers\MultipleIpAddressProvider.cs" />

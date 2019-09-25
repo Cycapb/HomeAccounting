@@ -480,6 +480,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Abstract\ICategoryHelper.cs" />
     <Compile Include="Abstract\IMessageProvider.cs" />
     <Compile Include="Abstract\IPagingInfoCreator.cs" />
@@ -588,7 +591,6 @@
     <Compile Include="Models\TransferModel.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Models\WebUser.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
