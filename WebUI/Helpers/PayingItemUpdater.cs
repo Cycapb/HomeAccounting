@@ -20,6 +20,11 @@ namespace WebUI.Helpers
 
         public async Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditViewModel model)
         {
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             var sum = GetSumOfTheProducts(model);
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
             payingItem.Summ = sum == 0 ? model.PayingItem.Summ : sum;
