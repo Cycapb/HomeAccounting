@@ -53,5 +53,30 @@ namespace WebUI.Tests.HelpersTests
             Assert.AreEqual(500, result.Summ);
         }
 
+        [TestMethod]
+        [TestCategory("PayingItemUpdaterTests")]
+        public async Task SetCorrectCommentFromViewModelIfAllProductsAreNull()
+        {
+            var payingItem = new PayingItem()
+            {
+                ItemID = 1
+            };
+            _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
+            var target = new PayingItemUpdater(_payinItemServiceMock.Object);
+            var payingItemViewModel = new PayingItemEditViewModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    ItemID = 1,
+                    Summ = 500M,
+                    Comment = "CommentFromViewModel"
+                }
+            };
+
+            var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
+
+            Assert.AreEqual("CommentFromViewModel", result.Comment);
+        }
+
     }
 }

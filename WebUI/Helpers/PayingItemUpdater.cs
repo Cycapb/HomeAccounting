@@ -29,7 +29,7 @@ namespace WebUI.Helpers
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
             payingItem.Summ = sum == 0 ? model.PayingItem.Summ : sum;
             var comment = CreateCommentForPayingItem(model);
-            payingItem.Comment = string.IsNullOrEmpty(comment) ? payingItem.Comment : comment;
+            payingItem.Comment = string.IsNullOrEmpty(comment) ? model.PayingItem.Comment : comment;
             payingItem.CategoryID = model.PayingItem.CategoryID;
             payingItem.AccountID = model.PayingItem.AccountID;
 
