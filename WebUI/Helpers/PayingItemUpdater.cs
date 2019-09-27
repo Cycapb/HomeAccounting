@@ -120,5 +120,3 @@ namespace WebUI.Helpers
         }
     }
 }
-
-//ToDo Write unit tests for the PayingItemUpdaterClass
