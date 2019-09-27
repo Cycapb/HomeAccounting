@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -112,6 +114,42 @@ namespace WebUI.Tests.HelpersTests
             Assert.AreEqual("P1, P2, P3", result.Comment);
         }
 
+        [TestMethod]
+        [TestCategory("PayingItemUpdaterTests")]
+        public async Task CreateNewPayingItemProductsFromPayingItemEditViewModel()
+        {
+            var payingItem = new PayingItem()
+            {
+                ItemID = 1,
+                PayingItemProducts = new List<PayingItemProduct>()
+                {
+                    new PayingItemProduct()
+                    {
+                        Id = 1,
+                        ProductId = 2,
+                        PayingItemId = 1
+                    },
+                    new PayingItemProduct()
+                    {
+                        Id = 2,
+                        ProductId = 3,
+                        PayingItemId = 1
+                    },
+                }
+            };
+            _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
+            var target = new PayingItemUpdater(_payinItemServiceMock.Object);
+            var payingItemViewModel = CreatePayingItemViewModelWithProductsInItem();
+
+            var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
+            var payingItemProducts = result.PayingItemProducts.ToList();
+
+            Assert.AreEqual(3, result.PayingItemProducts.Count);
+            Assert.AreEqual(1, payingItemProducts[0].ProductId);
+            Assert.AreEqual(2, payingItemProducts[1].ProductId);
+            Assert.AreEqual(3, payingItemProducts[2].ProductId);
+        }
+
         private PayingItemEditViewModel CreatePayingItemViewModelWithProductsInItem()
         {
             return new PayingItemEditViewModel()
@@ -122,7 +160,7 @@ namespace WebUI.Tests.HelpersTests
                     Summ = 500M,
                     Comment = "CommentFromViewModel"
                 },
-                ProductsInItem = new System.Collections.Generic.List<Product>()
+                ProductsInItem = new List<Product>()
                 {
                     new Product()
                     {
@@ -138,7 +176,7 @@ namespace WebUI.Tests.HelpersTests
                     },
                     new Product()
                     {
-                        ProductID = 1,
+                        ProductID = 3,
                         ProductName = "P3",
                         Price = 100
                     }
