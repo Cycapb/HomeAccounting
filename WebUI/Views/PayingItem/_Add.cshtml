@@ -80,6 +80,7 @@
             success: function (data) {
                 $('#subcategoriesDiv').replaceWith(data);
                 $('#divProducts').attr('hidden', true);
+                $('#divPayingItemSum').removeAttr('hidden');
             }
         });
     }
