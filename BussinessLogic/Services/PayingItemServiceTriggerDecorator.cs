@@ -59,18 +59,25 @@ namespace BussinessLogic.Services
 
         public async Task UpdateAsync(PayingItem item)
         {
-            (var oldPayingItem, var newPayingItem) = await GetNewAndOldItems(item);
+            try
+            {
+                (var oldPayingItem, var newPayingItem) = await GetNewAndOldItems(item);
 
-            if (item.PayingItemProducts.Count == 0)
+                if (item.PayingItemProducts.Count == 0)
+                {
+                    await _payingItemService.UpdateAsync(item);
+                }
+                else
+                {
+                    await _payingItemService.SaveAsync();
+                }
+
+                await _serviceTrigger.Update(oldPayingItem, newPayingItem);
+            }            
+            catch (ServiceException e)
             {
-                await _payingItemService.UpdateAsync(item);                
+                throw new ServiceException($"Ошибка в декораторе сервиса {nameof(PayingItemServiceTriggerDecorator)} в методе {nameof(DeleteAsync)}", e);
             }
-            else
-            {
-                await _payingItemService.SaveAsync();
-            }
-            
-            await _serviceTrigger.Update(oldPayingItem, newPayingItem);
         }
 
         public async Task<PayingItem> CreateAsync(PayingItem item)
