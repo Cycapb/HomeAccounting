@@ -59,19 +59,18 @@ namespace BussinessLogic.Services
 
         public async Task UpdateAsync(PayingItem item)
         {
-            var typeOfFlowId = (await _categoryService.GetItemAsync(item.CategoryID)).TypeOfFlowID;
-            var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
-            var oldCategoryId = await GetCategoryIdAsync(categories, item.ItemID);
-            var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
-            var oldPayingItem = oldCategory.PayingItems.FirstOrDefault(x => x.ItemID == item.ItemID);
-            var newItem = new PayingItem()
+            (var oldPayingItem, var newPayingItem) = await GetNewAndOldItems(item);
+
+            if (item.PayingItemProducts.Count == 0)
             {
-                Category = oldCategory,
-                AccountID = item.AccountID,
-                Summ = item.Summ
-            };
-            await _payingItemService.UpdateAsync(item);
-            await _serviceTrigger.Update(oldPayingItem, newItem);
+                await _payingItemService.UpdateAsync(item);                
+            }
+            else
+            {
+                await _payingItemService.SaveAsync();
+            }
+            
+            await _serviceTrigger.Update(oldPayingItem, newPayingItem);
         }
 
         public async Task<PayingItem> CreateAsync(PayingItem item)
@@ -117,7 +116,24 @@ namespace BussinessLogic.Services
 
         public async Task SaveAsync()
         {
-            await _payingItemService.SaveAsync();                                                
+            await _payingItemService.SaveAsync();
+        }
+
+        private async Task<(PayingItem OldItem, PayingItem NewItem)> GetNewAndOldItems(PayingItem item)
+        {
+            var typeOfFlowId = (await _categoryService.GetItemAsync(item.CategoryID)).TypeOfFlowID;
+            var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
+            var oldCategoryId = await GetCategoryIdAsync(categories, item.ItemID);
+            var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
+            var oldPayingItem = oldCategory.PayingItems.FirstOrDefault(x => x.ItemID == item.ItemID);
+            var newPayingItem = new PayingItem()
+            {
+                Category = oldCategory,
+                AccountID = item.AccountID,
+                Summ = item.Summ
+            };
+
+            return (oldPayingItem, newPayingItem);
         }
     }
 }

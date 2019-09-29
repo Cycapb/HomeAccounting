@@ -26,7 +26,7 @@ namespace WebUI.Helpers
             }
 
             var sum = GetSumOfTheProducts(model);
-            var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID);
+            var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID).ConfigureAwait(false);
             payingItem.Summ = sum == 0 ? model.PayingItem.Summ : sum;
             var comment = CreateCommentForPayingItem(model);
             payingItem.Comment = string.IsNullOrEmpty(comment) ? model.PayingItem.Comment : comment;
@@ -37,11 +37,11 @@ namespace WebUI.Helpers
 
             if (model.ProductsInItem == null && model.ProductsNotInItem == null)
             {
-                await _payingItemService.SaveAsync();
+                await _payingItemService.UpdateAsync(payingItem);
                 return payingItem;
             }
 
-            return await CreatePayingItemProduct(model, payingItem);            
+            return await CreatePayingItemProduct(model, payingItem).ConfigureAwait(false);            
         }
 
         private async Task<PayingItem> CreatePayingItemProduct(PayingItemEditViewModel model, PayingItem payingItem)
@@ -74,7 +74,7 @@ namespace WebUI.Helpers
                 payingItem.PayingItemProducts.Add(payingItemProduct);
             }
 
-            await _payingItemService.SaveAsync();
+            await _payingItemService.UpdateAsync(payingItem);
 
             return payingItem;
         }        
