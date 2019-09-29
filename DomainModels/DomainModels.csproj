@@ -60,7 +60,6 @@
     <Compile Include="Model\NotificationMailBox.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\OrderDetail.cs" />
-    <Compile Include="Model\PaiyngItemProduct.cs" />
     <Compile Include="Model\PayingItem.cs" />
     <Compile Include="Model\PayingItemProduct.cs" />
     <Compile Include="Model\PlanItem.cs" />

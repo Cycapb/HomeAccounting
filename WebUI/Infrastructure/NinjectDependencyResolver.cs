@@ -40,8 +40,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IRepository<Account>>().To<EntityRepository<Account>>();
             _kernel.Bind<IRepository<Category>>().To<EntityRepository<Category>>();
             _kernel.Bind<IRepository<TypeOfFlow>>().To<EntityRepository<TypeOfFlow>>();
-            _kernel.Bind<IRepository<Product>>().To<EntityRepository<Product>>();
-            _kernel.Bind<IRepository<PaiyngItemProduct>>().To<EntityRepository<PaiyngItemProduct>>();
+            _kernel.Bind<IRepository<Product>>().To<EntityRepository<Product>>();            
             _kernel.Bind<IRepository<PlanItem>>().To<EntityRepository<PlanItem>>();
             _kernel.Bind<IRepository<Order>>().To<EntityRepository<Order>>();
             _kernel.Bind<IRepository<OrderDetail>>().To<EntityRepository<OrderDetail>>();

@@ -11,7 +11,6 @@ namespace DomainModels.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PayingItem()
         {
-            PaiyngItemProducts = new HashSet<PaiyngItemProduct>();
             PayingItemProducts = new HashSet<PayingItemProduct>();
         }
 
@@ -38,9 +37,7 @@ namespace DomainModels.Model
         public virtual Account Account { get; set; }
 
         public virtual Category Category { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaiyngItemProduct> PaiyngItemProducts { get; set; }
+                        
         public virtual ICollection<PayingItemProduct> PayingItemProducts { get; set; }
     }
 }

@@ -15,14 +15,13 @@ namespace DomainModels.EntityORM
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Debt> Debts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<PaiyngItemProduct> PaiyngItemProducts { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }        
         public virtual DbSet<PayingItem> PayingItems { get; set; }
         public virtual DbSet<PlanItem> PlanItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<TypeOfFlow> TypeOfFlows { get; set; }
         public virtual DbSet<NotificationMailBox> NotificationMailBoxes { get; set; }
-        public virtual DbSet<PayingItemProduct> PayingItemProductsty { get; set; }
+        public virtual DbSet<PayingItemProduct> PayingItemProducts { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()
@@ -75,10 +74,6 @@ namespace DomainModels.EntityORM
                 .Property(e => e.ProductPrice)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<PaiyngItemProduct>()
-                .Property(e => e.Summ)
-                .HasPrecision(19, 4);
-
             modelBuilder.Entity<PayingItem>()
                 .Property(e => e.Summ)
                 .HasPrecision(19, 4);
@@ -90,11 +85,6 @@ namespace DomainModels.EntityORM
             modelBuilder.Entity<PayingItem>()
                 .Property(e => e.UserId)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<PayingItem>()
-                .HasMany(e => e.PaiyngItemProducts)
-                .WithRequired(e => e.PayingItem)
-                .HasForeignKey(e => e.PayingItemID);
 
             modelBuilder.Entity<PlanItem>()
                 .Property(e => e.SummPlan)
@@ -139,11 +129,6 @@ namespace DomainModels.EntityORM
             modelBuilder.Entity<Product>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.PaiyngItemProducts)
-                .WithRequired(e => e.Product)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TypeOfFlow>()
                 .Property(e => e.TypeName)
