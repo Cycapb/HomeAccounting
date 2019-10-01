@@ -72,9 +72,9 @@ namespace WebUI.Helpers
         {
             var context = new AccountingContext();
             var tmp = await context.Database.SqlQuery<ProductPrice>(
-                $"select prod.ProductName ProductName,SUM(pip.Summ) Price from PayingItem as pi " +
-                $"join PaiyngItemProduct as pip on pip.PayingItemID = pi.ItemID " +
-                $"join Product as prod on prod.ProductID = pip.ProductID " +
+                $"select prod.ProductName ProductName,SUM(pip.Price) Price from PayingItem as pi " +
+                $"join PayingItemProduct as pip on pip.PayingItemId = pi.ItemID " +
+                $"join Product as prod on prod.ProductId = pip.ProductID " +
                 $"where pi.CategoryID = {catId} and pi.Date>='{dateFrom.Date}' and pi.Date<='{dateTo.Date}' " +
                 $"group by prod.ProductName")
                 .ToListAsync();
