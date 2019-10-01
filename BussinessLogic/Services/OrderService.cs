@@ -84,43 +84,40 @@ namespace BussinessLogic.Services
         }
 
         public void SendByEmail(int orderId, string mailTo)
-        {
-            Order order = null;
+        {            
             try
             {
-                order = _orderRepository.GetItem(orderId);
+                var order = _orderRepository.GetItem(orderId);
+
+                if (order == null)
+                {
+                    return;
+                }
+
+                var message = new StringBuilder();
+                message.Append($"Дата списка: {order.OrderDate}\n");
+                message.Append($"Номер списка: {order.OrderID}\n");
+                message.Append("Список покупок:\n");
+
+                foreach (var orderDetail in order.OrderDetails)
+                {
+                    message.Append($"Название: {orderDetail.Product.ProductName}, Цена: {orderDetail.ProductPrice?.ToString("c")}\n");
+                }
+                message.Append("----------------------------------\n");
+                message.Append("");
+                message.Append($"Итого: {order.OrderDetails.Sum(x => x.ProductPrice)?.ToString("F")}");
+
+                _emailSender.Send(message.ToString(), mailTo);
+
             }
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при обращении к БД", e);
             }
-            
-            if (order == null)
-            {
-                return;
-            }
-
-            var message = new StringBuilder();
-            message.Append($"Дата списка: {order.OrderDate}\n");
-            message.Append($"Номер списка: {order.OrderID}\n");
-            message.Append("Список покупок:\n");
-
-            foreach (var orderDetail in order.OrderDetails)
-            {
-                message.Append($"Название: {orderDetail.Product.ProductName}, Цена: {orderDetail.ProductPrice?.ToString("c")}\n");
-            }
-            message.Append("----------------------------------\n");
-            message.Append("");
-            message.Append($"Итого: {order.OrderDetails.Sum(x => x.ProductPrice)?.ToString("F")}");
-
-            try
-            {                
-                _emailSender.Send(message.ToString(), mailTo);
-            }
             catch (Exception ex)
             {
-                throw  new SendEmailException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", ex);
-            }
+                throw new SendEmailException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", ex);
+            }            
         }
 
         public async Task CloseOrder(int id)
