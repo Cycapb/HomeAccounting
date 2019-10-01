@@ -1,17 +1,17 @@
-﻿using System;
+﻿using DomainModels.Exceptions;
+using DomainModels.Model;
+using DomainModels.Repositories;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DomainModels.Exceptions;
-using Services.Exceptions;
-using DomainModels.Model;
-using DomainModels.Repositories;
-using Services;
 
 namespace BussinessLogic.Services
 {
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
         private readonly IRepository<Order> _orderRepository;
         private readonly IEmailSender _emailSender;
@@ -54,7 +54,7 @@ namespace BussinessLogic.Services
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
             }
-            
+
         }
 
         public async Task UpdateAsync(Order order)
@@ -83,8 +83,8 @@ namespace BussinessLogic.Services
             }
         }
 
-        public void SendByEmail(int orderId, string mailTo)
-        {            
+        public async Task SendByEmail(int orderId, string mailTo)
+        {
             try
             {
                 var order = _orderRepository.GetItem(orderId);
@@ -107,17 +107,21 @@ namespace BussinessLogic.Services
                 message.Append("");
                 message.Append($"Итого: {order.OrderDetails.Sum(x => x.ProductPrice)?.ToString("F")}");
 
-                _emailSender.Send(message.ToString(), mailTo);
+                await _emailSender.SendAsync(message.ToString(), mailTo);
 
             }
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при обращении к БД", e);
             }
+            catch (SendEmailException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке к БД", e);
+            }
             catch (Exception ex)
             {
-                throw new SendEmailException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", ex);
-            }            
+                throw new ServiceException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", ex);
+            }
         }
 
         public async Task CloseOrder(int id)
@@ -136,7 +140,7 @@ namespace BussinessLogic.Services
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CloseOrder)} при обращении к БД", e);
             }
-            
+
         }
 
         public async Task<Order> GetOrderAsync(int id)

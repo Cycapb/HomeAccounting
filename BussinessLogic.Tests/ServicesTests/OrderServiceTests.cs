@@ -50,7 +50,7 @@ namespace BussinessLogic.Tests.ServicesTests
 
             _orderService.SendByEmail(orderId, String.Empty);
 
-            _emailSender.Verify(m => m.Send(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _emailSender.Verify(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace BussinessLogic.Tests.ServicesTests
         {
             _orderService.SendByEmail(It.IsAny<int>(), String.Empty);
 
-            _emailSender.Verify(m => m.Send(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _emailSender.Verify(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace BussinessLogic.Tests.ServicesTests
         public void SendByEmailThrowsSendEmailexceptionIfCannotSend()
         {
             _orderRepository.Setup(m => m.GetItem(It.IsAny<int>())).Returns(new Order() { OrderID = 1 });
-            _emailSender.Setup(m => m.Send(It.IsAny<string>(), It.IsAny<string>())).Throws<SendEmailException>();
+            _emailSender.Setup(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>())).Throws<SendEmailException>();
 
             _orderService.SendByEmail(1, It.IsAny<string>());
         }

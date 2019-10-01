@@ -11,7 +11,7 @@ namespace Services
         Task DeleteAsync(int id);
         Task UpdateAsync(Order order);
         Task<IEnumerable<Order>> GetList(string userId);
-        void SendByEmail(int orderId, string mailTo);
+        Task SendByEmail(int orderId, string mailTo);
         Task CloseOrder(int id);
         Task<Order> GetOrderAsync(int id);
     }

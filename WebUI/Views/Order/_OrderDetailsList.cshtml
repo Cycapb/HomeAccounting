@@ -36,7 +36,7 @@
                         </tr>
                     }
                 </table>
-                <span class="pull-right"><b>Итого: </b>@string.Format("{0:C2}", Model.OrderDetail.Sum(x => x.ProductPrice))</span>
+                <span class="pull-right"><b>Итого: </b>@string.Format("{0:C2}", Model.OrderDetails.Sum(x => x.ProductPrice))</span>
             </td>
         </tr>
     }
