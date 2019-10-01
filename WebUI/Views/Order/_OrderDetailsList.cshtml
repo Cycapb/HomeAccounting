@@ -4,13 +4,13 @@
         <th>Дата</th>
         <th colspan="2" class="text-center">Что купить</th>
     </tr>
-    @if (Model.OrderDetail.Any())
+    @if (Model.OrderDetails.Any())
     {
         <tr>
             <td>@Model.OrderDate</td>
             <td>
                 <table class="table table-hover">
-                    @foreach (var orderDetail in Model.OrderDetail)
+                    @foreach (var orderDetail in Model.OrderDetails)
                     {
                         <tr>
                             <td>@orderDetail.Product.ProductName</td>
