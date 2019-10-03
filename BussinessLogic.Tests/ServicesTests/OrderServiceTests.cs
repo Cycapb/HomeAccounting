@@ -40,7 +40,7 @@ namespace BussinessLogic.Tests.ServicesTests
 
         [TestMethod]
         [TestCategory("OrderServiceTests")]
-        public void SendByEmail()
+        public async Task SendByEmail()
         {
             var orderId = 1;
             _orderRepository.Setup(m => m.GetItem(It.IsAny<int>())).Returns(new Order()
@@ -48,29 +48,29 @@ namespace BussinessLogic.Tests.ServicesTests
                 OrderID = 1
             });
 
-            _orderService.SendByEmail(orderId, String.Empty);
+            await _orderService.SendByEmail(orderId, String.Empty);
 
             _emailSender.Verify(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
         [TestCategory("OrderServiceTests")]
-        public void SendByEmailCannotFindOrderById()
+        public async Task SendByEmailCannotFindOrderById()
         {
-            _orderService.SendByEmail(It.IsAny<int>(), String.Empty);
+            await _orderService.SendByEmail(It.IsAny<int>(), String.Empty);
 
             _emailSender.Verify(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
         [TestCategory("OrderServiceTests")]
-        [ExpectedException(typeof(SendEmailException))]
-        public void SendByEmailThrowsSendEmailexceptionIfCannotSend()
+        [ExpectedException(typeof(ServiceException))]
+        public async Task SendByEmailThrowsServiceExceptionWithInnerSendEmailException()
         {
             _orderRepository.Setup(m => m.GetItem(It.IsAny<int>())).Returns(new Order() { OrderID = 1 });
             _emailSender.Setup(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>())).Throws<SendEmailException>();
 
-            _orderService.SendByEmail(1, It.IsAny<string>());
+            await _orderService.SendByEmail(1, It.IsAny<string>());
         }
     }
 }
