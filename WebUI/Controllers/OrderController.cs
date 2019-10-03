@@ -83,7 +83,6 @@ namespace WebUI.Controllers
             return PartialView("_OrderDetailsList", order);
         }
 
-
         [HttpPost]
         [UserHasCategoriesAttribute]
         public async Task<ActionResult> Add(WebUser user)

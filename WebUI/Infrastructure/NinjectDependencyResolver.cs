@@ -44,6 +44,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IRepository<PlanItem>>().To<EntityRepository<PlanItem>>();
             _kernel.Bind<IRepository<Order>>().To<EntityRepository<Order>>();
             _kernel.Bind<IRepository<OrderDetail>>().To<EntityRepository<OrderDetail>>();
+            _kernel.Bind<IRepository<PayingItemProduct>>().To<EntityRepository<PayingItemProduct>>();
             _kernel.Bind<IReportMenu>().To<ReportMenu>();
             _kernel.Bind<IReporter>().To<EmailUserReporter>();
             _kernel.Bind<IPlanningHelper>().To<PlaningControllerHelper>();            
