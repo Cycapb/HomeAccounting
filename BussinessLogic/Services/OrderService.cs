@@ -116,7 +116,7 @@ namespace BussinessLogic.Services
             }
             catch (SendEmailException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", e);
             }
             catch (Exception ex)
             {
