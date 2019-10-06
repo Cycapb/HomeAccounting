@@ -24,8 +24,12 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.ActionLink(item.MailBoxName, "Edit", new {id = item.Id})
+                        <td>                            
+                            @Ajax.ActionLink(item.MailBoxName, "Edit", new { id = item.Id }, new AjaxOptions()
+                       {
+                           Url = Url.Action("Edit", "Mailbox", new { id = item.Id }),
+                           UpdateTargetId = "adminSection"
+                       })
                         </td>
                         <td>@item.MailFrom</td>
                         <td>@item.UserName</td>
@@ -35,7 +39,7 @@
                         <td class="text-center">
                             <div class="checkbox">
                                 <label>
-                                    <input id="UseSsl" checked="@item.UseSsl" name="UseSsl" type="checkbox" value="true">
+                                    <input id="UseSsl" checked="checked" name="UseSsl" type="checkbox" value="@item.UseSsl">
                                     <span class="checkbox-material"><span class="check"></span></span>
                                 </label>
                             </div>

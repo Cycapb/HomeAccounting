@@ -1,4 +1,4 @@
-﻿@model MailboxAddViewModel
+﻿@model NotificationMailboxViewModel
 @{
     var routeAction = Context.Request.RequestContext.RouteData.Values["action"];
     var action = routeAction.ToString() == "Add" ? "Add" : "Edit";
@@ -45,7 +45,7 @@
             </div>
             <div class="checkbox">
                 <label>
-                    <input id="UseSsl" name="UseSsl" type="checkbox" value="true">
+                    <input id="UseSsl" name="UseSsl" type="checkbox" value="@Model.UseSsl" checked="checked">
                     <span class="checkbox-material"><span class="check"></span></span>
                     Использовать SSL
                 </label>
