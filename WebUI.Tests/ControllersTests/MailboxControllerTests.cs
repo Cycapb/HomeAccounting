@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DomainModels.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Services;
+using Services.Exceptions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Controllers;
-using Services;
-using Moq;
-using System.Collections.Generic;
-using DomainModels.Model;
-using System.Threading.Tasks;
-using Services.Exceptions;
 using WebUI.Exceptions;
 using WebUI.Models;
 
@@ -40,7 +40,7 @@ namespace WebUI.Tests.ControllersTests
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsNotNull(model);
-            Assert.AreEqual(2,model.Count);
+            Assert.AreEqual(2, model.Count);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace WebUI.Tests.ControllersTests
         public async Task Index_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mailboxService.Setup(m => m.GetListAsync()).Throws<ServiceException>();
-            
+
             try
             {
                 await _controller.Index();
@@ -67,7 +67,7 @@ namespace WebUI.Tests.ControllersTests
             {
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
-            
+
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace WebUI.Tests.ControllersTests
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
-            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
+            var model = ((PartialViewResult)result).Model as NotificationMailboxViewModel;
 
             Assert.IsNotNull(model);
         }
@@ -87,7 +87,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mailboxService.Setup(m => m.AddAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
 
-            await _controller.Add(new MailboxAddViewModel());
+            await _controller.Add(new NotificationMailboxViewModel());
         }
 
         [TestMethod]
@@ -105,21 +105,21 @@ namespace WebUI.Tests.ControllersTests
         public async Task Delete()
         {
             var result = await _controller.Delete(It.IsAny<int>());
-            var routeResults = ((RedirectToRouteResult) result).RouteValues;
+            var routeResults = ((RedirectToRouteResult)result).RouteValues;
 
             _mailboxService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
-            Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
-            Assert.AreEqual(routeResults["action"],"List");
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(routeResults["action"], "List");
         }
 
         [TestMethod]
         [TestCategory("MailboxControllerTests")]
         public async Task Edit_ReturnsMailboxPartialViewWithModel()
         {
-            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() {Id = 1,MailBoxName = "M1"});
+            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() { Id = 1, MailBoxName = "M1" });
 
             var result = await _controller.Edit(1);
-            var model = ((PartialViewResult) result).Model as MailboxAddViewModel;
+            var model = ((PartialViewResult)result).Model as NotificationMailboxViewModel;
 
             _mailboxService.Verify(x => x.GetItemAsync(It.IsAny<int>()), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
@@ -135,7 +135,7 @@ namespace WebUI.Tests.ControllersTests
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(mBox);
 
             var result = await _controller.Edit(It.IsAny<int>());
-            var redirectResult = ((RedirectToRouteResult) result);
+            var redirectResult = ((RedirectToRouteResult)result);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual(redirectResult.RouteValues["action"], "Index");
@@ -154,15 +154,15 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("MailboxControllerTests")]
         public async Task Edit_InputmailboxAddViewModel_ReturnsRedirectToList()
         {
-            var model = new MailboxAddViewModel() {Id = 2, MailBoxName = "M2"};
-            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() {Id = 1, MailBoxName = "M1"});
+            var model = new NotificationMailboxViewModel() { Id = 2, MailBoxName = "M2" };
+            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() { Id = 1, MailBoxName = "M1" });
 
             var result = await _controller.Edit(model);
-            var redirectResult = ((RedirectToRouteResult) result);
+            var redirectResult = ((RedirectToRouteResult)result);
 
-            Assert.IsInstanceOfType(result,typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"],"Index");
-            _mailboxService.Verify(x => x.UpdateAsync(It.IsAny<NotificationMailBox>()),Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual(redirectResult.RouteValues["action"], "Index");
+            _mailboxService.Verify(x => x.UpdateAsync(It.IsAny<NotificationMailBox>()), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -182,7 +182,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mailboxService.Setup(m => m.UpdateAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
 
-            await _controller.Edit(new MailboxAddViewModel());
+            await _controller.Edit(new NotificationMailboxViewModel());
         }
     }
 }
