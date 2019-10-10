@@ -4,7 +4,7 @@ using WebUI.Infrastructure.Attributes;
 
 namespace WebUI.Models
 {
-    public class MailboxAddViewModel
+    public class NotificationMailboxViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }

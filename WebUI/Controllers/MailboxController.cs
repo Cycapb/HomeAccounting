@@ -1,13 +1,13 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -31,8 +31,7 @@ namespace WebUI.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}",
-                    e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}", e);
             }
         }
 
@@ -45,20 +44,19 @@ namespace WebUI.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(List)}",
-                    e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(List)}", e);
             }
         }
 
         public ActionResult Add()
         {
-            var model = new MailboxAddViewModel();
+            var model = new NotificationMailboxViewModel();
             ViewBag.PanelTitle = "Добавление почтового ящика";
-            return PartialView("_Mailbox", model);
+            return PartialView("_AddOrEdit", model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(MailboxAddViewModel model)
+        public async Task<ActionResult> Add(NotificationMailboxViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -79,12 +77,11 @@ namespace WebUI.Controllers
                 }
                 catch (ServiceException e)
                 {
-                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Add)}",
-                        e);
+                    throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Add)}", e);
                 }
             }
 
-            return PartialView("_Mailbox");
+            return PartialView("_AddOrEdit", model);
         }
 
         [HttpPost]
@@ -100,37 +97,35 @@ namespace WebUI.Controllers
             try
             {
                 model = await _mailboxService.GetItemAsync(id);
+                if (model == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                var mailBoxModel = new NotificationMailboxViewModel()
+                {
+                    Id = model.Id,
+                    MailBoxName = model.MailBoxName,
+                    MailFrom = model.MailFrom,
+                    Password = model.Password,
+                    PasswordConfirmation = string.Empty,
+                    Port = model.Port,
+                    Server = model.Server,
+                    UserName = model.UserName,
+                    UseSsl = model.UseSsl
+                };
+
+                ViewBag.PanelTitle = "Редактирование почтового ящика";
+                return PartialView("_AddOrEdit", mailBoxModel);
             }
             catch (Exception e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}",
-                    e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Edit)}", e);
             }
-
-            if (model == null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            var mailBoxModel = new MailboxAddViewModel()
-            {
-                Id = model.Id,
-                MailBoxName = model.MailBoxName,
-                MailFrom = model.MailFrom,
-                Password = model.Password,
-                PasswordConfirmation = string.Empty,
-                Port = model.Port,
-                Server = model.Server,
-                UserName = model.UserName,
-                UseSsl = model.UseSsl
-            };
-
-            ViewBag.PanelTitle = "Редактирование почтового ящика";
-            return PartialView("_Mailbox", mailBoxModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(MailboxAddViewModel model)
+        public async Task<ActionResult> Edit(NotificationMailboxViewModel model)
         {
             if (model == null)
             {
@@ -162,7 +157,7 @@ namespace WebUI.Controllers
                 return RedirectToAction("Index");
             }
 
-            return PartialView("_Mailbox");
+            return PartialView("_AddOrEdit", model);
         }
     }
 }

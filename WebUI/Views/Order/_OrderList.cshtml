@@ -11,7 +11,7 @@
             <td>@order.OrderDate.ToShortDateString()</td>
             <td>
                 @{
-                    var sum = order.OrderDetail.Sum(x => x.ProductPrice);
+                    var sum = order.OrderDetails.Sum(x => x.ProductPrice);
                 }
                 @if (sum != null)
                 {

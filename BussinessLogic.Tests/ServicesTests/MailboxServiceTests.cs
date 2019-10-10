@@ -33,9 +33,10 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestCategory("MailboxServiceTests")]
         public async Task AddAsync()
         {
-            _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).ReturnsAsync(new NotificationMailBox() { Id = 1});
+            var notificationMailBox = new NotificationMailBox() { Id = 1};
+            _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).ReturnsAsync(notificationMailBox);
 
-            var result = await _service.AddAsync(new NotificationMailBox() { Id = 1});
+            var result = await _service.AddAsync(notificationMailBox);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Id);
