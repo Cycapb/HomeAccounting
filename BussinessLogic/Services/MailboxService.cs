@@ -14,8 +14,7 @@ namespace BussinessLogic.Services
 {
     public class MailboxService : IMailboxService
     {
-        private readonly IRepository<NotificationMailBox> _repository;
-        private static readonly Logger LogManager = NLog.LogManager.GetCurrentClassLogger();
+        private readonly IRepository<NotificationMailBox> _repository;        
 
         public MailboxService(IRepository<NotificationMailBox> repository)
         {
@@ -32,8 +31,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                var message = CreateMessage(e);
-                LogManager.Error(message);
+                var message = CreateMessage(e);                
                 throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(AddAsync)} при обращении к БД", e);
             }
         }        

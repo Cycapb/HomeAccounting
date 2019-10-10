@@ -1,15 +1,15 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
 using WebUI.Infrastructure.Attributes;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -17,13 +17,13 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class OrderController : Controller
     {
-        private readonly IOrderService _orderService;        
+        private readonly IOrderService _orderService;
 
         public OrderController(IOrderService orderService)
         {
-            _orderService = orderService;            
+            _orderService = orderService;
         }
-        
+
         public async Task<ActionResult> Index(WebUser user)
         {
             List<Order> orders;
@@ -35,8 +35,8 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Index)}", e);
             }
-            
-            return PartialView("_Index",orders);
+
+            return PartialView("_Index", orders);
         }
 
         public async Task<ActionResult> OrderList(WebUser user)
@@ -50,7 +50,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(OrderList)}", e);
             }
-            
+
             return PartialView("_OrderList", orders);
         }
 
@@ -79,11 +79,10 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Edit)}", e);
             }
-            
+
             return PartialView("_OrderDetailsList", order);
         }
 
-        
         [HttpPost]
         [UserHasCategoriesAttribute]
         public async Task<ActionResult> Add(WebUser user)
@@ -96,7 +95,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Add)}", e);
             }
-            
+
             return RedirectToAction("OrderList");
         }
 
@@ -114,7 +113,7 @@ namespace WebUI.Controllers
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(SendEmail)}", e);
                 }
-            }             
+            }
         }
 
         [HttpPost]
@@ -128,7 +127,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(CloseOrder)}", e);
             }
-            
+
             return RedirectToAction("OrderList");
         }
     }

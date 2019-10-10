@@ -17,7 +17,7 @@ namespace BussinessLogic.Providers
             _repository = repository;
         }
 
-        private EmailSettings GetMailSettings()
+        public virtual EmailSettings GetEmailSettings()
         {
             var mailSettings = new EmailSettings();
             var mailBox = _repository.GetList(x => x.MailBoxName == "Accounting").SingleOrDefault();
@@ -35,13 +35,7 @@ namespace BussinessLogic.Providers
             else
             {
                 return null;
-            }            
-        }
-
-        public virtual EmailSettings GetEmailSettings()
-        {
-            var mailSettings = GetMailSettings();
-            return mailSettings;
+            }
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using DomainModels.Model;
+using NLog;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using DomainModels.Model;
-using Services;
-using NLog;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
@@ -12,7 +14,7 @@ namespace BussinessLogic.Services
     /// Служит для отправки Списка покупок по электронной почте
     /// Наследует от IEmailSender
     /// </summary>    
-    public class OrderSenderService:IEmailSender
+    public class OrderSenderService : IEmailSender
     {
         private readonly IMailSettingsProvider _mailSettingsProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -24,13 +26,12 @@ namespace BussinessLogic.Services
             _mailSettingsProvider = mailSettingsProvider;
         }
 
-        public async void Send(string message, string mailTo)
+        public async Task SendAsync(string message, string mailTo)
         {
-            MailTo = mailTo;
             var mailSettings = _mailSettingsProvider.GetEmailSettings();
             if (mailSettings != null)
             {
-                mailSettings.MailTo = MailTo;
+                mailSettings.MailTo = mailTo;
                 var smtpClient = CreateSmtpClient(mailSettings);
 
                 try
@@ -40,11 +41,7 @@ namespace BussinessLogic.Services
                 }
                 catch (Exception ex)
                 {
-                    var errorMessage = new StringBuilder();
-                    errorMessage.AppendLine("\r\n");
-                    errorMessage.AppendLine($"Ошибка: {ex.Message}");
-                    errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
-                    Logger.Error(errorMessage.ToString);
+                    throw new SendEmailException($"Возникла ошибка в сервисе {nameof(OrderSenderService)} в методе {nameof(SendAsync)} при отправке почты", ex);
                 }
             }
             else
@@ -53,7 +50,7 @@ namespace BussinessLogic.Services
                 errorMessage.AppendLine("\r\n");
                 errorMessage.AppendLine($"Ошибка: Невозможно получить учетные данные почтового ящика для отправки списка покупок!");
                 Logger.Error(errorMessage.ToString);
-            }          
+            }
 
         }
 

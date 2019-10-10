@@ -90,7 +90,6 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="LoggersTests\NlogExceptionLoggerTests.cs" />
     <Compile Include="ProvidersTests\MultipleIpAddressProviderTests.cs" />
     <Compile Include="ProvidersTests\SingleIpAddressProviderTests.cs" />
     <Compile Include="ProvidersTests\SingleIpAddressProviderLoggingDecoratorTests.cs" />
