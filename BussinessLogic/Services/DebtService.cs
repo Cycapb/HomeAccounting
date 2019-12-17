@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DomainModels.Exceptions;
 using DomainModels.Model;
@@ -44,15 +46,15 @@ namespace BussinessLogic.Services
             }
         }
 
-        public IEnumerable<Debt> GetItems(string userId)
+        public IEnumerable<Debt> GetList()
         {
             try
             {
-                return _debtRepo.GetList(x => x.UserId == userId);
+                return _debtRepo.GetList();
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetItems)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
 
@@ -78,6 +80,18 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
+        }
+
+        public IEnumerable<Debt> GetList(Expression<Func<Debt, bool>> predicate)
+        {
+            try
+            {
+                return _debtRepo.GetList(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
     }
