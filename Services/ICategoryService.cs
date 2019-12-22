@@ -7,7 +7,7 @@ namespace Services
     /// <summary>
     /// Интерфейс сервиса для работы с Category
     /// </summary>
-    public interface ICategoryService : IService<Category>
+    public interface ICategoryService : IQueryService<Category>
     {
         /// <summary>
         /// Асинхронно создает Category

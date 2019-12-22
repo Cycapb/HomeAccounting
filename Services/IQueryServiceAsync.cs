@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IServiceAsync<T> where T : class
+    public interface IQueryServiceAsync<T> where T : class
     {
         Task<IEnumerable<T>> GetListAsync();
 

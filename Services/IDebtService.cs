@@ -4,7 +4,7 @@ using DomainModels.Model;
 
 namespace Services
 {
-    public interface IDebtService : IService<Debt>
+    public interface IDebtService : IQueryService<Debt>
     {
         Task<IEnumerable<Debt>> GetItemsAsync(string userId);
 

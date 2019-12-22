@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IPayingItemProductService : IService<PayingItemProduct>
+    public interface IPayingItemProductService : IQueryService<PayingItemProduct>
     {
         Task CreateAsync(PayingItemProduct product);
         Task<PayingItemProduct> GetItemAsync(int id);

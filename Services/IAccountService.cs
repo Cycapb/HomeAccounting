@@ -4,7 +4,7 @@ using DomainModels.Model;
 
 namespace Services
 {
-    public interface IAccountService: IService<Account>
+    public interface IAccountService: IQueryService<Account>
     {
         Task CreateAsync(Account item);
         Task<Account> GetItemAsync(int id);

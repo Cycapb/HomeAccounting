@@ -5,7 +5,7 @@ namespace Services
     /// <summary>
     /// Is used to work with notification mailboxes of the system
     /// </summary>
-    public interface IMailboxService : IService<NotificationMailBox>, IServiceAsync<NotificationMailBox>
+    public interface IMailboxService : IQueryService<NotificationMailBox>, IQueryServiceAsync<NotificationMailBox>
     {
         Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox);
         Task<NotificationMailBox> GetItemAsync(int id);
