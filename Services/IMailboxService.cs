@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 namespace Services
 {
     /// <summary>
-    /// Служит для управления почтовыми ящиками системы уведомлений
+    /// Is used to work with notification mailboxes of the system
     /// </summary>
     public interface IMailboxService : IService<NotificationMailBox>, IServiceAsync<NotificationMailBox>
     {
