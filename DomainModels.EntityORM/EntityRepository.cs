@@ -46,7 +46,7 @@ namespace DomainModels.EntityORM
             this._disposed = true;
         }
 
-        public IEnumerable<T> GetList()
+        public virtual IEnumerable<T> GetList()
         {
             try
             {
@@ -70,7 +70,7 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public T Create(T item)
+        public virtual T Create(T item)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace DomainModels.EntityORM
 
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace DomainModels.EntityORM
 
         }
 
-        public void Update(T item)
+        public virtual void Update(T item)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace DomainModels.EntityORM
 
         }
 
-        public void Save()
+        public virtual void Save()
         {
             try
             {
@@ -183,7 +183,7 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public Task SaveAsync(IProgress<string> onComplete)
+        public virtual Task SaveAsync(IProgress<string> onComplete)
         {
             try
             {
@@ -199,7 +199,7 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public T GetItem(int id)
+        public virtual T GetItem(int id)
         {
             try
             {
@@ -235,7 +235,7 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public void DeleteRange(IEnumerable<T> items)
+        public virtual void DeleteRange(IEnumerable<T> items)
         {
             if (items is null)
             {
@@ -252,7 +252,7 @@ namespace DomainModels.EntityORM
             }            
         }
 
-        public Task DeleteRangeAsync(IEnumerable<T> items)
+        public virtual Task DeleteRangeAsync(IEnumerable<T> items)
         {
             if (items is null)
             {
@@ -266,6 +266,18 @@ namespace DomainModels.EntityORM
             catch (Exception ex)
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRangeAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+            }
+        }
+
+        public virtual Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> predicate)
+        {
+            try
+            {
+                return Task.Run(() => _dbSet.Where(predicate).AsEnumerable());
+            }
+            catch (Exception ex)
+            {
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
             }
         }
     }

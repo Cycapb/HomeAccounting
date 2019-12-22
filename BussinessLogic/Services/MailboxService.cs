@@ -73,15 +73,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        private string CreateMessage(Exception ex)
-        {
-            var errorMessage = new StringBuilder();
-            errorMessage.AppendLine("\r\n");
-            errorMessage.AppendLine($"Ошибка: {ex.Message}");
-            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
-            return errorMessage.ToString();
-        }
-
         public async Task UpdateAsync(NotificationMailBox item)
         {
             try
@@ -117,6 +108,27 @@ namespace BussinessLogic.Services
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
+        }
+
+        public async Task<IEnumerable<NotificationMailBox>> GetListAsync(Expression<Func<NotificationMailBox, bool>> predicate)
+        {
+            try
+            {
+                return await _repository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }            
+        }
+
+        private string CreateMessage(Exception ex)
+        {
+            var errorMessage = new StringBuilder();
+            errorMessage.AppendLine("\r\n");
+            errorMessage.AppendLine($"Ошибка: {ex.Message}");
+            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
+            return errorMessage.ToString();
         }
     }
 }
