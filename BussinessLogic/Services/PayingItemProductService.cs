@@ -114,5 +114,17 @@ namespace BussinessLogic.Services
                 throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
+
+        public PayingItemProduct GetItem(int id)
+        {
+            try
+            {
+                return _pItemRepository.GetItem(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemProductService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
     }
 }

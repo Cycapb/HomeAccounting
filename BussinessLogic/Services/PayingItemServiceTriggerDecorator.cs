@@ -142,5 +142,10 @@ namespace BussinessLogic.Services
 
             return (oldPayingItem, newPayingItem);
         }
+
+        public PayingItem GetItem(int id)
+        {
+            return _payingItemService.GetItem(id);
+        }
     }
 }

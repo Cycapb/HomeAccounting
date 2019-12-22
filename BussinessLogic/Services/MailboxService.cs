@@ -130,5 +130,17 @@ namespace BussinessLogic.Services
             errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
             return errorMessage.ToString();
         }
+
+        public NotificationMailBox GetItem(int id)
+        {
+            try
+            {
+                return _repository.GetItem(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
     }
 }

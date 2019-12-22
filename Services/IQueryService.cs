@@ -9,5 +9,7 @@ namespace Services
         IEnumerable<T> GetList();
 
         IEnumerable<T> GetList(Expression<Func<T, bool>> predicate);
+
+        T GetItem(int id);
     }
 }
