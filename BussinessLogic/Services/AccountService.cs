@@ -136,5 +136,17 @@ namespace BussinessLogic.Services
                 throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetItem)} при обращении к БД", e);
             }
         }
+
+        public async Task<IEnumerable<Account>> GetListAsync(Expression<Func<Account, bool>> predicate)
+        {
+            try
+            {
+                return await _accountRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
     }
 }
