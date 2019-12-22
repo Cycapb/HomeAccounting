@@ -10,5 +10,7 @@ namespace Services
         Task<IEnumerable<T>> GetListAsync();
 
         Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> predicate);
+
+        Task<T> GetItemAsync(int id);
     }
 }
