@@ -4,10 +4,8 @@ using DomainModels.Model;
 
 namespace Services
 {
-    public interface IPayingItemService : IQueryService<PayingItem>
-    {        
-        Task<PayingItem> GetItemAsync(int id);
-        Task<IEnumerable<PayingItem>> GetListAsync();
+    public interface IPayingItemService : IQueryService<PayingItem>, IQueryServiceAsync<PayingItem>
+    {
         Task DeleteAsync(int id);
         Task UpdateAsync(PayingItem item);
         Task<PayingItem> CreateAsync(PayingItem item);

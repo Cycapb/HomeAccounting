@@ -166,5 +166,17 @@ namespace BussinessLogic.Services
                 throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
+
+        public async Task<IEnumerable<Category>> GetListAsync(Expression<Func<Category, bool>> predicate)
+        {
+            try
+            {
+                return await _categoryRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
     }
 }

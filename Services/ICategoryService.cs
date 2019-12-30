@@ -7,7 +7,7 @@ namespace Services
     /// <summary>
     /// Интерфейс сервиса для работы с Category
     /// </summary>
-    public interface ICategoryService : IQueryService<Category>
+    public interface ICategoryService : IQueryService<Category>, IQueryServiceAsync<Category>
     {
         /// <summary>
         /// Асинхронно создает Category
@@ -15,19 +15,6 @@ namespace Services
         /// <param name="item">Объект Category</param>
         /// <returns>Задачу</returns>
         Task CreateAsync(Category item);
-
-        /// <summary>
-        /// Асинхронно получает Category по Id
-        /// </summary>
-        /// <param name="id">Category Id</param>
-        /// <returns>Задачу, которая возвращает тип Category</returns>
-        Task<Category> GetItemAsync(int id);
-
-        /// <summary>
-        /// Асинхронно получает перечисление Category
-        /// </summary>
-        /// <returns>Задачу, которая возвращает перечисление Category</returns>
-        Task<IEnumerable<Category>> GetListAsync();
 
         /// <summary>
         /// Асинхронно удаляет Category по Id

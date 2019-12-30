@@ -147,5 +147,10 @@ namespace BussinessLogic.Services
         {
             return _payingItemService.GetItem(id);
         }
+
+        public async Task<IEnumerable<PayingItem>> GetListAsync(Expression<Func<PayingItem, bool>> predicate)
+        {
+            return await _payingItemService.GetListAsync(predicate);
+        }
     }
 }
