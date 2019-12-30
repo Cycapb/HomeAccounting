@@ -181,7 +181,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                return (await _accService.GetListAsync()).Where(x => x.UserId == userId).ToList();
+                return (await _accService.GetListAsync(x => x.UserId == userId)).ToList();
             }
             catch (ServiceException e)
             {
@@ -195,7 +195,7 @@ namespace WebUI.Controllers
 
         private async Task FillDebtViewModel(Debt debt, DebtEditingViewModel model)
         {
-            var accounts = (await _accService.GetListAsync()).Where(a => a.UserId == debt.UserId).ToList();
+            var accounts = (await _accService.GetListAsync(a => a.UserId == debt.UserId)).ToList();
 
             model.DebtId = debt.DebtID;
             model.Sum = debt.Summ;

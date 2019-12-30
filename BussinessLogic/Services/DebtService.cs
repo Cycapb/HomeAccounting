@@ -1,37 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class DebtService:IDebtService
+    public class DebtService : IDebtService
     {
         private readonly IRepository<Debt> _debtRepo;
 
         public DebtService(IRepository<Debt> deptRepo)
         {
             _debtRepo = deptRepo;
-        }
-
-        public async Task<IEnumerable<Debt>> GetItemsAsync(string userId)
-        {
-            try
-            {
-                return (await _debtRepo.GetListAsync())
-                    .Where(x => x.UserId == userId)
-                    .ToList();
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetItemsAsync)} при обращении к БД", e);
-            }
         }
 
         public async Task<Debt> GetItemAsync(int id)
@@ -104,6 +89,30 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Debt>> GetListAsync()
+        {
+            try
+            {
+                return await _debtRepo.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Debt>> GetListAsync(Expression<Func<Debt, bool>> predicate)
+        {
+            try
+            {
+                return await _debtRepo.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
             }
         }
     }
