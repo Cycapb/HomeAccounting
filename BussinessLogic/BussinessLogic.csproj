@@ -92,7 +92,6 @@
     <Compile Include="Services\OrderSenderService.cs" />
     <Compile Include="Services\OrderDetailService.cs" />
     <Compile Include="Services\OrderService.cs" />
-    <Compile Include="Services\PayingItemProductService.cs" />
     <Compile Include="Services\PayingItemService.cs" />
     <Compile Include="Services\PayingItemServiceTriggerDecorator.cs" />
     <Compile Include="Services\PlanItemService.cs" />

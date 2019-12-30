@@ -57,7 +57,6 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt>>();
             _kernel.Bind<ICategoryService>().To<CategoryService>();
             _kernel.Bind<IAccountService>().To<AccountService>();
-            _kernel.Bind<IPayingItemProductService>().To<PayingItemProductService>();
             _kernel.Bind<IProductService>().To<ProductService>();
             _kernel.Bind<IMailSettingsProvider>().To<AccountingNotificationMailBoxProvider>();
             _kernel.Bind<IEmailSender>().To<OrderSenderService>();

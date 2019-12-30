@@ -73,7 +73,6 @@
     <Compile Include="IMailSettingsProvider.cs" />
     <Compile Include="IOrderDetailService.cs" />
     <Compile Include="IOrderService.cs" />
-    <Compile Include="IPayingItemProductService.cs" />
     <Compile Include="IPayingItemService.cs" />
     <Compile Include="IPlanItemService.cs" />
     <Compile Include="IProductService.cs" />
