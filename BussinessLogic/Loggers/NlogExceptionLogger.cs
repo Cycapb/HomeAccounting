@@ -48,3 +48,5 @@ namespace BussinessLogic.Loggers
         }
     }
 }
+
+//ToDo Must be moved to the Web project. And after that nuget for NLog must be uninstalled
