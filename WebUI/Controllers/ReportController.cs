@@ -103,7 +103,9 @@ namespace WebUI.Controllers
             ViewBag.dtTo = dateTo;
             try
             {
-                var list = _reportControllerHelper.GetOverallList(user, dateFrom, dateTo, typeOfFlowId).ToList();
+                var list = _reportControllerHelper.GetOverallList(user, dateFrom, dateTo, typeOfFlowId)
+                    .OrderByDescending(x => x.Summ)
+                    .ToList();
                 ViewBag.Summ = list.Sum(x => x.Summ);
                 return PartialView("_GetAllCategoriesReport", list);
             }
