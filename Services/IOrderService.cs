@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DomainModels.Model;
+using System;
 using System.Threading.Tasks;
-using DomainModels.Model;
 
 namespace Services
 {
-    public interface IOrderService
+    public interface IOrderService : IQueryServiceAsync<Order>
     {
         Task<Order> CreateOrderAsync(DateTime orderDate, string userId);
         Task DeleteAsync(int id);
         Task UpdateAsync(Order order);
-        Task<IEnumerable<Order>> GetList(string userId);
         Task SendByEmail(int orderId, string mailTo);
         Task CloseOrder(int id);
-        Task<Order> GetOrderAsync(int id);
     }
 }

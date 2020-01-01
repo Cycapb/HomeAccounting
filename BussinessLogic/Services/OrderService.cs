@@ -6,6 +6,7 @@ using Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,19 +71,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task<IEnumerable<Order>> GetList(string userId)
-        {
-            try
-            {
-                return (await _orderRepository.GetListAsync())
-                    .Where(x => x.UserId == userId);
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetList)} при обращении к БД", e);
-            }
-        }
-
         public async Task SendByEmail(int orderId, string mailTo)
         {
             try
@@ -143,7 +131,31 @@ namespace BussinessLogic.Services
 
         }
 
-        public async Task<Order> GetOrderAsync(int id)
+        public async Task<IEnumerable<Order>> GetListAsync()
+        {
+            try
+            {
+                return await _orderRepository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetListAsync(Expression<Func<Order, bool>> predicate)
+        {
+            try
+            {
+                return await _orderRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<Order> GetItemAsync(int id)
         {
             try
             {
@@ -151,7 +163,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetOrderAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
             }
         }
     }

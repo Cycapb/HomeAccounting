@@ -29,7 +29,7 @@ namespace WebUI.Controllers
             List<Order> orders;
             try
             {
-                orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+                orders = (await _orderService.GetListAsync(x => x.UserId == user.Id && x.Active)).ToList();
             }
             catch (ServiceException e)
             {
@@ -44,7 +44,7 @@ namespace WebUI.Controllers
             List<Order> orders;
             try
             {
-                orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+                orders = (await _orderService.GetListAsync(o => o.UserId == user.Id && o.Active)).ToList();
             }
             catch (ServiceException e)
             {
@@ -73,7 +73,7 @@ namespace WebUI.Controllers
             Order order;
             try
             {
-                order = await _orderService.GetOrderAsync(id);
+                order = await _orderService.GetItemAsync(id);
             }
             catch (ServiceException e)
             {
