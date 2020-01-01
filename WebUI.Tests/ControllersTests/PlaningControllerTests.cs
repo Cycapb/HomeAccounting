@@ -11,6 +11,8 @@ using WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using System.Linq.Expressions;
+using System;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -59,9 +61,9 @@ namespace WebUI.Tests.ControllersTests
 
         private async Task Prepare_UserWithNoCategories_PayingItemListReturned(WebUser user)
         {
-            Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
-            Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
-            mockPlanItem.Setup(m => m.GetListAsync(It.IsAny<string>())).ReturnsAsync(new List<PlanItem>());
+            var mockCategory = new Mock<ICategoryService>();
+            var mockPlanItem = new Mock<IPlanItemService>();
+            mockPlanItem.Setup(m => m.GetListAsync(It.IsAny<Expression<Func<PlanItem, bool>>>())).ReturnsAsync(new List<PlanItem>());
             mockCategory.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>());
             var target = new PlaningController(mockCategory.Object,mockPlanItem.Object, null);
             
@@ -94,7 +96,7 @@ namespace WebUI.Tests.ControllersTests
             Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
             Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
             mockCategory.Setup(m => m.GetListAsync()).ReturnsAsync(_categories);
-            mockPlanItem.Setup(m => m.GetListAsync(It.IsAny<string>())).ReturnsAsync(_planItems);
+            mockPlanItem.Setup(m => m.GetListAsync(It.IsAny<Expression<Func<PlanItem, bool>>>())).ReturnsAsync(_planItems);
             var target = new PlaningController(mockCategory.Object, mockPlanItem.Object, null);
 
             var result = await target.Prepare(user);

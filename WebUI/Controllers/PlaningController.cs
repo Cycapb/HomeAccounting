@@ -31,7 +31,7 @@ namespace WebUI.Controllers
             var categories = (await _categoryService.GetListAsync()).Any(x => x.UserId == user.Id);
             if (categories)
             {
-                var planItems = (await _planItemService.GetListAsync(user.Id)).Any();
+                var planItems = (await _planItemService.GetListAsync(x => x.UserId == user.Id)).Any();
                 return RedirectToAction(planItems ? "ViewPlan" : "CreatePlan");
             }
             else
