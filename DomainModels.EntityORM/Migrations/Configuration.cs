@@ -9,9 +9,8 @@ namespace DomainModels.EntityORM.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "DomainModels.Model.AccountingContext";
+            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(AccountingContext context)

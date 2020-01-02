@@ -15,8 +15,7 @@ namespace WebUI.Migrations
 
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            ContextKey = "WebUI.Infrastructure.AccIdentityDbContext";
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(AccIdentityDbContext context)
