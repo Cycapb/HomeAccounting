@@ -73,6 +73,10 @@
     <Compile Include="Migrations\202001021155326_InitialMigrationForDb.Designer.cs">
       <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.cs" />
+    <Compile Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.Designer.cs">
+      <DependentUpon>202001022005270_Added_Composite_PK_To_OrderDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +92,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001021155326_InitialMigrationForDb.resx">
       <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.resx">
+      <DependentUpon>202001022005270_Added_Composite_PK_To_OrderDetail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
