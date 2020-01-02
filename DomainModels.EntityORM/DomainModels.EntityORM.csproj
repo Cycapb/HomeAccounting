@@ -69,6 +69,10 @@
     </Compile>
     <Compile Include="EntityRepository.cs" />
     <Compile Include="Infrastructure\AccountingContext.cs" />
+    <Compile Include="Migrations\202001021155326_InitialMigrationForDb.cs" />
+    <Compile Include="Migrations\202001021155326_InitialMigrationForDb.Designer.cs">
+      <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,7 +85,11 @@
       <Name>DomainModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001021155326_InitialMigrationForDb.resx">
+      <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
