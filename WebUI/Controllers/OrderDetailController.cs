@@ -92,6 +92,7 @@ namespace WebUI.Controllers
                     throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(GetSubCategories)}", e);
                 }
             }
+
             var products = categories.FirstOrDefault(x => x.CategoryID == id)?.Products.OrderBy(x => x.ProductName);
             return PartialView("_SubCategories", products);
         }

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class OrderDetailService:IOrderDetailService
+    public class OrderDetailService : IOrderDetailService
     {
         private readonly IRepository<OrderDetail> _orderDetailRepository;
         private readonly IRepository<PayingItemProduct> _pItemProductRepository;
@@ -43,18 +41,6 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderDetailService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task<IEnumerable<OrderDetail>> GetListAsync()
-        {
-            try
-            {
-                return await _orderDetailRepository.GetListAsync();
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderDetailService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
             }
         }
 
