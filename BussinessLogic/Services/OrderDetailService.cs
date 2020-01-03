@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class OrderDetailService:IOrderDetailService
+    public class OrderDetailService : IOrderDetailService
     {
         private readonly IRepository<OrderDetail> _orderDetailRepository;
         private readonly IRepository<PayingItemProduct> _pItemProductRepository;
