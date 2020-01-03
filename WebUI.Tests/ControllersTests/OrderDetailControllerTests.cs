@@ -5,6 +5,7 @@ using WebUI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using Services.Caching;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -13,13 +14,15 @@ namespace WebUI.Tests.ControllersTests
     {
         private readonly Mock<IOrderDetailService> _orderDetailService;
         private readonly OrderDetailController _target;
-        private readonly Mock<ICategoryService> _categoryService;
+        private readonly Mock<ICategoryService> _categoryServiceMock;
+        private readonly Mock<ICacheManager> _cacheManagerMock;
 
         public OrderDetailControllerTests()
         {
             _orderDetailService = new Mock<IOrderDetailService>();
-            _categoryService = new Mock<ICategoryService>();
-            _target = new OrderDetailController(_orderDetailService.Object, _categoryService.Object);
+            _categoryServiceMock = new Mock<ICategoryService>();
+            _cacheManagerMock = new Mock<ICacheManager>();
+            _target = new OrderDetailController(_orderDetailService.Object, _categoryServiceMock.Object, _cacheManagerMock.Object);
         }
 
         [TestMethod]

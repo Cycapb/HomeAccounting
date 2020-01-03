@@ -10,6 +10,7 @@ using WebUI.Models;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using Services.Caching;
 
 namespace WebUI.Controllers
 {
@@ -19,11 +20,16 @@ namespace WebUI.Controllers
     {
         private readonly IOrderDetailService _orderDetailService;
         private readonly ICategoryService _categoryService;
+        private readonly ICacheManager _cacheManager;
 
-        public OrderDetailController(IOrderDetailService orderDetailService, ICategoryService categoryService)
+        public OrderDetailController(
+            IOrderDetailService orderDetailService,
+            ICategoryService categoryService,
+            ICacheManager cacheManager)
         {
             _orderDetailService = orderDetailService;
             _categoryService = categoryService;
+            _cacheManager = cacheManager;
         }
 
         [HttpPost]
@@ -44,23 +50,29 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Add(WebUser user, int id)
         {
-            AddOrderDetailView model;
             try
             {
-                var categories = (await GetCategories(user.Id)).ToList();
-                HttpContext.Cache.Insert("Categories", categories, null, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(60));
-                model = new AddOrderDetailView()
+                var categories = (IEnumerable<Category>)_cacheManager.Get("Categories");
+
+                if (categories == null)
+                {
+                    categories = (await GetCategories(user.Id)).ToList();
+                    _cacheManager.Set("Categories", categories, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(60));
+                }                
+                
+                var model = new AddOrderDetailView()
                 {
                     OrderId = id,
                     Categories = categories,
                     Products = categories.FirstOrDefault()?.Products ?? new List<Product>()
                 };
+
+                return PartialView("_Add", model);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(Add)}", e);
             }
-            return PartialView("_Add", model);
         }
 
         [HttpPost]
@@ -79,13 +91,16 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> GetSubCategories(int id)
         {
-            var categories = (IEnumerable<Category>)HttpContext.Cache.Get("Categories");
+            var categories = (IEnumerable<Category>)_cacheManager.Get("Categories");
+
             if (categories == null)
             {
                 var user = (WebUser)HttpContext.Session?["WebUser"];
+
                 try
                 {
                     categories = await GetCategories(user.Id);
+                    _cacheManager.Set("Categories", categories, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(60));
                 }
                 catch (ServiceException e)
                 {
@@ -99,8 +114,7 @@ namespace WebUI.Controllers
 
         private async Task<IEnumerable<Category>> GetCategories(string userId)
         {
-            return (await _categoryService.GetListAsync())
-                .Where(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Products.Any())
+            return (await _categoryService.GetListAsync(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Products.Any()))
                 .OrderBy(x => x.Name)
                 .ToList();
         }
