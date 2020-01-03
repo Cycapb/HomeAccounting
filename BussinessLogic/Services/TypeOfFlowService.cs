@@ -29,18 +29,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        public IEnumerable<Category> GetCategories(int typeOfFlowId)
-        {
-            try
-            {
-                return _tofRepository.GetItem(typeOfFlowId).Categories;
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetCategories)} при обращении к БД", e);
-            }
-        }
-
         public async Task<IEnumerable<TypeOfFlow>> GetListAsync()
         {
             try
