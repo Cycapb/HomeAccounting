@@ -76,8 +76,8 @@
     <Compile Include="IPayingItemService.cs" />
     <Compile Include="IPlanItemService.cs" />
     <Compile Include="IProductService.cs" />
-    <Compile Include="IQueryService.cs" />
-    <Compile Include="IQueryServiceAsync.cs" />
+    <Compile Include="BaseInterfaces\IQueryService.cs" />
+    <Compile Include="BaseInterfaces\IQueryServiceAsync.cs" />
     <Compile Include="ITypeOfFlowService.cs" />
     <Compile Include="Triggers\IServiceTrigger.cs" />
   </ItemGroup>

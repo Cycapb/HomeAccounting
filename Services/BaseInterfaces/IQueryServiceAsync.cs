@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Services.BaseInterfaces
 {
     public interface IQueryServiceAsync<T> where T : class
     {

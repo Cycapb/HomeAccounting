@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainModels.Model;
+using Services.BaseInterfaces;
 
 namespace Services
 {
