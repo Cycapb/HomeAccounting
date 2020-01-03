@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using Services.BaseInterfaces;
+using System.Collections.Generic;
 
 namespace Services
 {
-    public interface IPayingItemService : IQueryService<PayingItem>, IQueryServiceAsync<PayingItem>
+    public interface IPayingItemService : IQueryService<PayingItem>, IQueryServiceAsync<PayingItem>, ICommandServiceAsync<PayingItem>
     {
-        Task DeleteAsync(int id);
-        Task UpdateAsync(PayingItem item);
-        Task<PayingItem> CreateAsync(PayingItem item);
         IEnumerable<PayingItem> GetListByTypeOfFlow(IWorkingUser user, int typeOfFlow);
-        Task SaveAsync();
     }
 }

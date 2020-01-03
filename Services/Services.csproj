@@ -60,6 +60,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BaseInterfaces\ICommandServiceAsync.cs" />
     <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Exceptions\SendEmailException.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
