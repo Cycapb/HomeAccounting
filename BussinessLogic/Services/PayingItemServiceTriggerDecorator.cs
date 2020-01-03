@@ -17,7 +17,8 @@ namespace BussinessLogic.Services
         private readonly ICategoryService _categoryService;
         private readonly ITypeOfFlowService _typeOfFlowService;
 
-        public PayingItemServiceTriggerDecorator(IPayingItemService payingItemService,
+        public PayingItemServiceTriggerDecorator(
+            IPayingItemService payingItemService,
             IServiceTrigger<PayingItem> serviceTrigger,
             ICategoryService categoryService,
             ITypeOfFlowService typeOfFlowService)
