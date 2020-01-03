@@ -46,18 +46,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task<IEnumerable<OrderDetail>> GetListAsync()
-        {
-            try
-            {
-                return await _orderDetailRepository.GetListAsync();
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderDetailService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
-            }
-        }
-
         public async Task<OrderDetail> CreateAsync(OrderDetail orderDetail)
         {
             try

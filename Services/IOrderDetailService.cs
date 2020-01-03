@@ -8,7 +8,6 @@ namespace Services
     {
         Task<OrderDetail> GetItemAsync(int id);
         Task DeleteAsync(int id);
-        Task<IEnumerable<OrderDetail>> GetListAsync();
         Task<OrderDetail> CreateAsync(OrderDetail orderDetail);
     }
 }
