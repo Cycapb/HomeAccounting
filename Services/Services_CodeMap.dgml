@@ -1,65 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="(@1 @3 @15 Member=(Name=CreateAsync OverloadingParameters=[(@22 Namespace=DomainModels.Model Type=OrderDetail)]))" Category="CodeSchema_Method" Bounds="729.611270570276,254.691485714286,101.303333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CreateAsync" UseManualLocation="True" />
-    <Node Id="(@1 @3 @15 Member=(Name=DeleteAsync OverloadingParameters=[(@21 Namespace=System Type=Int32)]))" Category="CodeSchema_Method" Bounds="598.421270570276,254.691485714286,101.19,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="DeleteAsync" UseManualLocation="True" />
-    <Node Id="(@1 @3 @15 Member=(Name=GetItemAsync OverloadingParameters=[(@21 Namespace=System Type=Int32)]))" Category="CodeSchema_Method" Bounds="598.421270570276,366.611485714286,109.423333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetItemAsync" UseManualLocation="True" />
-    <Node Id="(@1 @3 @15 Member=GetListAsync)" Category="CodeSchema_Method" Bounds="598.421270570276,310.651485714286,103.266666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetListAsync" UseManualLocation="True" />
-    <Node Id="(@1 @3 Type=ICreateCloseDebtService)" Category="CodeSchema_Interface" Bounds="437.15,442.571585714286,190.366666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="ICreateCloseDebtService" />
-    <Node Id="(@1 @3 Type=IDbHelper)" Category="CodeSchema_Interface" Bounds="27.0796143864125,245,114.866666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IDbHelper" />
-    <Node Id="(@1 @3 Type=IEmailSender)" Category="CodeSchema_Interface" Bounds="171.94638066588,269.595980088,129.476666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IEmailSender" />
-    <Node Id="(@1 @3 Type=IMailSettingsProvider)" Category="CodeSchema_Interface" Bounds="233.526666666667,324.5960802816,173.623333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IMailSettingsProvider" />
-    <Node Id="(@1 @3 Type=ITypeOfFlowService)" Category="CodeSchema_Interface" Bounds="39.9999999999998,324.596080088,163.526666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="ITypeOfFlowService" />
-    <Node Id="@10" Category="CodeSchema_Interface" Bounds="678.230887083719,102.222207142857,149.446666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="ICategoryService" />
-    <Node Id="@12" Category="CodeSchema_Interface" Bounds="348.050687083719,102.222207142857,127.3,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IDebtService" />
-    <Node Id="@14" Category="CodeSchema_Interface" Bounds="332.93526904455,47.222207142857,143.776666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IMailboxService" />
-    <Node Id="@16" Category="CodeSchema_Interface" Bounds="633.214517130276,301.128810536991,162.906840213333,25.0055321728" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="4" Group="Collapsed" Label="IOrderDetailService" UseManualLocation="True" />
-    <Node Id="@17" Category="CodeSchema_Interface" Bounds="124.362688756017,157.222207142857,132.226666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IOrderService" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Interface" Label="IOrderService" SourceLocation="(Assembly=file:///F:/Documents/Github/HomeAccounting/Services/IOrderService.cs StartLineNumber=6 StartCharacterOffset=21 EndLineNumber=6 EndCharacterOffset=34)" />
-    <Node Id="@18" Category="CodeSchema_Interface" Bounds="506.712035711217,47.222207142857,160.35,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IPayingItemService" />
-    <Node Id="@19" Category="CodeSchema_Interface" Bounds="286.589455422684,157.222207142857,147.886666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IPlanItemService" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Icon="CodeSchema_Interface" Label="IPlanItemService" SourceLocation="(Assembly=file:///F:/Documents/Github/HomeAccounting/Services/IPlanItemService.cs StartLineNumber=5 StartCharacterOffset=21 EndLineNumber=5 EndCharacterOffset=37)" />
-    <Node Id="@2" Category="CodeSchema_Assembly" AssemblyTimestamp="01/01/2020 12:20:16" Bounds="-12.9203872206978,-32.7777928697103,880.598688285642,540.34937859732" CodeSchemaProperty_StrongName="Services, Version=2.0.7303.42145, Culture=neutral, PublicKeyToken=null" CommonLabel="Services" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="4" FilePath="$(40dece90-1099-4a35-b057-738a44a65bf0.OutputPath)" Group="Expanded" Label="Services.dll" />
-    <Node Id="@20" Category="CodeSchema_Interface" Bounds="505.350787083719,102.222207142857,142.88,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IProductService" />
-    <Node Id="@4" Category="CodeSchema_Namespace" Bounds="7.07961277930216,7.2222071334897,840.598688285642,480.34937859092" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Services" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="16" Group="Expanded" Label="Services" />
-    <Node Id="@5" Category="CodeSchema_Interface" Bounds="464.476222089351,157.222207142857,156.29,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsGeneric="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IQueryService‎&lt;T‎&gt;" />
-    <Node Id="@6" Category="CodeSchema_Interface" Bounds="359.513357537915,212.222207142857,187.263333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsGeneric="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IQueryServiceAsync‎&lt;T‎&gt;" />
-    <Node Id="@8" Category="CodeSchema_Interface" Bounds="173.057253750386,102.222207142857,144.993333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IAccountService" />
+    <Node Id="(@1 @3 @11 Member=(Name=CloseAsync OverloadingParameters=[@29,@29]))" Category="CodeSchema_Method" Bounds="274.663383333333,392.232242075033,95.71,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CloseAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @11 Member=(Name=CreateAsync OverloadingParameters=[(@25 @26 Type=Debt)]))" Category="CodeSchema_Method" Bounds="274.663383333333,448.192242075034,101.303333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CreateAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @11 Member=(Name=PartialCloseAsync OverloadingParameters=[@29,(@27 @28 Type=Decimal),@29]))" Category="CodeSchema_Method" Bounds="274.663383333333,504.152242075033,128.286666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="PartialCloseAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @15 Member=(Name=CreateAsync OverloadingParameters=[(@25 @26 Type=OrderDetail)]))" Category="CodeSchema_Method" Bounds="454.437154746569,292.753218651819,101.303333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CreateAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @15 Member=(Name=DeleteAsync @30))" Category="CodeSchema_Method" Bounds="323.336446090878,292.795907278772,101.19,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="DeleteAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @15 Member=(Name=GetItemAsync @30))" Category="CodeSchema_Method" Bounds="323.247165121217,348.713210120791,109.423333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetItemAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @17 Member=(Name=CloseOrder @30))" Category="CodeSchema_Method" Bounds="623.063043294016,-51.7358684517024,95.4733333333334,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CloseOrder" />
+    <Node Id="(@1 @3 @17 Member=(Name=CreateOrderAsync OverloadingParameters=[(@27 @28 Type=DateTime),(@27 @28 Type=String)]))" Category="CodeSchema_Method" Bounds="623.063035155995,60.1843344442754,132.04,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CreateOrderAsync" />
+    <Node Id="(@1 @3 @17 Member=(Name=DeleteAsync @30))" Category="CodeSchema_Method" Bounds="748.536374999745,-51.7358678072108,101.19,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="DeleteAsync" />
+    <Node Id="(@1 @3 @17 Member=(Name=SendByEmail OverloadingParameters=[@29,(@27 @28 Type=String)]))" Category="CodeSchema_Method" Bounds="623.063116943105,4.22423096340989,103.52,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="SendByEmail" />
+    <Node Id="(@1 @3 @17 Member=(Name=UpdateAsync OverloadingParameters=[(@25 @26 Type=Order)]))" Category="CodeSchema_Method" Bounds="756.583134439849,4.22423032783863,105.786666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="UpdateAsync" />
+    <Node Id="(@1 @3 @20 Member=(Name=CreateAsync OverloadingParameters=[(@25 @26 Type=PlanItem)]))" Category="CodeSchema_Method" Bounds="983.37724385869,54.1717278568307,101.303333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="CreateAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @20 Member=(Name=UpdateAsync OverloadingParameters=[(@25 @26 Type=PlanItem)]))" Category="CodeSchema_Method" Bounds="861.916126205356,110.124564976831,105.786666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="UpdateAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @20 Member=SaveAsync)" Category="CodeSchema_Method" Bounds="861.916126205356,54.1717278568307,91.4766666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="SaveAsync" UseManualLocation="True" />
+    <Node Id="(@1 @3 @23 Member=(Name=GetCategories @30))" Category="CodeSchema_Method" Bounds="614.80598010833,298.433734984973,111.003333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetCategories" />
+    <Node Id="(@1 @3 @23 Member=(Name=GetCategoriesAsync @30))" Category="CodeSchema_Method" Bounds="614.829383909395,354.418410824973,141.976666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetCategoriesAsync" />
+    <Node Id="(@1 @3 @23 Member=GetList)" Category="CodeSchema_Method" Bounds="614.829383909395,242.498410824973,72.2933333333333,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetList" />
+    <Node Id="(@1 @3 @23 Member=GetListAsync)" Category="CodeSchema_Method" Bounds="717.122717242728,242.498410824973,103.266666666667,25.96" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsVirtual="True" DelayedCrossGroupLinksState="Fetched" Label="GetListAsync" />
+    <Node Id="(@1 @3 Type=IDbHelper)" Category="CodeSchema_Interface" Bounds="-1.09636216360016,245.000000924739,114.866666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IDbHelper" />
+    <Node Id="(@1 @3 Type=IEmailSender)" Category="CodeSchema_Interface" Bounds="143.770404503067,247.552899148386,129.476666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IEmailSender" />
+    <Node Id="(@1 @3 Type=IMailSettingsProvider)" Category="CodeSchema_Interface" Bounds="39.9999513456,302.552999148386,173.623333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IMailSettingsProvider" />
+    <Node Id="@10" Category="CodeSchema_Interface" Bounds="423.616280690494,81.1442881969585,149.446666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="ICategoryService" />
+    <Node Id="@12" Category="CodeSchema_Interface" Bounds="243.623383333333,438.672442074993,190.366666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="3" Group="Collapsed" Label="ICreateCloseDebtService" UseManualLocation="True" />
+    <Node Id="@13" Category="CodeSchema_Interface" Bounds="298.720440492415,26.1442841795875,127.3,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IDebtService" />
+    <Node Id="@14" Category="CodeSchema_Interface" Bounds="355.822043609111,136.144290360159,143.776666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IMailboxService" />
+    <Node Id="@16" Category="CodeSchema_Interface" Bounds="358.071927516701,297.302135916693,162.903333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IOrderDetailService" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="3" Group="Collapsed" Icon="CodeSchema_Interface" Label="IOrderDetailService" SourceLocation="(Assembly=file:///F:/Documents/Github/HomeAccounting/Services/IOrderDetailService.cs StartLineNumber=5 StartCharacterOffset=21 EndLineNumber=5 EndCharacterOffset=40)" UseManualLocation="True" />
+    <Node Id="@18" Category="CodeSchema_Interface" Bounds="603.063047357162,-91.736114727692,279.306765950521,197.880490636843" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IOrderService" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="5" Group="Expanded" Icon="CodeSchema_Interface" Label="IOrderService" SourceLocation="(Assembly=file:///F:/Documents/Github/HomeAccounting/Services/IOrderService.cs StartLineNumber=6 StartCharacterOffset=21 EndLineNumber=6 EndCharacterOffset=34)" UseManualLocation="True" />
+    <Node Id="@19" Category="CodeSchema_Interface" Bounds="165.471943609111,136.144288776387,160.35,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IPayingItemService" />
+    <Node Id="@2" Category="CodeSchema_Assembly" AssemblyTimestamp="01/01/2020 12:20:16" Bounds="-41.0963621636004,-171.736193536623,963.457232276063,675.408635611617" CodeSchemaProperty_StrongName="Services, Version=2.0.7303.42145, Culture=neutral, PublicKeyToken=null" CommonLabel="Services" DelayedChildNodesState="Incomplete" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="4" FilePath="$(40dece90-1099-4a35-b057-738a44a65bf0.OutputPath)" Group="Expanded" Label="Services.dll" />
+    <Node Id="@21" Category="CodeSchema_Interface" Bounds="529.598810275778,136.144288760593,147.886666666667,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" CommonLabel="IPlanItemService" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="3" Group="Collapsed" Icon="CodeSchema_Interface" Label="IPlanItemService" SourceLocation="(Assembly=file:///F:/Documents/Github/HomeAccounting/Services/IPlanItemService.cs StartLineNumber=5 StartCharacterOffset=21 EndLineNumber=5 EndCharacterOffset=37)" UseManualLocation="True" />
+    <Node Id="@22" Category="CodeSchema_Interface" Bounds="250.736180690495,81.1442866131874,142.88,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IProductService" />
+    <Node Id="@24" Category="CodeSchema_Interface" Bounds="594.906969858395,202.496284283636,245.583425292969,197.904949658203" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="4" Group="Expanded" Label="ITypeOfFlowService" UseManualLocation="True" />
+    <Node Id="@4" Category="CodeSchema_Namespace" Bounds="-21.0963621636004,-131.736193536623,923.457232276063,615.408635611617" CodeSchemaProperty_IsPublic="True" CodeSchemaProperty_IsStatic="True" CommonLabel="Services" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="16" Group="Expanded" Label="Services" />
+    <Node Id="@5" Category="CodeSchema_Interface" Bounds="182.396455638885,191.144290939587,156.29,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsGeneric="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IQueryService‎&lt;T‎&gt;" />
+    <Node Id="@6" Category="CodeSchema_Interface" Bounds="368.686555638884,191.144290923793,187.263333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsGeneric="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IQueryServiceAsync‎&lt;T‎&gt;" />
+    <Node Id="@8" Category="CodeSchema_Interface" Bounds="75.7427473571616,81.1442863427875,144.993333333333,25" CodeSchemaProperty_IsAbstract="True" CodeSchemaProperty_IsPublic="True" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="IAccountService" />
   </Nodes>
   <Links>
-    <Link Source="@10" Target="@5" Category="Implements" Bounds="599.615148133836,127.222207142857,105.536121454371,27.5966523487858" Weight="1" />
-    <Link Source="@10" Target="@6" Category="Implements" Bounds="531.142272949219,127.222206115723,202.159851074219,83.298210144043" Weight="1" />
-    <Link Source="@12" Target="@5" Category="Implements" Bounds="441.455357466996,127.222207142857,62.6526894799202,26.3205307456654" Weight="1" />
-    <Link Source="@12" Target="@6" Category="Implements" Bounds="424.410705566406,127.222206115723,22.9595642089844,75.8200759887695" Weight="1" />
-    <Link Source="@14" Target="@5" Category="Implements" Bounds="435.975769042969,72.2222061157227,88.221923828125,78.1132125854492" Weight="1" />
-    <Link Source="@14" Target="@6" Category="Implements" Bounds="435.975769042969,72.2222061157227,49.5090942382813,130.502418518066" Weight="1" />
-    <Link Source="@16" Target="(@1 @3 @15 Member=(Name=CreateAsync OverloadingParameters=[(@22 Namespace=DomainModels.Model Type=OrderDetail)]))" Category="Contains" FetchingParent="@16" />
-    <Link Source="@16" Target="(@1 @3 @15 Member=(Name=DeleteAsync OverloadingParameters=[(@21 Namespace=System Type=Int32)]))" Category="Contains" FetchingParent="@16" />
-    <Link Source="@16" Target="(@1 @3 @15 Member=(Name=GetItemAsync OverloadingParameters=[(@21 Namespace=System Type=Int32)]))" Category="Contains" FetchingParent="@16" />
-    <Link Source="@16" Target="(@1 @3 @15 Member=GetListAsync)" Category="Contains" FetchingParent="@16" />
-    <Link Source="@17" Target="@6" Category="Implements" Bounds="250.173524390865,182.222207142857,133.975651417951,28.0530279211083" Weight="1" />
-    <Link Source="@18" Target="@5" Category="Implements" Bounds="495.666076660156,72.2222061157227,55.81689453125,77.9842147827148" Weight="1" />
-    <Link Source="@18" Target="@6" Category="Implements" Bounds="453.552032470703,72.2222061157227,97.9309387207031,130.502418518066" Weight="1" />
-    <Link Source="@19" Target="@6" Category="Implements" Bounds="381.581025906017,182.222207142857,42.3475890231076,25.149132887638" Weight="1" />
+    <Link Source="@10" Target="@5" Category="Implements" Bounds="298.376586914063,106.14429473877,140.998352050781,81.2263259887695" Weight="1" />
+    <Link Source="@10" Target="@6" Category="Implements" Bounds="488.467376708984,106.14429473877,14.8437805175781,79.6440353393555" Weight="1" />
+    <Link Source="@12" Target="(@1 @3 @11 Member=(Name=CloseAsync OverloadingParameters=[@29,@29]))" Category="Contains" FetchingParent="@12" />
+    <Link Source="@12" Target="(@1 @3 @11 Member=(Name=CreateAsync OverloadingParameters=[(@25 @26 Type=Debt)]))" Category="Contains" FetchingParent="@12" />
+    <Link Source="@12" Target="(@1 @3 @11 Member=(Name=PartialCloseAsync OverloadingParameters=[@29,(@27 @28 Type=Decimal),@29]))" Category="Contains" FetchingParent="@12" />
+    <Link Source="@13" Target="@5" Category="Implements" Bounds="298.376586914063,51.1442985534668,105.364837646484,136.226322174072" Weight="1" />
+    <Link Source="@13" Target="@6" Category="Implements" Bounds="372.871917724609,51.1442985534668,136.851715087891,134.557834625244" Weight="1" />
+    <Link Source="@14" Target="@5" Category="Implements" Bounds="307.549457951671,161.144297100219,82.1587895018093,27.0309801466939" Weight="1" />
+    <Link Source="@14" Target="@6" Category="Implements" Bounds="435.566603514086,161.144297100219,13.8176651779992,21.959367933055" Weight="1" />
+    <Link Source="@16" Target="(@1 @3 @15 Member=(Name=CreateAsync OverloadingParameters=[(@25 @26 Type=OrderDetail)]))" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="(@1 @3 @15 Member=(Name=DeleteAsync @30))" Category="Contains" FetchingParent="@16" />
+    <Link Source="@16" Target="(@1 @3 @15 Member=(Name=GetItemAsync @30))" Category="Contains" FetchingParent="@16" />
+    <Link Source="@18" Target="(@1 @3 @17 Member=(Name=CloseOrder @30))" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="(@1 @3 @17 Member=(Name=CreateOrderAsync OverloadingParameters=[(@27 @28 Type=DateTime),(@27 @28 Type=String)]))" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="(@1 @3 @17 Member=(Name=DeleteAsync @30))" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="(@1 @3 @17 Member=(Name=SendByEmail OverloadingParameters=[@29,(@27 @28 Type=String)]))" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="(@1 @3 @17 Member=(Name=UpdateAsync OverloadingParameters=[(@25 @26 Type=Order)]))" Category="Contains" FetchingParent="@18" />
+    <Link Source="@18" Target="@6" Category="Implements" Bounds="480.735595703125,90.3401031494141,122.331115722656,93.9180145263672" Weight="1" />
+    <Link Source="@19" Target="@5" Category="Implements" Bounds="249.02286715045,161.144297100219,5.64112944557027,20.8303037976476" Weight="1" />
+    <Link Source="@19" Target="@6" Category="Implements" Bounds="294.881223211056,161.144297100219,108.976489427685,27.6626437773354" Weight="1" />
     <Link Source="@2" Target="@4" Category="Contains" FetchingParent="@2" />
-    <Link Source="@20" Target="@5" Category="Implements" Bounds="555.400332132587,127.222207142857,13.6246480616815,21.9304988412663" Weight="1" />
-    <Link Source="@20" Target="@6" Category="Implements" Bounds="453.484222412109,127.222206115723,76.0156555175781,75.5011367797852" Weight="1" />
-    <Link Source="@4" Target="(@1 @3 Type=ICreateCloseDebtService)" Category="Contains" FetchingParent="@4" />
+    <Link Source="@21" Target="(@1 @3 @20 Member=(Name=CreateAsync OverloadingParameters=[(@25 @26 Type=PlanItem)]))" Category="Contains" FetchingParent="@21" />
+    <Link Source="@21" Target="(@1 @3 @20 Member=(Name=UpdateAsync OverloadingParameters=[(@25 @26 Type=PlanItem)]))" Category="Contains" FetchingParent="@21" />
+    <Link Source="@21" Target="(@1 @3 @20 Member=SaveAsync)" Category="Contains" FetchingParent="@21" />
+    <Link Source="@21" Target="@6" Category="Implements" Bounds="503.257859952227,161.144297100219,68.1787450770115,26.5524225792917" Weight="1" />
+    <Link Source="@22" Target="@5" Category="Implements" Bounds="298.388214111328,106.14429473877,30.8308410644531,81.2533340454102" Weight="1" />
+    <Link Source="@22" Target="@6" Category="Implements" Bounds="325.952850341797,106.14429473877,82.1584167480469,82.4596786499023" Weight="1" />
+    <Link Source="@24" Target="(@1 @3 @23 Member=(Name=GetCategories @30))" Category="Contains" FetchingParent="@24" />
+    <Link Source="@24" Target="(@1 @3 @23 Member=(Name=GetCategoriesAsync @30))" Category="Contains" FetchingParent="@24" />
+    <Link Source="@24" Target="(@1 @3 @23 Member=GetList)" Category="Contains" FetchingParent="@24" />
+    <Link Source="@24" Target="(@1 @3 @23 Member=GetListAsync)" Category="Contains" FetchingParent="@24" />
     <Link Source="@4" Target="(@1 @3 Type=IDbHelper)" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="(@1 @3 Type=IEmailSender)" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="(@1 @3 Type=IMailSettingsProvider)" Category="Contains" FetchingParent="@4" />
-    <Link Source="@4" Target="(@1 @3 Type=ITypeOfFlowService)" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@10" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@12" Category="Contains" FetchingParent="@4" />
+    <Link Source="@4" Target="@13" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@14" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@16" Category="Contains" FetchingParent="@4" />
-    <Link Source="@4" Target="@17" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@18" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@19" Category="Contains" FetchingParent="@4" />
-    <Link Source="@4" Target="@20" Category="Contains" FetchingParent="@4" />
+    <Link Source="@4" Target="@21" Category="Contains" FetchingParent="@4" />
+    <Link Source="@4" Target="@22" Category="Contains" FetchingParent="@4" />
+    <Link Source="@4" Target="@24" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@5" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@6" Category="Contains" FetchingParent="@4" />
     <Link Source="@4" Target="@8" Category="Contains" FetchingParent="@4" />
-    <Link Source="@8" Target="@5" Category="Implements" Bounds="313.069035827918,127.222173120883,152.695643614528,28.270564953966" Weight="1" />
-    <Link Source="@8" Target="@6" Category="Implements" Bounds="250.529403686523,127.222206115723,125.031784057617,83.2882766723633" Weight="1" />
+    <Link Source="@8" Target="@5" Category="Implements" Bounds="149.373336791992,106.14429473877,61.4482879638672,82.2065505981445" Weight="1" />
+    <Link Source="@8" Target="@6" Category="Implements" Bounds="217.886001586914,105.65421295166,190.226303100586,82.9460525512695" Weight="1" />
   </Links>
   <Categories>
     <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
@@ -131,18 +159,26 @@
     <Alias n="8" Id="(@1 @3 @7)" />
     <Alias n="9" Id="Type=ICategoryService" />
     <Alias n="10" Id="(@1 @3 @9)" />
-    <Alias n="11" Id="Type=IDebtService" />
+    <Alias n="11" Id="Type=ICreateCloseDebtService" />
     <Alias n="12" Id="(@1 @3 @11)" />
-    <Alias n="13" Id="Type=IMailboxService" />
-    <Alias n="14" Id="(@1 @3 @13)" />
+    <Alias n="13" Id="(@1 @3 Type=IDebtService)" />
+    <Alias n="14" Id="(@1 @3 Type=IMailboxService)" />
     <Alias n="15" Id="Type=IOrderDetailService" />
     <Alias n="16" Id="(@1 @3 @15)" />
-    <Alias n="17" Id="(@1 @3 Type=IOrderService)" />
-    <Alias n="18" Id="(@1 @3 Type=IPayingItemService)" />
-    <Alias n="19" Id="(@1 @3 Type=IPlanItemService)" />
-    <Alias n="20" Id="(@1 @3 Type=IProductService)" />
-    <Alias n="21" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.7.2/mscorlib.dll" />
-    <Alias n="22" Uri="Assembly=$(fdb4f8ed-2819-4e48-82b2-50e3ce598a5a.OutputPathUri)" />
+    <Alias n="17" Id="Type=IOrderService" />
+    <Alias n="18" Id="(@1 @3 @17)" />
+    <Alias n="19" Id="(@1 @3 Type=IPayingItemService)" />
+    <Alias n="20" Id="Type=IPlanItemService" />
+    <Alias n="21" Id="(@1 @3 @20)" />
+    <Alias n="22" Id="(@1 @3 Type=IProductService)" />
+    <Alias n="23" Id="Type=ITypeOfFlowService" />
+    <Alias n="24" Id="(@1 @3 @23)" />
+    <Alias n="25" Uri="Assembly=$(fdb4f8ed-2819-4e48-82b2-50e3ce598a5a.OutputPathUri)" />
+    <Alias n="26" Id="Namespace=DomainModels.Model" />
+    <Alias n="27" Uri="Assembly=$(FxReferenceAssembliesUri)/.NETFramework/v4.7.2/mscorlib.dll" />
+    <Alias n="28" Id="Namespace=System" />
+    <Alias n="29" Id="(@27 @28 Type=Int32)" />
+    <Alias n="30" Id="OverloadingParameters=[@29]" />
   </IdentifierAliases>
   <Styles>
     <Style TargetType="Node" GroupLabel="Results" ValueLabel="True">

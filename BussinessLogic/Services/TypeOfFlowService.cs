@@ -33,7 +33,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return _tofRepository.GetItem(typeOfFlowId).Categorys;
+                return _tofRepository.GetItem(typeOfFlowId).Categories;
             }
             catch (DomainModelsException e)
             {
@@ -57,7 +57,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (await _tofRepository.GetItemAsync(typeOfFlowId)).Categorys;
+                return (await _tofRepository.GetItemAsync(typeOfFlowId)).Categories;
             }
             catch (DomainModelsException e)
             {
