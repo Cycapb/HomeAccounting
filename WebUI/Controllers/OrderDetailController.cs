@@ -18,34 +18,43 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class OrderDetailController : Controller
     {
-        private readonly IOrderDetailService _orderDetailService;
         private readonly ICategoryService _categoryService;
         private readonly ICacheManager _cacheManager;
+        private readonly IOrderService _orderService;
+        private readonly IProductService _productService;
 
-        public OrderDetailController(
-            IOrderDetailService orderDetailService,
+        public OrderDetailController(     
             ICategoryService categoryService,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            IOrderService orderService,
+            IProductService productService)
         {
-            _orderDetailService = orderDetailService;
             _categoryService = categoryService;
             _cacheManager = cacheManager;
+            _orderService = orderService;
+            _productService = productService;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id, int orderId)
         {
-            int orderId;
             try
             {
-                orderId = (await _orderDetailService.GetItemAsync(id)).OrderId;
-                await _orderDetailService.DeleteAsync(id);
+                var order = await _orderService.GetItemAsync(orderId);
+                var orderDetail = order.OrderDetails.FirstOrDefault(x => x.ID == id);
+
+                if (orderDetail != null)
+                {
+                    order.OrderDetails.Remove(orderDetail);
+                    await _orderService.UpdateAsync(order);
+                }
+
+                return RedirectToAction("Edit", "Order", new { id = orderId });
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(Delete)}", e);
             }
-            return RedirectToAction("Edit", "Order", new {id = orderId});
         }
 
         public async Task<ActionResult> Add(WebUser user, int id)
@@ -80,13 +89,17 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _orderDetailService.CreateAsync(orderDetail);
+                var order = await _orderService.GetItemAsync(orderDetail.OrderId);
+                orderDetail.ProductPrice = (await _productService.GetItemAsync(orderDetail.ProductId)).PayingItemProducts.LastOrDefault()?.Price;
+                order.OrderDetails.Add(orderDetail);
+                await _orderService.UpdateAsync(order);
+
+                return RedirectToAction("Edit", "Order", new { id = orderDetail.OrderId });
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(Add)}", e);
             }
-            return RedirectToAction("Edit", "Order", new {id = orderDetail.OrderId});
         }
 
         public async Task<ActionResult> GetSubCategories(int id)

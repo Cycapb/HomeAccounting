@@ -30,6 +30,7 @@
                                     UpdateTargetId = "orderDetailDiv"
                                 }))
                                 {
+                                    @Html.HiddenFor(x => x.OrderID)
                                     <input type="submit" value="Удалить" class="btn btn-xs btn-danger btn-raised"/>
                                 }
                             </td>

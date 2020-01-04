@@ -40,18 +40,17 @@ namespace WebUI.Controllers
         }
 
         public async Task<ActionResult> OrderList(WebUser user)
-        {
-            List<Order> orders;
+        {            
             try
             {
-                orders = (await _orderService.GetListAsync(o => o.UserId == user.Id && o.Active)).ToList();
+                var orders = (await _orderService.GetListAsync(o => o.UserId == user.Id && o.Active)).ToList();
+
+                return PartialView("_OrderList", orders);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(OrderList)}", e);
             }
-
-            return PartialView("_OrderList", orders);
         }
 
         [HttpPost]
@@ -95,14 +94,14 @@ namespace WebUI.Controllers
                     Active = true
                 };
 
-                await _orderService.CreateAsync(order);
+                var createdOrder = await _orderService.CreateAsync(order);
+
+                return RedirectToAction("Edit", new { id = createdOrder.OrderID});
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Add)}", e);
             }
-
-            return RedirectToAction("OrderList");
         }
 
         [HttpPost]
