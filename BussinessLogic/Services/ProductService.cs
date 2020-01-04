@@ -20,12 +20,14 @@ namespace BussinessLogic.Services
             _productRepository = productRepository;
         }
 
-        public async Task CreateAsync(Product product)
+        public async Task<Product> CreateAsync(Product product)
         {
             try
             {
-                await _productRepository.CreateAsync(product);
+                var createdItem = await _productRepository.CreateAsync(product);
                 await _productRepository.SaveAsync();
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -73,8 +75,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var dependencies = (await _productRepository.GetItemAsync(id)).PayingItemProducts.Any();
-                if (dependencies)
+                var hasDependencies = (await _productRepository.GetItemAsync(id)).PayingItemProducts.Any();
+                if (hasDependencies)
                 {
                     return;
                 }
@@ -97,18 +99,6 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task SaveAsync()
-        {
-            try
-            {
-                await _productRepository.SaveAsync();
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
             }
         }
 
