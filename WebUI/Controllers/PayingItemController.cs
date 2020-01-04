@@ -275,7 +275,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                var products = (await _categoryService.GetProducts(id)).ToList();
+                var products = (await _categoryService.GetItemAsync(id)).Products.ToList();
                 return PartialView("_GetSubCategoriesForEdit", products);
             }
             catch (ServiceException e)

@@ -20,13 +20,15 @@ namespace BussinessLogic.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task CreateAsync(Category item)
+        public async Task<Category> CreateAsync(Category item)
         {
             try
             {
                 item.Active = true;
-                await _categoryRepository.CreateAsync(item);
+                var createdItem = await _categoryRepository.CreateAsync(item);
                 await _categoryRepository.SaveAsync();
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -88,34 +90,11 @@ namespace BussinessLogic.Services
             try
             {
                 await _categoryRepository.UpdateAsync(item);
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task SaveAsync()
-        {
-            try
-            {
                 await _categoryRepository.SaveAsync();
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task<IEnumerable<Product>> GetProducts(int id)
-        {
-            try
-            {
-                return (await _categoryRepository.GetItemAsync(id)).Products;
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetProducts)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
             }
         }
 

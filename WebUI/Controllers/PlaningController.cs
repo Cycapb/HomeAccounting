@@ -132,7 +132,6 @@ namespace WebUI.Controllers
                 {
                     x.ViewInPlan = false;
                 });
-            await _categoryService.SaveAsync();
             
             return Json(new {url = Url.Action("ViewPlan")});
         }

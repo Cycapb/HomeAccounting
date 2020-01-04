@@ -132,7 +132,6 @@ namespace WebUI.Controllers
                 try
                 {
                     await _categoryService.UpdateAsync(category);
-                    await _categoryService.SaveAsync();
                     return RedirectToAction("GetCategoriesAndPages");
                 }
                 catch (ServiceException e)
