@@ -2,7 +2,6 @@
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
-using Services.BaseInterfaces;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
