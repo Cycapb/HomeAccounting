@@ -5,7 +5,6 @@ using Services;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -32,11 +31,13 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task CreateAsync(PlanItem planItem)
+        public async Task<PlanItem> CreateAsync(PlanItem planItem)
         {
             try
             {
-                await _pItemRepository.CreateAsync(planItem);
+                var createdItem = await _pItemRepository.CreateAsync(planItem);
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -89,6 +90,18 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            try
+            {
+                await _pItemRepository.DeleteAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
             }
         }
     }

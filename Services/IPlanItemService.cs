@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IPlanItemService : IQueryServiceAsync<PlanItem>
+    public interface IPlanItemService : IQueryServiceAsync<PlanItem>, ICommandServiceAsync<PlanItem>
     {
-        Task CreateAsync(PlanItem planItem);
-        Task UpdateAsync(PlanItem planItem);
         Task SaveAsync();
     }
 }
