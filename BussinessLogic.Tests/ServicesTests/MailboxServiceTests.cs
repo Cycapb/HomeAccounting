@@ -36,7 +36,7 @@ namespace BussinessLogic.Tests.ServicesTests
             var notificationMailBox = new NotificationMailBox() { Id = 1};
             _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).ReturnsAsync(notificationMailBox);
 
-            var result = await _service.AddAsync(notificationMailBox);
+            var result = await _service.CreateAsync(notificationMailBox);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Id);
@@ -49,7 +49,7 @@ namespace BussinessLogic.Tests.ServicesTests
         {
             _repository.Setup(x => x.CreateAsync(It.IsAny<NotificationMailBox>())).Throws<DomainModelsException>();
             
-            await _service.AddAsync(new NotificationMailBox());            
+            await _service.CreateAsync(new NotificationMailBox());            
         }
 
         [TestMethod]

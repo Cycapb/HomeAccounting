@@ -88,7 +88,14 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _orderService.CreateOrderAsync(DateTime.Now, user.Id);
+                var order = new Order()
+                {
+                    OrderDate = DateTime.Now,
+                    UserId = user.Id,
+                    Active = true
+                };
+
+                await _orderService.CreateAsync(order);
             }
             catch (ServiceException e)
             {

@@ -23,15 +23,8 @@ namespace BussinessLogic.Services
             _emailSender = emailSender;
         }
 
-        public async Task<Order> CreateOrderAsync(DateTime orderDate, string userId)
+        public async Task<Order> CreateAsync(Order order)
         {
-            var order = new Order()
-            {
-                OrderDate = orderDate,
-                UserId = userId,
-                Active = true
-            };
-
             try
             {
                 var newOrder = await _orderRepository.CreateAsync(order);
@@ -40,7 +33,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CreateOrderAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
             }
         }
 
