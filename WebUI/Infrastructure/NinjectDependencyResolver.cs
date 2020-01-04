@@ -61,7 +61,6 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IMailSettingsProvider>().To<AccountingNotificationMailBoxProvider>();
             _kernel.Bind<IEmailSender>().To<OrderSenderService>();
             _kernel.Bind<IOrderService>().To<OrderService>();
-            _kernel.Bind<IOrderDetailService>().To<OrderDetailService>();
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();
             _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();

@@ -104,7 +104,6 @@
     <Compile Include="ProvidersTests\SingleIpAddressProviderTests.cs" />
     <Compile Include="ProvidersTests\SingleIpAddressProviderLoggingDecoratorTests.cs" />
     <Compile Include="ServicesTests\MailboxServiceTests.cs" />
-    <Compile Include="ServicesTests\OrderDetailServiceTests.cs" />
     <Compile Include="ServicesTests\CategoryServiceTests.cs" />
     <Compile Include="ServicesTests\OrderServiceTests.cs" />
     <Compile Include="ServicesTests\PayingItemServiceTests.cs" />
