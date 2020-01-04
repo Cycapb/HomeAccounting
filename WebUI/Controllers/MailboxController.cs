@@ -72,7 +72,7 @@ namespace WebUI.Controllers
                 };
                 try
                 {
-                    await _mailboxService.AddAsync(box);
+                    await _mailboxService.CreateAsync(box);
                     return RedirectToAction("Index");
                 }
                 catch (ServiceException e)

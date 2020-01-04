@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DomainModels.Repositories;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
+using DomainModels.Repositories;
 using Services;
-using NLog;
 using Services.Exceptions;
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
     public class MailboxService : IMailboxService
     {
-        private readonly IRepository<NotificationMailBox> _repository;        
+        private readonly IRepository<NotificationMailBox> _repository;
 
         public MailboxService(IRepository<NotificationMailBox> repository)
         {
             _repository = repository;
         }
 
-        public async Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox)
+        public async Task<NotificationMailBox> CreateAsync(NotificationMailBox mailbox)
         {
             try
             {
@@ -31,10 +30,10 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                var message = CreateMessage(e);                
-                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(AddAsync)} при обращении к БД", e);
+                var message = CreateMessage(e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
             }
-        }        
+        }
 
         public async Task DeleteAsync(int id)
         {
@@ -119,16 +118,7 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
-            }            
-        }
-
-        private string CreateMessage(Exception ex)
-        {
-            var errorMessage = new StringBuilder();
-            errorMessage.AppendLine("\r\n");
-            errorMessage.AppendLine($"Ошибка: {ex.Message}");
-            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
-            return errorMessage.ToString();
+            }
         }
 
         public NotificationMailBox GetItem(int id)
@@ -141,6 +131,15 @@ namespace BussinessLogic.Services
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetItem)} при обращении к БД", e);
             }
+        }
+
+        private string CreateMessage(Exception ex)
+        {
+            var errorMessage = new StringBuilder();
+            errorMessage.AppendLine("\r\n");
+            errorMessage.AppendLine($"Ошибка: {ex.Message}");
+            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
+            return errorMessage.ToString();
         }
     }
 }
