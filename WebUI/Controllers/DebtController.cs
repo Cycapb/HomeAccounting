@@ -22,7 +22,8 @@ namespace WebUI.Controllers
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IAccountService _accService;
 
-        public DebtController(IDebtService debtService, 
+        public DebtController(
+            IDebtService debtService, 
             ICreateCloseDebtService createCloseDebtService, 
             IAccountService accService)
         {

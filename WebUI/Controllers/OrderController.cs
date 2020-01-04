@@ -70,17 +70,16 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            Order order;
             try
             {
-                order = await _orderService.GetItemAsync(id);
+                var order = await _orderService.GetItemAsync(id);
+
+                return PartialView("_OrderDetailsList", order);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Edit)}", e);
             }
-
-            return PartialView("_OrderDetailsList", order);
         }
 
         [HttpPost]

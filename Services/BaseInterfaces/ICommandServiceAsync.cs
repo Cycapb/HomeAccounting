@@ -7,10 +7,8 @@ namespace Services.BaseInterfaces
     {
         Task DeleteAsync(int id);
 
-        Task UpdateAsync(PayingItem item);
+        Task UpdateAsync(T item);
 
-        Task<PayingItem> CreateAsync(PayingItem item);
-
-        Task SaveAsync();
+        Task<T> CreateAsync(T item);
     }
 }

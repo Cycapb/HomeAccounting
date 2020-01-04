@@ -14,7 +14,8 @@ namespace BussinessLogic.Services
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Debt> _debtRepository;
 
-        public CreateCloseDebtServicePayingItemDecorator(ICreateCloseDebtService createCloseDebtService, 
+        public CreateCloseDebtServicePayingItemDecorator(
+            ICreateCloseDebtService createCloseDebtService, 
             IRepository<PayingItem> payingItemRepository, 
             IRepository<Category> categoryRepository,
             IRepository<Debt> debtRepository

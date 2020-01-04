@@ -63,16 +63,7 @@ namespace BussinessLogic.Services
             try
             {
                 (var oldPayingItem, var newPayingItem) = await GetNewAndOldItems(item);
-
-                if (item.PayingItemProducts.Count == 0)
-                {
-                    await _payingItemService.UpdateAsync(item);
-                }
-                else
-                {
-                    await _payingItemService.SaveAsync();
-                }
-
+                await _payingItemService.UpdateAsync(item);
                 await _serviceTrigger.Update(oldPayingItem, newPayingItem);
             }            
             catch (ServiceException e)
@@ -120,12 +111,7 @@ namespace BussinessLogic.Services
         public IEnumerable<PayingItem> GetList(Expression<Func<PayingItem, bool>> predicate)
         {
             return _payingItemService.GetList(predicate);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _payingItemService.SaveAsync();
-        }
+        }        
 
         private async Task<(PayingItem OldItem, PayingItem NewItem)> GetNewAndOldItems(PayingItem item)
         {

@@ -122,18 +122,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        public Task SaveAsync()
-        {
-            try
-            {
-                return _repository.SaveAsync();
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
-            }
-        }
-
         public PayingItem GetItem(int id)
         {
             try

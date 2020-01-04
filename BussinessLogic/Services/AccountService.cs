@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
-using DomainModels.Exceptions;
 using Services;
+using Services.BaseInterfaces;
 using Services.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class AccountService:IAccountService
+    public class AccountService : IAccountService
     {
         private readonly IRepository<Account> _accountRepository;
 
@@ -20,12 +21,14 @@ namespace BussinessLogic.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task CreateAsync(Account item)
+        public async Task<Account> CreateAsync(Account item)
         {
             try
             {
-                await _accountRepository.CreateAsync(item);
+                var createdItem = await _accountRepository.CreateAsync(item);
                 await _accountRepository.SaveAsync();
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
