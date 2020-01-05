@@ -90,7 +90,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = CreatePayingItemViewModelWithProductsInItem();
+            var payingItemViewModel = CreatePayingItemViewModelWithCheckedProductsInItem();
 
             var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
 
@@ -175,7 +175,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = CreatePayingItemViewModelWithProductsInItem();
+            var payingItemViewModel = CreatePayingItemViewModelWithCheckedProductsInItem();
 
             var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
 
@@ -275,7 +275,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = CreatePayingItemViewModelWithProductsInItem();
+            var payingItemViewModel = CreatePayingItemViewModelWithCheckedProductsInItem();
 
             var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
             var payingItemProducts = result.PayingItemProducts.ToList();
@@ -286,7 +286,94 @@ namespace WebUI.Tests.HelpersTests
             Assert.AreEqual(3, payingItemProducts[2].ProductId);
         }
 
-        private PayingItemEditViewModel CreatePayingItemViewModelWithProductsInItem()
+        [TestMethod]
+        [TestCategory("PayingItemUpdaterTests")]
+        public async Task SetCorrectSumIfProductsInItemAreUncheckedAndProductsNotInItemAreUnchecked()
+        {
+            var payingItem = new PayingItem()
+            {
+                ItemID = 1
+            };
+            _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
+            var target = new PayingItemUpdater(_payinItemServiceMock.Object);
+            var payingItemViewModel = new PayingItemEditViewModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    ItemID = 1,
+                    Summ = 500M
+                },
+                ProductsInItem = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 200
+                    },
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 100
+                    }
+                },
+                ProductsNotInItem = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 100
+                    },
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 200
+                    }
+                }
+            };
+
+            var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
+
+            Assert.AreEqual(0, result.Summ);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemUpdaterTests")]
+        public async Task SetCorrectSumIfProductsInItemAreUncheckedAndProductsNotInItemAreNull()
+        {
+            var payingItem = new PayingItem()
+            {
+                ItemID = 1
+            };
+            _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
+            var target = new PayingItemUpdater(_payinItemServiceMock.Object);
+            var payingItemViewModel = new PayingItemEditViewModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    ItemID = 1,
+                    Summ = 500M
+                },
+                ProductsInItem = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 200
+                    },
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 100
+                    }
+                }                
+            };
+
+            var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
+
+            Assert.AreEqual(500, result.Summ);
+        }
+
+        private PayingItemEditViewModel CreatePayingItemViewModelWithCheckedProductsInItem()
         {
             return new PayingItemEditViewModel()
             {

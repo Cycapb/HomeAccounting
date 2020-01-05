@@ -27,8 +27,9 @@ namespace WebUI.Helpers
 
             var sum = GetSumOfTheProducts(model);
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID).ConfigureAwait(false);
-            payingItem.Summ = sum == 0 ? model.PayingItem.Summ : sum;
+            payingItem.Summ = sum;
             var comment = CreateCommentForPayingItem(model);
+
             payingItem.Comment = string.IsNullOrEmpty(comment) ? model.PayingItem.Comment : comment;
             payingItem.CategoryID = model.PayingItem.CategoryID;
             payingItem.AccountID = model.PayingItem.AccountID;
@@ -83,13 +84,26 @@ namespace WebUI.Helpers
         {
             var products = new List<Product>();
 
-            if (model.ProductsInItem != null)
+            if (model.ProductsInItem == null && model.ProductsNotInItem == null)
             {
-                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
+                return model.PayingItem.Summ;
             }
 
-            if (model.ProductsNotInItem != null)
+            if (model.ProductsInItem != null && model.ProductsNotInItem == null)
             {
+                if (model.ProductsInItem.Any(x => x.ProductID != 0))
+                {
+                    products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
+
+                    return products.Sum(x => x.Price);
+                }
+
+                return model.PayingItem.Summ;
+            }
+
+            if (model.ProductsInItem != null && model.ProductsNotInItem != null)
+            {
+                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
                 products.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).ToList());
             }
 
