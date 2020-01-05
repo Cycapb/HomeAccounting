@@ -82,6 +82,84 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
+        public async Task SetCorrectCommentIfProductsInItemAreUncheckedAndProductsNotInItemAreNull()
+        {
+            var payingItem = new PayingItem()
+            {
+                ItemID = 1
+            };
+            _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
+            var target = new PayingItemUpdater(_payinItemServiceMock.Object);
+            var payingItemViewModel = new PayingItemEditViewModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    ItemID = 1,
+                    Summ = 500M,
+                    Comment = "CommentFromViewModel"
+                },
+                ProductsInItem = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 200
+                    },
+                    new Product()
+                    {
+                        ProductID = 0,
+                        Price = 100
+                    }
+                }
+            };
+
+            var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
+
+            Assert.AreEqual("CommentFromViewModel", result.Comment);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemUpdaterTests")]
+        public async Task SetCorrectCommentIfProductsInItemAreCheckedAndProductsNotInItemAreNull()
+        {
+            var payingItem = new PayingItem()
+            {
+                ItemID = 1
+            };
+            _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
+            var target = new PayingItemUpdater(_payinItemServiceMock.Object);
+            var payingItemViewModel = new PayingItemEditViewModel()
+            {
+                PayingItem = new PayingItem()
+                {
+                    ItemID = 1,
+                    Summ = 500M,
+                    Comment = "CommentFromViewModel"
+                },
+                ProductsInItem = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductID = 1,
+                        Price = 200,
+                        ProductName = "P1"
+                    },
+                    new Product()
+                    {
+                        ProductID = 2,
+                        Price = 100,
+                        ProductName = "P2"
+                    }
+                }
+            };
+
+            var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
+
+            Assert.AreEqual("P1, P2", result.Comment);
+        }
+
+        [TestMethod]
+        [TestCategory("PayingItemUpdaterTests")]
         public async Task SetCorrectSumFromViewModelIfProductsInItemAreNotNull()
         {
             var payingItem = new PayingItem()

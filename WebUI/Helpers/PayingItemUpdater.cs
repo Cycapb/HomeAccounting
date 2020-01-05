@@ -30,7 +30,7 @@ namespace WebUI.Helpers
             payingItem.Summ = sum;
             var comment = CreateCommentForPayingItem(model);
 
-            payingItem.Comment = string.IsNullOrEmpty(comment) ? model.PayingItem.Comment : comment;
+            payingItem.Comment = comment;
             payingItem.CategoryID = model.PayingItem.CategoryID;
             payingItem.AccountID = model.PayingItem.AccountID;
 
@@ -115,19 +115,37 @@ namespace WebUI.Helpers
             var productsNames = new List<string>();
             var comment = string.Empty;
 
-            if (model.ProductsInItem != null)
+            if (model.ProductsInItem == null && model.ProductsNotInItem == null)
             {
-                productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName).ToList());
+                return model.PayingItem.Comment;
             }
 
-            if (model.ProductsNotInItem != null)
+            if (model.ProductsInItem != null && model.ProductsNotInItem == null)
             {
-                productsNames.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName).ToList());
+                if (model.ProductsInItem.Any(x => x.ProductID != 0))
+                {
+                    productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName));
+
+                    foreach (var productName in productsNames)
+                    {
+                        comment += productName + ", ";
+                    }
+
+                    return comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
+                }
+
+                return model.PayingItem.Comment;
             }
 
-            foreach (var productName in productsNames)
+            if (model.ProductsInItem != null && model.ProductsNotInItem != null)
             {
-                comment += productName + ", ";
+                productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(x => x.ProductName).ToList());
+                productsNames.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).Select(x => x.ProductName).ToList());
+
+                foreach (var productName in productsNames)
+                {
+                    comment += productName + ", ";
+                }
             }
 
             return string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
