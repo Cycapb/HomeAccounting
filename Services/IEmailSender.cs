@@ -3,7 +3,7 @@
 namespace Services
 {
     /// <summary>
-    /// Служит для отправки сообщения по электронной почте
+    /// Is used for sending emails
     /// </summary>
     public interface IEmailSender
     {

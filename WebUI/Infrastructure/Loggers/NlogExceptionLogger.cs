@@ -1,12 +1,12 @@
-﻿using System;
-using System.Text;
-using Loggers;
+﻿using Loggers;
 using Loggers.Models;
 using NLog;
+using System;
+using System.Text;
 
-namespace BussinessLogic.Loggers
+namespace WebUI.Infrastructure.Loggers
 {
-    public class NlogExceptionLogger:IExceptionLogger
+    public class NlogExceptionLogger : IExceptionLogger
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -31,7 +31,7 @@ namespace BussinessLogic.Loggers
                     }
                 }
             }
-            
+
             FillInnerExceptions(errorMessage, exception);
             Logger.Error(errorMessage.ToString);
         }
@@ -41,6 +41,8 @@ namespace BussinessLogic.Loggers
             errorMessage.AppendLine($"Ошибка: {exception.Message}");
             errorMessage.AppendLine($"Трассировка стэка: {exception.StackTrace}");
             errorMessage.AppendLine("----------------Конец исключения----------------");
+            errorMessage.AppendLine("\r\n");
+
             if (exception.InnerException != null)
             {
                 FillInnerExceptions(errorMessage, exception.InnerException);
@@ -48,5 +50,3 @@ namespace BussinessLogic.Loggers
         }
     }
 }
-
-//ToDo Must be moved to the Web project. And after that nuget for NLog must be uninstalled

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BussinessLogic.Converters;
-using BussinessLogic.Loggers;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
 using BussinessLogic.Services.Caching;
@@ -22,6 +21,7 @@ using Paginator.Concrete;
 using Providers;
 using Services.Caching;
 using Services.Triggers;
+using WebUI.Infrastructure.Loggers;
 
 namespace WebUI.Infrastructure
 {

@@ -55,9 +55,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -76,7 +73,6 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Converters\RouteDataConverter.cs" />
-    <Compile Include="Loggers\NlogExceptionLogger.cs" />
     <Compile Include="Providers\AccountingNotificationMailBoxProvider.cs" />
     <Compile Include="Providers\SingleIpAddressProviderLoggingDecorator.cs" />
     <Compile Include="Providers\MultipleIpAddressProvider.cs" />
@@ -108,7 +104,7 @@
       <Name>DomainModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\Loggers\Loggers.csproj">
-      <Project>{a7c4220c-cbc8-4852-95c8-15cfc6dfaa86}</Project>
+      <Project>{A7C4220C-CBC8-4852-95C8-15CFC6DFAA86}</Project>
       <Name>Loggers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Providers\Providers.csproj">
@@ -122,12 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
