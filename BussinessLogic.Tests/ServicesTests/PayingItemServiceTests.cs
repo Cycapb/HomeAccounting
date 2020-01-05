@@ -10,6 +10,8 @@ using Moq;
 using WebUI.Models;
 using System.Linq.Expressions;
 using System;
+using Services;
+using Services.Triggers;
 
 namespace BussinessLogic.Tests.ServicesTests
 {
@@ -18,6 +20,9 @@ namespace BussinessLogic.Tests.ServicesTests
     {
         private readonly Mock<IRepository<PayingItem>> _mockRepo;
         private readonly PayingItemService _service;
+        private readonly Mock<ICategoryService> _mockCategoryService;
+        private readonly Mock<IServiceTrigger<PayingItem>> _mockServiceTrigger;
+        private readonly Mock<ITypeOfFlowService> _mockTypeOfFlowService;
 
         private readonly List<PayingItem> _listOfItems = new List<PayingItem>()
         {
@@ -29,7 +34,10 @@ namespace BussinessLogic.Tests.ServicesTests
         public PayingItemServiceTests()
         {
             _mockRepo = new Mock<IRepository<PayingItem>>();
-            _service = new PayingItemService(_mockRepo.Object);
+            _mockCategoryService = new Mock<ICategoryService>();
+            _mockServiceTrigger = new Mock<IServiceTrigger<PayingItem>>();
+            _mockTypeOfFlowService = new Mock<ITypeOfFlowService>();
+            _service = new PayingItemService(_mockRepo.Object, _mockServiceTrigger.Object, _mockCategoryService.Object, _mockTypeOfFlowService.Object);
         }
 
         [TestMethod]

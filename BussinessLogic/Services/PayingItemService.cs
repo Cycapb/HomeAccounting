@@ -3,8 +3,10 @@ using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using Services.Triggers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -13,10 +15,20 @@ namespace BussinessLogic.Services
     public class PayingItemService : IPayingItemService
     {
         private readonly IRepository<PayingItem> _repository;
+        private readonly IServiceTrigger<PayingItem> _serviceTrigger;
+        private readonly ICategoryService _categoryService;
+        private readonly ITypeOfFlowService _typeOfFlowService;
 
-        public PayingItemService(IRepository<PayingItem> repository)
+        public PayingItemService(
+            IRepository<PayingItem> repository,
+            IServiceTrigger<PayingItem> serviceTrigger,
+            ICategoryService categoryService,
+            ITypeOfFlowService typeOfFlowService)
         {
             _repository = repository;
+            _serviceTrigger = serviceTrigger;
+            _categoryService = categoryService;
+            _typeOfFlowService = typeOfFlowService;
         }
 
         public IEnumerable<PayingItem> GetList()
@@ -60,12 +72,18 @@ namespace BussinessLogic.Services
         {
             try
             {
+                var itemToDelete = await _repository.GetItemAsync(id);
                 await _repository.DeleteAsync(id);
                 await _repository.SaveAsync();
+                await _serviceTrigger.Delete(itemToDelete);
             }
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
+            }
+            catch (ServiceException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(DeleteAsync)} при вызове сервиса", e);
             }
         }
 
@@ -73,8 +91,10 @@ namespace BussinessLogic.Services
         {
             try
             {
+                (var oldPayingItem, var newPayingItem) = await GetNewAndOldItems(item);
                 await _repository.UpdateAsync(item);
                 await _repository.SaveAsync();
+                await _serviceTrigger.Update(oldPayingItem, newPayingItem);
             }
             catch (DomainModelsException e)
             {
@@ -87,7 +107,8 @@ namespace BussinessLogic.Services
             try
             {
                 var createdItem = await _repository.CreateAsync(item);
-                 await _repository.SaveAsync();
+                await _repository.SaveAsync();
+                await _serviceTrigger.Insert(createdItem);
 
                 return createdItem;
             }
@@ -144,6 +165,47 @@ namespace BussinessLogic.Services
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
             }
+        }
+
+        private async Task<(PayingItem OldItem, PayingItem NewItem)> GetNewAndOldItems(PayingItem item)
+        {
+            var typeOfFlowId = (await _categoryService.GetItemAsync(item.CategoryID)).TypeOfFlowID;
+            var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
+            var oldCategoryId = await GetCategoryIdAsync(categories, item.ItemID);
+            var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
+            var oldPayingItem = oldCategory.PayingItems.FirstOrDefault(x => x.ItemID == item.ItemID);
+            var newPayingItem = new PayingItem()
+            {
+                Category = oldCategory,
+                AccountID = item.AccountID,
+                Summ = item.Summ
+            };
+
+            return (oldPayingItem, newPayingItem);
+        }
+
+        private Task<int> GetCategoryIdAsync(IEnumerable<Category> categories, int itemId)
+        {
+            return Task.Run(() =>
+            {
+                var categoryId = 0;
+                foreach (var category in categories)
+                {
+                    foreach (var payingItem in category.PayingItems)
+                    {
+                        if (payingItem.ItemID == itemId)
+                        {
+                            categoryId = payingItem.CategoryID;
+                            break;
+                        }
+                        if (categoryId != 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+                return categoryId;
+            });
         }
     }
 }

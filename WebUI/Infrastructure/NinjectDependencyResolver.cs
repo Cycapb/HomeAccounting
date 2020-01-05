@@ -75,9 +75,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProviderLoggingDecorator>()
                 .WhenInjectedInto<MultipleIpAddressProvider>();
             _kernel.Bind<IServiceTrigger<PayingItem>>().To<PayingItemServiceTrigger>();
-            _kernel.Bind<IPayingItemService>().To<PayingItemServiceTriggerDecorator>();
-            _kernel.Bind<IPayingItemService>().To<PayingItemService>()
-                .WhenInjectedInto<PayingItemServiceTriggerDecorator>();
+            _kernel.Bind<IPayingItemService>().To<PayingItemService>();
             _kernel.Bind<IPageCreator>().To<AjaxPageCreator>();
             _kernel.Bind<IPaginator>().To<Paginator.Concrete.Paginator>();
             _kernel.Bind<ICacheManager>().To<MemoryCacheManager>();
