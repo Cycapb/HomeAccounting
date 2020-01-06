@@ -14,6 +14,7 @@ namespace BussinessLogic.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
+        private bool _disposed;
 
         public CategoryService(IRepository<Category> categoryRepository)
         {
@@ -155,6 +156,25 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

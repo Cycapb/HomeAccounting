@@ -190,6 +190,12 @@ namespace WebUI.Controllers
             return RedirectToAction("GetCategoriesAndPages");
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _categoryService.Dispose();
+            base.Dispose(disposing);
+        }
+
         private async Task<IEnumerable<TypeOfFlow>> GetTypesOfFlow()
         {
             try

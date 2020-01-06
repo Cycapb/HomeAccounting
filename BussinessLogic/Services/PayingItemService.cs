@@ -14,6 +14,7 @@ namespace BussinessLogic.Services
 {
     public class PayingItemService : IPayingItemService
     {
+        private bool _disposed;
         private readonly IRepository<PayingItem> _repository;
         private readonly IServiceTrigger<PayingItem> _serviceTrigger;
         private readonly ICategoryService _categoryService;
@@ -206,6 +207,25 @@ namespace BussinessLogic.Services
                 }
                 return categoryId;
             });
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repository.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ namespace BussinessLogic.Services
     public class AccountService : IAccountService
     {
         private readonly IRepository<Account> _accountRepository;
+        private bool _disposed;
 
         public AccountService(IRepository<Account> accountRepository)
         {
@@ -148,6 +149,25 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _accountRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using Services.BaseInterfaces;
 
 namespace Services
 {
-    public interface ICategoryService : IQueryService<Category>, IQueryServiceAsync<Category>, ICommandServiceAsync<Category>
+    public interface ICategoryService : IQueryService<Category>, IQueryServiceAsync<Category>, ICommandServiceAsync<Category>, IDisposable
     {
         /// <summary>
         /// Checks if there are any subcategories for current category

@@ -335,5 +335,17 @@ namespace WebUI.Controllers
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _payingItemService.Dispose();
+            _categoryService.Dispose();
+            _accountService.Dispose();
+            _payingItemCreator.Dispose();
+            _payingItemEditViewModelCreator.Dispose();
+            _payingItemUpdater.Dispose();
+
+            base.Dispose(disposing);
+        }
     }
 }

@@ -11,7 +11,8 @@ namespace WebUI.Helpers
 {
     public class PayingItemUpdater : IPayingItemUpdater
     {
-        private readonly IPayingItemService _payingItemService;        
+        private readonly IPayingItemService _payingItemService;
+        private bool _disposed;
 
         public PayingItemUpdater(IPayingItemService payingItemService)
         {
@@ -43,6 +44,25 @@ namespace WebUI.Helpers
             }
 
             return await CreatePayingItemProduct(model, payingItem).ConfigureAwait(false);            
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _payingItemService.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
 
         private async Task<PayingItem> CreatePayingItemProduct(PayingItemEditViewModel model, PayingItem payingItem)

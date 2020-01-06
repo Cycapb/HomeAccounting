@@ -13,6 +13,7 @@ namespace WebUI.Helpers
     public class PayingItemCreator : IPayingItemCreator
     {
         private readonly IPayingItemService _payingItemService;
+        private bool _disposed;
 
         public PayingItemCreator(IPayingItemService payingItemService)
         {
@@ -67,6 +68,25 @@ namespace WebUI.Helpers
             catch(Exception e)
             {
                 throw new WebUiException($"Ошибка в типе {nameof(PayingItemCreator)} в методе {nameof(CreatePayingItemFromViewModel)}", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _payingItemService.Dispose();
+                }
+
+                _disposed = true;
             }
         }
 

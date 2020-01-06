@@ -1,9 +1,10 @@
 ﻿using DomainModels.Model;
 using Services.BaseInterfaces;
+using System;
 
 namespace Services
 {
-    public interface IAccountService : IQueryService<Account>, IQueryServiceAsync<Account>, ICommandServiceAsync<Account>
+    public interface IAccountService : IQueryService<Account>, IQueryServiceAsync<Account>, ICommandServiceAsync<Account>, IDisposable
     {
         bool HasAnyDependencies(int accountId);
 
