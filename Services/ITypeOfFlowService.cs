@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainModels.Model;
 
 namespace Services
 {
-    public interface ITypeOfFlowService
+    public interface ITypeOfFlowService : IDisposable
     {
         IEnumerable<TypeOfFlow> GetList();
         Task<IEnumerable<TypeOfFlow>> GetListAsync();
