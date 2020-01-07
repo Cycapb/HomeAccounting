@@ -14,6 +14,7 @@ namespace BussinessLogic.Services
     public class MailboxService : IMailboxService
     {
         private readonly IRepository<NotificationMailBox> _repository;
+        private bool _disposed;
 
         public MailboxService(IRepository<NotificationMailBox> repository)
         {
@@ -140,6 +141,24 @@ namespace BussinessLogic.Services
             errorMessage.AppendLine($"Ошибка: {ex.Message}");
             errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
             return errorMessage.ToString();
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repository.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
     }
 }

@@ -178,6 +178,16 @@ namespace WebUI.Controllers
             
             return RedirectToAction("DebtList");
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _accService.Dispose();
+            _debtService.Dispose();
+            _createCloseDebtService.Dispose();
+
+            base.Dispose(disposing);
+        }
+
         private async Task<IEnumerable<Account>> AccountList(string userId)
         {
             try

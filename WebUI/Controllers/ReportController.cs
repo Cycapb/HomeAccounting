@@ -145,6 +145,15 @@ namespace WebUI.Controllers
             return PartialView("_SubcategoriesReport", payItemSubcategoriesList);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _payItemSubcategoriesHelper.Dispose();
+            _reportControllerHelper.Dispose();
+            _reportModelCreator.Dispose();
+
+            base.Dispose(disposing);
+        }
+
         private async Task<List<PayItemSubcategories>> GetPayitemSubcategoriesForView(WebUser user, int typeOfFlowId,
             DateTime date)
         {

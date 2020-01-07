@@ -12,6 +12,7 @@ namespace BussinessLogic.Services
     public class OrderSenderService : IEmailSender
     {
         private readonly IMailSettingsProvider _mailSettingsProvider;
+        private bool _disposed;
 
         public string MailTo { get; private set; }
 
@@ -23,6 +24,7 @@ namespace BussinessLogic.Services
         public async Task SendAsync(string message, string mailTo)
         {
             var mailSettings = _mailSettingsProvider.GetEmailSettings();
+
             if (mailSettings != null)
             {
                 mailSettings.MailTo = mailTo;
@@ -37,6 +39,10 @@ namespace BussinessLogic.Services
                 {
                     throw new SendEmailException($"Возникла ошибка в сервисе {nameof(OrderSenderService)} в методе {nameof(SendAsync)} при отправке почты", ex);
                 }
+                finally
+                {
+                    smtpClient.Dispose();
+                }                  
             }
             else
             {
@@ -59,6 +65,25 @@ namespace BussinessLogic.Services
                 EnableSsl = mailSettings.UseSsl,
                 Credentials = new NetworkCredential(mailSettings.UserName, mailSettings.Password)
             };
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _mailSettingsProvider.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
     }
 }

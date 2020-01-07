@@ -18,6 +18,7 @@ namespace WebUI.Helpers
         private readonly ICategoryService _categoryService;
         private readonly IPayingItemService _payingItemService;
         private readonly IDbHelper _dbHelper;
+        private bool _disposed;
 
         public ReportControllerHelper(ICategoryService categoryService, IPayingItemService payingItemService,
             IDbHelper dbHelper)
@@ -173,6 +174,27 @@ namespace WebUI.Helpers
             {
                 throw new WebUiHelperException(
                     $"Ошибка в типе {nameof(ReportControllerHelper)} в методе {nameof(GetActiveCategoriesByType)}", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryService.Dispose();
+                    _dbHelper.Dispose();
+                    _payingItemService.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

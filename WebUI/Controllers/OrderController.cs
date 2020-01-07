@@ -26,17 +26,15 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Index(WebUser user)
         {
-            List<Order> orders;
             try
             {
-                orders = (await _orderService.GetListAsync(x => x.UserId == user.Id && x.Active)).ToList();
+                var orders = (await _orderService.GetListAsync(x => x.UserId == user.Id && x.Active)).ToList();
+                return PartialView("_Index", orders);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Index)}", e);
-            }
-
-            return PartialView("_Index", orders);
+            }            
         }
 
         public async Task<ActionResult> OrderList(WebUser user)
@@ -64,6 +62,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Delete)}", e);
             }
+
             return RedirectToAction("OrderList");
         }
 
@@ -134,6 +133,13 @@ namespace WebUI.Controllers
             }
 
             return RedirectToAction("OrderList");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _orderService.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

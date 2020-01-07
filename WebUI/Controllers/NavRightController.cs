@@ -14,12 +14,12 @@ namespace WebUI.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class NavRightController : Controller
     {
-        private readonly IPayingItemService _service;
+        private readonly IPayingItemService _payingItemService;
         private readonly IDbHelper _dbHelper;
 
         public NavRightController(IPayingItemService service,IDbHelper dbHelper)
         {
-            _service = service;
+            _payingItemService = service;
             _dbHelper = dbHelper;
         }
 
@@ -28,7 +28,7 @@ namespace WebUI.Controllers
             List<PayingItem> collection;
             try
             {
-                collection = _service.GetListByTypeOfFlow(user, 1)
+                collection = _payingItemService.GetListByTypeOfFlow(user, 1)
                     .ToList();
             }
             catch (ServiceException e)
@@ -45,7 +45,7 @@ namespace WebUI.Controllers
             List<PayingItem> collection;
             try
             {
-                collection = _service.GetListByTypeOfFlow(user, 2)
+                collection = _payingItemService.GetListByTypeOfFlow(user, 2)
                     .ToList();
             }
             catch (ServiceException e)
@@ -55,6 +55,14 @@ namespace WebUI.Controllers
 
             var budgetModel = BudgetModel(collection,2);
             return PartialView(budgetModel);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _dbHelper.Dispose();
+            _payingItemService.Dispose();
+
+            base.Dispose(disposing);
         }
 
         private BudgetModel BudgetModel(List<PayingItem> collection, int typeOfMoney)

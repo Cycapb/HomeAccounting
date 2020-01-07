@@ -15,6 +15,7 @@ namespace WebUI.Helpers
     public class PayItemSubcategoriesHelper : IPayItemSubcategoriesHelper
     {
         private readonly IPayingItemService _payingItemService;
+        private bool _disposed;
 
         public PayItemSubcategoriesHelper(IPayingItemService payingItemService)
         {
@@ -64,6 +65,25 @@ namespace WebUI.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException($"Ошибка в сервисе {nameof(PayItemSubcategoriesHelper)} в методе {nameof(GetPayItemsWithSubcategoriesInDatesWeb)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _payingItemService.Dispose();
+                }
+
+                _disposed = true;
             }
         }
 

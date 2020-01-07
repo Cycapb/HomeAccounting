@@ -1,22 +1,23 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class CreateCloseDebtServicePayingItemDecorator:ICreateCloseDebtService
+    public class CreateCloseDebtServicePayingItemDecorator : ICreateCloseDebtService
     {
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IRepository<PayingItem> _payingItemRepository;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Debt> _debtRepository;
+        private bool _disposed;
 
         public CreateCloseDebtServicePayingItemDecorator(
-            ICreateCloseDebtService createCloseDebtService, 
-            IRepository<PayingItem> payingItemRepository, 
+            ICreateCloseDebtService createCloseDebtService,
+            IRepository<PayingItem> payingItemRepository,
             IRepository<Category> categoryRepository,
             IRepository<Debt> debtRepository
             )
@@ -61,7 +62,7 @@ namespace BussinessLogic.Services
                 Date = debt.DateEnd ?? DateTime.Now,
                 CategoryID = categoryId,
                 Comment = debt.TypeOfFlowId == 1 ? "Закрыл свой долг" : "Мне вернули долг",
-                Summ = sum == 0M? debt.Summ : sum,
+                Summ = sum == 0M ? debt.Summ : sum,
                 UserId = debt.UserId
             };
 
@@ -116,6 +117,28 @@ namespace BussinessLogic.Services
             await _categoryRepository.SaveAsync();
 
             return category;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryRepository.Dispose();
+                    _createCloseDebtService.Dispose();
+                    _debtRepository.Dispose();
+                    _payingItemRepository.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
     }
 }

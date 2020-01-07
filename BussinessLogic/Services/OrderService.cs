@@ -16,6 +16,7 @@ namespace BussinessLogic.Services
     {
         private readonly IRepository<Order> _orderRepository;
         private readonly IEmailSender _emailSender;
+        private bool _disposed;
 
         public OrderService(IRepository<Order> orderRepository, IEmailSender emailSender)
         {
@@ -157,6 +158,26 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _orderRepository.Dispose();
+                    _emailSender.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

@@ -125,6 +125,15 @@ namespace WebUI.Controllers
             return PartialView("_SubCategories", products);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _categoryService.Dispose();
+            _orderService.Dispose();
+            _productService.Dispose();
+
+            base.Dispose(disposing);
+        }
+
         private async Task<IEnumerable<Category>> GetCategories(string userId)
         {
             return (await _categoryService.GetListAsync(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Products.Any()))

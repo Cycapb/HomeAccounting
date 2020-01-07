@@ -30,5 +30,12 @@ namespace WebUI.Controllers
                 throw new WebUiException($"Ошибка в контроллере {nameof(NavTypeOfFlowController)} в методе {nameof(List)}", e);
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _tofService.Dispose();
+
+            base.Dispose(disposing);
+        }
     }
 }

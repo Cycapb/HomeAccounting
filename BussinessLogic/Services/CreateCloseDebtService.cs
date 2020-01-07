@@ -1,17 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
+using System;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class CreateCloseDebtService:ICreateCloseDebtService
+    public class CreateCloseDebtService : ICreateCloseDebtService
     {
         private readonly IRepository<Debt> _debtRepo;
         private readonly IRepository<Account> _accRepo;
+        private bool _disposed;
 
         public CreateCloseDebtService(IRepository<Debt> debtRepo, IRepository<Account> accRepo)
         {
@@ -82,6 +83,26 @@ namespace BussinessLogic.Services
             }
             await _debtRepo.UpdateAsync(debt);
             await _debtRepo.SaveAsync();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _debtRepo.Dispose();
+                    _accRepo.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
 
         private async Task CreateDebtAsync(Debt debt)

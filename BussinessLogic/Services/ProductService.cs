@@ -14,6 +14,7 @@ namespace BussinessLogic.Services
     public class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
+        private bool _disposed;
 
         public ProductService(IRepository<Product> productRepository)
         {
@@ -135,6 +136,25 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _productRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

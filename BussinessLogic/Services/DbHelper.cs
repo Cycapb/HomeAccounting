@@ -14,6 +14,7 @@ namespace BussinessLogic.Services
     {
         private readonly IRepository<PayingItem> _pItemRepo;
         private readonly IRepository<Account> _accRepo;
+        private bool _disposed;
 
         public DbHelper(IRepository<PayingItem> pItemRepo, IRepository<Account> accRepo)
         {
@@ -239,6 +240,26 @@ namespace BussinessLogic.Services
             return collection
             .Where(i => i.Date == DateTime.Today)
             .Sum(i => i.Summ);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _accRepo.Dispose();
+                    _pItemRepo.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
     }
 }

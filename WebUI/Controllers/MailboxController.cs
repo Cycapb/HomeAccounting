@@ -159,5 +159,12 @@ namespace WebUI.Controllers
 
             return PartialView("_AddOrEdit", model);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _mailboxService.Dispose();
+
+            base.Dispose(disposing);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace BussinessLogic.Services
     public class DebtService : IDebtService
     {
         private readonly IRepository<Debt> _debtRepo;
+        private bool _disposed;
 
         public DebtService(IRepository<Debt> deptRepo)
         {
@@ -113,6 +114,25 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _debtRepo.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }
