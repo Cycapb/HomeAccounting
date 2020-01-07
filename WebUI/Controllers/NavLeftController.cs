@@ -43,6 +43,14 @@ namespace WebUI.Controllers
             return PartialView(GetBudget(user));
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _accService.Dispose();
+            _dbHelper.Dispose();
+
+            base.Dispose(disposing);
+        }
+
         private Budget GetBudget(IWorkingUser user)
         {
             try

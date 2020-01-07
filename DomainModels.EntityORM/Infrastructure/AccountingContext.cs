@@ -135,7 +135,7 @@ namespace DomainModels.EntityORM
                 .IsUnicode(false);
 
             modelBuilder.Entity<TypeOfFlow>()
-                .HasMany(e => e.Categorys)
+                .HasMany(e => e.Categories)
                 .WithRequired(e => e.TypeOfFlow)
                 .HasForeignKey(e => e.TypeOfFlowID)
                 .WillCascadeOnDelete(false);

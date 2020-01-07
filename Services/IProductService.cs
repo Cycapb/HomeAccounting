@@ -1,16 +1,10 @@
 ﻿using DomainModels.Model;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Services.BaseInterfaces;
+using System;
 
 namespace Services
 {
-    public interface IProductService : IService<Product>
+    public interface IProductService : IQueryService<Product>, IQueryServiceAsync<Product>, ICommandServiceAsync<Product>, IDisposable
     {
-        Task CreateAsync(Product product);
-        Task<Product> GetItemAsync(int id);        
-        Task<IEnumerable<Product>> GetListAsync();
-        Task DeleteAsync(int id);
-        Task UpdateAsync(Product item);
-        Task SaveAsync();
     }
 }

@@ -138,5 +138,12 @@ namespace WebUI.Controllers
             }
             return PartialView(ptEdit);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _productService.Dispose();
+
+            base.Dispose(disposing);
+        }
     }
 }

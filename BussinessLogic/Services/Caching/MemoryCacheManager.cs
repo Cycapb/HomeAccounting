@@ -49,5 +49,17 @@ namespace BussinessLogic.Services.Caching
                 throw new Exception($"Возникла ошибка при удалении объекта из кэша в типе {nameof(MemoryCacheManager)} в методе {nameof(Get)}", e);
             }
         }
+
+        public void Set(string key, object value, DateTime absoluteExpiration, TimeSpan slidingExpiration)
+        {
+            try
+            {
+                _cache.Insert(key, value, null, absoluteExpiration, slidingExpiration);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Возникла ошибка при помещении объекта в кэш в типе {nameof(MemoryCacheManager)} в методе {nameof(Set)}", e);
+            }
+        }
     }
 }

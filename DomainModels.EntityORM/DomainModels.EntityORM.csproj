@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DomainModels.EntityORM</RootNamespace>
     <AssemblyName>DomainModels.EntityORM</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -69,6 +69,14 @@
     </Compile>
     <Compile Include="EntityRepository.cs" />
     <Compile Include="Infrastructure\AccountingContext.cs" />
+    <Compile Include="Migrations\202001021155326_InitialMigrationForDb.cs" />
+    <Compile Include="Migrations\202001021155326_InitialMigrationForDb.Designer.cs">
+      <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.cs" />
+    <Compile Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.Designer.cs">
+      <DependentUpon>202001022005270_Added_Composite_PK_To_OrderDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,7 +89,14 @@
       <Name>DomainModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001021155326_InitialMigrationForDb.resx">
+      <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.resx">
+      <DependentUpon>202001022005270_Added_Composite_PK_To_OrderDetail.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

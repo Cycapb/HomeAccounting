@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainModels.Exceptions;
 using DomainModels.Model;
@@ -11,6 +12,7 @@ namespace BussinessLogic.Services
     public class TypeOfFlowService:ITypeOfFlowService
     {
         private readonly IRepository<TypeOfFlow> _tofRepository;
+        private bool _disposed;
 
         public TypeOfFlowService(IRepository<TypeOfFlow> tofRepository)
         {
@@ -26,18 +28,6 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetList)} при обращении к БД", e);
-            }
-        }
-
-        public IEnumerable<Category> GetCategories(int typeOfFlowId)
-        {
-            try
-            {
-                return _tofRepository.GetItem(typeOfFlowId).Categorys;
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetCategories)} при обращении к БД", e);
             }
         }
 
@@ -57,11 +47,29 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (await _tofRepository.GetItemAsync(typeOfFlowId)).Categorys;
+                return (await _tofRepository.GetItemAsync(typeOfFlowId)).Categories;
             }
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(TypeOfFlowService)} в методе {nameof(GetCategoriesAsync)} при обращении к БД", e);
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _tofRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

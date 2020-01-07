@@ -14,19 +14,22 @@ namespace BussinessLogic.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
+        private bool _disposed;
 
         public CategoryService(IRepository<Category> categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
-        public async Task CreateAsync(Category item)
+        public async Task<Category> CreateAsync(Category item)
         {
             try
             {
                 item.Active = true;
-                await _categoryRepository.CreateAsync(item);
+                var createdItem = await _categoryRepository.CreateAsync(item);
                 await _categoryRepository.SaveAsync();
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -88,34 +91,11 @@ namespace BussinessLogic.Services
             try
             {
                 await _categoryRepository.UpdateAsync(item);
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task SaveAsync()
-        {
-            try
-            {
                 await _categoryRepository.SaveAsync();
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task<IEnumerable<Product>> GetProducts(int id)
-        {
-            try
-            {
-                return (await _categoryRepository.GetItemAsync(id)).Products;
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetProducts)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
             }
         }
 
@@ -164,6 +144,37 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Category>> GetListAsync(Expression<Func<Category, bool>> predicate)
+        {
+            try
+            {
+                return await _categoryRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

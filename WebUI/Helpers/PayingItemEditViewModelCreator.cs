@@ -16,6 +16,7 @@ namespace WebUI.Helpers
     public class PayingItemEditViewModelCreator : IPayingItemEditViewModelCreator
     {
         private readonly IPayingItemService _payingItemService;
+        private bool _disposed;
 
         public PayingItemEditViewModelCreator(IPayingItemService payingItemService)
         {
@@ -74,6 +75,25 @@ namespace WebUI.Helpers
             {
                 throw new WebUiException(
                     $"Ошибка в типе {nameof(PayingItemEditViewModelCreator)} в методе {nameof(CreateViewModel)}", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _payingItemService.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

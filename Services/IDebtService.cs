@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DomainModels.Model;
+using Services.BaseInterfaces;
 
 namespace Services
 {
-    public interface IDebtService
+    public interface IDebtService : IQueryService<Debt>, IQueryServiceAsync<Debt>, IDisposable
     {
-        Task<IEnumerable<Debt>> GetItemsAsync(string userId);
-        Task<Debt> GetItemAsync(int id);
-        IEnumerable<Debt> GetItems(string userId);
         IEnumerable<Debt> GetOpenUserDebts(string userId);
+
         Task DeleteAsync(int id);
     }
 }

@@ -14,6 +14,7 @@ namespace WebUI.Helpers
     public class CategoryHelper : ICategoryHelper
     {
         private readonly ICategoryService _categoryService;
+        private bool _disposed;
 
         public CategoryHelper(ICategoryService categoryService)
         {
@@ -54,6 +55,24 @@ namespace WebUI.Helpers
                     ItemsPerPage = itemsPerPage
                 }
             };
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryService.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesToShowOnPage(int page, int itemsPerPage,

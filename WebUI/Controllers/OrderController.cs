@@ -26,32 +26,29 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> Index(WebUser user)
         {
-            List<Order> orders;
             try
             {
-                orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+                var orders = (await _orderService.GetListAsync(x => x.UserId == user.Id && x.Active)).ToList();
+                return PartialView("_Index", orders);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Index)}", e);
-            }
-
-            return PartialView("_Index", orders);
+            }            
         }
 
         public async Task<ActionResult> OrderList(WebUser user)
-        {
-            List<Order> orders;
+        {            
             try
             {
-                orders = (await _orderService.GetList(user.Id)).Where(u => u.Active).ToList();
+                var orders = (await _orderService.GetListAsync(o => o.UserId == user.Id && o.Active)).ToList();
+
+                return PartialView("_OrderList", orders);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(OrderList)}", e);
             }
-
-            return PartialView("_OrderList", orders);
         }
 
         [HttpPost]
@@ -65,22 +62,22 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Delete)}", e);
             }
+
             return RedirectToAction("OrderList");
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            Order order;
             try
             {
-                order = await _orderService.GetOrderAsync(id);
+                var order = await _orderService.GetItemAsync(id);
+
+                return PartialView("_OrderDetailsList", order);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Edit)}", e);
             }
-
-            return PartialView("_OrderDetailsList", order);
         }
 
         [HttpPost]
@@ -89,14 +86,21 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _orderService.CreateOrderAsync(DateTime.Now, user.Id);
+                var order = new Order()
+                {
+                    OrderDate = DateTime.Now,
+                    UserId = user.Id,
+                    Active = true
+                };
+
+                var createdOrder = await _orderService.CreateAsync(order);
+
+                return RedirectToAction("Edit", new { id = createdOrder.OrderID});
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Add)}", e);
             }
-
-            return RedirectToAction("OrderList");
         }
 
         [HttpPost]
@@ -129,6 +133,13 @@ namespace WebUI.Controllers
             }
 
             return RedirectToAction("OrderList");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _orderService.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

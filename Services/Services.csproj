@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Services</RootNamespace>
     <AssemblyName>Services</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -60,6 +60,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BaseInterfaces\ICommandServiceAsync.cs" />
     <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Exceptions\SendEmailException.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
@@ -71,13 +72,12 @@
     <Compile Include="IEmailSender.cs" />
     <Compile Include="IMailboxService.cs" />
     <Compile Include="IMailSettingsProvider.cs" />
-    <Compile Include="IOrderDetailService.cs" />
     <Compile Include="IOrderService.cs" />
-    <Compile Include="IPayingItemProductService.cs" />
     <Compile Include="IPayingItemService.cs" />
     <Compile Include="IPlanItemService.cs" />
     <Compile Include="IProductService.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="BaseInterfaces\IQueryService.cs" />
+    <Compile Include="BaseInterfaces\IQueryServiceAsync.cs" />
     <Compile Include="ITypeOfFlowService.cs" />
     <Compile Include="Triggers\IServiceTrigger.cs" />
   </ItemGroup>
@@ -87,7 +87,9 @@
       <Name>DomainModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Services_CodeMap.dgml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

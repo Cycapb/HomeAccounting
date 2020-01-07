@@ -1,33 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
-using DomainModels.Exceptions;
-using Services.Exceptions;
 using Services;
+using Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class PlanItemService:IPlanItemService
+    public class PlanItemService : IPlanItemService
     {
         private readonly IRepository<PlanItem> _pItemRepository;
 
         public PlanItemService(IRepository<PlanItem> pItemRepository)
         {
             _pItemRepository = pItemRepository;
-        }
-
-        public async Task<IEnumerable<PlanItem>> GetListAsync(string userId)
-        {
-            try
-            {
-                return (await _pItemRepository.GetListAsync()).Where(x => x.UserId == userId);
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
-            }
         }
 
         public async Task<PlanItem> GetItemAsync(int id)
@@ -42,11 +31,13 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task CreateAsync(PlanItem planItem)
+        public async Task<PlanItem> CreateAsync(PlanItem planItem)
         {
             try
             {
-                await _pItemRepository.CreateAsync(planItem);
+                var createdItem = await _pItemRepository.CreateAsync(planItem);
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -75,6 +66,42 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<PlanItem>> GetListAsync()
+        {
+            try
+            {
+                return await _pItemRepository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<PlanItem>> GetListAsync(Expression<Func<PlanItem, bool>> predicate)
+        {
+            try
+            {
+                return await _pItemRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            try
+            {
+                await _pItemRepository.DeleteAsync(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(DeleteAsync)} при обращении к БД", e);
             }
         }
     }

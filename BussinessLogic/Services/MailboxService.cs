@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DomainModels.Repositories;
-using System.Threading.Tasks;
-using DomainModels.Exceptions;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
+using DomainModels.Repositories;
 using Services;
-using NLog;
 using Services.Exceptions;
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
     public class MailboxService : IMailboxService
     {
-        private readonly IRepository<NotificationMailBox> _repository;        
+        private readonly IRepository<NotificationMailBox> _repository;
+        private bool _disposed;
 
         public MailboxService(IRepository<NotificationMailBox> repository)
         {
             _repository = repository;
         }
 
-        public async Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox)
+        public async Task<NotificationMailBox> CreateAsync(NotificationMailBox mailbox)
         {
             try
             {
@@ -31,10 +31,10 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                var message = CreateMessage(e);                
-                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(AddAsync)} при обращении к БД", e);
+                var message = CreateMessage(e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
             }
-        }        
+        }
 
         public async Task DeleteAsync(int id)
         {
@@ -73,15 +73,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        private string CreateMessage(Exception ex)
-        {
-            var errorMessage = new StringBuilder();
-            errorMessage.AppendLine("\r\n");
-            errorMessage.AppendLine($"Ошибка: {ex.Message}");
-            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
-            return errorMessage.ToString();
-        }
-
         public async Task UpdateAsync(NotificationMailBox item)
         {
             try
@@ -116,6 +107,57 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<NotificationMailBox>> GetListAsync(Expression<Func<NotificationMailBox, bool>> predicate)
+        {
+            try
+            {
+                return await _repository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public NotificationMailBox GetItem(int id)
+        {
+            try
+            {
+                return _repository.GetItem(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(MailboxService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
+
+        private string CreateMessage(Exception ex)
+        {
+            var errorMessage = new StringBuilder();
+            errorMessage.AppendLine("\r\n");
+            errorMessage.AppendLine($"Ошибка: {ex.Message}");
+            errorMessage.AppendLine($"Трассировка стэка: {ex.StackTrace}");
+            return errorMessage.ToString();
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

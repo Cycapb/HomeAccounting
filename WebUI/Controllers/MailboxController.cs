@@ -72,7 +72,7 @@ namespace WebUI.Controllers
                 };
                 try
                 {
-                    await _mailboxService.AddAsync(box);
+                    await _mailboxService.CreateAsync(box);
                     return RedirectToAction("Index");
                 }
                 catch (ServiceException e)
@@ -158,6 +158,13 @@ namespace WebUI.Controllers
             }
 
             return PartialView("_AddOrEdit", model);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _mailboxService.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

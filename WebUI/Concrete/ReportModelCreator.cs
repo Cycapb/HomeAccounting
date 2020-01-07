@@ -1,23 +1,24 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Caching;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using DomainModels.Model;
 using WebUI.Abstract;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
-using Services.Caching;
+using WebUI.Models;
 
 namespace WebUI.Concrete
 {
-    public class ReportModelCreator:IReportModelCreator
+    public class ReportModelCreator : IReportModelCreator
     {
         private readonly ICategoryService _categoryService;
         private readonly IDbHelper _dbHelper;
         private readonly IPagingInfoCreator _pagingCreator;
         private readonly int _itemsPerPage = 15;
         private readonly ICacheManager _cacheManager;
+        private bool _disposed;
 
         public ReportModelCreator(ICategoryService categoryService, IDbHelper dbHelper, IPagingInfoCreator pagingCreator, ICacheManager cacheManager)
         {
@@ -82,6 +83,26 @@ namespace WebUI.Concrete
             }
             var reportModel = GetByTypeOfFlowReportModel(model, user, page, tempList);
             return reportModel;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryService.Dispose();
+                    _dbHelper.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
 
         private ReportModel GetByTypeOfFlowReportModel(TempReportModel model, WebUser user, int page,

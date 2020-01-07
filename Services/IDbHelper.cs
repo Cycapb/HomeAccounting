@@ -5,7 +5,7 @@ using DomainModels.Model;
 
 namespace Services
 {
-    public interface IDbHelper
+    public interface IDbHelper : IDisposable
     {
         IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user);
         IEnumerable<PayingItem> GetPayingItemsByDateWeb(DateTime date, IWorkingUser user);

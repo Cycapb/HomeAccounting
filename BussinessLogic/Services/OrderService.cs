@@ -6,6 +6,7 @@ using Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace BussinessLogic.Services
     {
         private readonly IRepository<Order> _orderRepository;
         private readonly IEmailSender _emailSender;
+        private bool _disposed;
 
         public OrderService(IRepository<Order> orderRepository, IEmailSender emailSender)
         {
@@ -22,15 +24,8 @@ namespace BussinessLogic.Services
             _emailSender = emailSender;
         }
 
-        public async Task<Order> CreateOrderAsync(DateTime orderDate, string userId)
+        public async Task<Order> CreateAsync(Order order)
         {
-            var order = new Order()
-            {
-                OrderDate = orderDate,
-                UserId = userId,
-                Active = true
-            };
-
             try
             {
                 var newOrder = await _orderRepository.CreateAsync(order);
@@ -39,7 +34,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CreateOrderAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
             }
         }
 
@@ -67,19 +62,6 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(UpdateAsync)} при обращении к БД", e);
-            }
-        }
-
-        public async Task<IEnumerable<Order>> GetList(string userId)
-        {
-            try
-            {
-                return (await _orderRepository.GetListAsync())
-                    .Where(x => x.UserId == userId);
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetList)} при обращении к БД", e);
             }
         }
 
@@ -143,7 +125,31 @@ namespace BussinessLogic.Services
 
         }
 
-        public async Task<Order> GetOrderAsync(int id)
+        public async Task<IEnumerable<Order>> GetListAsync()
+        {
+            try
+            {
+                return await _orderRepository.GetListAsync();
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetListAsync(Expression<Func<Order, bool>> predicate)
+        {
+            try
+            {
+                return await _orderRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<Order> GetItemAsync(int id)
         {
             try
             {
@@ -151,7 +157,27 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetOrderAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(GetItemAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _orderRepository.Dispose();
+                    _emailSender.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

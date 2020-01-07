@@ -23,8 +23,11 @@ namespace WebUI.Controllers
         private readonly ICategoryHelper _categoryHelper;
         private readonly int _pagesize = 7;
 
-        public CategoryController( ITypeOfFlowService tofService,
-            IPlanningHelper planningHelper, ICategoryService categoryService, ICategoryHelper categoryHelper)
+        public CategoryController(
+            ITypeOfFlowService tofService,
+            IPlanningHelper planningHelper,
+            ICategoryService categoryService, 
+            ICategoryHelper categoryHelper)
         {
             _tofService = tofService;
             _planningHelper = planningHelper;
@@ -132,7 +135,6 @@ namespace WebUI.Controllers
                 try
                 {
                     await _categoryService.UpdateAsync(category);
-                    await _categoryService.SaveAsync();
                     return RedirectToAction("GetCategoriesAndPages");
                 }
                 catch (ServiceException e)
@@ -189,6 +191,15 @@ namespace WebUI.Controllers
             }
 
             return RedirectToAction("GetCategoriesAndPages");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _categoryService.Dispose();
+            _tofService.Dispose();
+            _categoryHelper.Dispose();
+
+            base.Dispose(disposing);
         }
 
         private async Task<IEnumerable<TypeOfFlow>> GetTypesOfFlow()

@@ -5,7 +5,7 @@ using WebUI.Models;
 
 namespace WebUI.Abstract
 {
-    public interface IReportControllerHelper
+    public interface IReportControllerHelper : IDisposable
     {
         void FillReportMonthsModel(ReportMonthsModel model, List<PayingItem> repo);
         IEnumerable<Category> GetCategoriesByType(WebUser user, int flowId);

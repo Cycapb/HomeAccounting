@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using BussinessLogic.Converters;
-using BussinessLogic.Loggers;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
 using BussinessLogic.Services.Caching;
@@ -22,6 +21,7 @@ using Paginator.Concrete;
 using Providers;
 using Services.Caching;
 using Services.Triggers;
+using WebUI.Infrastructure.Loggers;
 
 namespace WebUI.Infrastructure
 {
@@ -57,12 +57,10 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt>>();
             _kernel.Bind<ICategoryService>().To<CategoryService>();
             _kernel.Bind<IAccountService>().To<AccountService>();
-            _kernel.Bind<IPayingItemProductService>().To<PayingItemProductService>();
             _kernel.Bind<IProductService>().To<ProductService>();
             _kernel.Bind<IMailSettingsProvider>().To<AccountingNotificationMailBoxProvider>();
             _kernel.Bind<IEmailSender>().To<OrderSenderService>();
             _kernel.Bind<IOrderService>().To<OrderService>();
-            _kernel.Bind<IOrderDetailService>().To<OrderDetailService>();
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();
             _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();
@@ -77,9 +75,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<ISingleIpAddressProvider>().To<SingleIpAddressProviderLoggingDecorator>()
                 .WhenInjectedInto<MultipleIpAddressProvider>();
             _kernel.Bind<IServiceTrigger<PayingItem>>().To<PayingItemServiceTrigger>();
-            _kernel.Bind<IPayingItemService>().To<PayingItemServiceTriggerDecorator>();
-            _kernel.Bind<IPayingItemService>().To<PayingItemService>()
-                .WhenInjectedInto<PayingItemServiceTriggerDecorator>();
+            _kernel.Bind<IPayingItemService>().To<PayingItemService>();
             _kernel.Bind<IPageCreator>().To<AjaxPageCreator>();
             _kernel.Bind<IPaginator>().To<Paginator.Concrete.Paginator>();
             _kernel.Bind<ICacheManager>().To<MemoryCacheManager>();

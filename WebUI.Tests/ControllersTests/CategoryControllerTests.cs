@@ -74,8 +74,7 @@ namespace WebUI.Tests.ControllersTests
 
             var result = await target.Edit(new Category());
 
-            _catService.Verify(m => m.UpdateAsync(It.IsAny<Category>()), Times.Exactly(1));
-            _catService.Verify(m => m.SaveAsync(), Times.Exactly(1));
+            _catService.Verify(m => m.UpdateAsync(It.IsAny<Category>()), Times.Exactly(1));            
             Assert.IsNotInstanceOfType(result, typeof(ViewResult));
         }
 
@@ -161,8 +160,7 @@ namespace WebUI.Tests.ControllersTests
             target.ModelState.AddModelError("error", "error");
 
             var result = await target.Add(new WebUser() { Id = "1" }, category);
-
-            _catService.Verify(m => m.SaveAsync(), Times.Never);
+                        
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 

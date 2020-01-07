@@ -22,7 +22,8 @@ namespace WebUI.Controllers
         private readonly ICreateCloseDebtService _createCloseDebtService;
         private readonly IAccountService _accService;
 
-        public DebtController(IDebtService debtService, 
+        public DebtController(
+            IDebtService debtService, 
             ICreateCloseDebtService createCloseDebtService, 
             IAccountService accService)
         {
@@ -177,11 +178,21 @@ namespace WebUI.Controllers
             
             return RedirectToAction("DebtList");
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _accService.Dispose();
+            _debtService.Dispose();
+            _createCloseDebtService.Dispose();
+
+            base.Dispose(disposing);
+        }
+
         private async Task<IEnumerable<Account>> AccountList(string userId)
         {
             try
             {
-                return (await _accService.GetListAsync()).Where(x => x.UserId == userId).ToList();
+                return (await _accService.GetListAsync(x => x.UserId == userId)).ToList();
             }
             catch (ServiceException e)
             {
@@ -195,7 +206,7 @@ namespace WebUI.Controllers
 
         private async Task FillDebtViewModel(Debt debt, DebtEditingViewModel model)
         {
-            var accounts = (await _accService.GetListAsync()).Where(a => a.UserId == debt.UserId).ToList();
+            var accounts = (await _accService.GetListAsync(a => a.UserId == debt.UserId)).ToList();
 
             model.DebtId = debt.DebtID;
             model.Sum = debt.Summ;

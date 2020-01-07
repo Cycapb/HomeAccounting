@@ -70,7 +70,7 @@ namespace WebUI.Helpers
 
         public async Task SpreadPlanItems(WebUser user, PlanItem item)
         {
-            var planItems = (await _planItemService.GetListAsync(user.Id))
+            var planItems = (await _planItemService.GetListAsync(x => x.UserId == user.Id))
                 .Where(x => x.Closed == false
                 && x.Month.Date >= item.Month.Date
                 && x.CategoryId == item.CategoryId)
@@ -87,7 +87,7 @@ namespace WebUI.Helpers
         {
             var items = _pItemService.GetList(x => x.UserId == userId && x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
                 .ToList();
-            var planItems = (await _planItemService.GetListAsync(userId))
+            var planItems = (await _planItemService.GetListAsync(x => x.UserId == userId))
                 .Where(x => x.Month.Month == DateTime.Today.Month && x.Month.Year == DateTime.Today.Year)
                 .ToList();
 
@@ -148,7 +148,7 @@ namespace WebUI.Helpers
             model.CategoryPlanItemsIncome = categories.Where(x => x.TypeOfFlowID == 1).OrderBy(x => x.Name).ToList();
             model.CategoryPlanItemsOutgo = categories.Where(x => x.TypeOfFlowID == 2).OrderBy(x => x.Name).ToList();
 
-            var planItems = (await _planItemService.GetListAsync(user.Id))
+            var planItems = (await _planItemService.GetListAsync(x => x.UserId == user.Id))
                 .Where(x => x.Closed == false).ToList();
 
             model.Months = planItems

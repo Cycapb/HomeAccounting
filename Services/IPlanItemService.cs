@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using DomainModels.Model;
+using Services.BaseInterfaces;
 using System.Threading.Tasks;
-using DomainModels.Model;
 
 namespace Services
 {
-    public interface IPlanItemService
+    public interface IPlanItemService : IQueryServiceAsync<PlanItem>, ICommandServiceAsync<PlanItem>
     {
-        Task<IEnumerable<PlanItem>> GetListAsync(string userId);
-        Task<PlanItem> GetItemAsync(int id);
-        Task CreateAsync(PlanItem planItem);
-        Task UpdateAsync(PlanItem planItem);
         Task SaveAsync();
     }
 }

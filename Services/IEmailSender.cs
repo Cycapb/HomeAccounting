@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Services
 {
     /// <summary>
-    /// Служит для отправки сообщения по электронной почте
+    /// Is used for sending emails
     /// </summary>
-    public interface IEmailSender
+    public interface IEmailSender : IDisposable
     {
         Task SendAsync(string message, string mailTo);
         string MailTo { get; }

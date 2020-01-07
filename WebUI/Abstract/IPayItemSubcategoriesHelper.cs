@@ -6,7 +6,7 @@ using WebUI.Models;
 
 namespace WebUI.Abstract
 {
-    public interface IPayItemSubcategoriesHelper
+    public interface IPayItemSubcategoriesHelper : IDisposable
     {
         Task<List<PayItemSubcategories>> GetPayItemsWithSubcategoriesInDatesWeb(DateTime dateFrom, DateTime dateTo,
             IWorkingUser user, int typeOfFlowId);

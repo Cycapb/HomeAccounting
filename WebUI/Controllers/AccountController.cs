@@ -200,6 +200,12 @@ namespace WebUI.Controllers
             }
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _accountService.Dispose();
+            base.Dispose(disposing);
+        }
+
         private async Task FillTransferModel(WebUser user, TransferModel tModel)
         {
             tModel.FromAccounts = (await _accountService.GetListAsync())

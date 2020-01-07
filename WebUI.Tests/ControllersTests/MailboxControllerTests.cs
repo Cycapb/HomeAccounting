@@ -85,7 +85,7 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public async Task Add_RaisesWebUiException()
         {
-            _mailboxService.Setup(m => m.AddAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
+            _mailboxService.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
 
             await _controller.Add(new NotificationMailboxViewModel());
         }

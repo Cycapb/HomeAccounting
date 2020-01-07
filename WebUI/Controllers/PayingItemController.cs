@@ -275,7 +275,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                var products = (await _categoryService.GetProducts(id)).ToList();
+                var products = (await _categoryService.GetItemAsync(id)).Products.ToList();
                 return PartialView("_GetSubCategoriesForEdit", products);
             }
             catch (ServiceException e)
@@ -334,6 +334,18 @@ namespace WebUI.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _payingItemService.Dispose();
+            _categoryService.Dispose();
+            _accountService.Dispose();
+            _payingItemCreator.Dispose();
+            _payingItemEditViewModelCreator.Dispose();
+            _payingItemUpdater.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

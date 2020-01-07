@@ -10,6 +10,7 @@ namespace DomainModels.Repositories
         IEnumerable<T> GetList();
         IEnumerable<T> GetList(Expression<Func<T,bool>> predicate);
         Task<IEnumerable<T>> GetListAsync();
+        Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> predicate);
         T GetItem(int id);
         Task<T> GetItemAsync(int id);
         T Create(T item);

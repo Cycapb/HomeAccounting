@@ -14,18 +14,21 @@ namespace BussinessLogic.Services
     public class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
+        private bool _disposed;
 
         public ProductService(IRepository<Product> productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task CreateAsync(Product product)
+        public async Task<Product> CreateAsync(Product product)
         {
             try
             {
-                await _productRepository.CreateAsync(product);
+                var createdItem = await _productRepository.CreateAsync(product);
                 await _productRepository.SaveAsync();
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -73,8 +76,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var dependencies = (await _productRepository.GetItemAsync(id)).PayingItemProducts.Any();
-                if (dependencies)
+                var hasDependencies = (await _productRepository.GetItemAsync(id)).PayingItemProducts.Any();
+                if (hasDependencies)
                 {
                     return;
                 }
@@ -100,18 +103,6 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task SaveAsync()
-        {
-            try
-            {
-                await _productRepository.SaveAsync();
-            }
-            catch (DomainModelsException e)
-            {
-                throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(SaveAsync)} при обращении к БД", e);
-            }
-        }
-
         public IEnumerable<Product> GetList(Expression<Func<Product, bool>> predicate)
         {
             try
@@ -121,6 +112,49 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public Product GetItem(int id)
+        {
+            try
+            {
+                return _productRepository.GetItem(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetListAsync(Expression<Func<Product, bool>> predicate)
+        {
+            try
+            {
+                return await _productRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(ProductService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _productRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

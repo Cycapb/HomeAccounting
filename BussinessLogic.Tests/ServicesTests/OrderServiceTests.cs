@@ -26,20 +26,6 @@ namespace BussinessLogic.Tests.ServicesTests
 
         [TestMethod]
         [TestCategory("OrderServiceTests")]
-        public async Task CreateOrder()
-        {
-            var orderDate = DateTime.Today.Date;
-            var userId = "1";
-            _orderRepository.Setup(m => m.CreateAsync(It.IsAny<Order>())).ReturnsAsync(new Order() {UserId = "1"});
-
-            var result = await _orderService.CreateOrderAsync(orderDate, userId);
-
-            Assert.AreEqual(result.UserId, "1");
-
-        }
-
-        [TestMethod]
-        [TestCategory("OrderServiceTests")]
         public async Task SendByEmail()
         {
             var orderId = 1;

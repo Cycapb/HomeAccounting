@@ -11,7 +11,8 @@ namespace WebUI.Helpers
 {
     public class PayingItemUpdater : IPayingItemUpdater
     {
-        private readonly IPayingItemService _payingItemService;        
+        private readonly IPayingItemService _payingItemService;
+        private bool _disposed;
 
         public PayingItemUpdater(IPayingItemService payingItemService)
         {
@@ -27,9 +28,10 @@ namespace WebUI.Helpers
 
             var sum = GetSumOfTheProducts(model);
             var payingItem = await _payingItemService.GetItemAsync(model.PayingItem.ItemID).ConfigureAwait(false);
-            payingItem.Summ = sum == 0 ? model.PayingItem.Summ : sum;
+            payingItem.Summ = sum;
             var comment = CreateCommentForPayingItem(model);
-            payingItem.Comment = string.IsNullOrEmpty(comment) ? model.PayingItem.Comment : comment;
+
+            payingItem.Comment = comment;
             payingItem.CategoryID = model.PayingItem.CategoryID;
             payingItem.AccountID = model.PayingItem.AccountID;
 
@@ -42,6 +44,25 @@ namespace WebUI.Helpers
             }
 
             return await CreatePayingItemProduct(model, payingItem).ConfigureAwait(false);            
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _payingItemService.Dispose();
+                }
+
+                _disposed = true;
+            }
         }
 
         private async Task<PayingItem> CreatePayingItemProduct(PayingItemEditViewModel model, PayingItem payingItem)
@@ -83,13 +104,26 @@ namespace WebUI.Helpers
         {
             var products = new List<Product>();
 
-            if (model.ProductsInItem != null)
+            if (model.ProductsInItem == null && model.ProductsNotInItem == null)
             {
-                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
+                return model.PayingItem.Summ;
             }
 
-            if (model.ProductsNotInItem != null)
+            if (model.ProductsInItem != null && model.ProductsNotInItem == null)
             {
+                if (model.ProductsInItem.Any(x => x.ProductID != 0))
+                {
+                    products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
+
+                    return products.Sum(x => x.Price);
+                }
+
+                return model.PayingItem.Summ;
+            }
+
+            if (model.ProductsInItem != null && model.ProductsNotInItem != null)
+            {
+                products.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).ToList());
                 products.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).ToList());
             }
 
@@ -101,19 +135,37 @@ namespace WebUI.Helpers
             var productsNames = new List<string>();
             var comment = string.Empty;
 
-            if (model.ProductsInItem != null)
+            if (model.ProductsInItem == null && model.ProductsNotInItem == null)
             {
-                productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName).ToList());
+                return model.PayingItem.Comment;
             }
 
-            if (model.ProductsNotInItem != null)
+            if (model.ProductsInItem != null && model.ProductsNotInItem == null)
             {
-                productsNames.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName).ToList());
+                if (model.ProductsInItem.Any(x => x.ProductID != 0))
+                {
+                    productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(p => p.ProductName));
+
+                    foreach (var productName in productsNames)
+                    {
+                        comment += productName + ", ";
+                    }
+
+                    return comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));
+                }
+
+                return model.PayingItem.Comment;
             }
 
-            foreach (var productName in productsNames)
+            if (model.ProductsInItem != null && model.ProductsNotInItem != null)
             {
-                comment += productName + ", ";
+                productsNames.AddRange(model.ProductsInItem.Where(x => x.ProductID != 0).Select(x => x.ProductName).ToList());
+                productsNames.AddRange(model.ProductsNotInItem.Where(x => x.ProductID != 0).Select(x => x.ProductName).ToList());
+
+                foreach (var productName in productsNames)
+                {
+                    comment += productName + ", ";
+                }
             }
 
             return string.IsNullOrEmpty(comment) ? comment : comment.Remove(comment.LastIndexOf(",", StringComparison.Ordinal));

@@ -1,31 +1,34 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
-using DomainModels.Exceptions;
 using Services;
 using Services.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BussinessLogic.Services
 {
-    public class AccountService:IAccountService
+    public class AccountService : IAccountService
     {
         private readonly IRepository<Account> _accountRepository;
+        private bool _disposed;
 
         public AccountService(IRepository<Account> accountRepository)
         {
             _accountRepository = accountRepository;
         }
 
-        public async Task CreateAsync(Account item)
+        public async Task<Account> CreateAsync(Account item)
         {
             try
             {
-                await _accountRepository.CreateAsync(item);
+                var createdItem = await _accountRepository.CreateAsync(item);
                 await _accountRepository.SaveAsync();
+
+                return createdItem;
             }
             catch (DomainModelsException e)
             {
@@ -122,6 +125,49 @@ namespace BussinessLogic.Services
             catch (DomainModelsException e)
             {
                 throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetList)} при обращении к БД", e);
+            }
+        }
+
+        public Account GetItem(int id)
+        {
+            try
+            {
+                return _accountRepository.GetItem(id);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetItem)} при обращении к БД", e);
+            }
+        }
+
+        public async Task<IEnumerable<Account>> GetListAsync(Expression<Func<Account, bool>> predicate)
+        {
+            try
+            {
+                return await _accountRepository.GetListAsync(predicate);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(AccountService)} в методе {nameof(GetListAsync)} при обращении к БД", e);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _accountRepository.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

@@ -1,17 +1,13 @@
 ﻿using DomainModels.Model;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using Services.BaseInterfaces;
+using System;
+
 namespace Services
 {
     /// <summary>
-    /// Служит для управления почтовыми ящиками системы уведомлений
+    /// Is used to work with notification mailboxes of the system
     /// </summary>
-    public interface IMailboxService : IService<NotificationMailBox>
+    public interface IMailboxService : IQueryService<NotificationMailBox>, IQueryServiceAsync<NotificationMailBox>, ICommandServiceAsync<NotificationMailBox>, IDisposable
     {
-        Task<NotificationMailBox> AddAsync(NotificationMailBox mailbox);
-        Task<NotificationMailBox> GetItemAsync(int id);
-        Task<IEnumerable<NotificationMailBox>> GetListAsync();
-        Task DeleteAsync(int id);
-        Task UpdateAsync(NotificationMailBox item);        
     }
 }

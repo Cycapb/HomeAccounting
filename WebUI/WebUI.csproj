@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebUI</RootNamespace>
     <AssemblyName>WebUI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -546,6 +546,7 @@
     <Compile Include="Infrastructure\CustomPasswordValidator.cs" />
     <Compile Include="Infrastructure\CustomUserValidator.cs" />
     <Compile Include="Infrastructure\Events\TimerModuleEventArgs.cs" />
+    <Compile Include="Infrastructure\Loggers\NlogExceptionLogger.cs" />
     <Compile Include="Infrastructure\MessagesEnum.cs" />
     <Compile Include="Infrastructure\Modules\ModuleRegistration.cs" />
     <Compile Include="Infrastructure\Modules\SessionExpireModule.cs" />
@@ -556,6 +557,10 @@
     <Compile Include="Infrastructure\Attributes\UserHasCategoriesAttribute.cs" />
     <Compile Include="Infrastructure\UserHasNoAccountsActiontResult.cs" />
     <Compile Include="Infrastructure\UserHasNoCategoriesActionResult.cs" />
+    <Compile Include="Migrations\202001021206152_InitialMigrationForDb.cs" />
+    <Compile Include="Migrations\202001021206152_InitialMigrationForDb.Designer.cs">
+      <DependentUpon>202001021206152_InitialMigrationForDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountAddViewModel.cs" />
     <Compile Include="Models\AccRoleModel.cs" />
@@ -732,6 +737,11 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001021206152_InitialMigrationForDb.resx">
+      <DependentUpon>202001021206152_InitialMigrationForDb.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -790,7 +800,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-    <Target Name="AfterBuild">
-	<TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" StackTrace="true" />
+  <Target Name="AfterBuild">
+    <TransformXml Source="Web.config" Transform="Web.$(Configuration).config" Destination="Web.config" StackTrace="true" />
   </Target>
 </Project>
