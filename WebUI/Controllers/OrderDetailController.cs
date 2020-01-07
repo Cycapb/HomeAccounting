@@ -82,6 +82,10 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(Add)}", e);
             }
+            catch(Exception ex)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderDetailController)} в методе {nameof(Add)}", ex);
+            }
         }
 
         [HttpPost]
@@ -112,7 +116,7 @@ namespace WebUI.Controllers
 
                 try
                 {
-                    categories = await GetCategories(user.Id);
+                    categories = (await GetCategories(user.Id)).ToList();
                     _cacheManager.Set("Categories", categories, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(60));
                 }
                 catch (ServiceException e)
@@ -137,8 +141,13 @@ namespace WebUI.Controllers
         private async Task<IEnumerable<Category>> GetCategories(string userId)
         {
             return (await _categoryService.GetListAsync(x => x.UserId == userId && x.TypeOfFlowID == 2 && x.Products.Any()))
-                .OrderBy(x => x.Name)
-                .ToList();
+                .Select(x => new Category()
+                {
+                    CategoryID = x.CategoryID,
+                    Name = x.Name,
+                    Products = x.Products
+                })
+                .OrderBy(x => x.Name);                
         }
     }
 
