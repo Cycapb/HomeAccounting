@@ -17,9 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI.Tests", "WebUI.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessLogic.Tests", "BussinessLogic.Tests\BussinessLogic.Tests.csproj", "{5C083224-AD61-49BF-93D2-0740A368A9C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggers", "Loggers\Loggers.csproj", "{A7C4220C-CBC8-4852-95C8-15CFC6DFAA86}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converters", "Converters\Converters.csproj", "{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loggers", "Loggers\Loggers.csproj", "{A7C4220C-CBC8-4852-95C8-15CFC6DFAA86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Providers", "Providers\Providers.csproj", "{79553655-CCBA-4823-8459-CA7D610E7F67}"
 EndProject
@@ -83,12 +81,6 @@ Global
 		{A7C4220C-CBC8-4852-95C8-15CFC6DFAA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7C4220C-CBC8-4852-95C8-15CFC6DFAA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7C4220C-CBC8-4852-95C8-15CFC6DFAA86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}.Debug.Local|Any CPU.ActiveCfg = Debug.Local|Any CPU
-		{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}.Debug.Local|Any CPU.Build.0 = Debug.Local|Any CPU
-		{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{677DD3B3-72A6-4451-A8E1-D2A63BB690B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79553655-CCBA-4823-8459-CA7D610E7F67}.Debug.Local|Any CPU.ActiveCfg = Debug|Any CPU
 		{79553655-CCBA-4823-8459-CA7D610E7F67}.Debug.Local|Any CPU.Build.0 = Debug|Any CPU
 		{79553655-CCBA-4823-8459-CA7D610E7F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
-using Converters;
+using WebUI.Abstract.Converters;
 
-namespace BussinessLogic.Converters
+namespace WebUI.Concrete.Converters
 {
     public class RouteDataConverter:IRouteDataConverter
     {

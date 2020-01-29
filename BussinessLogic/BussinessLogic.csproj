@@ -65,20 +65,17 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Converters\RouteDataConverter.cs" />
     <Compile Include="Providers\AccountingNotificationMailBoxProvider.cs" />
     <Compile Include="Providers\SingleIpAddressProviderLoggingDecorator.cs" />
     <Compile Include="Providers\MultipleIpAddressProvider.cs" />
     <Compile Include="Providers\SingleIpAddressProvider.cs" />
     <Compile Include="Services\AccountService.cs" />
-    <Compile Include="Services\Caching\MemoryCacheManager.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CreateCloseDebtService.cs" />
     <Compile Include="Services\CreateCloseDebtServicePayingItemDecorator.cs" />
@@ -94,10 +91,6 @@
     <Compile Include="Services\TypeOfFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Converters\Converters.csproj">
-      <Project>{677dd3b3-72a6-4451-a8e1-d2a63bb690b0}</Project>
-      <Name>Converters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DomainModels\DomainModels.csproj">
       <Project>{fdb4f8ed-2819-4e48-82b2-50e3ce598a5a}</Project>
       <Name>DomainModels</Name>

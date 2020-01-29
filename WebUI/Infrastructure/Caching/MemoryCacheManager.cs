@@ -2,7 +2,7 @@
 using System.Web.Caching;
 using Services.Caching;
 
-namespace BussinessLogic.Services.Caching
+namespace WebUI.Infrastructure.Caching
 {
     public class MemoryCacheManager:ICacheManager
     {

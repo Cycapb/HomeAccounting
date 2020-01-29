@@ -71,7 +71,6 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="IRouteDataConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
