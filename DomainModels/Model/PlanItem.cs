@@ -14,6 +14,7 @@ namespace DomainModels.Model
         public DateTime Month { get; set; }
 
         [Column(TypeName = "money")]
+        [DataType(DataType.Currency)]
         public decimal SummPlan { get; set; }
 
         [Column(TypeName = "money")]

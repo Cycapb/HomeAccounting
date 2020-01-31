@@ -17,7 +17,7 @@ namespace DomainModels.Model
 
         public int CategoryID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо задать имя категории")]
         [StringLength(50)]
         public string Name { get; set; }
 

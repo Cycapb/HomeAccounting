@@ -16,11 +16,14 @@ namespace DomainModels.Model
 
         public int AccountID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать название счета")]
         [StringLength(50)]
         public string AccountName { get; set; }
 
         [Column(TypeName = "money")]
+        [Required(ErrorMessage = "Необходимо указать сумму на счете")]
+        [DataType(DataType.Currency)]
+        [Display(Name = "Сумма")]
         public decimal Cash { get; set; }
 
         public bool Use { get; set; }

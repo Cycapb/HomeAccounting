@@ -81,14 +81,6 @@
     <Compile Include="Infrastructure\CategoryModelAttribute.cs" />
     <Compile Include="Model\OverallOutgoItem.cs" />
     <Compile Include="Model\PayItem.cs" />
-    <Compile Include="PartialModel\Account.cs" />
-    <Compile Include="PartialModel\Category.cs" />
-    <Compile Include="PartialModel\Debt.cs" />
-    <Compile Include="PartialModel\PayingItem.cs" />
-    <Compile Include="PartialModel\PlanItem.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
