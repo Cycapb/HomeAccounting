@@ -17,7 +17,22 @@ namespace WebUI.Core
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages();
             }
+
+            app.UseStaticFiles();
+            app.UseMvc(routes => 
+            {
+                routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index"});
+                routes.MapRoute("Report", "Report/{action}/{typeOfFlowId?}", new { controller = "Report", action = "SubcategoriesReport"});
+                routes.MapRoute("Page", "Page{page}", new { controller = "PayingItem", action = "List", page = 1 }, new { page = @"\d"});
+                routes.MapRoute("Report", "{typeOfFlowId:range(1,2)}", new { controller = "PayingItem", action = "Add" });
+                routes.MapRoute("", "Category/{action}/{id}", new {controller = "Category"});
+                routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}", new { controller = "Category"});
+                routes.MapRoute("", "Category/{action}/{page}", new { controller = "Category"});
+                routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index"});
+                routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index"});
+            });
         }
     }
 }
