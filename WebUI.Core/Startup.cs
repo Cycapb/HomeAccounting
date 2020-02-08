@@ -10,6 +10,8 @@ namespace WebUI.Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -20,13 +22,15 @@ namespace WebUI.Core
                 app.UseStatusCodePages();
             }
 
+            app.UseBrowserLink();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes => 
             {
                 routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index"});
-                routes.MapRoute("Report", "Report/{action}/{typeOfFlowId?}", new { controller = "Report", action = "SubcategoriesReport"});
+                routes.MapRoute("", "Report/{action}/{typeOfFlowId?}", new { controller = "Report", action = "SubcategoriesReport"});
                 routes.MapRoute("Page", "Page{page}", new { controller = "PayingItem", action = "List", page = 1 }, new { page = @"\d"});
-                routes.MapRoute("Report", "{typeOfFlowId:range(1,2)}", new { controller = "PayingItem", action = "Add" });
+                routes.MapRoute("", "{typeOfFlowId:range(1,2)}", new { controller = "PayingItem", action = "Add" });
                 routes.MapRoute("", "Category/{action}/{id}", new {controller = "Category"});
                 routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}", new { controller = "Category"});
                 routes.MapRoute("", "Category/{action}/{page}", new { controller = "Category"});

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace WebUI.Core
 {
@@ -14,9 +16,24 @@ namespace WebUI.Core
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());                    
                     webBuilder.UseKestrel();
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration((builderContext, configBuilder) => 
+                {
+                    var env = builderContext.HostingEnvironment;
+                    configBuilder
+                        .AddJsonFile("appsettings.json", true, true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+                    configBuilder.AddEnvironmentVariables();
+
+                    if(args != null) 
+                    {
+                        configBuilder.AddCommandLine(args);
+                    }
+
                 });
     }
 }
