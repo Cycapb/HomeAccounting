@@ -16,12 +16,12 @@ namespace WebUI.Core
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());                    
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseKestrel();
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
                 })
-                .ConfigureAppConfiguration((builderContext, configBuilder) => 
+                .ConfigureAppConfiguration((builderContext, configBuilder) =>
                 {
                     var env = builderContext.HostingEnvironment;
                     configBuilder
@@ -29,11 +29,10 @@ namespace WebUI.Core
                         .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
                     configBuilder.AddEnvironmentVariables();
 
-                    if(args != null) 
+                    if (args != null)
                     {
                         configBuilder.AddCommandLine(args);
                     }
-
                 });
     }
 }
