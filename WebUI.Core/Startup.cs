@@ -1,9 +1,13 @@
+using BussinessLogic.Services;
 using DomainModels.EntityORM;
+using DomainModels.Model;
+using DomainModels.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services;
 
 namespace WebUI.Core
 {
@@ -18,7 +22,10 @@ namespace WebUI.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<AccountingContext>(serviceProvider => new AccountingContext(_configuration.GetConnectionString("AccountingEntities")));
+            services.AddScoped<AccountingContext>(serviceProvider => 
+                new AccountingContext(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]));
+            services.AddTransient<IRepository<NotificationMailBox>, EntityRepository<NotificationMailBox>>();
+            services.AddTransient<IMailboxService, MailboxService>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
             services.AddSession();

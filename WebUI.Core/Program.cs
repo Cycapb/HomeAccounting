@@ -27,6 +27,7 @@ namespace WebUI.Core
                     configBuilder
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+                    //configBuilder.AddXmlFile("App.config", true, true);
                     configBuilder.AddEnvironmentVariables();
 
                     if (args != null)
