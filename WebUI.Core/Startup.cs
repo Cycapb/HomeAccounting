@@ -22,8 +22,8 @@ namespace WebUI.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<AccountingContext>(serviceProvider => 
-                new AccountingContext(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]));
+            services.AddTransient<AccountingContext>(serviceProvider => 
+                new AccountingContext(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]));            
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepository<NotificationMailBox>>();
             services.AddTransient<IMailboxService, MailboxService>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
