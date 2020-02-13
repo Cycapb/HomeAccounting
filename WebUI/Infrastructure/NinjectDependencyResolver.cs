@@ -36,15 +36,15 @@ namespace WebUI.Infrastructure
 
         private void AddBindings()
         {
-            _kernel.Bind<IRepository<PayingItem>>().To<EntityRepository<PayingItem>>();
-            _kernel.Bind<IRepository<Account>>().To<EntityRepository<Account>>();
-            _kernel.Bind<IRepository<Category>>().To<EntityRepository<Category>>();
-            _kernel.Bind<IRepository<TypeOfFlow>>().To<EntityRepository<TypeOfFlow>>();
-            _kernel.Bind<IRepository<Product>>().To<EntityRepository<Product>>();            
-            _kernel.Bind<IRepository<PlanItem>>().To<EntityRepository<PlanItem>>();
-            _kernel.Bind<IRepository<Order>>().To<EntityRepository<Order>>();
-            _kernel.Bind<IRepository<OrderDetail>>().To<EntityRepository<OrderDetail>>();
-            _kernel.Bind<IRepository<PayingItemProduct>>().To<EntityRepository<PayingItemProduct>>();
+            _kernel.Bind<IRepository<PayingItem>>().To<EntityRepository<PayingItem, AccountingContext>>();
+            _kernel.Bind<IRepository<Account>>().To<EntityRepository<Account, AccountingContext>>();
+            _kernel.Bind<IRepository<Category>>().To<EntityRepository<Category, AccountingContext>>();
+            _kernel.Bind<IRepository<TypeOfFlow>>().To<EntityRepository<TypeOfFlow, AccountingContext>>();
+            _kernel.Bind<IRepository<Product>>().To<EntityRepository<Product, AccountingContext>>();            
+            _kernel.Bind<IRepository<PlanItem>>().To<EntityRepository<PlanItem, AccountingContext>>();
+            _kernel.Bind<IRepository<Order>>().To<EntityRepository<Order, AccountingContext>>();
+            _kernel.Bind<IRepository<OrderDetail>>().To<EntityRepository<OrderDetail, AccountingContext>>();
+            _kernel.Bind<IRepository<PayingItemProduct>>().To<EntityRepository<PayingItemProduct, AccountingContext>>();
             _kernel.Bind<IReportMenu>().To<ReportMenu>();
             _kernel.Bind<IReporter>().To<EmailUserReporter>();
             _kernel.Bind<IPlanningHelper>().To<PlaningControllerHelper>();            
@@ -54,7 +54,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IDbHelper>().To<DbHelper>();
             _kernel.Bind<IPagingInfoCreator>().To<PagingInfoCreator>();
             _kernel.Bind<IDebtService>().To<DebtService>();
-            _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt>>();
+            _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt, AccountingContext>>();
             _kernel.Bind<ICategoryService>().To<CategoryService>();
             _kernel.Bind<IAccountService>().To<AccountService>();
             _kernel.Bind<IProductService>().To<ProductService>();
@@ -63,7 +63,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IOrderService>().To<OrderService>();
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();
-            _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox>>();
+            _kernel.Bind<IRepository<NotificationMailBox>>().To<EntityRepository<NotificationMailBox, AccountingContext>>();
             _kernel.Bind<IMailboxService>().To<MailboxService>();
             _kernel.Bind<ICategoryHelper>().To<CategoryHelper>();
             _kernel.Bind<IMessageProvider>().To<MessageProvider>();

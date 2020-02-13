@@ -73,6 +73,8 @@
     </Compile>
     <Compile Include="EntityRepository.cs" />
     <Compile Include="Infrastructure\AccountingContext.cs" />
+    <Compile Include="Infrastructure\AccountingContextCore.cs" />
+    <Compile Include="Infrastructure\AccountingContextCoreFactory.cs" />
     <Compile Include="Migrations\202001021155326_InitialMigrationForDb.cs" />
     <Compile Include="Migrations\202001021155326_InitialMigrationForDb.Designer.cs">
       <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
