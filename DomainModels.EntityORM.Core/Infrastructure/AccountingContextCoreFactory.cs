@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 
-namespace DomainModels.EntityORM.Infrastructure
+namespace DomainModels.EntityORM.Core.Infrastructure
 {
     public class AccountingContextCoreFactory : IDbContextFactory<AccountingContextCore>
     {

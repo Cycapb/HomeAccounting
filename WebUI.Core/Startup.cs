@@ -1,6 +1,6 @@
 using BussinessLogic.Services;
-using DomainModels.EntityORM;
-using DomainModels.EntityORM.Infrastructure;
+using DomainModels.EntityORM.Core;
+using DomainModels.EntityORM.Core.Infrastructure;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Microsoft.AspNetCore.Builder;
