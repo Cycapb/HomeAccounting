@@ -1,13 +1,13 @@
 ﻿using DomainModels.Exceptions;
 using DomainModels.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DomainModels.EntityORM.Core
+namespace DomainModels.EntityORM.Core.Infrastructure
 {
     public class EntityRepository<T, TContext> : IRepository<T>
         where T : class
@@ -66,31 +66,31 @@ namespace DomainModels.EntityORM.Core
             }
         }
 
-        public virtual T Create(T item)
-        {
-            try
-            {
-                return _dbSet.Add(item);
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Create)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
-            }
+        //public virtual T Create(T item)
+        //{
+        //    try
+        //    {
+        //        return _dbSet.Add(item);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Create)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+        //    }
 
-        }
+        //}
 
-        public virtual Task<T> CreateAsync(T item)
-        {
-            try
-            {
-                return Task.Run(() => _dbSet.Add(item));
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(CreateAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
-            }
+        //public virtual Task<T> CreateAsync(T item)
+        //{
+        //    try
+        //    {
+        //        return Task.Run(() => _dbSet.Add(item));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(CreateAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+        //    }
 
-        }
+        //}
 
         public virtual void Delete(int id)
         {
@@ -275,6 +275,16 @@ namespace DomainModels.EntityORM.Core
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
+        }
+
+        public T Create(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> CreateAsync(T item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

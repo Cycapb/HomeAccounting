@@ -1,10 +1,10 @@
 using BussinessLogic.Services;
-using DomainModels.EntityORM.Core;
 using DomainModels.EntityORM.Core.Infrastructure;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,10 +23,12 @@ namespace WebUI.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<AccountingContextCore>(serviceProvider => 
-                new AccountingContextCore(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]));            
-            services.AddTransient<IRepository<NotificationMailBox>, EntityRepository<NotificationMailBox, AccountingContextCore>>();
+            services.AddDbContext<AccountingContextCore>(options =>
+            {
+                options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
+            });
             services.AddTransient<IMailboxService, MailboxService>();
+            services.AddTransient <IRepository<NotificationMailBox>, EntityRepository<NotificationMailBox, AccountingContextCore>>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
             services.AddSession();
@@ -43,17 +45,17 @@ namespace WebUI.Core
             app.UseBrowserLink();
             app.UseStaticFiles();
             app.UseSession();
-            app.UseMvc(routes => 
+            app.UseMvc(routes =>
             {
-                routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index"});
-                routes.MapRoute("", "Report/{action}/{typeOfFlowId?}", new { controller = "Report", action = "SubcategoriesReport"});
-                routes.MapRoute("Page", "Page{page}", new { controller = "PayingItem", action = "List", page = 1 }, new { page = @"\d"});
+                routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });
+                routes.MapRoute("", "Report/{action}/{typeOfFlowId?}", new { controller = "Report", action = "SubcategoriesReport" });
+                routes.MapRoute("Page", "Page{page}", new { controller = "PayingItem", action = "List", page = 1 }, new { page = @"\d" });
                 routes.MapRoute("", "{typeOfFlowId:range(1,2)}", new { controller = "PayingItem", action = "Add" });
-                routes.MapRoute("", "Category/{action}/{id}", new {controller = "Category"});
-                routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}", new { controller = "Category"});
-                routes.MapRoute("", "Category/{action}/{page}", new { controller = "Category"});
-                routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index"});
-                routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index"});
+                routes.MapRoute("", "Category/{action}/{id}", new { controller = "Category" });
+                routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}", new { controller = "Category" });
+                routes.MapRoute("", "Category/{action}/{page}", new { controller = "Category" });
+                routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
+                routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index" });
             });
         }
     }
