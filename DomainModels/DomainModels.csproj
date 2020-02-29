@@ -65,6 +65,7 @@
     <Compile Include="Exceptions\DomainModelsException.cs" />
     <Compile Include="Model.Core\Account.cs" />
     <Compile Include="Model.Core\Category.cs" />
+    <Compile Include="Model.Core\Debt.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Debt.cs" />

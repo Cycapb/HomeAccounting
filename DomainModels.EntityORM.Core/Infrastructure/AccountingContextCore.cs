@@ -12,5 +12,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
         public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Debt> Debts { get; set; }
     }
 }
