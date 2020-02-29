@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DomainModels.Model.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace DomainModels.EntityORM.Core.Infrastructure
 {
@@ -7,5 +8,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
         public AccountingContextCore(DbContextOptions<AccountingContextCore> options) : base(options)
         {
         }
+
+        public DbSet<Account> Accounts { get; set; }
     }
 }

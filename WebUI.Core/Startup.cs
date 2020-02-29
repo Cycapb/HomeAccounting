@@ -28,7 +28,7 @@ namespace WebUI.Core
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
             });
             services.AddTransient<IMailboxService, MailboxService>();
-            services.AddTransient <IRepository<NotificationMailBox>, EntityRepository<NotificationMailBox, AccountingContextCore>>();
+            services.AddTransient <IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
             services.AddSession();

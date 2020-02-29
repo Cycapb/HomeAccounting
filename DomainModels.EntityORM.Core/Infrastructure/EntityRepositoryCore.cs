@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace DomainModels.EntityORM.Core.Infrastructure
 {
-    public class EntityRepository<T, TContext> : IRepository<T>
+    public class EntityRepositoryCore<T, TContext> : IRepository<T>
         where T : class
         where TContext : DbContext
     {
         private readonly DbSet<T> _dbSet;
         private readonly TContext _context;
 
-        public EntityRepository(TContext context)
+        public EntityRepositoryCore(TContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
@@ -50,7 +50,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -62,7 +62,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -104,7 +104,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Delete)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Delete)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
 
         }
@@ -121,7 +121,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
 
         }
@@ -134,7 +134,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Update)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Update)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
 
         }
@@ -150,7 +150,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(UpdateAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(UpdateAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
 
         }
@@ -163,7 +163,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Save)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Save)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -175,7 +175,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -191,7 +191,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -203,7 +203,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItem)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItem)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -215,7 +215,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItemAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItemAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -227,7 +227,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -244,7 +244,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRange)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRange)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -261,7 +261,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRangeAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRangeAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
@@ -273,7 +273,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
