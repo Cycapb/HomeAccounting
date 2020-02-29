@@ -11,8 +11,6 @@ namespace DomainModels.Model.Core
 
         public int PayingItemId { get; set; }
 
-        public int ProductId { get; set; }
-
         public decimal Price { get; set; }
 
         public virtual PayingItem PayingItem { get; set; }
