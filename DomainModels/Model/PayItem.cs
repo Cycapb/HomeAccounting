@@ -2,6 +2,9 @@
 
 namespace DomainModels.Model
 {
+    /// <summary>
+    /// Is used for Reporting
+    /// </summary>
     public class PayItem
     {
         public int ItemId { get; set; }

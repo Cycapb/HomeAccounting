@@ -6,7 +6,6 @@ namespace DomainModels.Model.Core
     [Table("NotificationMailBox")]
     public class NotificationMailBox
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
