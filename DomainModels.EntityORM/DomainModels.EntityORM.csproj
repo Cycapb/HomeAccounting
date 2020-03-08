@@ -77,6 +77,10 @@
     <Compile Include="Migrations\202003081102540_InitialMigration.designer.cs">
       <DependentUpon>202003081102540_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003081541151_ChangedTypeOfProductIdInPayingItemProduct.cs" />
+    <Compile Include="Migrations\202003081541151_ChangedTypeOfProductIdInPayingItemProduct.designer.cs">
+      <DependentUpon>202003081541151_ChangedTypeOfProductIdInPayingItemProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +96,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003081102540_InitialMigration.resx">
       <DependentUpon>202003081102540_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003081541151_ChangedTypeOfProductIdInPayingItemProduct.resx">
+      <DependentUpon>202003081541151_ChangedTypeOfProductIdInPayingItemProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
