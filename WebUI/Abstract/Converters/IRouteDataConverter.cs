@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Routing;
 
-namespace Converters
+namespace WebUI.Abstract.Converters
 {
     /// <summary>
     /// Интерфейс конвертера RouteValueDictionary в Dictionary string,object>

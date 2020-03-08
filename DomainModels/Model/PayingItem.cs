@@ -1,5 +1,6 @@
 namespace DomainModels.Model
 {
+    using DomainModels.Infrastructure;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -17,14 +18,22 @@ namespace DomainModels.Model
         [Key]
         public int ItemID { get; set; }
 
+        [CategoryModel(ErrorMessage = "Необходимо завести хотя бы одну категорию")]
         public int CategoryID { get; set; }
 
         [Column(TypeName = "money")]
+
+        [Required(ErrorMessage = "Необходимо ввести сумму")]
+        [Display(Name = "Сумма")]
+        [DataType(DataType.Currency)]
         public decimal Summ { get; set; }
 
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Необходимо указать дату")]
         public DateTime Date { get; set; }
 
+        [AccountModel(ErrorMessage = "Необходимо завести хотя бы один счет")]
         public int AccountID { get; set; }
 
         [StringLength(1024)]

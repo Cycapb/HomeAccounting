@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using BussinessLogic.Converters;
 using BussinessLogic.Providers;
 using BussinessLogic.Services;
-using BussinessLogic.Services.Caching;
 using BussinessLogic.Services.Triggers;
-using Converters;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using WebUI.Abstract;
@@ -22,6 +19,9 @@ using Providers;
 using Services.Caching;
 using Services.Triggers;
 using WebUI.Infrastructure.Loggers;
+using WebUI.Abstract.Converters;
+using WebUI.Concrete.Converters;
+using WebUI.Infrastructure.Caching;
 
 namespace WebUI.Infrastructure
 {
