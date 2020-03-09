@@ -25,6 +25,7 @@ namespace WebUI.Core
         {
             services.AddDbContext<AccountingContextCore>(options =>
             {
+                options.UseLazyLoadingProxies();
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
             });
             services.AddTransient<IMailboxService, MailboxService>();
