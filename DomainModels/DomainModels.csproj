@@ -63,17 +63,6 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Exceptions\DomainModelsException.cs" />
-    <Compile Include="Model.Core\Account.cs" />
-    <Compile Include="Model.Core\Category.cs" />
-    <Compile Include="Model.Core\Debt.cs" />
-    <Compile Include="Model.Core\NotificationMailBox.cs" />
-    <Compile Include="Model.Core\Order.cs" />
-    <Compile Include="Model.Core\OrderDetail.cs" />
-    <Compile Include="Model.Core\PayingItem.cs" />
-    <Compile Include="Model.Core\PayingItemProduct.cs" />
-    <Compile Include="Model.Core\PlanItem.cs" />
-    <Compile Include="Model.Core\Product.cs" />
-    <Compile Include="Model.Core\TypeOfFlow.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Debt.cs" />

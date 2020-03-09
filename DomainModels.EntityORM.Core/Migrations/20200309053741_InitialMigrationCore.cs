@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DomainModels.EntityORM.Core.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class InitialMigrationCore : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -218,7 +218,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetail", x => x.ID);
+                    table.PrimaryKey("PK_OrderDetail", x => new { x.ID, x.OrderId });
                     table.ForeignKey(
                         name: "FK_OrderDetail_Order_OrderId",
                         column: x => x.OrderId,
@@ -240,12 +240,12 @@ namespace DomainModels.EntityORM.Core.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PayingItemId = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
-                    ProductID = table.Column<int>(nullable: true)
+                    ProductId = table.Column<int>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayingItemProduct", x => x.Id);
+                    table.PrimaryKey("PK_PayingItemProduct", x => new { x.Id, x.PayingItemId });
                     table.ForeignKey(
                         name: "FK_PayingItemProduct_PayingItem_PayingItemId",
                         column: x => x.PayingItemId,
@@ -253,11 +253,11 @@ namespace DomainModels.EntityORM.Core.Migrations
                         principalColumn: "ItemID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PayingItemProduct_Product_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_PayingItemProduct_Product_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -301,9 +301,9 @@ namespace DomainModels.EntityORM.Core.Migrations
                 column: "PayingItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PayingItemProduct_ProductID",
+                name: "IX_PayingItemProduct_ProductId",
                 table: "PayingItemProduct",
-                column: "ProductID");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanItem_CategoryId",

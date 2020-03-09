@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainModels.EntityORM.Core.Migrations
 {
     [DbContext(typeof(AccountingContextCore))]
-    [Migration("20200229125920_InitMigration")]
-    partial class InitMigration
+    [Migration("20200309053741_InitialMigrationCore")]
+    partial class InitialMigrationCore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DomainModels.Model.Core.Account", b =>
+            modelBuilder.Entity("DomainModels.Model.Account", b =>
                 {
                     b.Property<int>("AccountID")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("Account");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Category", b =>
+            modelBuilder.Entity("DomainModels.Model.Category", b =>
                 {
                     b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Debt", b =>
+            modelBuilder.Entity("DomainModels.Model.Debt", b =>
                 {
                     b.Property<int>("DebtID")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("Debt");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.NotificationMailBox", b =>
+            modelBuilder.Entity("DomainModels.Model.NotificationMailBox", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,7 +166,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("NotificationMailBox");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Order", b =>
+            modelBuilder.Entity("DomainModels.Model.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
@@ -189,7 +189,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.OrderDetail", b =>
+            modelBuilder.Entity("DomainModels.Model.OrderDetail", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -208,7 +208,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID", "OrderId");
 
                     b.HasIndex("OrderId");
 
@@ -217,7 +217,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("OrderDetail");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.PayingItem", b =>
+            modelBuilder.Entity("DomainModels.Model.PayingItem", b =>
                 {
                     b.Property<int>("ItemID")
                         .ValueGeneratedOnAdd()
@@ -254,7 +254,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("PayingItem");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.PayingItemProduct", b =>
+            modelBuilder.Entity("DomainModels.Model.PayingItemProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,19 +267,19 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductID")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "PayingItemId");
 
                     b.HasIndex("PayingItemId");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("PayingItemProduct");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.PlanItem", b =>
+            modelBuilder.Entity("DomainModels.Model.PlanItem", b =>
                 {
                     b.Property<int>("PlanItemID")
                         .ValueGeneratedOnAdd()
@@ -328,7 +328,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("PlanItem");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Product", b =>
+            modelBuilder.Entity("DomainModels.Model.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -359,7 +359,7 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.TypeOfFlow", b =>
+            modelBuilder.Entity("DomainModels.Model.TypeOfFlow", b =>
                 {
                     b.Property<int>("TypeID")
                         .ValueGeneratedOnAdd()
@@ -376,85 +376,85 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.ToTable("TypeOfFlow");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Category", b =>
+            modelBuilder.Entity("DomainModels.Model.Category", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.TypeOfFlow", "TypeOfFlow")
+                    b.HasOne("DomainModels.Model.TypeOfFlow", "TypeOfFlow")
                         .WithMany("Categories")
                         .HasForeignKey("TypeOfFlowID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Debt", b =>
+            modelBuilder.Entity("DomainModels.Model.Debt", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.Account", "Account")
+                    b.HasOne("DomainModels.Model.Account", "Account")
                         .WithMany("Debts")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DomainModels.Model.Core.TypeOfFlow", "TypeOfFlow")
+                    b.HasOne("DomainModels.Model.TypeOfFlow", "TypeOfFlow")
                         .WithMany("Debts")
                         .HasForeignKey("TypeOfFlowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.OrderDetail", b =>
+            modelBuilder.Entity("DomainModels.Model.OrderDetail", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.Order", "Order")
+                    b.HasOne("DomainModels.Model.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DomainModels.Model.Core.Product", "Product")
+                    b.HasOne("DomainModels.Model.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.PayingItem", b =>
+            modelBuilder.Entity("DomainModels.Model.PayingItem", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.Account", "Account")
+                    b.HasOne("DomainModels.Model.Account", "Account")
                         .WithMany("PayingItems")
                         .HasForeignKey("AccountID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DomainModels.Model.Core.Category", "Category")
+                    b.HasOne("DomainModels.Model.Category", "Category")
                         .WithMany("PayingItems")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.PayingItemProduct", b =>
+            modelBuilder.Entity("DomainModels.Model.PayingItemProduct", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.PayingItem", "PayingItem")
+                    b.HasOne("DomainModels.Model.PayingItem", "PayingItem")
                         .WithMany("PayingItemProducts")
                         .HasForeignKey("PayingItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DomainModels.Model.Core.Product", "Product")
+                    b.HasOne("DomainModels.Model.Product", "Product")
                         .WithMany("PayingItemProducts")
-                        .HasForeignKey("ProductID");
+                        .HasForeignKey("ProductId");
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.PlanItem", b =>
+            modelBuilder.Entity("DomainModels.Model.PlanItem", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.Category", "Category")
+                    b.HasOne("DomainModels.Model.Category", "Category")
                         .WithMany("PlanItems")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DomainModels.Model.Core.Product", b =>
+            modelBuilder.Entity("DomainModels.Model.Product", b =>
                 {
-                    b.HasOne("DomainModels.Model.Core.Category", "Category")
+                    b.HasOne("DomainModels.Model.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
