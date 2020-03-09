@@ -73,13 +73,13 @@
     </Compile>
     <Compile Include="EntityRepository.cs" />
     <Compile Include="Infrastructure\AccountingContext.cs" />
-    <Compile Include="Migrations\202001021155326_InitialMigrationForDb.cs" />
-    <Compile Include="Migrations\202001021155326_InitialMigrationForDb.Designer.cs">
-      <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    <Compile Include="Migrations\202003081102540_InitialMigration.cs" />
+    <Compile Include="Migrations\202003081102540_InitialMigration.designer.cs">
+      <DependentUpon>202003081102540_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.cs" />
-    <Compile Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.Designer.cs">
-      <DependentUpon>202001022005270_Added_Composite_PK_To_OrderDetail.cs</DependentUpon>
+    <Compile Include="Migrations\202003081541151_ChangedTypeOfProductIdInPayingItemProduct.cs" />
+    <Compile Include="Migrations\202003081541151_ChangedTypeOfProductIdInPayingItemProduct.designer.cs">
+      <DependentUpon>202003081541151_ChangedTypeOfProductIdInPayingItemProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
@@ -94,11 +94,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001021155326_InitialMigrationForDb.resx">
-      <DependentUpon>202001021155326_InitialMigrationForDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003081102540_InitialMigration.resx">
+      <DependentUpon>202003081102540_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001022005270_Added_Composite_PK_To_OrderDetail.resx">
-      <DependentUpon>202001022005270_Added_Composite_PK_To_OrderDetail.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003081541151_ChangedTypeOfProductIdInPayingItemProduct.resx">
+      <DependentUpon>202003081541151_ChangedTypeOfProductIdInPayingItemProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
