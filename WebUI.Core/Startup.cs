@@ -28,8 +28,11 @@ namespace WebUI.Core
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
             });
+
             services.AddTransient<IMailboxService, MailboxService>();
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient <IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
+            services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
             services.AddSession();
