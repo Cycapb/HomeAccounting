@@ -66,7 +66,7 @@ namespace BussinessLogic.Services
                 UserId = debt.UserId
             };
 
-            await _payingItemRepository.CreateAsync(payingItem);
+            _payingItemRepository.Create(payingItem);
             await _payingItemRepository.SaveAsync();
         }
 
@@ -84,7 +84,7 @@ namespace BussinessLogic.Services
                 UserId = debt.UserId
             };
 
-            await _payingItemRepository.CreateAsync(payingItem);
+            _payingItemRepository.Create(payingItem);
             await _payingItemRepository.SaveAsync();
         }
 
@@ -113,7 +113,7 @@ namespace BussinessLogic.Services
                 UserId = userId,
                 ViewInPlan = false
             };
-            await _categoryRepository.CreateAsync(category);
+            _categoryRepository.Create(category);
             await _categoryRepository.SaveAsync();
 
             return category;

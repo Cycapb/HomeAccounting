@@ -25,7 +25,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var createdItem = await _productRepository.CreateAsync(product);
+                var createdItem = _productRepository.Create(product);
                 await _productRepository.SaveAsync();
 
                 return createdItem;

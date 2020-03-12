@@ -4,7 +4,12 @@ using System;
 
 namespace Services
 {
-    public interface IProductService : IQueryService<Product>, IQueryServiceAsync<Product>, ICommandServiceAsync<Product>, IDisposable
+    public interface IProductService :
+        IQueryService<Product>,
+        IQueryServiceAsync<Product>,
+        IUpdateDeleteCommandServiceAsync<Product>,
+        ICreateCommandServiceAsync<Product>,
+        IDisposable
     {
     }
 }

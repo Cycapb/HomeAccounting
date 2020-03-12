@@ -25,7 +25,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var box = await _repository.CreateAsync(mailbox);
+                var box = _repository.Create(mailbox);
                 await _repository.SaveAsync();
                 return box;
             }

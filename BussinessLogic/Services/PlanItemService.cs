@@ -31,17 +31,17 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task<PlanItem> CreateAsync(PlanItem planItem)
+        public PlanItem Create(PlanItem planItem)
         {
             try
             {
-                var createdItem = await _pItemRepository.CreateAsync(planItem);
+                var createdItem = _pItemRepository.Create(planItem);
 
                 return createdItem;
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(CreateAsync)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(PlanItemService)} в методе {nameof(Create)} при обращении к БД", e);
             }
         }
 

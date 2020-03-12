@@ -26,7 +26,7 @@ namespace BussinessLogic.Services
             try
             {
                 item.Active = true;
-                var createdItem = await _categoryRepository.CreateAsync(item);
+                var createdItem = _categoryRepository.Create(item);
                 await _categoryRepository.SaveAsync();
 
                 return createdItem;

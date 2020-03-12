@@ -20,16 +20,13 @@ namespace BussinessLogic.Services
             _accRepo = accRepo;
         }
 
-        public Task CreateAsync(Debt debt)
+        public async Task CreateAsync(Debt debt)
         {
             try
             {
-                return Task.Run(async () =>
-                {
-                    await _debtRepo.CreateAsync(debt);
-                    await _debtRepo.SaveAsync();
-                    await CreateDebtAsync(debt);
-                });
+                _debtRepo.Create(debt);
+                await _debtRepo.SaveAsync();
+                await CreateDebtAsync(debt);
             }
             catch (DomainModelsException e)
             {

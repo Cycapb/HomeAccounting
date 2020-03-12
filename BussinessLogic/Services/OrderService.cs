@@ -28,7 +28,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var newOrder = await _orderRepository.CreateAsync(order);
+                var newOrder = _orderRepository.Create(order);
                 await _orderRepository.SaveAsync();
                 return newOrder;
             }

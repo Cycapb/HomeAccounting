@@ -83,19 +83,6 @@ namespace DomainModels.EntityORM
 
         }
 
-        public virtual Task<T> CreateAsync(T item)
-        {
-            try
-            {
-                return Task.Run(() => _dbSet.Add(item));
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(CreateAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
-            }
-
-        }
-
         public virtual void Delete(int id)
         {
             try
