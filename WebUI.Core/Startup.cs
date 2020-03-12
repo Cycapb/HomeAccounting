@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebUI.Core
 {
@@ -31,7 +33,7 @@ namespace WebUI.Core
 
             services.AddTransient<IMailboxService, MailboxService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient <IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
+            services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
@@ -61,6 +63,57 @@ namespace WebUI.Core
                 routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index" });
             });
+
+            MigrateAndSeed(app);
+        }
+
+        private void MigrateAndSeed(IApplicationBuilder app)
+        {
+            var context = app.ApplicationServices.GetRequiredService<AccountingContextCore>();
+            context.Database.Migrate();
+
+            InitializeNotificationMailBox(context);
+            InitializeTypeOfFlow(context);
+
+            context.SaveChanges();
+        }
+
+        private void InitializeNotificationMailBox(AccountingContextCore context)
+        {
+            if (!context.NotificationMailBoxes.Any())
+            {
+                var mailBox = new NotificationMailBox()
+                {
+                    MailBoxName = "Accounting",
+                    MailFrom = "home.accounting@list.ru",
+                    UserName = "home.accounting@list.ru",
+                    Password = "23we45rt",
+                    UseSsl = true,
+                    Server = "smtp.list.ru",
+                    Port = 587
+                };
+
+                context.NotificationMailBoxes.Add(mailBox);
+            }
+        }
+
+        private void InitializeTypeOfFlow(AccountingContextCore context)
+        {
+            if (!context.TypeOfFlows.Any())
+            {
+                var typesOfFlow = new List<TypeOfFlow>()
+                {
+                    new TypeOfFlow()
+                    {
+                        TypeName = "Доход"
+                    },
+                     new TypeOfFlow()
+                     {
+                         TypeName = "Расход"
+                     }
+                };
+                context.TypeOfFlows.AddRange(typesOfFlow);
+            }
         }
     }
 }
