@@ -1,5 +1,4 @@
-﻿using DomainModels.EntityORM;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using Services;
 using Services.Exceptions;
 using System;
@@ -58,7 +57,7 @@ namespace WebUI.Helpers
 
                 foreach (var item in payItemSubcategoriesList)
                 {
-                    item.ProductPrices = await FillProductPrices(item.CategoryId, dateFrom, dateTo).ConfigureAwait(false);
+                    item.ProductPrices = await FillProductPrices(item.CategoryId, dateFrom, dateTo);
                 }
                 return payItemSubcategoriesList;
             }
@@ -87,18 +86,18 @@ namespace WebUI.Helpers
             }
         }
 
-        //ToDo Изменить логику работы этого метода
         private async Task<List<ProductPrice>> FillProductPrices(int catId, DateTime dateFrom, DateTime dateTo)
         {
-            var context = new AccountingContext();
-            var tmp = await context.Database.SqlQuery<ProductPrice>(
-                $"select prod.ProductName ProductName,SUM(pip.Price) Price from PayingItem as pi " +
-                $"join PayingItemProduct as pip on pip.PayingItemId = pi.ItemID " +
-                $"join Product as prod on prod.ProductId = pip.ProductID " +
-                $"where pi.CategoryID = {catId} and pi.Date>='{dateFrom.Date}' and pi.Date<='{dateTo.Date}' " +
-                $"group by prod.ProductName")
-                .ToListAsync();
-            return tmp;
+            var payingItems = await _payingItemService
+                .GetListAsync(x => x.CategoryID == catId && x.Date >= dateFrom.Date && x.Date <= dateTo.Date)
+                .ConfigureAwait(false);
+            var productPrices = payingItems.ToList()
+                .SelectMany(x => x.PayingItemProducts)
+                .GroupBy(x => x.Product.ProductName)
+                .Select(x => new ProductPrice() { ProductName = x.Key, Price = x.Sum(p => p.Price) })
+                .ToList();
+
+            return productPrices;
         }
 
     }
