@@ -34,7 +34,5 @@ namespace DomainModels.Repositories
         Task SaveAsync();
 
         Task SaveAsync(IProgress<string> onComplete);
-        void DeleteRange(IEnumerable<T> items);
-        Task DeleteRangeAsync(IEnumerable<T> items);
     }
 }

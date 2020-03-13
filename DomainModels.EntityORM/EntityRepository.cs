@@ -222,40 +222,6 @@ namespace DomainModels.EntityORM
             }
         }
 
-        public virtual void DeleteRange(IEnumerable<T> items)
-        {
-            if (items is null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            try
-            {
-                _dbSet.RemoveRange(items);
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRange)} репозитория {nameof(EntityRepository<T>)}", ex);
-            }            
-        }
-
-        public virtual Task DeleteRangeAsync(IEnumerable<T> items)
-        {
-            if (items is null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            try
-            {
-                return Task.Run(() => _dbSet.RemoveRange(items));
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRangeAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
-            }
-        }
-
         public virtual Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> predicate)
         {
             try
