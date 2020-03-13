@@ -38,12 +38,12 @@ namespace WebUI.Helpers
                     if (j == 0)
                     {
                         var planItem = CreatePlanItem(user, categories[i].CategoryID, DateTime.Today);
-                        await _planItemService.CreateAsync(planItem);
+                        _planItemService.Create(planItem);
                     }
                     else
                     {
                         var planItem = CreatePlanItem(user, categories[i].CategoryID, DateTime.Today.AddMonths(j));
-                        await _planItemService.CreateAsync(planItem);
+                        _planItemService.Create(planItem);
                     }
                 }
                 await _planItemService.SaveAsync();
@@ -57,12 +57,12 @@ namespace WebUI.Helpers
                 if (i == 0)
                 {
                     var planItem = CreatePlanItem(user, categoryId, DateTime.Today);
-                    await _planItemService.CreateAsync(planItem);
+                    _planItemService.Create(planItem);
                 }
                 else
                 {
                     var planItem = CreatePlanItem(user, categoryId, DateTime.Today.AddMonths(i));
-                    await _planItemService.CreateAsync(planItem);
+                    _planItemService.Create(planItem);
                 }
             }
             await _planItemService.SaveAsync();

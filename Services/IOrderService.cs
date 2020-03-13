@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IOrderService : IQueryServiceAsync<Order>, ICommandServiceAsync<Order>, IDisposable
+    public interface IOrderService :
+        IQueryServiceAsync<Order>,
+        IUpdateDeleteCommandServiceAsync<Order>,
+        ICreateCommandServiceAsync<Order>,
+        IDisposable
     {
         Task SendByEmail(int orderId, string mailTo);
 

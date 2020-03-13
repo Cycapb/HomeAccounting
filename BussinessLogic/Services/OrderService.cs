@@ -28,7 +28,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var newOrder = await _orderRepository.CreateAsync(order);
+                var newOrder = _orderRepository.Create(order);
                 await _orderRepository.SaveAsync();
                 return newOrder;
             }
@@ -56,7 +56,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                await _orderRepository.UpdateAsync(order);
+                _orderRepository.Update(order);
                 await _orderRepository.SaveAsync();
             }
             catch (DomainModelsException e)
@@ -111,10 +111,11 @@ namespace BussinessLogic.Services
             try
             {
                 var order = await _orderRepository.GetItemAsync(id);
+                
                 if (order != null)
                 {
                     order.Active = false;
-                    await _orderRepository.UpdateAsync(order);
+                    _orderRepository.Update(order);
                     await _orderRepository.SaveAsync();
                 }
             }

@@ -6,7 +6,12 @@ using Services.BaseInterfaces;
 
 namespace Services
 {
-    public interface ICategoryService : IQueryService<Category>, IQueryServiceAsync<Category>, ICommandServiceAsync<Category>, IDisposable
+    public interface ICategoryService : 
+        IQueryService<Category>,
+        IQueryServiceAsync<Category>, 
+        IUpdateDeleteCommandServiceAsync<Category>, 
+        ICreateCommandServiceAsync<Category>,
+        IDisposable
     {
         /// <summary>
         /// Checks if there are any subcategories for current category

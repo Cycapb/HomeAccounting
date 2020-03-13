@@ -34,7 +34,7 @@ namespace BussinessLogic.Tests.ServicesTests
         public async Task AddAsync()
         {
             var notificationMailBox = new NotificationMailBox() { Id = 1};
-            _repository.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).ReturnsAsync(notificationMailBox);
+            _repository.Setup(m => m.Create(It.IsAny<NotificationMailBox>())).Returns(notificationMailBox);
 
             var result = await _service.CreateAsync(notificationMailBox);
 
@@ -47,7 +47,7 @@ namespace BussinessLogic.Tests.ServicesTests
         [ExpectedException(typeof(ServiceException))]
         public async Task AddAsync_ThrowsServiceException()
         {
-            _repository.Setup(x => x.CreateAsync(It.IsAny<NotificationMailBox>())).Throws<DomainModelsException>();
+            _repository.Setup(x => x.Create(It.IsAny<NotificationMailBox>())).Throws<DomainModelsException>();
             
             await _service.CreateAsync(new NotificationMailBox());            
         }
