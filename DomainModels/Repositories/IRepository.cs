@@ -30,7 +30,5 @@ namespace DomainModels.Repositories
         void Save();
 
         Task SaveAsync();
-
-        Task SaveAsync(IProgress<string> onComplete);
     }
 }
