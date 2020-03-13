@@ -93,7 +93,7 @@ namespace BussinessLogic.Services
             try
             {
                 (var oldPayingItem, var newPayingItem) = await GetNewAndOldItems(item);
-                await _repository.UpdateAsync(item);
+                _repository.Update(item);
                 await _repository.SaveAsync();
                 await _serviceTrigger.Update(oldPayingItem, newPayingItem);
             }

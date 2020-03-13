@@ -41,7 +41,7 @@ namespace BussinessLogic.Services
                 var debt = await _debtRepo.GetItemAsync(id);
                 debt.DateEnd = DateTime.Now;
                 debt.AccountId = accountId;
-                await _debtRepo.UpdateAsync(debt);
+                _debtRepo.Update(debt);
                 await _debtRepo.SaveAsync();
                 await ChangeAccountMoney(debt, debt.Summ);
             }
@@ -74,11 +74,13 @@ namespace BussinessLogic.Services
             debt.Summ -= sum;
             debt.AccountId = accountId;
             await ChangeAccountMoney(debt, sum);
+            
             if (debt.Summ == 0M)
             {
                 debt.DateEnd = DateTime.Now;
             }
-            await _debtRepo.UpdateAsync(debt);
+            
+            _debtRepo.Update(debt);
             await _debtRepo.SaveAsync();
         }
 
@@ -107,15 +109,17 @@ namespace BussinessLogic.Services
             try
             {
                 var acc = await _accRepo.GetItemAsync(debt.AccountId);
+                
                 if (debt.TypeOfFlowId == 1)
                 {
                     acc.Cash += debt.Summ;
                 }
                 else
                 {
-                    acc.Cash -= debt.Summ;
+                    acc.Cash -= debt.Summ;                
                 }
-                await _accRepo.UpdateAsync(acc);
+
+                _accRepo.Update(acc);
                 await _accRepo.SaveAsync();
             }
             catch (DomainModelsException e)
@@ -137,7 +141,7 @@ namespace BussinessLogic.Services
                 {
                     acc.Cash += sum;
                 }
-                await _accRepo.UpdateAsync(acc);
+                _accRepo.Update(acc);
                 await _accRepo.SaveAsync();
             }
             catch (DomainModelsException e)

@@ -49,7 +49,8 @@ namespace BussinessLogic.Services
         {
             try
             {
-                await _pItemRepository.UpdateAsync(planItem);
+                _pItemRepository.Update(planItem);
+                await _pItemRepository.SaveAsync();
             }
             catch (DomainModelsException e)
             {

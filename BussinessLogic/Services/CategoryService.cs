@@ -90,7 +90,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                await _categoryRepository.UpdateAsync(item);
+                _categoryRepository.Update(item);
                 await _categoryRepository.SaveAsync();
             }
             catch (DomainModelsException e)

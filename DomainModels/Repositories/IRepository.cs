@@ -27,8 +27,6 @@ namespace DomainModels.Repositories
 
         void Update(T item);
 
-        Task UpdateAsync(T item);
-
         void Save();
 
         Task SaveAsync();

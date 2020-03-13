@@ -77,7 +77,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                await _accountRepository.UpdateAsync(item);
+                _accountRepository.Update(item);
                 await _accountRepository.SaveAsync();
             }
             catch (DomainModelsException e)

@@ -130,22 +130,6 @@ namespace DomainModels.EntityORM
 
         }
 
-        public virtual Task UpdateAsync(T item)
-        {
-            try
-            {
-                return Task.Run(() =>
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                });
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(UpdateAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
-            }
-
-        }
-
         public virtual void Save()
         {
             try
