@@ -54,25 +54,13 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
         }
 
-        public virtual Task<IEnumerable<T>> GetListAsync()
-        {
-            try
-            {
-                return Task.Run(() => _dbSet.AsEnumerable());
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
-            }
-        }
+        public virtual Task<IEnumerable<T>> GetListAsync() => Task.Run(() => _dbSet.AsEnumerable());
 
         public virtual T Create(T item)
         {
             try
             {
-                var addedItem = _dbSet.Add(item);
-                
-                return addedItem.Entity;
+                return _dbSet.Add(item).Entity;
             }
             catch (Exception ex)
             {
@@ -81,29 +69,11 @@ namespace DomainModels.EntityORM.Core.Infrastructure
 
         }
 
-        public virtual Task<T> CreateAsync(T item)
-        {
-            try
-            {
-                return Task.Run(() => 
-                {
-                    var addedItem =_dbSet.Add(item);
-
-                    return addedItem.Entity;
-                });
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(CreateAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
-            }
-
-        }
-
         public virtual void Delete(int id)
         {
             try
             {
-                T item = _dbSet.Find(id);
+                var item = _dbSet.Find(id);
                 if (item != null)
                 {
                     _dbSet.Remove(item);
@@ -120,10 +90,11 @@ namespace DomainModels.EntityORM.Core.Infrastructure
         {
             try
             {
-                T item = await _dbSet.FindAsync(id);
+                var item = await _dbSet.FindAsync(id);
+
                 if (item != null)
                 {
-                    await Task.Run((() => _dbSet.Remove(item)));
+                    _dbSet.Remove(item);
                 }
             }
             catch (Exception ex)
@@ -146,22 +117,6 @@ namespace DomainModels.EntityORM.Core.Infrastructure
 
         }
 
-        public virtual Task UpdateAsync(T item)
-        {
-            try
-            {
-                return Task.Run(() =>
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                });
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(UpdateAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
-            }
-
-        }
-
         public virtual void Save()
         {
             try
@@ -179,22 +134,6 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             try
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
-            }
-        }
-
-        public virtual Task SaveAsync(IProgress<string> onComplete)
-        {
-            try
-            {
-                return Task.Run(() =>
-                {
-                    _context.SaveChanges();
-                    onComplete.Report("Данные сохранены в базе");
-                });
             }
             catch (Exception ex)
             {
@@ -235,40 +174,6 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             catch (Exception ex)
             {
                 throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
-            }
-        }
-
-        public virtual void DeleteRange(IEnumerable<T> items)
-        {
-            if (items is null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            try
-            {
-                _dbSet.RemoveRange(items);
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRange)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
-            }
-        }
-
-        public virtual Task DeleteRangeAsync(IEnumerable<T> items)
-        {
-            if (items is null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            try
-            {
-                return Task.Run(() => _dbSet.RemoveRange(items));
-            }
-            catch (Exception ex)
-            {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteRangeAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
             }
         }
 
