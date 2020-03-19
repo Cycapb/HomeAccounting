@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "DomainModel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{4CD97BBF-DC94-4E6E-ABBC-E87EED354762}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussinessLogic", "BussinessLogic\BussinessLogic.csproj", "{E1EC4533-FF70-440F-860F-BB7060EF7EF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessLogic", "BussinessLogic\BussinessLogic.csproj", "{E1EC4533-FF70-440F-860F-BB7060EF7EF7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels.EntityORM", "DomainModels.EntityORM\DomainModels.EntityORM.csproj", "{C1F90F9E-6661-4D72-A4A5-D3EA32C9FEDC}"
 EndProject
@@ -33,8 +33,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug.Local|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug.Local|Any CPU.Build.0 = Debug|Any CPU
+		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug.Local|Any CPU.ActiveCfg = Debug.Local|Any CPU
+		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug.Local|Any CPU.Build.0 = Debug.Local|Any CPU
 		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDB4F8ED-2819-4E48-82B2-50E3CE598A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
