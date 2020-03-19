@@ -40,7 +40,7 @@ namespace BussinessLogic.Tests.ServicesTests
             var payingItem = new PayingItem();
             var debt = CreateIncomeDebt();
             _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>(){new Category(){Name = "долг", CategoryID = 1}});
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>())).Returns(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
             await _target.CreateAsync(debt);
@@ -55,7 +55,7 @@ namespace BussinessLogic.Tests.ServicesTests
             var payingItem = new PayingItem();
             var debt = CreateOutgoingDebt();
             _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>() { new Category() { Name = "долг", CategoryID = 1 } });
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>())).Returns(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
             await _target.CreateAsync(debt);
@@ -74,8 +74,8 @@ namespace BussinessLogic.Tests.ServicesTests
                 CategoryID = 1,
                 Name = "Test"
             }});
-            _categoryRepositoryMock.Setup(m => m.CreateAsync(It.IsAny<Category>())).ReturnsAsync(CreateCategory(debt));
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+            _categoryRepositoryMock.Setup(m => m.Create(It.IsAny<Category>())).Returns(CreateCategory(debt));
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>())).Returns(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
             await _target.CreateAsync(debt);
@@ -99,7 +99,7 @@ namespace BussinessLogic.Tests.ServicesTests
                     Name = "Долг",
                 }
             });
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>())).Returns(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
             await _target.CloseAsync(debt.DebtID, It.IsAny<int>());
@@ -123,7 +123,7 @@ namespace BussinessLogic.Tests.ServicesTests
                     Name = "Долг",
                 }
             });
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>())).Returns(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
 
             await _target.CloseAsync(debt.DebtID, It.IsAny<int>());
@@ -137,7 +137,7 @@ namespace BussinessLogic.Tests.ServicesTests
         {
             PayingItem payingItem = null;
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>())).ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>())).Returns(new PayingItem())
                 .Callback<PayingItem>(pi => payingItem = pi);
             _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()
             {
@@ -161,8 +161,8 @@ namespace BussinessLogic.Tests.ServicesTests
             PayingItem payingItem = null;
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
             
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>()))
-                .ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>()))
+                .Returns(new PayingItem())
                 .Callback<PayingItem>(x => payingItem = x);
             _categoryRepositoryMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()
             {
@@ -186,8 +186,8 @@ namespace BussinessLogic.Tests.ServicesTests
             PayingItem payingItem = null;
             _debtRepositoryMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(_listOfDebts[0]);
 
-            _payingItemRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<PayingItem>()))
-                .ReturnsAsync(new PayingItem())
+            _payingItemRepositoryMock.Setup(x => x.Create(It.IsAny<PayingItem>()))
+                .Returns(new PayingItem())
                 .Callback<PayingItem>(x => payingItem = x);
 
             await _target.PartialCloseAsync(It.IsAny<int>(), 300, It.IsAny<int>());

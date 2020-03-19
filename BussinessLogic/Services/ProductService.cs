@@ -25,7 +25,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                var createdItem = await _productRepository.CreateAsync(product);
+                var createdItem = _productRepository.Create(product);
                 await _productRepository.SaveAsync();
 
                 return createdItem;
@@ -94,7 +94,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                await _productRepository.UpdateAsync(item);
+                _productRepository.Update(item);
                 await _productRepository.SaveAsync();
             }
             catch (DomainModelsException e)
