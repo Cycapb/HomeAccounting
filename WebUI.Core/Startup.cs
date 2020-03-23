@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Services;
 using System.Collections.Generic;
 using System.Linq;
+using WebUI.Core.Infrastructure;
 
 namespace WebUI.Core
 {
@@ -51,6 +52,7 @@ namespace WebUI.Core
             app.UseBrowserLink();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseMiddleware<SessionExpireMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });
