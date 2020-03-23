@@ -42,7 +42,6 @@ namespace WebUI.Core
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(14);
-                options.Cookie.HttpOnly = true;
             });
         }
 

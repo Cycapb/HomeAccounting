@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace WebUI.Core.Infrastructure.Extensions
 {
     public static class SessionExtension
     {
-        public static void Set<T>(this ISession session, string key, T value)
+        public static async Task SetJsonAsync<T>(this ISession session, string key, T value)
         {
-            session.LoadAsync();
-            session.Set(key, JsonConvert.SerializeObject(value));
+            await session.LoadAsync();
+            session.SetString(key, JsonConvert.SerializeObject(value));
         }
 
-        public static T Get<T>(this ISession session, string key)
+        public static async Task<T> GetJsonAsync<T>(this ISession session, string key)
         {
-            session.LoadAsync();
+            await session.LoadAsync();
             var item = session.GetString(key);
 
             return item == null ? default : JsonConvert.DeserializeObject<T>(item);
