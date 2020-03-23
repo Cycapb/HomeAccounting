@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace WebUI.Core.Infrastructure
+namespace WebUI.Core.Infrastructure.Middleware
 {
     public class SessionExpireMiddleware
     {
