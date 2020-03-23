@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.Core.Infrastructure;
@@ -38,7 +39,11 @@ namespace WebUI.Core
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(14);
+                options.Cookie.HttpOnly = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
