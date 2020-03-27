@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.Core.Infrastructure;
+using WebUI.Core.Infrastructure.Middleware;
 
 namespace WebUI.Core
 {

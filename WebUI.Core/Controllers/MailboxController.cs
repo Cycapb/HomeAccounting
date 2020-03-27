@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services;
 using Services.Exceptions;
 using System;
@@ -11,23 +12,27 @@ namespace WebUI.Core.Controllers
     {
         private readonly IMailboxService _mailboxService;
         private readonly ICategoryService _categoryService;
+        private readonly ILogger<MailboxController> _logger;
 
-        public MailboxController(IMailboxService mailboxService, ICategoryService categoryService)
+        public MailboxController(IMailboxService mailboxService, ICategoryService categoryService, ILogger<MailboxController> logger)
         {
             _mailboxService = mailboxService;
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
+                _logger.LogDebug("Receiving of mailboxes");
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
                 return Ok(mailboxes);
             }
-            catch (ServiceException)
+            catch (ServiceException ex)
             {
-                throw; //new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}", e);
+                _logger.LogError(ex, "Something went wrong");
+                return NotFound();
             }
         }
 
