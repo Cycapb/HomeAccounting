@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace WebUI.Core
 {
@@ -19,6 +19,7 @@ namespace WebUI.Core
             {
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddConsole();
+                loggingBuilder.AddSeq(hostBuilderContext.Configuration.GetSection("Seq"));
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

@@ -12,7 +12,6 @@ using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Middleware;
 
 namespace WebUI.Core
@@ -70,7 +69,6 @@ namespace WebUI.Core
                 routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index" });
             });
-
             MigrateAndSeed(app);
         }
 
