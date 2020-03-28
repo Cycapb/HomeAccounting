@@ -11,7 +11,13 @@ namespace WebUI.Core
     {
         public static void Main(string[] args)
         {
-            
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+                .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Seq("http://homyak.ddns.net:41082")
+                .CreateLogger();
 
             try
             {

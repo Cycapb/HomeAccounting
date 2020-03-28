@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.Core.Infrastructure.Middleware;
+using Serilog;
 
 namespace WebUI.Core
 {
@@ -57,6 +58,7 @@ namespace WebUI.Core
             app.UseStaticFiles();
             app.UseSession();
             app.UseMiddleware<SessionExpireMiddleware>();
+            app.UseSerilogRequestLogging();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });
