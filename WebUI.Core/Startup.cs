@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebUI.Core.Infrastructure.Middleware;
 using Serilog;
+using Serilog.Enrichers.AspNetCore;
 
 namespace WebUI.Core
 {
@@ -48,6 +49,8 @@ namespace WebUI.Core
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            InitializeSerilog(app.ApplicationServices);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -121,6 +124,19 @@ namespace WebUI.Core
                 };
                 context.TypeOfFlows.AddRange(typesOfFlow);
             }
+        }
+
+        private void InitializeSerilog(IServiceProvider serviceProvider)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()                
+                .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+                .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+                .WriteTo.Console()
+                .WriteTo.Seq("http://homyak.ddns.net:41082", Serilog.Events.LogEventLevel.Information)
+                .CreateLogger();
+
         }
     }
 }

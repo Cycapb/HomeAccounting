@@ -4,22 +4,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
+using Serilog.Enrichers.AspNetCore;
 
 namespace WebUI.Core
 {
     public class Program
     {
         public static void Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()                
-                .MinimumLevel.Debug()
-                .Enrich.FromLogContext()
-                .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
-                .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
-                .WriteTo.Console()
-                .WriteTo.Seq("http://homyak.ddns.net:41082",Serilog.Events.LogEventLevel.Information)
-                .CreateLogger();
-
+        {           
             try
             {
                 CreateHostBuilder(args).Build().Run();
