@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System.IO;
 
 namespace WebUI.Core
@@ -10,7 +11,16 @@ namespace WebUI.Core
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            
+
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -19,17 +29,16 @@ namespace WebUI.Core
             {
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddConsole();
-                loggingBuilder.AddSeq(hostBuilderContext.Configuration.GetSection("Seq"));
             })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
-                    webBuilder.UseKestrel();
-                    webBuilder.UseIISIntegration();
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
-                })
-                .ConfigureAppConfiguration((builderContext, configBuilder) =>
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+                webBuilder.UseKestrel();
+                webBuilder.UseIISIntegration();
+                webBuilder.UseStartup<Startup>();
+                webBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
+            })
+            .ConfigureAppConfiguration((builderContext, configBuilder) =>
                 {
                     var env = builderContext.HostingEnvironment;
                     configBuilder
@@ -41,6 +50,7 @@ namespace WebUI.Core
                     {
                         configBuilder.AddCommandLine(args);
                     }
-                });
+                })
+            .UseSerilog();
     }
 }

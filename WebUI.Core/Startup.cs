@@ -26,7 +26,7 @@ namespace WebUI.Core
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.AddDbContext<AccountingContextCore>(options =>
             {
                 options.UseLazyLoadingProxies();

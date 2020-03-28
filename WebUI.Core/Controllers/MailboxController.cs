@@ -25,7 +25,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                _logger.LogDebug("Receiving of mailboxes");
+                _logger.LogInformation("Receiving of mailboxes by {User}", "Anonymous");
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
                 return Ok(mailboxes);
             }
