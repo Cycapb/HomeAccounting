@@ -4,14 +4,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
-using Serilog.Enrichers.AspNetCore;
 
 namespace WebUI.Core
 {
     public class Program
     {
         public static void Main(string[] args)
-        {           
+        {
             try
             {
                 CreateHostBuilder(args).Build().Run();
@@ -19,7 +18,7 @@ namespace WebUI.Core
             finally
             {
                 Log.CloseAndFlush();
-            }            
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
