@@ -13,6 +13,7 @@ using Moq;
 using Services;
 using System.Linq.Expressions;
 using System;
+using WebUI.Models.PlanningModels;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -125,7 +126,7 @@ namespace WebUI.Tests.ControllersTests
             Mock<IPlanningHelper> helperMock = new Mock<IPlanningHelper>();
             Mock<IPlanItemService> mockPlanItem = new Mock<IPlanItemService>();
             Mock<ICategoryService> mockCategory = new Mock<ICategoryService>();
-            helperMock.Setup(m => m.GetUserBalance(It.IsAny<WebUser>(),It.IsAny<bool>())).ReturnsAsync(new ViewPlaningModel());
+            helperMock.Setup(m => m.GetUserBalance(It.IsAny<WebUser>(),It.IsAny<bool>())).ReturnsAsync(new PlanningModel());
             var target = new PlaningController(mockCategory.Object,mockPlanItem.Object,helperMock.Object);
 
             var result = await target.ViewPlan(user);
@@ -142,7 +143,7 @@ namespace WebUI.Tests.ControllersTests
             var user = new WebUser() {Id = "1"};
 
             var result = await target.Edit(1);
-            var model = ((PartialViewResult) result).ViewData.Model as EditPlaningModel;
+            var model = ((PartialViewResult) result).ViewData.Model as PlanningEditModel;
 
             Assert.AreEqual(model?.PlanItem.PlanItemID,1);
             Assert.IsInstanceOfType(result,typeof(PartialViewResult));
@@ -150,7 +151,7 @@ namespace WebUI.Tests.ControllersTests
 
         private async void Edit_UserEditPlaningModelInput_ViewResult()
         {
-            var model = new EditPlaningModel();
+            var model = new PlanningEditModel();
             var user = new WebUser() {Id = "1"};
             var target = new PlaningController(null,null,null);
             target.ModelState.AddModelError("","");
@@ -166,7 +167,7 @@ namespace WebUI.Tests.ControllersTests
         {
             Mock<IPlanItemService> mockPlan = new Mock<IPlanItemService>();       
             var user = new WebUser();
-            var model = new EditPlaningModel()
+            var model = new PlanningEditModel()
             {
                 PlanItem = new PlanItem(),
                 Spread = false
@@ -187,7 +188,7 @@ namespace WebUI.Tests.ControllersTests
             Mock<IPlanItemService> mockPlan = new Mock<IPlanItemService>();
             Mock<IPlanningHelper> mockHelper = new Mock<IPlanningHelper>();
             var user = new WebUser();
-            var model = new EditPlaningModel()
+            var model = new PlanningEditModel()
             {
                 PlanItem = new PlanItem(),
                 Spread = true

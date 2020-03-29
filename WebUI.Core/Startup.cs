@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebUI.Core.Infrastructure.Middleware;
-using Serilog;
 
 namespace WebUI.Core
 {
@@ -27,7 +27,7 @@ namespace WebUI.Core
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
             services.AddDbContext<AccountingContextCore>(options =>
             {
                 options.UseLazyLoadingProxies();
@@ -73,6 +73,7 @@ namespace WebUI.Core
                 routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index" });
             });
+
             MigrateAndSeed(app);
         }
 

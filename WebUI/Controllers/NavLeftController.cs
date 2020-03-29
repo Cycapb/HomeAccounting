@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
+using WebUI.Abstract;
 using WebUI.Exceptions;
+using WebUI.Models;
+using WebUI.Models.BudgetModels;
 
 namespace WebUI.Controllers
 {
@@ -15,9 +16,9 @@ namespace WebUI.Controllers
     public class NavLeftController : Controller
     {
         private readonly IAccountService _accService;
-        private readonly IDbHelper _dbHelper;
+        private readonly IReportHelper _dbHelper;
 
-        public NavLeftController(IAccountService accService, IDbHelper dbHelper)
+        public NavLeftController(IAccountService accService, IReportHelper dbHelper)
         {
             _accService = accService;
             _dbHelper = dbHelper;
@@ -27,7 +28,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                var accounts = _accService.GetList(u => u.UserId == user.Id)                    
+                var accounts = _accService.GetList(u => u.UserId == user.Id)
                     .ToList();
 
                 return PartialView(accounts);
@@ -51,11 +52,11 @@ namespace WebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private Budget GetBudget(IWorkingUser user)
+        private OverViewBudgetViewModel GetBudget(IWorkingUser user)
         {
             try
             {
-                var budget = new Budget
+                var budget = new OverViewBudgetViewModel
                 {
                     BudgetInFact = _dbHelper.GetBudgetInFactWeb(user).Result,
                     BudgetOverAll = _dbHelper.GetBudgetOverAllWeb(user).Result

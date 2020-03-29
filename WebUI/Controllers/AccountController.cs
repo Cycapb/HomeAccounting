@@ -90,11 +90,11 @@ namespace WebUI.Controllers
 
         public ActionResult Add()
         {
-            return PartialView(new AccountAddViewModel());
+            return PartialView(new AccountAddModel());
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, AccountAddViewModel model)
+        public async Task<ActionResult> Add(WebUser user, AccountAddModel model)
         {
             if (ModelState.IsValid)
             {

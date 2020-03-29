@@ -75,7 +75,7 @@ namespace WebUI.Tests.ControllersTests
         public void Add_ReturnsAddViewWithGET()
         {
             var result = _controller.Add();
-            var model = ((PartialViewResult)result).Model as NotificationMailboxViewModel;
+            var model = ((PartialViewResult)result).Model as NotificationMailboxModel;
 
             Assert.IsNotNull(model);
         }
@@ -87,7 +87,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mailboxService.Setup(m => m.CreateAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
 
-            await _controller.Add(new NotificationMailboxViewModel());
+            await _controller.Add(new NotificationMailboxModel());
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace WebUI.Tests.ControllersTests
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() { Id = 1, MailBoxName = "M1" });
 
             var result = await _controller.Edit(1);
-            var model = ((PartialViewResult)result).Model as NotificationMailboxViewModel;
+            var model = ((PartialViewResult)result).Model as NotificationMailboxModel;
 
             _mailboxService.Verify(x => x.GetItemAsync(It.IsAny<int>()), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
@@ -154,7 +154,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("MailboxControllerTests")]
         public async Task Edit_InputmailboxAddViewModel_ReturnsRedirectToList()
         {
-            var model = new NotificationMailboxViewModel() { Id = 2, MailBoxName = "M2" };
+            var model = new NotificationMailboxModel() { Id = 2, MailBoxName = "M2" };
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() { Id = 1, MailBoxName = "M1" });
 
             var result = await _controller.Edit(model);
@@ -182,7 +182,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mailboxService.Setup(m => m.UpdateAsync(It.IsAny<NotificationMailBox>())).Throws<ServiceException>();
 
-            await _controller.Edit(new NotificationMailboxViewModel());
+            await _controller.Edit(new NotificationMailboxModel());
         }
     }
 }

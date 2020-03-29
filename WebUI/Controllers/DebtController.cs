@@ -1,16 +1,16 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using WebUI.Models.DebtViewModels;
-using WebUI.Infrastructure.Attributes;
-using Services;
-using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Infrastructure.Attributes;
 using WebUI.Models;
+using WebUI.Models.DebtModels;
 
 namespace WebUI.Controllers
 {
@@ -23,8 +23,8 @@ namespace WebUI.Controllers
         private readonly IAccountService _accService;
 
         public DebtController(
-            IDebtService debtService, 
-            ICreateCloseDebtService createCloseDebtService, 
+            IDebtService debtService,
+            ICreateCloseDebtService createCloseDebtService,
             IAccountService accService)
         {
             _debtService = debtService;
@@ -34,11 +34,11 @@ namespace WebUI.Controllers
 
         public PartialViewResult Index(WebUser user)
         {
-            DebtsSumViewModel model;
+            DebtsSumModel model;
             try
             {
                 var items = _debtService.GetOpenUserDebts(user.Id).ToList();
-                model = new DebtsSumViewModel()
+                model = new DebtsSumModel()
                 {
                     MyDebtsSumm = items.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
                     DebtsToMeSumm = items.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
@@ -49,16 +49,16 @@ namespace WebUI.Controllers
                 throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(Index)}", e);
             }
 
-            return PartialView("_Index",model);
+            return PartialView("_Index", model);
         }
 
         public PartialViewResult DebtList(WebUser user)
         {
-            DebtsCollectionViewModel model;
+            DebtsCollectionModel model;
             try
             {
                 var items = _debtService.GetOpenUserDebts(user.Id).ToList();
-                model = new DebtsCollectionViewModel()
+                model = new DebtsCollectionModel()
                 {
                     MyDebts = items.Where(x => x.TypeOfFlowId == 1).ToList(),
                     DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
@@ -68,14 +68,14 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(DebtList)}", e);
             }
-            
-            return PartialView("_DebtList",model);
+
+            return PartialView("_DebtList", model);
         }
 
         [UserHasAnyAccount]
         public async Task<ActionResult> Add(WebUser user)
         {
-            var model = new DebtAddingViewModel()
+            var model = new DebtAddModel()
             {
                 Accounts = (await AccountList(user.Id)).ToList()
             };
@@ -83,7 +83,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, DebtAddingViewModel model)
+        public async Task<ActionResult> Add(WebUser user, DebtAddModel model)
         {
             if (ModelState.IsValid)
             {
@@ -104,11 +104,11 @@ namespace WebUI.Controllers
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Add)}", e);
                 }
-                
+
                 return RedirectToAction("DebtList");
             }
             model.Accounts = (await AccountList(user.Id)).ToList();
-            return PartialView("_Add", model);            
+            return PartialView("_Add", model);
         }
 
         public async Task<ActionResult> ClosePartially(int id)
@@ -121,7 +121,7 @@ namespace WebUI.Controllers
                     return RedirectToAction("DebtList");
                 }
 
-                var debtEditModel = new DebtEditingViewModel();
+                var debtEditModel = new DebtEditModel();
                 await FillDebtViewModel(debt, debtEditModel);
 
                 return PartialView("_ClosePartially", debtEditModel);
@@ -133,7 +133,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ClosePartially(DebtEditingViewModel model)
+        public async Task<ActionResult> ClosePartially(DebtEditModel model)
         {
             Debt debt = null;
             if (ModelState.IsValid)
@@ -160,7 +160,7 @@ namespace WebUI.Controllers
             }
             debt = await _debtService.GetItemAsync(model.DebtId);
             await FillDebtViewModel(debt, model);
-            
+
             return PartialView("_ClosePartially", model);
         }
 
@@ -175,7 +175,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Delete)}", e);
             }
-            
+
             return RedirectToAction("DebtList");
         }
 
@@ -204,7 +204,7 @@ namespace WebUI.Controllers
             }
         }
 
-        private async Task FillDebtViewModel(Debt debt, DebtEditingViewModel model)
+        private async Task FillDebtViewModel(Debt debt, DebtEditModel model)
         {
             var accounts = (await _accService.GetListAsync(a => a.UserId == debt.UserId)).ToList();
 

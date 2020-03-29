@@ -7,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
 using WebUI.Exceptions;
-using WebUI.Models;
+using WebUI.Models.CategoryModels;
+using WebUI.Models.ReportModels;
 
 namespace WebUI.Helpers
 {
@@ -36,7 +37,7 @@ namespace WebUI.Helpers
                 ids.ForEach(id => payItemSubcategoriesList.Add(new PayItemSubcategories() //Наполняем у ViewModel свойства CategoryId
                 {
                     CategoryId = id.Key,
-                    CategorySumm = new OverAllItem(),
+                    CategorySumm = new CategorySumModel(),
                     ProductPrices = new List<ProductPrice>()
                 }));
 
@@ -51,7 +52,7 @@ namespace WebUI.Helpers
                 foreach (var item in payItemSubcategoriesList)
                 {
                     item.CategorySumm.Category = catNameGrouping[i].Key;
-                    item.CategorySumm.Summ = catNameGrouping[i].Sum(x => x.Summ);
+                    item.CategorySumm.Sum = catNameGrouping[i].Sum(x => x.Summ);
                     i++;
                 }
 

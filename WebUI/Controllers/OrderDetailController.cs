@@ -11,6 +11,7 @@ using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
 using Services.Caching;
+using WebUI.Models.OrderModels;
 
 namespace WebUI.Controllers
 {
@@ -69,7 +70,7 @@ namespace WebUI.Controllers
                     _cacheManager.Set("Categories", categories, Cache.NoAbsoluteExpiration, TimeSpan.FromSeconds(60));
                 }                
                 
-                var model = new AddOrderDetailView()
+                var model = new OrderDetailModel()
                 {
                     OrderId = id,
                     Categories = categories,

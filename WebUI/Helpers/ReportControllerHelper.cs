@@ -10,6 +10,8 @@ using WebGrease.Css.Extensions;
 using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
+using WebUI.Models.CategoryModels;
+using WebUI.Models.ReportModels;
 
 namespace WebUI.Helpers
 {
@@ -17,11 +19,11 @@ namespace WebUI.Helpers
     {
         private readonly ICategoryService _categoryService;
         private readonly IPayingItemService _payingItemService;
-        private readonly IDbHelper _dbHelper;
+        private readonly IReportHelper _dbHelper;
         private bool _disposed;
 
         public ReportControllerHelper(ICategoryService categoryService, IPayingItemService payingItemService,
-            IDbHelper dbHelper)
+            IReportHelper dbHelper)
         {
             _categoryService = categoryService;
             _payingItemService = payingItemService;
@@ -79,7 +81,7 @@ namespace WebUI.Helpers
             model.MonthInOuts.Reverse();
         }
 
-        public IEnumerable<OverAllItem> GetOverallList(WebUser user, DateTime dateFrom, DateTime dateTo, int flowId)
+        public IEnumerable<CategorySumModel> GetOverallList(WebUser user, DateTime dateFrom, DateTime dateTo, int flowId)
         {
             IEnumerable<PayItem> pItemList = new List<PayItem>();
             try
@@ -94,10 +96,10 @@ namespace WebUI.Helpers
             return (from l in pItemList
                     group l by l.CategoryName
                     into grouping
-                    select new OverAllItem()
+                    select new CategorySumModel()
                     {
                         Category = grouping.Key,
-                        Summ = grouping.Sum(s => s.Summ)
+                        Sum = grouping.Sum(s => s.Summ)
                     })
                 .ToList();
         }

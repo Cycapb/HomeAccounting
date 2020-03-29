@@ -51,7 +51,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IPayItemSubcategoriesHelper>().To<PayItemSubcategoriesHelper>();
             _kernel.Bind<IReportControllerHelper>().To<ReportControllerHelper>();
             _kernel.Bind<IReportModelCreator>().To<ReportModelCreator>();
-            _kernel.Bind<IDbHelper>().To<DbHelper>();
+            _kernel.Bind<IReportHelper>().To<ReportHelper>();
             _kernel.Bind<IPagingInfoCreator>().To<PagingInfoCreator>();
             _kernel.Bind<IDebtService>().To<DebtService>();
             _kernel.Bind<IRepository<Debt>>().To<EntityRepository<Debt, AccountingContext>>();

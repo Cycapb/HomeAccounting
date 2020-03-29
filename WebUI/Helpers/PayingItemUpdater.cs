@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Abstract;
-using WebUI.Models.PayingItemViewModels;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Helpers
 {
@@ -19,7 +19,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;            
         }
 
-        public async Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditViewModel model)
+        public async Task<PayingItem> UpdatePayingItemFromViewModel(PayingItemEditModel model)
         {
             if (model is null)
             {
@@ -65,7 +65,7 @@ namespace WebUI.Helpers
             }
         }
 
-        private async Task<PayingItem> CreatePayingItemProduct(PayingItemEditViewModel model, PayingItem payingItem)
+        private async Task<PayingItem> CreatePayingItemProduct(PayingItemEditModel model, PayingItem payingItem)
         {
             var payingItemProducts = new List<PayingItemProduct>();
 
@@ -100,7 +100,7 @@ namespace WebUI.Helpers
             return payingItem;
         }        
 
-        private decimal GetSumOfTheProducts(PayingItemEditViewModel model)
+        private decimal GetSumOfTheProducts(PayingItemEditModel model)
         {
             var products = new List<Product>();
 
@@ -130,7 +130,7 @@ namespace WebUI.Helpers
             return products.Sum(x => x.Price);
         }
 
-        private string CreateCommentForPayingItem(PayingItemEditViewModel model)
+        private string CreateCommentForPayingItem(PayingItemEditModel model)
         {
             var productsNames = new List<string>();
             var comment = string.Empty;

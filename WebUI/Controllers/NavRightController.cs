@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using DomainModels.Model;
+using Services;
+using Services.Exceptions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using DomainModels.Model;
-using WebUI.Models;
-using Services;
-using Services.Exceptions;
+using WebUI.Abstract;
 using WebUI.Exceptions;
+using WebUI.Models;
+using WebUI.Models.BudgetModels;
 
 namespace WebUI.Controllers
 {
@@ -15,9 +17,9 @@ namespace WebUI.Controllers
     public class NavRightController : Controller
     {
         private readonly IPayingItemService _payingItemService;
-        private readonly IDbHelper _dbHelper;
+        private readonly IReportHelper _dbHelper;
 
-        public NavRightController(IPayingItemService service,IDbHelper dbHelper)
+        public NavRightController(IPayingItemService service, IReportHelper dbHelper)
         {
             _payingItemService = service;
             _dbHelper = dbHelper;
@@ -35,7 +37,7 @@ namespace WebUI.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(NavRightController)} в методе {nameof(MenuIncoming)}", e);
             }
-                
+
             var budgetModel = BudgetModel(collection, 1);
             return PartialView(budgetModel);
         }
@@ -53,7 +55,7 @@ namespace WebUI.Controllers
                 throw new WebUiException($"Ошибка в контроллере {nameof(NavRightController)} в методе {nameof(MenuOutgo)}", e);
             }
 
-            var budgetModel = BudgetModel(collection,2);
+            var budgetModel = BudgetModel(collection, 2);
             return PartialView(budgetModel);
         }
 
@@ -74,7 +76,7 @@ namespace WebUI.Controllers
                 Week = _dbHelper.GetSummForWeek(collection),
                 Day = _dbHelper.GetSummForDay(collection)
             };
-            
+
             return budget;
         }
     }
