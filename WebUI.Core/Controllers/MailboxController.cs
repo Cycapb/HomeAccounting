@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
+using WebUI.Core.Exceptions;
 
 namespace WebUI.Core.Controllers
 {
@@ -26,18 +27,12 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                //_logger.LogInformation("Receiving of mailboxes by {User}", "Anonymous");
-
-                _logger.ForContext("RequestId", ControllerContext.HttpContext.TraceIdentifier).Information("Receiving of mailboxes by {User}", "Anonymous");
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-                //_logger.LogDebug("Test debug message");
-                
                 return Ok(mailboxes);
             }
-            catch (ServiceException ex)
+            catch (ServiceException e)
             {
-                //_logger.LogError(ex, "Something went wrong");
-                return NotFound();
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Index)}", e);
             }
         }
 

@@ -36,12 +36,6 @@ namespace WebUI.Core
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
             });
 
-            services.AddTransient<IMailboxService, MailboxService>();
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<CustomErrorAttribute>();
-            services.AddTransient<IRouteDataConverter, RouteDataConverter>();
-            services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
-            services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
             services.AddMvc().AddMvcOptions(options =>
             {
                 options.Filters.AddService<CustomErrorAttribute>();
@@ -52,6 +46,8 @@ namespace WebUI.Core
             {
                 options.IdleTimeout = TimeSpan.FromDays(14);
             });
+
+            ServicesRegister.RegisterAdditionalServices(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

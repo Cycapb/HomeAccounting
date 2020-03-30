@@ -65,6 +65,7 @@ namespace BussinessLogic.Services
         {
             try
             {
+                throw new DomainModelsException();
                 return await _repository.GetListAsync();
             }
             catch (DomainModelsException e)
