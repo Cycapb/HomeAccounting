@@ -11,12 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using WebUI.Core.Abstract.Converters;
 using WebUI.Core.Concrete.Converters;
 using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Middleware;
+using WebUI.Core.Infrastructure.Migrators;
 
 namespace WebUI.Core
 {
@@ -43,10 +42,10 @@ namespace WebUI.Core
             services.AddTransient<IRouteDataConverter, RouteDataConverter>();
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
-            services.AddMvc().AddMvcOptions(options => 
-            { 
-                options.Filters.AddService<CustomErrorAttribute>(); 
-                options.EnableEndpointRouting = false; 
+            services.AddMvc().AddMvcOptions(options =>
+            {
+                options.Filters.AddService<CustomErrorAttribute>();
+                options.EnableEndpointRouting = false;
             });
             services.AddMemoryCache();
             services.AddSession(options =>
@@ -69,7 +68,7 @@ namespace WebUI.Core
             app.UseStaticFiles();
             app.UseSession();
             app.UseMiddleware<SessionExpireMiddleware>();
-            app.UseSerilogRequestLogging(options => 
+            app.UseSerilogRequestLogging(options =>
             {
                 options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
                 {
@@ -90,56 +89,7 @@ namespace WebUI.Core
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index" });
             });
 
-            MigrateAndSeed(app);
-        }
-
-        private void MigrateAndSeed(IApplicationBuilder app)
-        {
-            var context = app.ApplicationServices.GetRequiredService<AccountingContextCore>();
-            context.Database.Migrate();
-
-            InitializeNotificationMailBox(context);
-            InitializeTypeOfFlow(context);
-
-            context.SaveChanges();
-        }
-
-        private void InitializeNotificationMailBox(AccountingContextCore context)
-        {
-            if (!context.NotificationMailBoxes.Any())
-            {
-                var mailBox = new NotificationMailBox()
-                {
-                    MailBoxName = "Accounting",
-                    MailFrom = "home.accounting@list.ru",
-                    UserName = "home.accounting@list.ru",
-                    Password = "23we45rt",
-                    UseSsl = true,
-                    Server = "smtp.list.ru",
-                    Port = 587
-                };
-
-                context.NotificationMailBoxes.Add(mailBox);
-            }
-        }
-
-        private void InitializeTypeOfFlow(AccountingContextCore context)
-        {
-            if (!context.TypeOfFlows.Any())
-            {
-                var typesOfFlow = new List<TypeOfFlow>()
-                {
-                    new TypeOfFlow()
-                    {
-                        TypeName = "Доход"
-                    },
-                     new TypeOfFlow()
-                     {
-                         TypeName = "Расход"
-                     }
-                };
-                context.TypeOfFlows.AddRange(typesOfFlow);
-            }
+            DatabaseMigrator.MigrateAndSeed(app);
         }
 
         private void InitializeSerilog()
