@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
 
@@ -23,11 +22,7 @@ namespace WebUI.Core
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .ConfigureLogging((hostBuilderContext, loggingBuilder) =>
-            {
-                loggingBuilder.ClearProviders();
-                loggingBuilder.AddConsole();
-            })
+            .UseSerilog()
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
@@ -48,7 +43,6 @@ namespace WebUI.Core
                     {
                         configBuilder.AddCommandLine(args);
                     }
-                })
-            .UseSerilog();
+                });            
     }
 }

@@ -13,6 +13,9 @@ using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebUI.Core.Abstract.Converters;
+using WebUI.Core.Concrete.Converters;
+using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Middleware;
 
 namespace WebUI.Core
@@ -36,9 +39,15 @@ namespace WebUI.Core
 
             services.AddTransient<IMailboxService, MailboxService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<CustomErrorAttribute>();
+            services.AddTransient<IRouteDataConverter, RouteDataConverter>();
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc().AddMvcOptions(options => 
+            { 
+                options.Filters.AddService<CustomErrorAttribute>(); 
+                options.EnableEndpointRouting = false; 
+            });
             services.AddMemoryCache();
             services.AddSession(options =>
             {
@@ -60,7 +69,14 @@ namespace WebUI.Core
             app.UseStaticFiles();
             app.UseSession();
             app.UseMiddleware<SessionExpireMiddleware>();
-            app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging(options => 
+            {
+                options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                {
+                    diagnosticContext.Set("ConnectionId", httpContext.Connection.Id);
+                    diagnosticContext.Set("RequestId", httpContext.TraceIdentifier);
+                };
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });

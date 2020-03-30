@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Services;
 using Services.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace WebUI.Core.Controllers
 {
@@ -12,27 +12,31 @@ namespace WebUI.Core.Controllers
     {
         private readonly IMailboxService _mailboxService;
         private readonly ICategoryService _categoryService;
-        private readonly ILogger<MailboxController> _logger;
+        private readonly ILogger _logger = Log.Logger.ForContext<MailboxController>();
 
-        public MailboxController(IMailboxService mailboxService, ICategoryService categoryService, ILogger<MailboxController> logger)
+        public MailboxController(
+            IMailboxService mailboxService,
+            ICategoryService categoryService)
         {
             _mailboxService = mailboxService;
             _categoryService = categoryService;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                _logger.LogInformation("Receiving of mailboxes by {User}", "Anonymous");
+                //_logger.LogInformation("Receiving of mailboxes by {User}", "Anonymous");
+
+                _logger.ForContext("RequestId", ControllerContext.HttpContext.TraceIdentifier).Information("Receiving of mailboxes by {User}", "Anonymous");
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-                _logger.LogDebug("Test debug message");
+                //_logger.LogDebug("Test debug message");
+                
                 return Ok(mailboxes);
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex, "Something went wrong");
+                //_logger.LogError(ex, "Something went wrong");
                 return NotFound();
             }
         }

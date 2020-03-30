@@ -5,41 +5,41 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Providers;
 using System.Threading.Tasks;
 using WebUI.Core.Abstract.Converters;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace WebUI.Core.Infrastructure
 {
     public class CustomErrorAttribute : IExceptionFilter
     {
-        private readonly IExceptionLogger _exceptionLogger;
+        private readonly ILogger<CustomErrorAttribute> _exceptionLogger;
         private readonly IRouteDataConverter _routeDataConverter;
-        private readonly IMultipleIpAddressProvider _multipleIpAddressProvider;
 
         public CustomErrorAttribute(
-            IExceptionLogger exceptionLogger,
-            IRouteDataConverter routeDataConverter,
-            IMultipleIpAddressProvider multipleIpAddressProvider)
+            ILogger<CustomErrorAttribute> exceptionLogger,
+            IRouteDataConverter routeDataConverter
+            )
         {
             _exceptionLogger = exceptionLogger;
-            _routeDataConverter = routeDataConverter;
-            _multipleIpAddressProvider = multipleIpAddressProvider;
+            _routeDataConverter = routeDataConverter;            
         }
 
         public void OnException(ExceptionContext context)
         {
             var xForwardedFor = context.HttpContext.Request.Headers["X-Forwarded-For"];
-            //var userHostAddress = context.HttpContext.Request.UserHostAddress;
-            var hostAddresses = xForwardedFor; //string.IsNullOrEmpty(xForwardedFor)
-            //    ? userHostAddress
-            //    : $"{xForwardedFor},{userHostAddress}";
-            var allIpAddresses = _multipleIpAddressProvider.GetIpAddresses(hostAddresses);
+            var userHostAddress = context.HttpContext.Connection.RemoteIpAddress.ToString();
+            var hostAddresses = string.IsNullOrEmpty(xForwardedFor)
+                ? userHostAddress
+                : $"{xForwardedFor},{userHostAddress}";
+            //var allIpAddresses = _multipleIpAddressProvider.GetIpAddresses(hostAddresses);
 
-            var loggingModel = new MvcLoggingModel()
-            {
-                UserName = context.HttpContext.User.Identity.Name,
-                UserHostAddress = allIpAddresses,
-                RouteData = _routeDataConverter.ConvertRouteData(context.HttpContext.Request.RouteValues)
-            };
-            _exceptionLogger.LogException(context.Exception, loggingModel);
+            //var loggingModel = new MvcLoggingModel()
+            //{
+            //    UserName = context.HttpContext.User.Identity.Name,
+            //    UserHostAddress = allIpAddresses,
+            //    RouteData = _routeDataConverter.ConvertRouteData(context.HttpContext.Request.RouteValues)
+            //};
+            _exceptionLogger.LogError(context.Exception,"EXCEPTION!!!");
 
             if (!context.ExceptionHandled)
             {
