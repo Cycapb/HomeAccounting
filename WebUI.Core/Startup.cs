@@ -48,7 +48,7 @@ namespace WebUI.Core
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            InitializeSerilog(app.ApplicationServices);
+            InitializeSerilog();
 
             if (env.IsDevelopment())
             {
@@ -126,7 +126,7 @@ namespace WebUI.Core
             }
         }
 
-        private void InitializeSerilog(IServiceProvider serviceProvider)
+        private void InitializeSerilog()
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(_configuration)

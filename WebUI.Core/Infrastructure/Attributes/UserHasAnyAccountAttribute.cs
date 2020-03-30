@@ -24,7 +24,7 @@ namespace WebUI.Core.Infrastructure.Attributes
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var session = context.HttpContext.Session;
-
+            
             if (session != null)
             {
                 var user = await session.GetJsonAsync<WebUser>(_webUserKey);
