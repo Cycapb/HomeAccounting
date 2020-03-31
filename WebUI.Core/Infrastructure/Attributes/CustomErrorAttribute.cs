@@ -1,25 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
+﻿using Loggers.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Providers;
 using System;
 using System.Text;
 using WebUI.Core.Abstract.Converters;
+using Serilog;
 
 namespace WebUI.Core.Infrastructure
 {
     public class CustomErrorAttribute : IExceptionFilter
     {
-        private readonly ILogger<CustomErrorAttribute> _logger;
+        private readonly ILogger _logger = Log.Logger.ForContext<CustomErrorAttribute>();
         private readonly IRouteDataConverter _routeDataConverter;
         private readonly IMultipleIpAddressProvider _multipleIpAddressProvider;
 
         public CustomErrorAttribute(
-            ILogger<CustomErrorAttribute> logger,
             IRouteDataConverter routeDataConverter,
             IMultipleIpAddressProvider multipleIpAddressProvider
             )
         {
-            _logger = logger;
             _routeDataConverter = routeDataConverter;
             _multipleIpAddressProvider = multipleIpAddressProvider;
         }
@@ -33,6 +32,19 @@ namespace WebUI.Core.Infrastructure
                 : $"{xForwardedFor},{userHostAddress}";
             var allIpAddresses = _multipleIpAddressProvider.GetIpAddresses(hostAddresses);
 
+            var errorLoggingModel = new ErrorLoggingModel()
+            {
+                RequestId = context.HttpContext.TraceIdentifier,
+                ConnectionId = context.HttpContext.Connection.Id,
+                IpAddresses = allIpAddresses,
+                QueryString = context.HttpContext.Request.QueryString.ToString(),
+                RequestMethod = context.HttpContext.Request.Method,
+                RequestPath = context.HttpContext.Request.Path,
+                SessionId = context.HttpContext.Session?.Id,
+                UserLogin = context.HttpContext.User.Identity.Name
+            };
+
+            _logger.Error("Error while handling request{@errorLoggingModel}", errorLoggingModel);
 
             if (!context.ExceptionHandled)
             {

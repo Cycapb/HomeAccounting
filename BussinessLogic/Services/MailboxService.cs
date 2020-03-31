@@ -64,8 +64,7 @@ namespace BussinessLogic.Services
         public async Task<IEnumerable<NotificationMailBox>> GetListAsync()
         {
             try
-            {
-                throw new DomainModelsException();
+            {                
                 return await _repository.GetListAsync();
             }
             catch (DomainModelsException e)

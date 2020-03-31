@@ -27,7 +27,9 @@ namespace WebUI.Core.Controllers
         {
             try
             {
+                _logger.Information("Recieving of mailboxes has started");
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
+                _logger.Information("Recieving of mailboxes has finished");
                 return Ok(mailboxes);
             }
             catch (ServiceException e)

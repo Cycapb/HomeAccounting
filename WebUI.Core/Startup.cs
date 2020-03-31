@@ -70,6 +70,10 @@ namespace WebUI.Core
                 {
                     diagnosticContext.Set("ConnectionId", httpContext.Connection.Id);
                     diagnosticContext.Set("RequestId", httpContext.TraceIdentifier);
+                    diagnosticContext.Set("RequestMethod", httpContext.Request.Method);
+                    diagnosticContext.Set("RequestPath", httpContext.Request.Path);
+                    diagnosticContext.Set("SessionId", httpContext.Session.Id);
+                    diagnosticContext.Set("UserName", httpContext.User.Identity.Name);
                 };
             });
             app.UseMvc(routes =>
