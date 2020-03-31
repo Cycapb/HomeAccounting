@@ -31,20 +31,13 @@ namespace WebUI.Core.Infrastructure
                 ? userHostAddress
                 : $"{xForwardedFor},{userHostAddress}";
             var allIpAddresses = _multipleIpAddressProvider.GetIpAddresses(hostAddresses);
+            var errorMessage = new StringBuilder();
+            FillInnerExceptions(errorMessage, context.Exception);
 
-            var errorLoggingModel = new ErrorLoggingModel()
-            {
-                RequestId = context.HttpContext.TraceIdentifier,
-                ConnectionId = context.HttpContext.Connection.Id,
-                IpAddresses = allIpAddresses,
-                QueryString = context.HttpContext.Request.QueryString.ToString(),
-                RequestMethod = context.HttpContext.Request.Method,
-                RequestPath = context.HttpContext.Request.Path,
-                SessionId = context.HttpContext.Session?.Id,
-                UserLogin = context.HttpContext.User.Identity.Name
-            };
-
-            _logger.Error("Error while handling request{@errorLoggingModel}", errorLoggingModel);
+            _logger
+                .ForContext("IpAddresses", allIpAddresses)
+                .ForContext("Full_Stack_Trace", errorMessage)
+                .Error("Error while handling request");
 
             if (!context.ExceptionHandled)
             {
