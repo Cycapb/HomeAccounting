@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 using WebUI.Core.Exceptions;
-using Microsoft.Extensions.Logging;
+using WebUI.Core.Infrastructure.Extensions;
 
 namespace WebUI.Core.Controllers
 {
@@ -14,25 +14,26 @@ namespace WebUI.Core.Controllers
     {
         private readonly IMailboxService _mailboxService;
         private readonly ICategoryService _categoryService;
-        private readonly ILogger<MailboxController> _logger; //= Log.Logger.ForContext<MailboxController>();
+        private static readonly ILogger _logger = Log.Logger.ForContext<MailboxController>();
 
         public MailboxController(
             IMailboxService mailboxService,
-            ICategoryService categoryService,
-            ILogger<MailboxController> logger)
+            ICategoryService categoryService)
         {
             _mailboxService = mailboxService;
             _categoryService = categoryService;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                _logger.LogInformation("Recieving of mailboxes has started");
+                _logger.EnrichLoggerFromHttpContext(HttpContext).Information("Recieving of mailboxes has started");
+                
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
-                _logger.LogInformation("Recieving of mailboxes has finished");
+
+                _logger.Information("Recieving of mailboxes has finished");
+
                 return Ok(mailboxes);
             }
             catch (ServiceException e)
