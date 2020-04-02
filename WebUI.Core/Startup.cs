@@ -2,6 +2,7 @@ using BussinessLogic.Services;
 using DomainModels.EntityORM.Core.Infrastructure;
 using DomainModels.Model;
 using DomainModels.Repositories;
+using Loggers.Extensions.Serilog.Enrichers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +53,7 @@ namespace WebUI.Core
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            InitializeSerilog();
+            InitializeSerilog(app.ApplicationServices);
 
             if (env.IsDevelopment())
             {
@@ -92,9 +93,10 @@ namespace WebUI.Core
             DatabaseMigrator.MigrateAndSeed(app);
         }
 
-        private void InitializeSerilog()
+        private void InitializeSerilog(IServiceProvider serviceProvider)
         {
             Log.Logger = new LoggerConfiguration()
+                .Enrich.WithHttpContextProperties(serviceProvider)
                 .ReadFrom.Configuration(_configuration)
                 .CreateLogger();
         }

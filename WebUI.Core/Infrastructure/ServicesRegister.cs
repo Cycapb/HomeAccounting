@@ -3,6 +3,7 @@ using BussinessLogic.Services;
 using DomainModels.EntityORM.Core.Infrastructure;
 using DomainModels.Model;
 using DomainModels.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Providers;
 using Services;
@@ -16,6 +17,7 @@ namespace WebUI.Core.Infrastructure
         public static void RegisterAdditionalServices(IServiceCollection services)
         {
             services.AddScoped<CustomErrorAttribute>();
+            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IMailboxService, MailboxService>();
             services.AddTransient<ICategoryService, CategoryService>();            

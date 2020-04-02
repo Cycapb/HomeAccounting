@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Services;
 using Services.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Serilog;
 using WebUI.Core.Exceptions;
-using WebUI.Core.Infrastructure.Extensions;
 
 namespace WebUI.Core.Controllers
 {
@@ -28,8 +27,8 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                _logger.EnrichLoggerFromHttpContext(HttpContext).Information("Recieving of mailboxes has started");
-                
+                _logger.Information("Recieving of mailboxes has started");
+
                 var mailboxes = (await _mailboxService.GetListAsync()).ToList();
 
                 _logger.Information("Recieving of mailboxes has finished");
@@ -50,7 +49,7 @@ namespace WebUI.Core.Controllers
             {
                 var item = await _categoryService.GetItemAsync(id);
 
-                var outputItems = item.PayingItems.Select(x => 
+                var outputItems = item.PayingItems.Select(x =>
                 new { PayingItem_Id = x.ItemID, Account = x.Account.AccountName, Category = x.Category.Name, Products = x.PayingItemProducts.Select(x => x.Product.ProductName) });
 
                 return Ok(outputItems);
