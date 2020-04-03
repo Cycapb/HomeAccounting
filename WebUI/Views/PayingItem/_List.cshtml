@@ -1,4 +1,4 @@
-﻿@model PayingItemToView
+﻿@model PayingItemsCollectionModel
 
 <div class="panel panel-primary" >
     <div class="panel-heading">Список транзакций за последние 2 дня:</div>
@@ -18,6 +18,6 @@
 </div>
 
 <div class="pager">
-    @Html.Partial("_PageLinksPartial",Model.PagingInfo)
+    @Html.Partial("_PageLinksPartial", Model.PagingInfo)
 </div>
 

@@ -1,4 +1,4 @@
-﻿@model List<PayItemSubcategories>
+﻿@model List<WebUI.Models.ReportModels.PayItemSubcategories>
 @{
     ViewBag.Title = "Отчет по подкатегориям";
     decimal summ = ViewBag.Summ;
@@ -17,7 +17,7 @@
            {
                <tr>
                    <td>@item.CategorySumm.Category</td>
-                   <td>@item.CategorySumm.Summ.ToString("c")</td>
+                   <td>@item.CategorySumm.Sum.ToString("c")</td>
                </tr>
                if (item.ProductPrices.Count != 0)
                {
