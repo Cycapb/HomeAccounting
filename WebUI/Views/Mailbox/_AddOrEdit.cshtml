@@ -1,4 +1,4 @@
-﻿@model NotificationMailboxViewModel
+﻿@model NotificationMailboxModel
 @{
     var routeAction = Context.Request.RequestContext.RouteData.Values["action"];
     var action = routeAction.ToString() == "Add" ? "Add" : "Edit";

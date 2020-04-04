@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WebUI.Models.CategoryModels;
-using WebUI.Models.ReportModels;
 
 namespace WebUI.Models.ReportModels
 {

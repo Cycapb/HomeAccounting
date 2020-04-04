@@ -591,7 +591,7 @@
     <Compile Include="Models\PayingItemModels\PayingItemModel.cs" />
     <Compile Include="Models\PayingItemModels\PayingItemsCollectionModel.cs" />
     <Compile Include="Models\PlanningModels\BalanceModel.cs" />
-    <Compile Include="Models\PlanningModels\PlaningModel.cs" />
+    <Compile Include="Models\PlanningModels\PlanningModel.cs" />
     <Compile Include="Models\PlanningModels\PlanningEditModel.cs" />
     <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\ReportModels\PayItem.cs" />
