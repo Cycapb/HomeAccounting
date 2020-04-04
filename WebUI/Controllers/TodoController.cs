@@ -11,7 +11,7 @@ namespace WebUI.Controllers
     {
         public ActionResult Index()
         {
-            var model = new TodoViewModel()
+            var model = new TodoModel()
             {
                 UserId = HttpContext.User.Identity.GetUserId()
             };

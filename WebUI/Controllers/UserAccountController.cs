@@ -67,7 +67,7 @@ namespace WebUI.Controllers
                         ClaimsIdentity identity =
                             await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                         AuthManager.SignOut();
-                        AuthManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
+                        AuthManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
                         if (user.UserName == "demo")
                         {
                             var address = HttpContext.Request.UserHostAddress;

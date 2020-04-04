@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Models.CategoryModels;
 
 namespace WebUI.Helpers
 {
@@ -21,7 +22,7 @@ namespace WebUI.Helpers
             _categoryService = categoryService;
         }
 
-        public async Task<CategoriesViewModel> CreateCategoriesViewModel(int page, int itemsPerPage,
+        public async Task<CategoriesCollectionModel> CreateCategoriesViewModel(int page, int itemsPerPage,
             Func<Category, bool> predicate)
         {
             List<Category> categories;
@@ -42,7 +43,7 @@ namespace WebUI.Helpers
                     $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
             }
 
-            return new CategoriesViewModel()
+            return new CategoriesCollectionModel()
             {
                 Categories = categories
                         .Skip((page - 1) * itemsPerPage)

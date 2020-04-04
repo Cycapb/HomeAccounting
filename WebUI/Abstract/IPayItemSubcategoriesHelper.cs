@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DomainModels.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DomainModels.Model;
-using WebUI.Models;
+using WebUI.Models.ReportModels;
 
 namespace WebUI.Abstract
 {

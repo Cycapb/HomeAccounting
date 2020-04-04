@@ -8,6 +8,8 @@ using Moq;
 using Services;
 using Services.Exceptions;
 using WebUI.Exceptions;
+using WebUI.Abstract;
+using WebUI.Models.BudgetModels;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -15,13 +17,13 @@ namespace WebUI.Tests.ControllersTests
     public class NavRightControllertTests
     {
         private readonly Mock<IPayingItemService> _service;
-        private readonly Mock<IDbHelper> _dbHelper;
+        private readonly Mock<IReportHelper> _dbHelper;
 
 
         public NavRightControllertTests()
         {
             _service = new Mock<IPayingItemService>();
-            _dbHelper = new Mock<IDbHelper>();
+            _dbHelper = new Mock<IReportHelper>();
         }
 
 

@@ -14,6 +14,8 @@ using Moq;
 using Paginator.Abstract;
 using WebUI.Exceptions;
 using Services.Caching;
+using WebUI.Models.CategoryModels;
+using WebUI.Models.ReportModels;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -28,12 +30,12 @@ namespace WebUI.Tests.ControllersTests
             new PayingItem() {ItemID = 4, Summ = 200, Category = new Category() {TypeOfFlowID = 2}}
         };
 
-        private readonly List<OverAllItem> _overAllItems = new List<OverAllItem>()
+        private readonly List<CategorySumModel> _overAllItems = new List<CategorySumModel>()
         {
-            new OverAllItem() {Category = "Cat1",Summ = 50M},
-            new OverAllItem() {Category = "Cat2",Summ = 100M},
-            new OverAllItem() {Category = "Cat3",Summ = 150M},
-            new OverAllItem() {Category = "Cat4",Summ = 200M}
+            new CategorySumModel() {Category = "Cat1",Sum = 50M},
+            new CategorySumModel() {Category = "Cat2",Sum = 100M},
+            new CategorySumModel() {Category = "Cat3",Sum = 150M},
+            new CategorySumModel() {Category = "Cat4",Sum = 200M}
         };
         private readonly Mock<IReportModelCreator> _reportModelCreator;
         private readonly Mock<IReportControllerHelper> _reportControllerHelperMock;
@@ -121,8 +123,8 @@ namespace WebUI.Tests.ControllersTests
         {
             Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
             mockCreator.Setup(
-                m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>())).Returns(new ReportModel());
-            var tempReportModel = new TempReportModel();
+                m => m.CreateByTypeReportModel(It.IsAny<ReportByCategoryAndTypeOfFlowModel>(), It.IsAny<WebUser>(), It.IsAny<int>())).Returns(new ReportModel());
+            var tempReportModel = new ReportByCategoryAndTypeOfFlowModel();
             var user = new WebUser() {Id = "1"};
             var page = 1;
             var target = new ReportController(null, null, mockCreator.Object, null);
@@ -139,9 +141,9 @@ namespace WebUI.Tests.ControllersTests
         public void GetTypeOfFlowReport_CatId0_RedrectToRouteResultReturned()
         {
             var target = new ReportController(null, null, _reportModelCreator.Object, null);
-            _reportModelCreator.Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>())).Returns(new ReportModel());
+            _reportModelCreator.Setup(m => m.CreateByTypeReportModel(It.IsAny<ReportByCategoryAndTypeOfFlowModel>(), It.IsAny<WebUser>(), It.IsAny<int>())).Returns(new ReportModel());
 
-            var result = target.GetTypeOfFlowReport(new TempReportModel(), new WebUser(), 1);
+            var result = target.GetTypeOfFlowReport(new ReportByCategoryAndTypeOfFlowModel(), new WebUser(), 1);
             var model = (result as PartialViewResult).Model;
 
             Assert.IsNotNull(model);
@@ -154,10 +156,10 @@ namespace WebUI.Tests.ControllersTests
         {
             Mock<IReportModelCreator> mockCreator = new Mock<IReportModelCreator>();
             mockCreator.Setup(
-                m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
+                m => m.CreateByTypeReportModel(It.IsAny<ReportByCategoryAndTypeOfFlowModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
                 .Returns(new ReportModel());
             var target = new ReportController(null, null, mockCreator.Object, null);
-            var tempReportModel = new TempReportModel() {CatId = 1};
+            var tempReportModel = new ReportByCategoryAndTypeOfFlowModel() {CatId = 1};
             var page = 1;
             var user = new WebUser() {Id = "1"};
 
@@ -348,11 +350,11 @@ namespace WebUI.Tests.ControllersTests
         public void GetTypeOfFlowReport_RaisesWebUiException()
         {
             _reportModelCreator
-                .Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
+                .Setup(m => m.CreateByTypeReportModel(It.IsAny<ReportByCategoryAndTypeOfFlowModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
                 .Throws<WebUiException>();
             var target = new ReportController(null, null, _reportModelCreator.Object,null);
 
-            target.GetTypeOfFlowReport(new TempReportModel(), new WebUser(), 1);
+            target.GetTypeOfFlowReport(new ReportByCategoryAndTypeOfFlowModel(), new WebUser(), 1);
         }
 
         [TestMethod]
@@ -360,13 +362,13 @@ namespace WebUI.Tests.ControllersTests
         public void GetTypeOfFlowReport_RaisesWebUiExceptionWithInnerWebUihelperException()
         {
             _reportModelCreator
-                .Setup(m => m.CreateByTypeReportModel(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
+                .Setup(m => m.CreateByTypeReportModel(It.IsAny<ReportByCategoryAndTypeOfFlowModel>(), It.IsAny<WebUser>(), It.IsAny<int>()))
                 .Throws<WebUiException>();
             var target = new ReportController(null, null, _reportModelCreator.Object,null);
 
             try
             {
-                target.GetTypeOfFlowReport(It.IsAny<TempReportModel>(), It.IsAny<WebUser>(), It.IsAny<int>());
+                target.GetTypeOfFlowReport(It.IsAny<ReportByCategoryAndTypeOfFlowModel>(), It.IsAny<WebUser>(), It.IsAny<int>());
             }
             catch (WebUiException e)
             {

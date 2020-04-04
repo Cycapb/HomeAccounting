@@ -9,20 +9,16 @@ using System.Threading.Tasks;
 
 namespace DomainModels.EntityORM
 {
-    public class EntityRepository<T> : IRepository<T> where T : class
+    public class EntityRepository<T, TContext> : IRepository<T>
+        where T : class
+        where TContext : DbContext
     {
         private readonly DbSet<T> _dbSet;
-        private readonly AccountingContext _context;
+        private readonly TContext _context;
 
-        public EntityRepository(AccountingContext context)
+        public EntityRepository(TContext context)
         {
             _context = context;
-            _dbSet = _context.Set<T>();
-        }
-
-        public EntityRepository()
-        {
-            _context = new AccountingContext();
             _dbSet = _context.Set<T>();
         }
 
@@ -54,7 +50,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
 
@@ -68,7 +64,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Create)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Create)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
 
         }
@@ -85,7 +81,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Delete)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Delete)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
 
         }
@@ -103,7 +99,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(DeleteAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
 
         }
@@ -116,7 +112,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Update)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Update)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
 
         }
@@ -129,7 +125,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Save)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(Save)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
 
@@ -141,7 +137,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(SaveAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
 
@@ -153,7 +149,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItem)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItem)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
 
@@ -165,7 +161,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItemAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetItemAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
 
@@ -177,7 +173,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetList)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
 
@@ -189,7 +185,7 @@ namespace DomainModels.EntityORM
             }
             catch (Exception ex)
             {
-                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T>)}", ex);
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepository<T, TContext>)}", ex);
             }
         }
     }

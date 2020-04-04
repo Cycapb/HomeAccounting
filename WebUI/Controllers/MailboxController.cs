@@ -50,13 +50,13 @@ namespace WebUI.Controllers
 
         public ActionResult Add()
         {
-            var model = new NotificationMailboxViewModel();
+            var model = new NotificationMailboxModel();
             ViewBag.PanelTitle = "Добавление почтового ящика";
             return PartialView("_AddOrEdit", model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(NotificationMailboxViewModel model)
+        public async Task<ActionResult> Add(NotificationMailboxModel model)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace WebUI.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var mailBoxModel = new NotificationMailboxViewModel()
+                var mailBoxModel = new NotificationMailboxModel()
                 {
                     Id = model.Id,
                     MailBoxName = model.MailBoxName,
@@ -125,7 +125,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(NotificationMailboxViewModel model)
+        public async Task<ActionResult> Edit(NotificationMailboxModel model)
         {
             if (model == null)
             {

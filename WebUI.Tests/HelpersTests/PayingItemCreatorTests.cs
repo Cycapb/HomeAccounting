@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebUI.Helpers;
 using WebUI.Models;
 using WebUI.Exceptions;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -76,7 +77,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckForCorrectPayingItemDate()
         {
-            var payingItemModel = new PayingItemViewModel()
+            var payingItemModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -119,7 +120,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckCommentCorrectnessIfPayingItemCommentIsNotEmpty()
         {
-            var payingItemModel = new PayingItemViewModel()
+            var payingItemModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -162,7 +163,7 @@ namespace WebUI.Tests.HelpersTests
         [TestCategory("PayingItemCreatorTests")]
         public async Task CheckIfPayingItemProductsAreAddedCorrectly()
         {
-            var payingItemModel = new PayingItemViewModel()
+            var payingItemModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -219,9 +220,9 @@ namespace WebUI.Tests.HelpersTests
             }
         }
 
-        private PayingItemViewModel CreatePayingItemModel()
+        private PayingItemModel CreatePayingItemModel()
         {
-            return new PayingItemViewModel()
+            return new PayingItemModel()
             {
                 PayingItem = new PayingItem()
                 {
