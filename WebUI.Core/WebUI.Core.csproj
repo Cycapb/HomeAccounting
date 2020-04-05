@@ -38,6 +38,8 @@
     <ProjectReference Include="..\BussinessLogic\BussinessLogic.csproj" />
     <ProjectReference Include="..\DomainModels.EntityORM.Core\DomainModels.EntityORM.Core.csproj" />
     <ProjectReference Include="..\DomainModels.EntityORM\DomainModels.EntityORM.csproj" />
+    <ProjectReference Include="..\Loggers.Extensions\Loggers.Extensions.csproj" />
+    <ProjectReference Include="..\Loggers\Loggers.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
