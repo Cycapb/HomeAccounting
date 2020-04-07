@@ -32,8 +32,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loggers.Extensions", "Logge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI.Core", "WebUI.Core\WebUI.Core.csproj", "{CEC64A77-AA49-4CED-8247-F9F53C7F28D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Core", "ToDoList.Core\ToDoList.Core.csproj", "{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug.Local|Any CPU = Debug.Local|Any CPU
@@ -113,12 +111,6 @@ Global
 		{CEC64A77-AA49-4CED-8247-F9F53C7F28D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC64A77-AA49-4CED-8247-F9F53C7F28D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC64A77-AA49-4CED-8247-F9F53C7F28D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}.Debug.Local|Any CPU.ActiveCfg = Debug|Any CPU
-		{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}.Debug.Local|Any CPU.Build.0 = Debug|Any CPU
-		{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{355E1F4F-0D8B-47F7-8336-D0B56D03C3DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

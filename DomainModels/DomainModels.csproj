@@ -74,8 +74,6 @@
     <Compile Include="Model\PayingItemProduct.cs" />
     <Compile Include="Model\PlanItem.cs" />
     <Compile Include="Model\Product.cs" />
-    <Compile Include="Model\TodoGroup.cs" />
-    <Compile Include="Model\TodoItem.cs" />
     <Compile Include="Model\TypeOfFlow.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Model\IWorkingUser.cs" />
