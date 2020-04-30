@@ -493,13 +493,13 @@
     <Compile Include="Abstract\IReportMenu.cs" />
     <Compile Include="Abstract\IReportMenuItem.cs" />
     <Compile Include="Abstract\IReportModelCreator.cs" />
-    <Compile Include="Abstract\IUserReporter.cs" />
+    <Compile Include="Abstract\IUserLoginActivityLogger.cs" />
     <Compile Include="App_Start\AccIdentityConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Concrete\EmailUserReporter.cs" />
+    <Compile Include="Concrete\UserLoginActivityLogger.cs" />
     <Compile Include="Concrete\MessageProvider.cs" />
     <Compile Include="Concrete\PagingInfoCreator.cs" />
     <Compile Include="Concrete\ReportMenu.cs" />

@@ -1,18 +1,17 @@
-﻿using System.Security.Claims;
-using System.Threading;
+﻿using Loggers;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
+using System.Runtime.Caching;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebUI.Abstract;
+using WebUI.Exceptions;
 using WebUI.Infrastructure;
 using WebUI.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System.Runtime.Caching;
-using System;
-using WebUI.Exceptions;
-using Loggers;
 
 namespace WebUI.Controllers
 {
@@ -22,12 +21,12 @@ namespace WebUI.Controllers
         private AccUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<AccUserManager>();
         private IAuthenticationManager AuthManager => HttpContext.GetOwinContext().Authentication;
         private AccUserModel CurrentUser => UserManager.FindById(HttpContext.User.Identity.GetUserId());
-        private readonly IReporter _userReporter;
+        private readonly IUserLoginActivityLogger _userReporter;
         private readonly IPlanningHelper _planingHelper;
         private readonly IExceptionLogger _exceptionLogger;
 
         public UserAccountController(
-            IReporter userReporter, 
+            IUserLoginActivityLogger userReporter,
             IPlanningHelper planingHelper,
             IExceptionLogger exceptionLogger)
         {
@@ -52,7 +51,7 @@ namespace WebUI.Controllers
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return View("Error", new string[] {"Доступ запрещен"});
+                return View("Error", new string[] { "Доступ запрещен" });
             }
             ViewBag.returnUrl = returnUrl;
             return View();
@@ -68,23 +67,27 @@ namespace WebUI.Controllers
                 try
                 {
                     AccUserModel user = await UserManager.FindAsync(model.Name, model.Password);
+
                     if (user != null)
                     {
                         ClaimsIdentity identity =
                             await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
                         AuthManager.SignOut();
                         AuthManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
                         if (user.UserName == "demo")
                         {
                             var address = HttpContext.Request.UserHostAddress;
-                            new Thread(() => _userReporter.Report(user, address)).Start();
+                            await _userReporter.Log(user, address);
                         }
+
                         //new Thread(() => ActualizePlanItems(user)).Start(); Отключил пока не починю планирование
 
                         Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email };
 
-                        return Json(new {url = returnUrl, hasErrors = "false"}, JsonRequestBehavior.AllowGet);
+                        return Json(new { url = returnUrl, hasErrors = "false" }, JsonRequestBehavior.AllowGet);
                     }
+
                     ModelState.AddModelError("", "Неверные имя пользователя или пароль");
                 }
                 catch (Exception ex)
@@ -93,6 +96,7 @@ namespace WebUI.Controllers
                     ModelState.AddModelError("", "Сервис временно недоступен. Ведутся работы над восстановлением.");
                 }
             }
+
             ViewBag.returnUrl = returnUrl;
             return PartialView("_Login", model);
         }
@@ -123,14 +127,14 @@ namespace WebUI.Controllers
                     model.CurrentPassword);
                 if (pass == PasswordVerificationResult.Failed)
                 {
-                    ModelState.AddModelError("","Неверный текущий пароль");
+                    ModelState.AddModelError("", "Неверный текущий пароль");
                     return PartialView("_ChangePassword", model);
                 }
                 if (pass == PasswordVerificationResult.Success)
                 {
                     if (!model.NewPassword.Equals(model.ConfirmPassword))
                     {
-                        ModelState.AddModelError("","Введенные пароли не сопадают");
+                        ModelState.AddModelError("", "Введенные пароли не сопадают");
                         return PartialView("_ChangePassword", model);
                     }
                     else
@@ -177,7 +181,7 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> ChangeCredentials(string id,string email,string firstName, string lastName)
+        public async Task<ActionResult> ChangeCredentials(string id, string email, string firstName, string lastName)
         {
             var userToChange = await UserManager.FindByIdAsync(id);
             if (userToChange != null)
@@ -186,7 +190,7 @@ namespace WebUI.Controllers
                 var validEmail = await UserManager.UserValidator.ValidateAsync(userToChange);
                 if (!validEmail.Succeeded)
                 {
-                   AddModelErrors(validEmail); 
+                    AddModelErrors(validEmail);
                 }
                 else
                 {
@@ -205,7 +209,7 @@ namespace WebUI.Controllers
             }
             else
             {
-                return View("Error",new string[] {"Ошибка при изменении данных"});
+                return View("Error", new string[] { "Ошибка при изменении данных" });
             }
             return PartialView("_ChangeCredentials", userToChange);
         }
@@ -228,28 +232,36 @@ namespace WebUI.Controllers
                     Email = model.Email,
                 };
                 var validMail = await UserManager.UserValidator.ValidateAsync(userToAdd);
+
                 if (!validMail.Succeeded)
                 {
                     AddModelErrors(validMail);
                 }
+
                 var validPass = await UserManager.PasswordValidator.ValidateAsync(model.Password);
+
                 if (!validPass.Succeeded)
                 {
                     AddModelErrors(validPass);
                 }
+
                 if (!model.Password.Equals(model.ConfirmPassword))
                 {
-                    ModelState.AddModelError("","Введенные пароли не совпадают");
+                    ModelState.AddModelError("", "Введенные пароли не совпадают");
                 }
+
                 if (validPass.Succeeded && validMail.Succeeded && model.Password.Equals(model.ConfirmPassword))
                 {
                     userToAdd.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
                     var result = await UserManager.CreateAsync(userToAdd);
+
                     if (!result.Succeeded)
                     {
                         AddModelErrors(result);
                     }
+
                     result = await UserManager.AddToRoleAsync(userToAdd.Id, "Users");
+
                     if (!result.Succeeded)
                     {
                         AddModelErrors(result);
@@ -257,9 +269,10 @@ namespace WebUI.Controllers
                     else
                     {
                         var address = HttpContext.Request.UserHostAddress;
-                        new Thread( () => _userReporter.Report(userToAdd, address)).Start();
+                        await _userReporter.Log(userToAdd, address);
                         TempData["message"] = "Спасибо за регистрацию. Теперь можно войти в систему со своим логином и паролем";
-                        return Redirect("/");
+
+                        return RedirectToAction("Index", "PayingItem");
                     }
                 }
             }
@@ -267,6 +280,7 @@ namespace WebUI.Controllers
             {
                 return View(model);
             }
+
             return View(model);
         }
 
@@ -274,7 +288,7 @@ namespace WebUI.Controllers
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("",error);
+                ModelState.AddModelError("", error);
             }
         }
 
