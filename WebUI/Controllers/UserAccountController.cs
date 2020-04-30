@@ -12,6 +12,7 @@ using Microsoft.Owin.Security;
 using System.Runtime.Caching;
 using System;
 using WebUI.Exceptions;
+using Loggers;
 
 namespace WebUI.Controllers
 {
@@ -23,11 +24,16 @@ namespace WebUI.Controllers
         private AccUserModel CurrentUser => UserManager.FindById(HttpContext.User.Identity.GetUserId());
         private readonly IReporter _userReporter;
         private readonly IPlanningHelper _planingHelper;
+        private readonly IExceptionLogger _exceptionLogger;
 
-        public UserAccountController(IReporter userReporter, IPlanningHelper planingHelper)
+        public UserAccountController(
+            IReporter userReporter, 
+            IPlanningHelper planingHelper,
+            IExceptionLogger exceptionLogger)
         {
             _userReporter = userReporter;
             _planingHelper = planingHelper;
+            _exceptionLogger = exceptionLogger;
         }
 
         [AllowAnonymous]
@@ -83,7 +89,8 @@ namespace WebUI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw new WebUiException("Невозможно подключиться к базе авторизации", ex);
+                    _exceptionLogger.LogException(ex);
+                    ModelState.AddModelError("", "Сервис временно недоступен. Ведутся работы над восстановлением.");
                 }
             }
             ViewBag.returnUrl = returnUrl;
