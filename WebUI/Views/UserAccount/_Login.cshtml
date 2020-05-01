@@ -50,8 +50,11 @@
                 OnBegin = "showPopupLogin"
             },
                 new {@class = "btn btn-simple btn-primary btn-lg"})
-            <div style="text-align: center">
-                @Html.ActionLink("Зарегистрироваться", "Register", null, new {@class = "btn btn-simple btn-primary btn-lg"})
+            <div style="text-align: center">                
+                @Ajax.ActionLink("Зарегистрироваться", "Register",null, new AjaxOptions()
+           {
+               UpdateTargetId = "loginFormContainer"
+           }, new { @class = "btn btn-simple btn-primary btn-lg" })
             </div>
         </div>
     }

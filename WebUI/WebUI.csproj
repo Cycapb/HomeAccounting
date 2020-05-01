@@ -645,7 +645,7 @@
     <Content Include="Views\UserAccount\_ChangeCredentials.cshtml" />
     <Content Include="Views\UserAccount\_ViewCredentials.cshtml" />
     <Content Include="Views\UserAccount\_ChangePassword.cshtml" />
-    <Content Include="Views\UserAccount\Register.cshtml" />
+    <Content Include="Views\UserAccount\_Register.cshtml" />
     <Content Include="Views\Product\List.cshtml" />
     <Content Include="Views\Product\EditableList.cshtml" />
     <Content Include="Views\Product\Add.cshtml" />

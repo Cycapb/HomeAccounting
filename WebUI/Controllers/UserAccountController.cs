@@ -66,24 +66,17 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    AccUserModel user = await UserManager.FindAsync(model.Name, model.Password);
+                    var user = await UserManager.FindAsync(model.Name, model.Password);
 
                     if (user != null)
                     {
-                        ClaimsIdentity identity =
-                            await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                        AuthManager.SignOut();
-                        AuthManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                        await SignInUser(user);
 
                         if (user.UserName == "demo")
                         {
                             var address = HttpContext.Request.UserHostAddress;
                             await _userReporter.Log(user, address);
                         }
-
-                        //new Thread(() => ActualizePlanItems(user)).Start(); Отключил пока не починю планирование
-
-                        Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email };
 
                         return Json(new { url = returnUrl, hasErrors = "false" }, JsonRequestBehavior.AllowGet);
                     }
@@ -99,6 +92,15 @@ namespace WebUI.Controllers
 
             ViewBag.returnUrl = returnUrl;
             return PartialView("_Login", model);
+        }
+
+        private async Task SignInUser(AccUserModel user)
+        {
+            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            AuthManager.SignOut();
+            AuthManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+
+            Session["WebUser"] = new WebUser() { Id = user.Id, Name = user.UserName, Email = user.Email };
         }
 
         [HttpPost]
@@ -217,7 +219,7 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return PartialView("_Register");
         }
 
         [HttpPost]
@@ -270,9 +272,11 @@ namespace WebUI.Controllers
                     {
                         var address = HttpContext.Request.UserHostAddress;
                         await _userReporter.Log(userToAdd, address);
-                        TempData["message"] = "Спасибо за регистрацию. Теперь можно войти в систему со своим логином и паролем";
 
-                        return RedirectToAction("Index", "PayingItem");
+                        await SignInUser(userToAdd);
+
+                        var urlToRedirect = Url.Action("Index", "PayingItem");
+                        return Json(new { url = urlToRedirect, hasErrors = "false" }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }
