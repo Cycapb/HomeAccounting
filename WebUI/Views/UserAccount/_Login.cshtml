@@ -25,7 +25,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">face</i>
                 </span>
-                <div class="label-floating form-group">
+                <div class="label-floating form-group is-empty">
                     @Html.LabelFor(x => x.Name, new {@class = "control-label"})
                     @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
                     @Html.ValidationMessageFor(x => x.Name)
@@ -35,7 +35,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">lock_outline</i>
                 </span>
-                <div class="label-floating form-group">
+                <div class="label-floating form-group is-empty">
                     @Html.LabelFor(x => x.Password, new {@class = "control-label"})
                     @Html.PasswordFor(x => x.Password, new {@class = "form-control"})
                     @Html.ValidationMessageFor(x => x.Password)
@@ -47,11 +47,12 @@
             @Ajax.ActionLink("Демо-вход", "LoginDemo", null, new AjaxOptions()
             {
                 OnSuccess = "redirectToMain",
-                OnBegin = "showPopupLogin"
+                OnBegin = "showPopupLogin",
+                HttpMethod = "POST"
             },
                 new {@class = "btn btn-simple btn-primary btn-lg"})
-            <div style="text-align: center">                
-                @Ajax.ActionLink("Зарегистрироваться", "Register",null, new AjaxOptions()
+            <div style="text-align: center">
+                @Ajax.ActionLink("Зарегистрироваться", "Register",new { returnUrl = ViewBag.ReturnUrl }, new AjaxOptions()
            {
                UpdateTargetId = "loginFormContainer"
            }, new { @class = "btn btn-simple btn-primary btn-lg" })

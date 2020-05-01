@@ -64,10 +64,10 @@
         </div>
         <div class="footer text-center">
             <input type="submit" value="Зарегистрироваться" class="btn btn-simple btn-primary btn-lg" />
-            @Ajax.ActionLink("Отмена", "Login", null, new AjaxOptions()
-           {
-               UpdateTargetId = "loginFormContainer"
-           }, new { @class = "btn btn-simple btn-primary btn-lg" })
+            @Ajax.ActionLink("Отмена", "Login", new { returnUrl = ViewBag.ReturnUrl }, new AjaxOptions()
+       {
+           UpdateTargetId = "loginFormContainer"
+       }, new { @class = "btn btn-simple btn-primary btn-lg" })
         </div>
     }
 </div>

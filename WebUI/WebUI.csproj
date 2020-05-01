@@ -636,7 +636,7 @@
     <Content Include="Views\Category\CategorySummaryPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\UserAccount\Login.cshtml" />
+    <Content Include="Views\UserAccount\Index.cshtml" />
     <Content Include="Views\RoleAdmin\_Index.cshtml" />
     <Content Include="Views\RoleAdmin\_RolesSummary.cshtml" />
     <Content Include="Views\RoleAdmin\_Create.cshtml" />

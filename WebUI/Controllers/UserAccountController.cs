@@ -4,7 +4,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Runtime.Caching;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -36,6 +35,7 @@ namespace WebUI.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
         public async Task<ActionResult> LoginDemo()
         {
             var loginModel = new LoginModel()
@@ -43,18 +43,28 @@ namespace WebUI.Controllers
                 Name = "demo",
                 Password = "12qw34er"
             };
-            return await Login(loginModel, "/");
+
+            return await Login(loginModel, Url.Action("Index", "PayingItem"));
         }
 
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Index(string returnUrl)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 return View("Error", new string[] { "Доступ запрещен" });
             }
-            ViewBag.returnUrl = returnUrl;
+            
+            ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            return PartialView("_Login");
         }
 
         [HttpPost]
@@ -90,7 +100,7 @@ namespace WebUI.Controllers
                 }
             }
 
-            ViewBag.returnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             return PartialView("_Login", model);
         }
 
@@ -217,8 +227,10 @@ namespace WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
+
             return PartialView("_Register");
         }
 
@@ -282,10 +294,10 @@ namespace WebUI.Controllers
             }
             else
             {
-                return View(model);
+                return PartialView("_Register", model);
             }
 
-            return View(model);
+            return PartialView("_Register", model);
         }
 
         private void AddModelErrors(IdentityResult result)
