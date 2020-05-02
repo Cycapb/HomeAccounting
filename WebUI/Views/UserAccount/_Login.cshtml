@@ -11,7 +11,9 @@
         OnBegin = "showPopupLogin",
         OnSuccess = "checkForErrorsAndRedirect",
         UpdateTargetId = "loginFormContainer",
-        AllowCache = false
+        AllowCache = false,
+        HttpMethod = "POST",
+        Url = Url.Action("Login", new { returnUrl = ViewBag.ReturnUrl })
     }))
     {
         @Html.AntiForgeryToken()
@@ -25,7 +27,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">face</i>
                 </span>
-                <div class="label-floating form-group is-empty">
+                <div class="label-floating form-group">
                     @Html.LabelFor(x => x.Name, new {@class = "control-label"})
                     @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
                     @Html.ValidationMessageFor(x => x.Name)
@@ -35,7 +37,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">lock_outline</i>
                 </span>
-                <div class="label-floating form-group is-empty">
+                <div class="label-floating form-group">
                     @Html.LabelFor(x => x.Password, new {@class = "control-label"})
                     @Html.PasswordFor(x => x.Password, new {@class = "form-control"})
                     @Html.ValidationMessageFor(x => x.Password)

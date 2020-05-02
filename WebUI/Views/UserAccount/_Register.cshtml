@@ -12,7 +12,8 @@
         OnBegin = "showPopupLogin",
         OnSuccess = "checkForErrorsAndRedirect",
         UpdateTargetId = "loginFormContainer",
-        AllowCache = false
+        AllowCache = false,
+        Url = Url.Action("Register")
     }))
     {
         @Html.AntiForgeryToken()
@@ -25,7 +26,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">face</i>
                 </span>
-                <div class="label-floating form-group is-empty">
+                <div class="label-floating form-group">
                     @Html.LabelFor(x => x.Login, new { @class = "control-label" })
                     @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.Login)
@@ -35,7 +36,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">email</i>
                 </span>
-                <div class="label-floating form-group is-empty">
+                <div class="label-floating form-group">
                     @Html.LabelFor(x => x.Email, new { @class = "control-label" })
                     @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.Email)
@@ -45,7 +46,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">lock_outline</i>
                 </span>
-                <div class="label-floating form-group is-empty">
+                <div class="label-floating form-group">
                     @Html.LabelFor(x => x.Password, new { @class = "control-label" })
                     @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.Password)
@@ -55,7 +56,7 @@
                 <span class="input-group-addon">
                     <i class="material-icons">lock_outline</i>
                 </span>
-                <div class="label-floating form-group is-empty">
+                <div class="label-floating form-group">
                     @Html.LabelFor(x => x.ConfirmPassword, new { @class = "control-label" })
                     @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.ConfirmPassword)
