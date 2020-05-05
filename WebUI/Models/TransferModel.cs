@@ -8,6 +8,7 @@ namespace WebUI.Models
     public class TransferModel
     {
         public List<Account> FromAccounts { get; set; }
+
         public List<Account> ToAccounts { get; set; }
 
         [TransferModel(ErrorMessage = "Необходимо завести хотя бы один счет")]

@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 using WebUI.Helpers;
-using WebUI.Models.PayingItemViewModels;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -41,7 +41,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -65,7 +65,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -90,7 +90,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -128,7 +128,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -185,7 +185,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -270,7 +270,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -374,7 +374,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -424,7 +424,7 @@ namespace WebUI.Tests.HelpersTests
             };
             _payinItemServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(payingItem);
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
-            var payingItemViewModel = new PayingItemEditViewModel()
+            var payingItemViewModel = new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {
@@ -451,9 +451,9 @@ namespace WebUI.Tests.HelpersTests
             Assert.AreEqual(500, result.Summ);
         }
 
-        private PayingItemEditViewModel CreatePayingItemViewModelWithCheckedProductsInItem()
+        private PayingItemEditModel CreatePayingItemViewModelWithCheckedProductsInItem()
         {
-            return new PayingItemEditViewModel()
+            return new PayingItemEditModel()
             {
                 PayingItem = new PayingItem()
                 {

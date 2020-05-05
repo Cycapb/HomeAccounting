@@ -7,6 +7,7 @@ using DomainModels.Model;
 using WebUI.Abstract;
 using WebUI.Models;
 using Services;
+using WebUI.Models.PlanningModels;
 
 namespace WebUI.Controllers
 {
@@ -73,7 +74,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user,EditPlaningModel model)
+        public async Task<ActionResult> Edit(WebUser user, PlanningEditModel model)
         {
             if (ModelState.IsValid)
             {
@@ -136,9 +137,9 @@ namespace WebUI.Controllers
             return Json(new {url = Url.Action("ViewPlan")});
         }
 
-        private async Task<EditPlaningModel> GetEditPlaningModel(int id)
+        private async Task<PlanningEditModel> GetEditPlaningModel(int id)
         {
-            var editPlanModel = new EditPlaningModel()
+            var editPlanModel = new PlanningEditModel()
             {
                 PlanItem = await _planItemService.GetItemAsync(id)
             };

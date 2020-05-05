@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using WebUI.Models.PayingItemViewModels;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Abstract
 {
     public interface IPayingItemEditViewModelCreator : IDisposable
     {
-        Task<PayingItemEditViewModel> CreateViewModel(int payingItemId);
+        Task<PayingItemEditModel> CreateViewModel(int payingItemId);
     }
 }

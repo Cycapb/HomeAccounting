@@ -9,7 +9,7 @@ using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Infrastructure.Comparers;
 using WebUI.Models;
-using WebUI.Models.PayingItemViewModels;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Helpers
 {
@@ -23,7 +23,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;
         }
 
-        public async Task<PayingItemEditViewModel> CreateViewModel(int payingItemId)
+        public async Task<PayingItemEditModel> CreateViewModel(int payingItemId)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace WebUI.Helpers
                     return null;
                 }
 
-                var model = new PayingItemEditViewModel()
+                var model = new PayingItemEditModel()
                 {
                     PayingItem = payingItem,
                     ProductsInItem = new List<Product>(),

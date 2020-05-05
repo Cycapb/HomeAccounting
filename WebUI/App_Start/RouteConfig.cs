@@ -19,17 +19,10 @@ namespace WebUI
                 );
 
 
-            routes.MapRoute("Report", "Report/{action}", new
+            routes.MapRoute("Report", "Report/{action}/{typeOfFlowId}", new
             {
                 controller = "Report",
-                action = "Index"
-            });
-
-
-            routes.MapRoute("", "Report/{action}/{typeOfFlowId}", new
-            {
-                controller = "Report",
-                action = "SubcategoriesReport",
+                action = "Index",
                 typeOfFlowId = UrlParameter.Optional
             });
 
@@ -53,34 +46,17 @@ namespace WebUI
                     typeOfFlow = new RangeRouteConstraint(1,2)
                 });
 
-            routes.MapRoute("", "Category/Edit/{id}",
+            routes.MapRoute("", "Category/{action}/{id}",
                 new
                 {
-                    controller = "Category" ,
-                    action = "Edit"
-                });
-
-            routes.MapRoute("", "Category/Delete/{id}",
-                new
-                {
-                    controller = "Category",
-                    action = "Delete"
-                });
+                    controller = "Category"                    
+                });            
 
             routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}",
                 new { controller = "Category" });
 
             routes.MapRoute("", "Category/{action}/{page}",
                 new { controller = "Category" , action = "Index"});
-
-
-
-            routes.MapRoute("EditPayingItem", "{controller}/{action}/{typeOfFlowId}/{id}",
-                new
-                {
-                    controller = "PayingItem",
-                    action = "EditPayingItem"
-                });
 
             routes.MapRoute("","Todo/{action}",new {controller = "Todo",action = "Index"});
 

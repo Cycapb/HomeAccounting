@@ -57,19 +57,19 @@ namespace WebUI.Models
 
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Не указан логин")]
         [Display(Name = "Логин")]
         public string Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Не указан Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо указать пароль")]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Необходимо подтверждение пароля")]
         [Display(Name = "Подтверждение пароля")]
         public string ConfirmPassword { get; set; }
     }

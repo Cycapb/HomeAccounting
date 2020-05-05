@@ -11,6 +11,11 @@ namespace DomainModels.EntityORM
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext, Migrations.Configuration>());
         }
 
+        public AccountingContext(string name) : base(name)
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccountingContext, Migrations.Configuration>());
+        }
+
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Debt> Debts { get; set; }

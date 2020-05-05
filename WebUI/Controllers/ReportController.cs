@@ -12,6 +12,7 @@ using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
 using WebUI.Infrastructure.Attributes;
+using WebUI.Models.ReportModels;
 
 namespace WebUI.Controllers
 {
@@ -56,7 +57,7 @@ namespace WebUI.Controllers
         }
         
         [UserHasCategoriesAttribute]
-        public ActionResult GetTypeOfFlowReport(TempReportModel model, WebUser user, int page = 1)
+        public ActionResult GetTypeOfFlowReport(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page = 1)
         {
             try
             {
@@ -104,9 +105,9 @@ namespace WebUI.Controllers
             try
             {
                 var list = _reportControllerHelper.GetOverallList(user, dateFrom, dateTo, typeOfFlowId)
-                    .OrderByDescending(x => x.Summ)
+                    .OrderByDescending(x => x.Sum)
                     .ToList();
-                ViewBag.Summ = list.Sum(x => x.Summ);
+                ViewBag.Summ = list.Sum(x => x.Sum);
                 return PartialView("_GetAllCategoriesReport", list);
             }
             catch (WebUiHelperException e)
@@ -166,7 +167,7 @@ namespace WebUI.Controllers
                 var payItemSubcategoriesList =
                     await _payItemSubcategoriesHelper.GetPayItemsWithSubcategoriesInDatesWeb(date, dtTo, user,
                         typeOfFlowId);
-                ViewBag.Summ = payItemSubcategoriesList.Sum(x => x.CategorySumm.Summ);
+                ViewBag.Summ = payItemSubcategoriesList.Sum(x => x.CategorySumm.Sum);
                 return payItemSubcategoriesList;
             }
             catch (WebUiHelperException e)

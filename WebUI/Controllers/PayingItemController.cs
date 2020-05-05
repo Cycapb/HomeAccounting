@@ -12,7 +12,8 @@ using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Infrastructure.Attributes;
 using WebUI.Models;
-using WebUI.Models.PayingItemViewModels;
+using WebUI.Models.CategoryModels;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Controllers
 {
@@ -59,7 +60,7 @@ namespace WebUI.Controllers
             try
             {
                 var items = _payingItemService.GetList(i => i.UserId == user.Id && i.Date >= DbFunctions.AddDays(DateTime.Today, -2)).ToList();
-                var pItemToView = new PayingItemToView()
+                var pItemToView = new PayingItemsCollectionModel()
                 {
                     PayingItems = items
                         .OrderByDescending(i => i.Date)
@@ -114,7 +115,7 @@ namespace WebUI.Controllers
         public async Task<ActionResult> Add(WebUser user, int typeOfFlow)
         {
             await FillViewBag(user, typeOfFlow);
-            var piModel = new PayingItemViewModel()
+            var piModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem() { UserId = user.Id },
                 Products = new List<Product>()
@@ -123,7 +124,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, PayingItemViewModel model, int typeOfFlow)
+        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
         {
             if (ModelState.IsValid)
             {
@@ -181,7 +182,7 @@ namespace WebUI.Controllers
         }        
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user, PayingItemEditViewModel model)
+        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel model)
         {
             if (ModelState.IsValid)
             {
@@ -242,12 +243,12 @@ namespace WebUI.Controllers
             var outList = (from item in tempList
                            group item by item.Category.Name
                     into grouping
-                           select new OverAllItem()
+                           select new CategorySumModel()
                            {
                                Category = grouping.Key,
-                               Summ = grouping.Sum(x => x.Summ)
+                               Sum = grouping.Sum(x => x.Summ)
                            })
-                .OrderByDescending(x => x.Summ)
+                .OrderByDescending(x => x.Sum)
                 .Take(ItemsPerPage)
                 .ToList();
 

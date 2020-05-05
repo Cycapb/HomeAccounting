@@ -107,7 +107,7 @@ namespace WebUI.Controllers
             try
             {
                 var product = await _productService.GetItemAsync(id);
-                ProductToEdit ptEdit = new ProductToEdit()
+                ProductEditModel ptEdit = new ProductEditModel()
                 {
                     Product = product
                 };
@@ -121,7 +121,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(ProductToEdit ptEdit)
+        public async Task<ActionResult> Edit(ProductEditModel ptEdit)
         {
             if (ModelState.IsValid)
             {

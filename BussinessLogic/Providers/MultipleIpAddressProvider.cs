@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Providers;
+using System;
 using System.Text;
-using Providers;
 
 namespace BussinessLogic.Providers
 {
-    public class MultipleIpAddressProvider:IMultipleIpAddressProvider
+    public class MultipleIpAddressProvider : IMultipleIpAddressProvider
     {
         private readonly ISingleIpAddressProvider _singleIpAddressProvider;
 
@@ -27,7 +27,7 @@ namespace BussinessLogic.Providers
                 else
                 {
                     outAdresses.Append("," + _singleIpAddressProvider.GetIpAddress(ip));
-                }                
+                }
             }
 
             return outAdresses.ToString();
