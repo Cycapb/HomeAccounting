@@ -2,10 +2,10 @@
   <PropertyGroup>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Release.Prod;Debug.Local;Debug.Test;Release.Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainModels\DomainModels.csproj" />
 	<Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

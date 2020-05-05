@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DomainModels.Model;
 using WebUI.Models;
+using WebUI.Models.PlanningModels;
 
 namespace WebUI.Abstract
 {
@@ -12,6 +13,6 @@ namespace WebUI.Abstract
         Task SpreadPlanItems(WebUser user, PlanItem item);
         Task ActualizePlanItems(string userId);
         BalanceModel GetBalanceModel(int month, List<PlanItem> planItems);
-        Task<ViewPlaningModel> GetUserBalance(WebUser user, bool showAll);
+        Task<PlanningModel> GetUserBalance(WebUser user, bool showAll);
     }
 }

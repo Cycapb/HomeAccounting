@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200226184832_InitMigration.cs" />
+    <Compile Remove="Migrations\20200226184832_InitMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200229123040_InitMigration.cs" />
+    <Compile Remove="Migrations\20200229123040_InitMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DomainModels\DomainModels.csproj" />
+  </ItemGroup>
+
+</Project>

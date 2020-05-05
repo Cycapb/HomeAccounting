@@ -8,19 +8,20 @@ using System.Linq;
 using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
+using WebUI.Models.ReportModels;
 
 namespace WebUI.Concrete
 {
     public class ReportModelCreator : IReportModelCreator
     {
         private readonly ICategoryService _categoryService;
-        private readonly IDbHelper _dbHelper;
+        private readonly IReportHelper _dbHelper;
         private readonly IPagingInfoCreator _pagingCreator;
         private readonly int _itemsPerPage = 15;
         private readonly ICacheManager _cacheManager;
         private bool _disposed;
 
-        public ReportModelCreator(ICategoryService categoryService, IDbHelper dbHelper, IPagingInfoCreator pagingCreator, ICacheManager cacheManager)
+        public ReportModelCreator(ICategoryService categoryService, IReportHelper dbHelper, IPagingInfoCreator pagingCreator, ICacheManager cacheManager)
         {
             _cacheManager = cacheManager;
             _categoryService = categoryService;
@@ -55,7 +56,7 @@ namespace WebUI.Concrete
             return reportModel;
         }
 
-        public ReportModel CreateByTypeReportModel(TempReportModel model, WebUser user, int page)
+        public ReportModel CreateByTypeReportModel(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page)
         {
             List<PayItem> tempList = new List<PayItem>();
             var cacheKey = "ByTypeOfFlow_" + model.DtFrom.Date.ToShortDateString() + "_" + model.DtTo.Date.ToShortDateString();
@@ -105,7 +106,7 @@ namespace WebUI.Concrete
             }
         }
 
-        private ReportModel GetByTypeOfFlowReportModel(TempReportModel model, WebUser user, int page,
+        private ReportModel GetByTypeOfFlowReportModel(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page,
             List<PayItem> pItemList)
         {
             string categoryName;

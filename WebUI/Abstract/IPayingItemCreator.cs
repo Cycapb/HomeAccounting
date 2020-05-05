@@ -1,12 +1,12 @@
 ﻿using DomainModels.Model;
 using System;
 using System.Threading.Tasks;
-using WebUI.Models;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Abstract
 {
     public interface IPayingItemCreator : IDisposable
     {
-        Task<PayingItem> CreatePayingItemFromViewModel(PayingItemViewModel model);
+        Task<PayingItem> CreatePayingItemFromViewModel(PayingItemModel model);
     }
 }

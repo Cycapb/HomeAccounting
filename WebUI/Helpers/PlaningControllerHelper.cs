@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebUI.Abstract;
 using WebUI.Models;
+using WebUI.Models.PlanningModels;
 
 namespace WebUI.Helpers
 {
@@ -131,9 +132,9 @@ namespace WebUI.Helpers
             return balance;
         }
 
-        public async Task<ViewPlaningModel> GetUserBalance(WebUser user, bool showAll = true)
+        public async Task<PlanningModel> GetUserBalance(WebUser user, bool showAll = true)
         {
-            var model = new ViewPlaningModel() { Balances = new List<BalanceModel>() };
+            var model = new PlanningModel() { Balances = new List<BalanceModel>() };
             IEnumerable<Category> categories = new List<Category>();
             if (showAll)
             {

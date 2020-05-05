@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebUI.Abstract;
 using WebUI.Exceptions;
 using WebUI.Models;
+using WebUI.Models.PayingItemModels;
 
 namespace WebUI.Helpers
 {
@@ -20,7 +21,7 @@ namespace WebUI.Helpers
             _payingItemService = payingItemService;
         }
 
-        public async Task<PayingItem> CreatePayingItemFromViewModel(PayingItemViewModel model)
+        public async Task<PayingItem> CreatePayingItemFromViewModel(PayingItemModel model)
         {
             if (model is null)
             {
@@ -90,7 +91,7 @@ namespace WebUI.Helpers
             }
         }
 
-        private void CreateCommentWhileAdd(PayingItemViewModel model)
+        private void CreateCommentWhileAdd(PayingItemModel model)
         {
             if (string.IsNullOrEmpty(model.PayingItem.Comment))
             {

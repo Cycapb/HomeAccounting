@@ -228,7 +228,7 @@ namespace WebUI.Tests.ControllersTests
             _productServiceMock.Setup(m => m.GetItemAsync(productId)).ReturnsAsync(new Product() { CategoryID = 1, ProductID = 1, UserID = "1" });
 
             var result = await target.Edit(new WebUser(),productId);
-            var productToEdit = target.ViewData.Model as ProductToEdit;
+            var productToEdit = target.ViewData.Model as ProductEditModel;
 
             Assert.IsNotNull(productToEdit);
             Assert.AreEqual(productToEdit.Product.ProductID,productId);
@@ -239,7 +239,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ProductControllerTests")]
         public async Task Can_Edit_Valid_Product()
         {
-            ProductToEdit productToEdit = new ProductToEdit()
+            ProductEditModel productToEdit = new ProductEditModel()
             {
                 Product = new Product() {CategoryID = 1,ProductID = 1}
             };
@@ -256,7 +256,7 @@ namespace WebUI.Tests.ControllersTests
         public async Task Cannot_Edit_Invalid_Product()
         {
             var target = new ProductController(_productServiceMock.Object);
-            ProductToEdit pToEdit = new ProductToEdit();
+            ProductEditModel pToEdit = new ProductEditModel();
             Product product = new Product();
 
             target.ModelState.AddModelError("error","error");

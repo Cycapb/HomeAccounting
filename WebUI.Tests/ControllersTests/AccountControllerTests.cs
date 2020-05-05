@@ -134,7 +134,7 @@ namespace WebUI.Tests.ControllersTests
         {
             _mockAccountService.Setup(x => x.CreateAsync(It.IsAny<Account>())).Throws<ServiceException>();
 
-            await _target.Add(new WebUser(), new AccountAddViewModel());
+            await _target.Add(new WebUser(), new AccountAddModel());
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace WebUI.Tests.ControllersTests
 
             try
             {
-                await _target.Add(new WebUser(), new AccountAddViewModel());
+                await _target.Add(new WebUser(), new AccountAddModel());
             }
             catch (WebUiException e)
             {
@@ -322,7 +322,7 @@ namespace WebUI.Tests.ControllersTests
             var target = new AccountController(null);
 
             var result = target.Add();
-            var model = ((PartialViewResult)result).ViewData.Model as AccountAddViewModel;
+            var model = ((PartialViewResult)result).ViewData.Model as AccountAddModel;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsNotNull(model);
@@ -332,7 +332,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task AddModelStateValidReturnsRedirectToIndex()
         {
-            var accountViewModel = new AccountAddViewModel() { AccountName = "Acc1" };
+            var accountViewModel = new AccountAddModel() { AccountName = "Acc1" };
             var target = new AccountController(_mockAccountService.Object);
 
             var result = await target.Add(new WebUser() { Id = "1" }, accountViewModel);
@@ -344,7 +344,7 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task Cannot_Add_Invalid_Account()
         {
-            var accountViewModel = new AccountAddViewModel() { AccountName = "Acc1" };
+            var accountViewModel = new AccountAddModel() { AccountName = "Acc1" };
             var target = new AccountController(null);
             target.ModelState.AddModelError("error", "error");
 
