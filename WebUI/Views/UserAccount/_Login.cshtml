@@ -48,9 +48,8 @@
             <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg" id="loginButton" />
             @Ajax.ActionLink("Демо-вход", "LoginDemo", null, new AjaxOptions()
        {
-           OnSuccess = "redirectToMain",
+           OnSuccess = "checkForErrorsAndRedirect",
            OnBegin = "showPopupLogin",
-           OnFailure = "hidePopup",
            UpdateTargetId = "loginFormContainer",
            HttpMethod = "POST",
            Url = Url.Action("LoginDemo")
