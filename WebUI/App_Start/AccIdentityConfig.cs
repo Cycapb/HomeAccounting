@@ -16,7 +16,7 @@ namespace WebUI
                 app.UseCookieAuthentication(new CookieAuthenticationOptions()
                 {
                     AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                    LoginPath = new PathString("/UserAccount/Login")
+                    LoginPath = new PathString("/UserAccount/Index")
                 });            
         }
     }
