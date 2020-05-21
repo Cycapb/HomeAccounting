@@ -1,24 +1,20 @@
 ﻿using DomainModels.Model;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.SessionState;
-using WebUI.Abstract;
-using WebUI.Exceptions;
-using WebUI.Infrastructure.Attributes;
-using WebUI.Models;
-using WebUI.Models.CategoryModels;
-using WebUI.Models.PayingItemModels;
+using WebUI.Core.Abstract;
+using WebUI.Core.Exceptions;
+using WebUI.Core.Infrastructure.Filters;
+using WebUI.Core.Models;
+using WebUI.Core.Models.CategoryModels;
+using WebUI.Core.Models.PayingItemModels;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
-    [Authorize]
-    [SessionState(SessionStateBehavior.ReadOnly)]
     public class PayingItemController : Controller
     {
         private readonly IPayingItemService _payingItemService;
@@ -45,21 +41,21 @@ namespace WebUI.Controllers
             _payingItemUpdater = payingItemUpdater;
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
-        public ActionResult MainPage()
+        public IActionResult MainPage()
         {
             return PartialView("_MainPage");
         }
 
-        public ActionResult List(WebUser user, int page = 1)
+        public IActionResult List(WebUser user, int page = 1)
         {
             try
             {
-                var items = _payingItemService.GetList(i => i.UserId == user.Id && i.Date >= DbFunctions.AddDays(DateTime.Today, -2)).ToList();
+                var items = _payingItemService.GetList(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == user.Id).ToList();
                 var pItemToView = new PayingItemsCollectionModel()
                 {
                     PayingItems = items
@@ -90,12 +86,12 @@ namespace WebUI.Controllers
         }
 
 
-        public ActionResult ListAjax(WebUser user, int page)
+        public IActionResult ListAjax(WebUser user, int page)
         {
             IEnumerable<PayingItem> items;
             try
             {
-                var payingItems = _payingItemService.GetList(i => i.Date >= DbFunctions.AddDays(DateTime.Today, -2) && i.UserId == user.Id).ToList();
+                var payingItems = _payingItemService.GetList(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == user.Id).ToList();
                 items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)
@@ -110,9 +106,9 @@ namespace WebUI.Controllers
             return PartialView("_PayingItemsPartial", items);
         }
 
-        [UserHasCategoriesAttribute]
-        [UserHasAnyAccount]
-        public async Task<ActionResult> Add(WebUser user, int typeOfFlow)
+        [TypeFilter(typeof(UserHasAnyCategory))]
+        [TypeFilter(typeof(UserHasAnyAccount))]
+        public async Task<IActionResult> Add(WebUser user, int typeOfFlow)
         {
             await FillViewBag(user, typeOfFlow);
             var piModel = new PayingItemModel()
@@ -124,7 +120,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
+        public async Task<IActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
         {
             if (ModelState.IsValid)
             {
@@ -145,11 +141,12 @@ namespace WebUI.Controllers
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
                 }
             }
+
             await FillViewBag(user, typeOfFlow);
             return PartialView("_Add", model);
         }
 
-        public async Task<ActionResult> Edit(WebUser user, int typeOfFlowId, int id)
+        public async Task<IActionResult> Edit(WebUser user, int typeOfFlowId, int id)
         {
             try
             {
@@ -182,7 +179,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(WebUser user, PayingItemEditModel model)
+        public async Task<IActionResult> Edit(WebUser user, PayingItemEditModel model)
         {
             if (ModelState.IsValid)
             {
@@ -210,7 +207,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(WebUser user, int id)
+        public async Task<IActionResult> Delete(WebUser user, int id)
         {
             try
             {
@@ -224,7 +221,7 @@ namespace WebUI.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult ExpensiveCategories(WebUser user)
+        public IActionResult ExpensiveCategories(WebUser user)
         {
             List<PayingItem> tempList = null;
             try
@@ -255,7 +252,7 @@ namespace WebUI.Controllers
             return PartialView("_ExpensiveCategories", outList);
         }
 
-        public async Task<ActionResult> GetSubCategories(int id)
+        public async Task<IActionResult> GetSubCategories(int id)
         {
             try
             {
@@ -272,7 +269,7 @@ namespace WebUI.Controllers
             }
         }
 
-        public async Task<ActionResult> GetSubCategoriesForEdit(int id)
+        public async Task<IActionResult> GetSubCategoriesForEdit(int id)
         {
             try
             {

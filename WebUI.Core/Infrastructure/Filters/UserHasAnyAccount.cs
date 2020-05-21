@@ -7,15 +7,15 @@ using WebUI.Core.Infrastructure.ActionResults;
 using WebUI.Core.Infrastructure.Extensions;
 using WebUI.Core.Models;
 
-namespace WebUI.Core.Infrastructure.Attributes
+namespace WebUI.Core.Infrastructure.Filters
 {
-    public class UserHasAnyAccountAttribute : IAsyncActionFilter
+    public class UserHasAnyAccount : IAsyncActionFilter
     {
         private readonly string _webUserKey = "WebUser";
         private readonly IAccountService _accService;
         private readonly IMessageProvider _messageProvider;
 
-        public UserHasAnyAccountAttribute(IAccountService accountService, IMessageProvider messageProvider)
+        public UserHasAnyAccount(IAccountService accountService, IMessageProvider messageProvider)
         {
             _accService = accountService;
             _messageProvider = messageProvider;
@@ -24,7 +24,7 @@ namespace WebUI.Core.Infrastructure.Attributes
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var session = context.HttpContext.Session;
-            
+
             if (session != null)
             {
                 var user = await session.GetJsonAsync<WebUser>(_webUserKey);

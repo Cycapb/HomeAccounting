@@ -6,15 +6,15 @@ using WebUI.Core.Abstract;
 using WebUI.Core.Infrastructure.Extensions;
 using WebUI.Core.Models;
 
-namespace WebUI.Core.Infrastructure.Attributes
+namespace WebUI.Core.Infrastructure.Filters
 {
-    public class UserHasCategoriesAttribute : IAsyncActionFilter
+    public class UserHasAnyCategory : IAsyncActionFilter
     {
         private readonly string _webUserKey = "WebUSer";
         private readonly ICategoryService _categoryService;
         private readonly IMessageProvider _messageProvider;
 
-        public UserHasCategoriesAttribute(ICategoryService categoryService, IMessageProvider messageProvider)
+        public UserHasAnyCategory(ICategoryService categoryService, IMessageProvider messageProvider)
         {
             _categoryService = categoryService;
             _messageProvider = messageProvider;
@@ -29,7 +29,7 @@ namespace WebUI.Core.Infrastructure.Attributes
             {
                 if (context.HttpContext.Request.RouteValues.TryGetValue("typeOfFlow", out var value))
                 {
-                    var tofId = int.Parse((string)value);                    
+                    var tofId = int.Parse((string)value);
                     var taskResult = await _categoryService.GetListAsync(x => x.UserId == curUser.Id && x.Active && x.TypeOfFlowID == tofId);
                     userHasCategories = taskResult.Any();
                 }
