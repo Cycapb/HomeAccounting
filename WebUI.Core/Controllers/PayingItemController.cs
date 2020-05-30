@@ -106,11 +106,11 @@ namespace WebUI.Core.Controllers
             return PartialView("_PayingItemsPartial", items);
         }
 
-        [TypeFilter(typeof(UserHasAnyCategory))]
-        [TypeFilter(typeof(UserHasAnyAccount))]
-        public async Task<IActionResult> Add(WebUser user, int typeOfFlow)
+        //[TypeFilter(typeof(UserHasAnyCategory))]
+        //[TypeFilter(typeof(UserHasAnyAccount))]
+        public async Task<IActionResult> Add(WebUser user, int typeOfFlowId)
         {
-            await FillViewBag(user, typeOfFlow);
+            await FillViewBag(user, typeOfFlowId);
             var piModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem() { UserId = user.Id },

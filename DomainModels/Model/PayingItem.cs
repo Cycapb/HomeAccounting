@@ -22,7 +22,6 @@ namespace DomainModels.Model
         public int CategoryID { get; set; }
 
         [Column(TypeName = "money")]
-
         [Required(ErrorMessage = "Необходимо ввести сумму")]
         [Display(Name = "Сумма")]
         [DataType(DataType.Currency)]
@@ -40,7 +39,7 @@ namespace DomainModels.Model
         public string Comment { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(50)]        
         public string UserId { get; set; }
 
         public virtual Account Account { get; set; }
