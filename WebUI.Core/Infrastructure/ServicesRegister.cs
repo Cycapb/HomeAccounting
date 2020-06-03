@@ -12,7 +12,10 @@ using Services.Triggers;
 using WebUI.Core.Abstract;
 using WebUI.Core.Abstract.Converters;
 using WebUI.Core.Concrete.Converters;
+using WebUI.Core.Concrete.Providers;
 using WebUI.Core.Implementations;
+using WebUI.Core.Infrastructure.Attributes;
+using WebUI.Core.Infrastructure.Filters;
 
 namespace WebUI.Core.Infrastructure
 {
@@ -21,6 +24,9 @@ namespace WebUI.Core.Infrastructure
         public static void RegisterAdditionalServices(IServiceCollection services)
         {
             services.AddScoped<CustomErrorAttribute>();
+            services.AddScoped<IsUniqueAttribute>();
+            services.AddScoped<UserHasAnyAccount>();
+            services.AddScoped<UserHasAnyCategory>();
             services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IMailboxService, MailboxService>();
@@ -36,6 +42,7 @@ namespace WebUI.Core.Infrastructure
             services.AddTransient<IPayingItemCreator, PayingItemCreator>();
             services.AddTransient<IPayingItemEditViewModelCreator, PayingItemEditViewModelCreator>();
             services.AddTransient<IPayingItemUpdater, PayingItemUpdater>();
+            services.AddTransient<IMessageProvider, MessageProvider>();
 
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();

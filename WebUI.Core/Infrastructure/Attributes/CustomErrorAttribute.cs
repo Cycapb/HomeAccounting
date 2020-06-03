@@ -1,10 +1,9 @@
-﻿using Loggers.Models;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Providers;
+using Serilog;
 using System;
 using System.Text;
 using WebUI.Core.Abstract.Converters;
-using Serilog;
 
 namespace WebUI.Core.Infrastructure
 {

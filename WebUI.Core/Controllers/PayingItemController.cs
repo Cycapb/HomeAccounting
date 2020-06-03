@@ -106,8 +106,8 @@ namespace WebUI.Core.Controllers
             return PartialView("_PayingItemsPartial", items);
         }
 
-        //[TypeFilter(typeof(UserHasAnyCategory))]
-        //[TypeFilter(typeof(UserHasAnyAccount))]
+        [TypeFilter(typeof(UserHasAnyCategory))]
+        [TypeFilter(typeof(UserHasAnyAccount))]
         public async Task<IActionResult> Add(WebUser user, int typeOfFlowId)
         {
             await FillViewBag(user, typeOfFlowId);
