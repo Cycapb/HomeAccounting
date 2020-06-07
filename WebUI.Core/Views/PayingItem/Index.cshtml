@@ -1,4 +1,5 @@
 ﻿@{
     ViewBag.Title = "Домашняя бухгалтерия";
 }
-@*@Html.Action("MainPage", "PayingItem")*@
+
+@await Component.InvokeAsync(typeof(MainPage));
