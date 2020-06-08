@@ -1,17 +1,17 @@
 ﻿<cache expires-sliding="@TimeSpan.FromSeconds(120)">
-    @*<div class="navbar navbar-info text-center">
+    <div class="navbar navbar-info text-center">
             <h3>
-                Добро пожаловать, @Ajax.ActionLink(ViewContext.HttpContext.User.Identity.Name, "ViewCredentials", "UserAccount", null, new AjaxOptions()
+                @*Добро пожаловать, @Ajax.ActionLink(ViewContext.HttpContext.User.Identity.Name, "ViewCredentials", "UserAccount", null, new AjaxOptions()
            {
                Url = Url.Action("ViewCredentials", "UserAccount"),
                UpdateTargetId = "payingItemMainBody"
-           })
-                <span class="pull-right">
-                    @using (Html.BeginForm("Logout", "UserAccount"))
-                    {
-                        <input type="submit" value="Выход" class="btn btn-raised btn-danger btn-xs" />
-                    }
-                </span>
+           })*@
+                                    
+                    <form method="post" asp-action="Logout" asp-controller="UserAccount" asp-antiforgery="true">
+                        <span class="pull-right">
+                            <input type="submit" value="Выход" class="btn btn-raised btn-danger btn-xs" />
+                        </span>
+                    </form>                
             </h3>
-        </div>*@
+        </div>
 </cache>
