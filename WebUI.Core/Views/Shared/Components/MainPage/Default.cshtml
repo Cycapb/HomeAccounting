@@ -1,4 +1,4 @@
-﻿@*@Html.Action("Index", "MainBar")*@
+﻿@await Component.InvokeAsync(typeof(MainBar)) 
 @*@Html.Action("Index", "MenuBar")
 <div class="col-xs-2 hidden-xs">
     <div id="myAccounts">
