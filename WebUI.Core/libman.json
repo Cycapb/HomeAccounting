@@ -10,6 +10,10 @@
       "provider": "cdnjs",
       "library": "jquery-ajax-unobtrusive@3.2.6",
       "destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
+    },
+    {
+      "library": "bootstrap-select@1.13.17",
+      "destination": "wwwroot/lib/bootstrap-select"
     }
   ]
 }
