@@ -1,0 +1,39 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.todoContainer {
+    width: 1000px;
+    padding-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.loginContainer {
+    width: 230px;
+    padding-top: 70px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.registerContainer {
+    width: 300px;
+    padding-top: 70px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.userContainer {
+    width: 350px;
+    padding-top: 70px;
+    margin-right: auto;
+    margin-left: auto;
+}

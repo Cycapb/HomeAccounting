@@ -1,11 +1,11 @@
 ﻿<cache expires-sliding="@TimeSpan.FromSeconds(120)">
     <div class="navbar navbar-info text-center">
             <h3>
-                @*Добро пожаловать, @Ajax.ActionLink(ViewContext.HttpContext.User.Identity.Name, "ViewCredentials", "UserAccount", null, new AjaxOptions()
+                Добро пожаловать, @Ajax.ActionLink(ViewContext.HttpContext.User.Identity.Name, "ViewCredentials", "UserAccount", null, new AjaxOptions()
            {
                Url = Url.Action("ViewCredentials", "UserAccount"),
                UpdateTargetId = "payingItemMainBody"
-           })*@
+           })
                                     
                     <form method="post" asp-action="Logout" asp-controller="UserAccount" asp-antiforgery="true">
                         <span class="pull-right">
