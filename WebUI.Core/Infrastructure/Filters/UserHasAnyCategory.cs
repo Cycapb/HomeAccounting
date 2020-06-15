@@ -44,6 +44,10 @@ namespace WebUI.Core.Infrastructure.Filters
             {
                 context.Result = new UserHasNoCategoriesActionResult(_messageProvider);
             }
+            else
+            {
+                await next();
+            }
         }
     }
 }

@@ -2,10 +2,10 @@
 @{
     List<Category> catList = ViewBag.Categories;
     List<Account> accList = ViewBag.Accounts;
-    WebUI.Core.Models.WebUser user = new WebUI.Core.Models.WebUser()
-    {
-        Id = "e88cee4a - 478a - 4999 - ab34 - 3c1469b58bc2"
-    };
+    //WebUI.Core.Models.WebUser user = new WebUI.Core.Models.WebUser()
+    //{
+    //    Id = "e88cee4a - 478a - 4999 - ab34 - 3c1469b58bc2"
+    //};
 }
 <div class="panel panel-primary">
     <div class="panel-heading">Добавление транзакции</div>
@@ -15,7 +15,7 @@
 <form method="POST" asp-action="Add" asp-antiforgery="true">
     @Html.ValidationSummary(true)
     <div class="panel-body"> 
-        <input type="hidden" name="user.Id" id="user.Id" value="@user.Id"/>
+        @*<input type="hidden" name="user.Id" id="user.Id" value="@user.Id"/>*@
         <div class="form-group">
             <label>Категория:</label>
             @*@Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()

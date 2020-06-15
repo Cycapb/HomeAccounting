@@ -37,10 +37,12 @@ namespace WebUI.Core.Infrastructure.Filters
                     {
                         context.Result = new UserHasNoAccountsActiontResult(_messageProvider);
                     }
+                    else
+                    {
+                        await next();
+                    }
                 }
             }
-
-            await next();
         }
     }
 }
