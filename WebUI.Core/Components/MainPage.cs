@@ -6,7 +6,7 @@ namespace WebUI.Core.Components
     {
         public IViewComponentResult Invoke()
         {
-            return View();
+            return View("/Views/PayingItem/_MainPage.cshtml");
         }
     }
 }
