@@ -8,7 +8,7 @@
     <ul class="list-inline text-center">
         <li class="hidden-xs">
             <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-begin="showPopupLogin" data-ajax-success="hidePopup" 
-               data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index", "Category")" asp-controller="Category" asp-action="Index">Категории</a>
+              data-ajax-complete="hidePopup" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index", "Category")" asp-controller="Category" asp-action="Index">Категории</a>
         </li>
     </ul>
 </div>
