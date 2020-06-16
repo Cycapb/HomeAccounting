@@ -59,9 +59,9 @@ namespace WebUI.Core
             {
                 app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages();
+                app.UseBrowserLink();
             }
-
-            app.UseBrowserLink();
+                        
             app.UseStaticFiles();
             app.UseSession();
             app.UseMiddleware<SessionExpireMiddleware>();
@@ -87,7 +87,7 @@ namespace WebUI.Core
                 routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}", new { controller = "Category" });
                 routes.MapRoute("", "Category/{action}/{page}", new { controller = "Category" });
                 routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
-                routes.MapRoute("Default", "{controller}/{action}/{id?}", new { action = "Index" });
+                routes.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "PayingItem", action = "Index" });
             });
 
             DatabaseMigrator.MigrateAndSeed(app);
