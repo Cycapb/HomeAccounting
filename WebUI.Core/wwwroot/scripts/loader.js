@@ -9,7 +9,7 @@
             opacity: .5,
             color: '#fff'
         },
-        message: '<img src="../Content/assets/img/gear.gif" width="31" /> Пожалуйста, подождите...'
+        message: '<img src="/assets/img/Gear.gif" width="31" /> Пожалуйста, подождите...'
     });
 };
 

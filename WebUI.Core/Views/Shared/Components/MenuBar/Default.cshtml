@@ -1,8 +1,14 @@
 ﻿<div class="panel panel-info well">
     <div style="text-align: center">
-        Добавить <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Add", "PayingItem", new { typeOfFlowId = 1 })" 
+        Добавить <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Add", "PayingItem", new { typeOfFlowId = 1 })"
                     asp-action="Add" asp-controller="PayingItem" asp-route-typeOfFlowId="1">доходную</a>
-                 или <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Add", "PayingItem", new { typeOfFlowId = 2 })" 
-                    asp-action="Add" asp-controller="PayingItem" asp-route-typeOfFlowId="2">расходную</a> транзакции
-    </div>    
+        или <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Add", "PayingItem", new { typeOfFlowId = 2 })"
+               asp-action="Add" asp-controller="PayingItem" asp-route-typeOfFlowId="2">расходную</a> транзакции
+    </div>
+    <ul class="list-inline text-center">
+        <li class="hidden-xs">
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-begin="showPopupLogin" data-ajax-success="hidePopup" 
+               data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index", "Category")" asp-controller="Category" asp-action="Index">Категории</a>
+        </li>
+    </ul>
 </div>
