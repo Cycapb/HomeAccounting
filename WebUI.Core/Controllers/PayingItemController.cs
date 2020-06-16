@@ -85,7 +85,6 @@ namespace WebUI.Core.Controllers
             }
         }
 
-
         public IActionResult ListAjax(WebUser user, int page)
         {
             IEnumerable<PayingItem> items;

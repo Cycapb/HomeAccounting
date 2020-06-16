@@ -1,39 +1,44 @@
 ﻿@await Component.InvokeAsync(typeof(MainBar)) 
 @await Component.InvokeAsync(typeof(MenuBar))
     @*<div class="col-xs-2 hidden-xs">
-    <div id="myAccounts">
-        @Html.Action("GetAccounts", "NavLeft")
-    </div>
-    <div id="myBudgets">
-        @Html.Action("GetBudgets", "NavLeft")
-    </div>
-    <div id="myDebts">
-        @Html.Action("Index", "Debt")
-    </div>
-</div>
-@if (Request.Browser.IsMobileDevice)
-{
-    <div id="payingDiv">
-        @Html.Action("List")
-    </div>
-}
-else
-{
-    <div class="col-xs-6" id="payingDiv">
-        @Html.Action("List")
-    </div>
-}
+        <div id="myAccounts">
+            @Html.Action("GetAccounts", "NavLeft")
+        </div>
+    </div>*@
+        @*<div class="col-xs-2 hidden-xs">
+            <div id="myAccounts">
+                @Html.Action("GetAccounts", "NavLeft")
+            </div>
+            <div id="myBudgets">
+                @Html.Action("GetBudgets", "NavLeft")
+            </div>
+            <div id="myDebts">
+                @Html.Action("Index", "Debt")
+            </div>
+        </div>
+        @if (Request.Browser.IsMobileDevice)
+        {
+            <div id="payingDiv">
+                @Html.Action("List")
+            </div>
+        }
+        else
+        {
+            <div class="col-xs-6" id="payingDiv">
+                @Html.Action("List")
+            </div>
+        }
 
-<div class="col-xs-2 hidden-xs">
-    <div id="expensiveCategories">
-        @Html.Action("ExpensiveCategories", "PayingItem")
-    </div>
-</div>
-<div class="col-xs-2 hidden-xs">
-    <div id="income">
-        @Html.Action("MenuIncoming", "NavRight")
-    </div>
-    <div id="outgo">
-        @Html.Action("MenuOutgo", "NavRight")
-    </div>
-</div>*@
+        <div class="col-xs-2 hidden-xs">
+            <div id="expensiveCategories">
+                @Html.Action("ExpensiveCategories", "PayingItem")
+            </div>
+        </div>
+        <div class="col-xs-2 hidden-xs">
+            <div id="income">
+                @Html.Action("MenuIncoming", "NavRight")
+            </div>
+            <div id="outgo">
+                @Html.Action("MenuOutgo", "NavRight")
+            </div>
+        </div>*@
