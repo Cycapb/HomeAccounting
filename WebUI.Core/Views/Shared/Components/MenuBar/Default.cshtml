@@ -7,8 +7,12 @@
     </div>
     <ul class="list-inline text-center">
         <li class="hidden-xs">
-            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-begin="showPopupLogin" data-ajax-success="hidePopup" 
-              data-ajax-complete="hidePopup" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index", "Category")" asp-controller="Category" asp-action="Index">Категории</a>
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-begin="showPopupLogin" data-ajax-success="hidePopup"
+               data-ajax-complete="hidePopup" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index", "Category")" asp-controller="Category">Категории</a>
+        </li>
+        <li>
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" 
+               data-ajax-url="@Url.Action("Index", "Account")" asp-controller="Account">Счета</a>
         </li>
     </ul>
 </div>
