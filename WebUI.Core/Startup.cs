@@ -1,7 +1,4 @@
-using BussinessLogic.Services;
 using DomainModels.EntityORM.Core.Infrastructure;
-using DomainModels.Model;
-using DomainModels.Repositories;
 using Loggers.Extensions.Serilog.Enrichers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,10 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Services;
 using System;
-using WebUI.Core.Abstract.Converters;
-using WebUI.Core.Concrete.Converters;
 using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;
@@ -42,12 +36,13 @@ namespace WebUI.Core
                 options.Filters.AddService<CustomErrorAttribute>();
                 options.EnableEndpointRouting = false;
             });
+
             services.AddMemoryCache();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(14);
             });
-
+            
             ServicesRegister.RegisterAdditionalServices(services);
         }
 
