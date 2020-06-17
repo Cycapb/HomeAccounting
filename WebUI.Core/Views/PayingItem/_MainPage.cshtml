@@ -1,11 +1,13 @@
-﻿@await Component.InvokeAsync(typeof(MainBar)) 
-@await Component.InvokeAsync(typeof(MenuBar))
+﻿<cache expires-sliding="@TimeSpan.FromSeconds(120)">
+    @await Component.InvokeAsync(typeof(MainBar))
+    @await Component.InvokeAsync(typeof(MenuBar))
+</cache>
     @*<div class="col-xs-2 hidden-xs">
-        <div id="myAccounts">
-            @Html.Action("GetAccounts", "NavLeft")
-        </div>
-    </div>*@
-        @*<div class="col-xs-2 hidden-xs">
+            <div id="myAccounts">
+                @Html.Action("GetAccounts", "NavLeft")
+            </div>
+        </div>*@
+    @*<div class="col-xs-2 hidden-xs">
             <div id="myAccounts">
                 @Html.Action("GetAccounts", "NavLeft")
             </div>
