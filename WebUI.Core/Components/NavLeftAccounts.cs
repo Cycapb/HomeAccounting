@@ -13,9 +13,10 @@ using WebUI.Core.Models;
 
 namespace WebUI.Core.Components
 {
-    public class NavLeftAccounts : ViewComponent
+    public class NavLeftAccounts : ViewComponent, IDisposable
     {
         private readonly IAccountService _accountService;
+        private bool _disposed = false;
 
         public NavLeftAccounts(IAccountService accountService)
         {
@@ -45,6 +46,25 @@ namespace WebUI.Core.Components
             {
                 throw new WebUiException($"Ошибка в компоненте {nameof(NavLeftAccounts)} в методе {nameof(InvokeAsync)}", ex);
             }
+        }        
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _accountService.Dispose();
+                }
+            }
+
+            _disposed = true;
         }
     }
 }
