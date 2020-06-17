@@ -2,11 +2,11 @@
     @await Component.InvokeAsync(typeof(MainBar))
     @await Component.InvokeAsync(typeof(MenuBar))
 </cache>
-    @*<div class="col-xs-2 hidden-xs">
+    <div class="col-xs-2 hidden-xs">
             <div id="myAccounts">
-                @Html.Action("GetAccounts", "NavLeft")
+               @await Component.InvokeAsync(typeof(NavLeft))
             </div>
-        </div>*@
+        </div>
     @*<div class="col-xs-2 hidden-xs">
             <div id="myAccounts">
                 @Html.Action("GetAccounts", "NavLeft")
