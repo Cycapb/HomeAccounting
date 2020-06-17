@@ -20,7 +20,22 @@
         </li>
         <li class="hidden-xs">
             <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-begin="showPopupLogin"
-               data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Index", "Report")" asp-controller="Report">Отчеты</a>            
+               data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Index", "Report")" asp-controller="Report">Отчеты</a>
+        </li>
+        @*<li class="hidden-xs">
+                <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-begin="showPopupLogin"
+                   data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Prepare", "Planing")" asp-controller="Planing" asp-action="Prepare">Планирование</a>
+            </li>*@
+        @if (ViewContext.HttpContext.User.IsInRole("Administrators"))
+        {
+            <li class="hidden-xs">
+                <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-begin="showPopupLogin"
+                   data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Index", "AdminSection")" asp-controller="AdminSection">Администрирование</a>
+            </li>
+        }
+        <li>
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+               data-ajax-url="@Url.Action("Index", "Order")" asp-controller="Order">Список покупок</a>
         </li>
     </ul>
 </div>
