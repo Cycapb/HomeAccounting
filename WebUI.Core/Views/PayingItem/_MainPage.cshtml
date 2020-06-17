@@ -2,21 +2,19 @@
     @await Component.InvokeAsync(typeof(MainBar))
     @await Component.InvokeAsync(typeof(MenuBar))
 </cache>
-    <div class="col-xs-2 hidden-xs">
-            <div id="myAccounts">
-               @await Component.InvokeAsync(typeof(NavLeft))
-            </div>
-        </div>
-    @*<div class="col-xs-2 hidden-xs">
-            <div id="myAccounts">
-                @Html.Action("GetAccounts", "NavLeft")
-            </div>
-            <div id="myBudgets">
-                @Html.Action("GetBudgets", "NavLeft")
-            </div>
-            <div id="myDebts">
-                @Html.Action("Index", "Debt")
-            </div>
+<div class="col-xs-2 hidden-xs">
+    <div id="myAccounts">
+        @await Component.InvokeAsync(typeof(NavLeftAccounts))
+    </div>
+    @*<div id="myBudgets">
+        @Html.Action("GetBudgets", "NavLeft")
+    </div>
+    <div id="myDebts">
+        @Html.Action("Index", "Debt")
+    </div>*@
+</div>
+    @*<div class="col-xs-2 hidden-xs">            
+
         </div>
         @if (Request.Browser.IsMobileDevice)
         {
