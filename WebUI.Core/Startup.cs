@@ -2,13 +2,17 @@ using DomainModels.EntityORM.Core.Infrastructure;
 using Loggers.Extensions.Serilog.Enrichers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Serilog;
 using System;
 using WebUI.Core.Infrastructure;
+using WebUI.Core.Infrastructure.Identity;
+using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;
 
@@ -31,6 +35,15 @@ namespace WebUI.Core
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
             });
 
+            services.AddDbContext<AccountingIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
+            });
+            
+            services.AddIdentity<AccountingUserModel, IdentityRole>()
+                .AddEntityFrameworkStores<AccountingIdentityDbContext>()
+                .AddDefaultTokenProviders();
+            
             services.AddMvc().AddMvcOptions(options =>
             {
                 options.Filters.AddService<CustomErrorAttribute>();
@@ -38,6 +51,7 @@ namespace WebUI.Core
             });
 
             services.AddMemoryCache();
+            
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(14);
@@ -72,6 +86,7 @@ namespace WebUI.Core
                     diagnosticContext.Set("UserName", httpContext.User.Identity.Name);
                 };
             });
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });
