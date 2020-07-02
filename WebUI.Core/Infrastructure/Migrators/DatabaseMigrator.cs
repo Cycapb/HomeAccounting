@@ -34,6 +34,7 @@ namespace WebUI.Core.Infrastructure.Migrators
             context.Database.Migrate();
 
             await CreateUser(app, AdminRole, "Admin", "admin@local.com", "23we45rt");
+            await CreateUser(app, UserRole, "Demo", "demo@mail.ru", "12qw34er");
         }
 
         private static async Task CreateUser(IApplicationBuilder applicationBuilder, string roleName, string userName, string email, string password)
