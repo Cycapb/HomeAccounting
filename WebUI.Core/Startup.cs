@@ -12,6 +12,7 @@ using System;
 using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Identity;
 using WebUI.Core.Infrastructure.Identity.Models;
+using WebUI.Core.Infrastructure.Identity.Validators;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;
 
@@ -28,6 +29,8 @@ namespace WebUI.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IPasswordValidator<AccountingUserModel>, CustomPasswordValidator>();
+
             services.AddDbContext<AccountingContextCore>(options =>
             {
                 options.UseLazyLoadingProxies();
@@ -39,7 +42,12 @@ namespace WebUI.Core
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingIdentity:ConnectionString"]);
             });
 
-            services.AddIdentity<AccountingUserModel, IdentityRole>()
+            services.AddIdentity<AccountingUserModel, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<AccountingIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
