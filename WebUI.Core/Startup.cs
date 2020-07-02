@@ -47,6 +47,7 @@ namespace WebUI.Core
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<AccountingIdentityDbContext>()
                 .AddDefaultTokenProviders();
