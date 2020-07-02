@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Serilog;
 using System;
 using WebUI.Core.Infrastructure;
@@ -37,13 +36,13 @@ namespace WebUI.Core
 
             services.AddDbContext<AccountingIdentityDbContext>(options =>
             {
-                options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
+                options.UseSqlServer(_configuration["ConnectionStrings:AccountingIdentity:ConnectionString"]);
             });
-            
+
             services.AddIdentity<AccountingUserModel, IdentityRole>()
                 .AddEntityFrameworkStores<AccountingIdentityDbContext>()
                 .AddDefaultTokenProviders();
-            
+
             services.AddMvc().AddMvcOptions(options =>
             {
                 options.Filters.AddService<CustomErrorAttribute>();
@@ -51,12 +50,12 @@ namespace WebUI.Core
             });
 
             services.AddMemoryCache();
-            
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(14);
             });
-            
+
             ServicesRegister.RegisterAdditionalServices(services);
         }
 
@@ -70,7 +69,7 @@ namespace WebUI.Core
                 app.UseStatusCodePages();
                 app.UseBrowserLink();
             }
-                        
+
             app.UseStaticFiles();
             app.UseSession();
             app.UseMiddleware<SessionExpireMiddleware>();
@@ -100,7 +99,8 @@ namespace WebUI.Core
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "PayingItem", action = "Index" });
             });
 
-            DatabaseMigrator.MigrateAndSeed(app);
+            DatabaseMigrator.MigrateDatabaseAndSeed(app);
+            DatabaseMigrator.MigrateIdentityDatabaseAndSeed(app).Wait();
         }
 
         private void InitializeSerilog(IServiceProvider serviceProvider)
