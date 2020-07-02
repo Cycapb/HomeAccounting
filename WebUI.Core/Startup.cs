@@ -51,6 +51,7 @@ namespace WebUI.Core
             })
                 .AddEntityFrameworkStores<AccountingIdentityDbContext>()
                 .AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAccount/Index");
 
             services.AddMvc().AddMvcOptions(options =>
             {
