@@ -1,0 +1,6 @@
+﻿@model PagingInfo
+@for (var i = 1; i <= Model.TotalPages; i++)
+{
+    <a asp-action="ListAjax" asp-controller="PayingItem" asp-route-page="@i" data-ajax="true" data-ajax-mode="replace" 
+       data-ajax-update="#payingTable" data-ajax-url="@Url.Action("ListAjax", "PayingItem", new { page = i })" class = "btn btn-default btn-raised btn-round btn-xs", id = i.ToString(), onclick = "changeButtonColor(this.id)">@i.ToString()</a>
+}

@@ -3,7 +3,7 @@ using DomainModels.Model;
 
 namespace WebUI.Core.Models.PayingItemModels
 {
-    public class PayingItemsCollectionModel
+    public class PayingItemsListWithPaginationModel
     {
         public IEnumerable<PayingItem> PayingItems { get; set; }
 

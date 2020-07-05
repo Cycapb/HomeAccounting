@@ -56,7 +56,7 @@ namespace WebUI.Core.Controllers
             try
             {
                 var items = _payingItemService.GetList(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == user.Id).ToList();
-                var pItemToView = new PayingItemsCollectionModel()
+                var pItemToView = new PayingItemsListWithPaginationModel()
                 {
                     PayingItems = items
                         .OrderByDescending(i => i.Date)
