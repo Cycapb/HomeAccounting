@@ -13,12 +13,12 @@ using WebUI.Core.Models;
 
 namespace WebUI.Core.Components
 {
-    public class NavLeftAccounts : ViewComponent, IDisposable
+    public class Accounts : ViewComponent, IDisposable
     {
         private readonly IAccountService _accountService;
         private bool _disposed = false;
 
-        public NavLeftAccounts(IAccountService accountService)
+        public Accounts(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -40,11 +40,11 @@ namespace WebUI.Core.Components
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в компоненте {nameof(NavLeftAccounts)} в методе {nameof(InvokeAsync)}", e);
+                throw new WebUiException($"Ошибка в компоненте {nameof(Accounts)} в методе {nameof(InvokeAsync)}", e);
             }
             catch (Exception ex)
             {
-                throw new WebUiException($"Ошибка в компоненте {nameof(NavLeftAccounts)} в методе {nameof(InvokeAsync)}", ex);
+                throw new WebUiException($"Ошибка в компоненте {nameof(Accounts)} в методе {nameof(InvokeAsync)}", ex);
             }
         }        
 
