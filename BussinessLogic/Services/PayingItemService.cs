@@ -222,6 +222,8 @@ namespace BussinessLogic.Services
                 if (disposing)
                 {
                     _repository.Dispose();
+                    _categoryService.Dispose();
+                    _typeOfFlowService.Dispose();
                 }
 
                 _disposed = true;

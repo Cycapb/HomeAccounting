@@ -35,7 +35,7 @@ namespace WebUI.Core
             {
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingEntities:ConnectionString"]);
-            });
+            }, ServiceLifetime.Transient);
 
             services.AddDbContext<AccountingIdentityDbContext>(options =>
             {

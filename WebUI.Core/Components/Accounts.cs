@@ -62,9 +62,9 @@ namespace WebUI.Core.Components
                 {
                     _accountService.Dispose();
                 }
-            }
 
-            _disposed = true;
+                _disposed = true;
+            }
         }
     }
 }

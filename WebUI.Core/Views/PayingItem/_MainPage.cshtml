@@ -6,10 +6,10 @@
     <div id="myAccounts">
         @await Component.InvokeAsync(typeof(Accounts))
     </div>
-    @*<div id="myBudgets">
-        @Html.Action("GetBudgets", "NavLeft")
+    <div id="myBudgets">
+        @await Component.InvokeAsync(typeof(Budgets))
     </div>
-    <div id="myDebts">
+    @*<div id="myDebts">
         @Html.Action("Index", "Debt")
     </div>*@
 </div>

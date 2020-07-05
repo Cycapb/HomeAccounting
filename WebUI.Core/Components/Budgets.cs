@@ -1,6 +1,5 @@
 ﻿using DomainModels.Model;
 using Microsoft.AspNetCore.Mvc;
-using Services;
 using Services.Exceptions;
 using System;
 using System.Threading.Tasks;
@@ -14,13 +13,11 @@ namespace WebUI.Core.Components
 {
     public class Budgets : ViewComponent, IDisposable
     {
-        private readonly IAccountService _accountService;
         private readonly IReportHelper _reportHelper;
         private bool _disposed = false;
 
-        public Budgets(IAccountService accountService, IReportHelper reportHelper)
+        public Budgets(IReportHelper reportHelper)
         {
-            _accountService = accountService;
             _reportHelper = reportHelper;
         }
 
@@ -33,21 +30,31 @@ namespace WebUI.Core.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var user = await ViewContext.HttpContext.Session.GetJsonAsync<WebUser>("WebUser");
-            var budgetViewModel = await GetBudget(user);
 
-            return View("Views/NavLeft/_Budgets.cshtml", budgetViewModel);
+            var budgetViewModel = new OverViewBudgetViewModel()
+            {
+                BudgetInFact = string.Empty,
+                BudgetOverAll = string.Empty
+            };
+
+            if (user != null)
+            {
+                budgetViewModel = await GetBudget(user);
+            }
+
+            return View("/Views/NavLeft/_Budgets.cshtml", budgetViewModel);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
             {
                 if (disposing)
                 {
-                    _accountService.Dispose();
-                    _reportHelper.Dispose();
-                    _disposed = true;
+                    _reportHelper.Dispose();                    
                 }
+
+                _disposed = true;
             }
         }
 

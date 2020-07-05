@@ -43,6 +43,7 @@ namespace WebUI.Core.Infrastructure
             services.AddTransient<IPayingItemEditViewModelCreator, PayingItemEditViewModelCreator>();
             services.AddTransient<IPayingItemUpdater, PayingItemUpdater>();
             services.AddTransient<IMessageProvider, MessageProvider>();
+            services.AddTransient<IReportHelper, ReportHelper>();
 
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
