@@ -28,7 +28,7 @@ namespace WebUI.Core.Components
             try
             {
                 var accounts = new List<Account>();
-                var user = await HttpContext.Session.GetJsonAsync<WebUser>("WebUser");
+                var user = await HttpContext.Session.GetJsonAsync<WebUser>(nameof(WebUser));
                 
                 if (user != null)
                 {
@@ -40,11 +40,11 @@ namespace WebUI.Core.Components
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в компоненте {nameof(Accounts)} в методе {nameof(InvokeAsync)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Accounts)} в методе {nameof(InvokeAsync)}", e);
             }
             catch (Exception ex)
             {
-                throw new WebUiException($"Ошибка в компоненте {nameof(Accounts)} в методе {nameof(InvokeAsync)}", ex);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Accounts)} в методе {nameof(InvokeAsync)}", ex);
             }
         }        
 

@@ -31,12 +31,12 @@ namespace WebUI.Core.Components
         {
             try
             {
-                var user = await ViewContext.HttpContext.Session.GetJsonAsync<WebUser>("WebUser");
+                var user = await ViewContext.HttpContext.Session.GetJsonAsync<WebUser>(nameof(WebUser));
 
                 var budgetViewModel = new OverViewBudgetViewModel()
                 {
-                    BudgetInFact = string.Empty,
-                    BudgetOverAll = string.Empty
+                    BudgetInFact = 0M.ToString("c"),
+                    BudgetOverAll = 0M.ToString("c"),
                 };
 
                 if (user != null)
@@ -48,11 +48,11 @@ namespace WebUI.Core.Components
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в компоненте {nameof(Budgets)} в методе {nameof(InvokeAsync)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(InvokeAsync)}", e);
             }
             catch (Exception ex)
             {
-                throw new WebUiException($"Ошибка в компоненте {nameof(Budgets)} в методе {nameof(InvokeAsync)}", ex);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(InvokeAsync)}", ex);
             }
         }
 
@@ -83,7 +83,7 @@ namespace WebUI.Core.Components
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(Budgets)} в методе {nameof(GetBudget)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(GetBudget)}", e);
             }
         }
     }

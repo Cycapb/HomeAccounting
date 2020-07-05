@@ -9,9 +9,9 @@
     <div id="myBudgets">
         @await Component.InvokeAsync(typeof(Budgets))
     </div>
-    @*<div id="myDebts">
-        @Html.Action("Index", "Debt")
-    </div>*@
+    <div id="myDebts">        
+        @await Component.InvokeAsync(typeof(Debts)) 
+    </div>
 </div>
     @*<div class="col-xs-2 hidden-xs">            
 

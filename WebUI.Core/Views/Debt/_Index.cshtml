@@ -1,0 +1,18 @@
+﻿@model DebtsSumModel
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>
+            <a asp-action="DebtList" asp-controller="Debt" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("DebtList", "Debt")">долги</a>
+        </b>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Я должен</th>
+            <td>@Model.MyDebtsSumm.ToString("c")</td>
+        </tr>
+        <tr>
+            <th>Мне должны</th>
+            <td>@Model.DebtsToMeSumm.ToString("c")</td>
+        </tr>
+    </table>
+</div>

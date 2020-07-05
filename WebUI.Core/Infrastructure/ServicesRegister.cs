@@ -38,6 +38,7 @@ namespace WebUI.Core.Infrastructure
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITypeOfFlowService, TypeOfFlowService>();
+            services.AddTransient<IDebtService, DebtService>();
 
             services.AddTransient<IPayingItemCreator, PayingItemCreator>();
             services.AddTransient<IPayingItemEditViewModelCreator, PayingItemEditViewModelCreator>();
@@ -51,6 +52,7 @@ namespace WebUI.Core.Infrastructure
             services.AddTransient<IRepository<PayingItem>, EntityRepositoryCore<PayingItem, AccountingContextCore>>();
             services.AddTransient<IRepository<Account>, EntityRepositoryCore<Account, AccountingContextCore>>();
             services.AddTransient<IRepository<TypeOfFlow>, EntityRepositoryCore<TypeOfFlow, AccountingContextCore>>();
+            services.AddTransient<IRepository<Debt>, EntityRepositoryCore<Debt, AccountingContextCore>>();
 
             services.AddTransient<IServiceTrigger<PayingItem>, PayingItemServiceTrigger>();
         }
