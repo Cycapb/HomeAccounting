@@ -30,7 +30,7 @@ namespace WebUI.Core.Controllers
                 var accounts = _accService.GetList(u => u.UserId == user.Id)
                     .ToList();
 
-                return PartialView(accounts);
+                return PartialView("_Accounts", accounts);
             }
             catch (ServiceException e)
             {
@@ -40,7 +40,9 @@ namespace WebUI.Core.Controllers
 
         public IActionResult GetBudgets(WebUser user)
         {
-            return PartialView(GetBudget(user));
+            var model = GetBudgets((IWorkingUser)user);
+
+            return PartialView("_Budgets", model);
         }
 
         protected override void Dispose(bool disposing)
@@ -51,7 +53,7 @@ namespace WebUI.Core.Controllers
             base.Dispose(disposing);
         }
 
-        private OverViewBudgetViewModel GetBudget(IWorkingUser user)
+        private OverViewBudgetViewModel GetBudgets(IWorkingUser user)
         {
             try
             {
@@ -64,7 +66,7 @@ namespace WebUI.Core.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(NavLeftController)} в методе {nameof(GetBudget)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(NavLeftController)} в методе {nameof(GetBudgets)}", e);
             }
         }
     }
