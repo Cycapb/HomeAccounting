@@ -26,7 +26,8 @@ namespace WebUI.Core.Components
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -35,6 +36,19 @@ namespace WebUI.Core.Components
             var budgetViewModel = await GetBudget(user);
 
             return View("Views/NavLeft/_Budgets.cshtml", budgetViewModel);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _accountService.Dispose();
+                    _reportHelper.Dispose();
+                    _disposed = true;
+                }
+            }
         }
 
         private async Task<OverViewBudgetViewModel> GetBudget(IWorkingUser user)
