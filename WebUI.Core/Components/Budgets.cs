@@ -29,20 +29,31 @@ namespace WebUI.Core.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var user = await ViewContext.HttpContext.Session.GetJsonAsync<WebUser>("WebUser");
-
-            var budgetViewModel = new OverViewBudgetViewModel()
+            try
             {
-                BudgetInFact = string.Empty,
-                BudgetOverAll = string.Empty
-            };
+                var user = await ViewContext.HttpContext.Session.GetJsonAsync<WebUser>("WebUser");
 
-            if (user != null)
-            {
-                budgetViewModel = await GetBudget(user);
+                var budgetViewModel = new OverViewBudgetViewModel()
+                {
+                    BudgetInFact = string.Empty,
+                    BudgetOverAll = string.Empty
+                };
+
+                if (user != null)
+                {
+                    budgetViewModel = await GetBudget(user);
+                }
+
+                return View("/Views/NavLeft/_Budgets.cshtml", budgetViewModel);
             }
-
-            return View("/Views/NavLeft/_Budgets.cshtml", budgetViewModel);
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в компоненте {nameof(Budgets)} в методе {nameof(InvokeAsync)}", e);
+            }
+            catch (Exception ex)
+            {
+                throw new WebUiException($"Ошибка в компоненте {nameof(Budgets)} в методе {nameof(InvokeAsync)}", ex);
+            }
         }
 
         protected virtual void Dispose(bool disposing)
