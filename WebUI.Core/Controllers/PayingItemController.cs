@@ -211,13 +211,14 @@ namespace WebUI.Core.Controllers
             try
             {
                 await _payingItemService.DeleteAsync(id);
+
+                return RedirectToAction("List");
             }
             catch (ServiceException e)
             {
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Delete)}", e);
             }
-            return RedirectToAction("List");
         }
 
         public IActionResult ExpensiveCategories(WebUser user)

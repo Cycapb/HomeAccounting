@@ -11,9 +11,9 @@
             <th class="hidden-xs">Описание</th>
             <th class="hidden-xs">Действия</th>
         </tr>
-        @*<tbody id="payingTable">
-            @Html.PartialAsync("_PayingItemsPartial", Model.PayingItems)
-        </tbody>*@
+        <tbody id="payingTable">
+            @await Html.PartialAsync("_PayingItems", Model.PayingItems)
+        </tbody>
     </table>
 </div>
 
