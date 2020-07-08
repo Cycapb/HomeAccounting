@@ -51,13 +51,13 @@ namespace WebUI.Core.Controllers
             return PartialView("_MainPage");
         }
 
-        public IActionResult List(WebUser user, int page = 1)
+        public async Task<IActionResult> List(WebUser user, int page = 1)
         {
             try
             {
                 var dateToday = DateTime.Now.Date;
                 var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
-                var items = _payingItemService.GetList(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday)).ToList();
+                var items = (await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday))).ToList();
                 var pItemToView = new PayingItemsListWithPaginationModel()
                 {
                     PayingItems = items
@@ -87,14 +87,14 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public IActionResult ListAjax(WebUser user, int page)
+        public async Task<IActionResult> ListAjax(WebUser user, int page)
         {
             IEnumerable<PayingItem> items;
             try
             {
                 var dateToday = DateTime.Now.Date;
                 var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
-                var payingItems = _payingItemService.GetList(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday)).ToList();
+                var payingItems = (await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday))).ToList();
                 items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)
