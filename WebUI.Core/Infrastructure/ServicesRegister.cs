@@ -25,8 +25,6 @@ namespace WebUI.Core.Infrastructure
         {
             services.AddScoped<CustomErrorAttribute>();
             services.AddScoped<IsUniqueAttribute>();
-            services.AddScoped<UserHasAnyAccount>();
-            services.AddScoped<UserHasAnyCategory>();
             services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IMailboxService, MailboxService>();

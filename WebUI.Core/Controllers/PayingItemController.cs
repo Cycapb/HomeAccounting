@@ -55,7 +55,9 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var items = _payingItemService.GetList(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == user.Id).ToList();
+                var dateToday = DateTime.Now.Date;
+                var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
+                var items = _payingItemService.GetList(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday)).ToList();
                 var pItemToView = new PayingItemsListWithPaginationModel()
                 {
                     PayingItems = items
@@ -90,7 +92,9 @@ namespace WebUI.Core.Controllers
             IEnumerable<PayingItem> items;
             try
             {
-                var payingItems = _payingItemService.GetList(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == user.Id).ToList();
+                var dateToday = DateTime.Now.Date;
+                var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
+                var payingItems = _payingItemService.GetList(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday)).ToList();
                 items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)
@@ -206,6 +210,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(WebUser user, int id)
         {
             try

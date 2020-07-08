@@ -106,7 +106,6 @@ namespace WebUI.Core
                 routes.MapRoute("", "Category/{action}/{typeOfFlowId}/{page}", new { controller = "Category" });
                 routes.MapRoute("", "Category/{action}/{page}", new { controller = "Category" });
                 routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
-                routes.MapRoute("", "{controller}/{action}/{page}");
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "PayingItem", action = "Index" });
             });
 

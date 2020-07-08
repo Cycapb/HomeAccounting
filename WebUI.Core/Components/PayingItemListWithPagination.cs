@@ -43,7 +43,9 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    var result = await _payingItemService.GetListAsync(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == user.Id);
+                    var dateToday = DateTime.Now.Date;
+                    var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
+                    var result = await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday));
                     var items = result.ToList();
                     model = new PayingItemsListWithPaginationModel()
                     {
