@@ -106,7 +106,7 @@ namespace WebUI.Core.Controllers
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ListAjax)}", e);
             }
-            return PartialView("_PayingItemsPartial", items);
+            return PartialView("_PayingItems", items);
         }
 
         [TypeFilter(typeof(UserHasAnyCategory))]
@@ -226,35 +226,33 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public IActionResult ExpensiveCategories(WebUser user)
+        public async Task<IActionResult> ExpensiveCategories(WebUser user)
         {
-            List<PayingItem> tempList = null;
             try
             {
-                tempList = _payingItemService.GetList()
-                    .Where(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
-                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year)
+                var tempList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year))
                     .ToList();
+
+                var outList = (from item in tempList
+                               group item by item.Category.Name
+                    into grouping
+                               select new CategorySumModel()
+                               {
+                                   Category = grouping.Key,
+                                   Sum = grouping.Sum(x => x.Summ)
+                               })
+                .OrderByDescending(x => x.Sum)
+                .Take(ItemsPerPage)
+                .ToList();
+
+                return PartialView("_ExpensiveCategories", outList);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ExpensiveCategories)}", e);
             }
-
-            var outList = (from item in tempList
-                           group item by item.Category.Name
-                    into grouping
-                           select new CategorySumModel()
-                           {
-                               Category = grouping.Key,
-                               Sum = grouping.Sum(x => x.Summ)
-                           })
-                .OrderByDescending(x => x.Sum)
-                .Take(ItemsPerPage)
-                .ToList();
-
-            return PartialView("_ExpensiveCategories", outList);
         }
 
         public async Task<IActionResult> GetSubCategories(int id)
