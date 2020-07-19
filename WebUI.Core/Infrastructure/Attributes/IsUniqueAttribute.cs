@@ -1,52 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace WebUI.Core.Infrastructure.Attributes
 {
-    public class IsUniqueAttribute : ValidationAttribute
+    public class IsUniqueAttribute : Attribute, IModelValidator
     {
-        //private readonly IMailboxService _mailboxService;
-        //public string Mailboxname { get; private set; }
+        private readonly string _errorMessage = "Такой почтовый ящик уже существует";
 
-        //public IsUniqueAttribute()
-        //{
-        //    _mailboxService = NinjectWebCommon.Kernel.Get<IMailboxService>();
-        //}
+        public string ErrorMessage { get; set; }
 
-        //protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        //{
-        //    var val = (string)value;
-        //    Mailboxname = val;
+        public IEnumerable<ModelValidationResult> Validate(ModelValidationContext context)
+        {
+            var mailboxService = context.ActionContext.HttpContext.RequestServices.GetService<IMailboxService>();
+            var val = (string)context.Model;
 
-        //    if ((string)validationContext..Current.Request.RequestContext.RouteData.Values["action"] != "Edit")
-        //    {
-        //        var mailBoxes = _mailboxService.GetList(x => x.MailBoxName == val);
+            var mailBoxes = mailboxService.GetList(x => x.MailBoxName == val);
+            var validationResults = new List<ModelValidationResult>();
 
-        //        if (mailBoxes.Any())
-        //        {
-        //            var result = new ValidationResult(ErrorMessage = ErrorMessageString);
-        //            return result;
-        //        }
-        //    }
+            if (mailBoxes.Any())
+            {
+                var errorMessage = !string.IsNullOrWhiteSpace(ErrorMessage) ? ErrorMessage : _errorMessage;
+                validationResults.Add(new ModelValidationResult("", errorMessage));
 
-        //    return ValidationResult.Success;
-        //}
+                return validationResults;
+            }
 
-        //public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-        //{
-        //    var rule = new ModelClientValidationRule()
-        //    {
-        //        ErrorMessage = ErrorMessageString,
-        //        ValidationType = "isunique"
-        //    };
-
-        //    rule.ValidationParameters["mailboxname"] = Mailboxname;
-
-        //    yield return rule;
-        //}
+            return validationResults;
+        }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Enums\TypeOfFlow.cs" />
     <Compile Include="Exceptions\DomainModelsException.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Category.cs" />
