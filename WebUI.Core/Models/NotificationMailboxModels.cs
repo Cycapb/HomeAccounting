@@ -27,7 +27,7 @@ namespace WebUI.Core.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Подтвердите пароль")]
-        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage = "Пароли не совпадают")]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [StringLength(1024)]
         public string PasswordConfirmation { get; set; }
 

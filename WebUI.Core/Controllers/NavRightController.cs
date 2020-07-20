@@ -25,7 +25,7 @@ namespace WebUI.Core.Controllers
             _reportHelper = reportHelper;
         }
 
-        public ActionResult MenuIncoming(WebUser user)
+        public IActionResult MenuIncoming(WebUser user)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace WebUI.Core.Controllers
                     .ToList();
                 var budgetModel = BudgetModel(collection, TypesOfFlow.Income);
 
-                return PartialView(budgetModel);
+                return PartialView("_MenuIncoming", budgetModel);
             }
             catch (ServiceException e)
             {
@@ -41,7 +41,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public PartialViewResult MenuOutgo(WebUser user)
+        public IActionResult MenuOutgo(WebUser user)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace WebUI.Core.Controllers
                     .ToList();
                 var budgetModel = BudgetModel(collection, TypesOfFlow.Outgo);
 
-                return PartialView(budgetModel);
+                return PartialView("_MenuOutgo", budgetModel);
             }
             catch (ServiceException e)
             {
