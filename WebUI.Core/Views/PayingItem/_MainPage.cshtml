@@ -40,7 +40,7 @@
             <div id="income">
                 @await Component.InvokeAsync(typeof(MenuIncome))
             </div>
-            @*<div id="outgo">
-                @Html.Action("MenuOutgo", "NavRight")
-            </div>*@
+            <div id="outgo">
+                @await Component.InvokeAsync(typeof(MenuOutgo)) 
+            </div>
         </div>
