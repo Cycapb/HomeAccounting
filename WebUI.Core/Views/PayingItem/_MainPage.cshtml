@@ -36,11 +36,11 @@
                 @await Component.InvokeAsync(typeof(ExpensiveCategories)) 
             </div>
         </div>
-        @*<div class="col-xs-2 hidden-xs">
+        <div class="col-xs-2 hidden-xs">
             <div id="income">
-                @Html.Action("MenuIncoming", "NavRight")
+                @await Component.InvokeAsync(typeof(MenuIncome))
             </div>
-            <div id="outgo">
+            @*<div id="outgo">
                 @Html.Action("MenuOutgo", "NavRight")
-            </div>
-        </div>*@
+            </div>*@
+        </div>
