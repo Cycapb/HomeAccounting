@@ -1,0 +1,38 @@
+﻿<table id="todoTable" class="table table-hover">
+    <thead>
+    <tr>
+        <th>Статус</th>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Группа</th>
+        <th class="hidden-xs">Действие</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: todos">
+    <tr>
+        <td>
+            <input type="checkbox" data-bind="checked: StatusId"/>
+        </td>
+        <td data-bind="text: Name"></td>
+        <td data-bind="text: Comment"></td>
+        <td data-bind="text: GroupName"></td>
+        <td class="hidden-xs">
+            <form class="form-inline">
+                <input type="button" class="btn btn-warning btn-raised btn-xs" value="Редактировать" data-bind="click: $parent.editTodo"/>
+                <input type="button" class="btn btn-danger btn-raised btn-xs" value="Удалить" data-bind="click: $parent.removeTodo"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form class="form-inline">
+    <input type="button" class="btn btn-sm btn-default btn-raised" id="btnGetAllTodos" value="Отобразить все" data-bind="click: getAllTodos"/>
+    <input type="button" class="btn btn-sm btn-default btn-raised" id="btnGetTodos" value="Скрыть завершенные" data-bind="click: getTodos"/>
+    <input type="button" class="btn btn-sm btn-success btn-raised" id="btnUpdateTodos" value="Сохранить изменения" data-bind="click: updateTodos"/>
+    @Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
+{
+    OnBegin = "showPopupLogin",
+    OnSuccess = "hidePopup",
+    UpdateTargetId = "payingItemMainBody"
+}, new {@class = "btn btn-sm btn-default btn-raised pull-right"})
+</form>

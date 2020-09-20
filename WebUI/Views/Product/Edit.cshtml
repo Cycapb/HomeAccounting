@@ -1,0 +1,34 @@
+﻿@model ProductEditModel
+
+        @using (Ajax.BeginForm("Edit","Product",null,new AjaxOptions()
+        {
+            Url = Url.Action("Edit"),
+            UpdateTargetId = "productsDiv"
+        },new {@class="form-inline"}))
+        {
+            @Html.ValidationSummary(true)
+            @Html.ValidationMessageFor(x => x.Product.ProductName)
+            @Html.HiddenFor(x=>x.Product.ProductID)
+            @Html.HiddenFor(x=>x.Product.UserID)
+            @Html.HiddenFor(x => x.Product.CategoryID)
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="form-group">Наименование</label>
+                    @Html.TextBoxFor(x => x.Product.ProductName, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label class="form-group">Описание</label>
+                    @Html.TextBoxFor(x => x.Product.Description, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="panel-footer">
+                <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
+                @Ajax.ActionLink("Назад", "Edit", "Product",new {categoryId = Model.Product.CategoryID},
+               new AjaxOptions()
+               {
+                   Url = Url.Action("EditableList", new { categoryId = Model.Product.CategoryID }),
+                   UpdateTargetId = "productsDiv"
+               },
+               new { @class = "btn btn-default btn-raised btn-sm" })
+            </div>
+        }

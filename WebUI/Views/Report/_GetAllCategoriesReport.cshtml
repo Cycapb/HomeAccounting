@@ -1,0 +1,35 @@
+﻿@model List<WebUI.Models.CategoryModels.CategorySumModel>
+@{
+    ViewBag.Title = "Отчет по всем категориям";
+    decimal summ = ViewBag.Summ;
+    DateTime dtFrom = ViewBag.dtFrom;
+    DateTime dtTo = ViewBag.dtTo;
+}
+<div class="well">
+    <table class="table table-condensed table-bordered">
+        <caption>@ViewBag.TypeOfFlowName за период: с @dtFrom.ToShortDateString() по @dtTo.ToShortDateString()<span class="pull-right">Итого: @summ.ToString("c")</span></caption>
+        <thead>
+        <tr>
+            <th>
+                Категория
+            </th>
+            <th>
+                Сумма
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in @Model)
+        {
+            <tr>
+                <td>
+                    @item.Category
+                </td>
+                <td>
+                    @item.Sum.ToString("c")
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

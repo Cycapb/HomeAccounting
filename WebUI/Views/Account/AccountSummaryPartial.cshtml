@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Account>
+<tbody>
+@foreach (var acc in Model)
+{
+    <tr>
+        <td>
+            @acc.AccountName
+        </td>
+        <td>
+            @acc.Cash.ToString("C")
+        </td>
+        <td>
+            @using (Ajax.BeginForm("Delete", new AjaxOptions()
+            {
+                Url = Url.Action("Delete", new {id = acc.AccountID}),
+                UpdateTargetId = "payingDiv",
+                OnSuccess = "updateAfterTransfer"
+            }))
+            {
+                @Ajax.ActionLink("Редактировать", "Edit", null, new AjaxOptions()
+                {
+                    Url = Url.Action("Edit", new {id = acc.AccountID}),
+                    HttpMethod = "GET",
+                    UpdateTargetId = "payingDiv"
+                }, new {@class = "btn btn-warning btn-raised btn-xs"})
+                <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
+            }
+        </td>
+    </tr>
+}
+</tbody>

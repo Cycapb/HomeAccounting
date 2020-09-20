@@ -1,0 +1,45 @@
+﻿@Html.Action("Index", "MainBar")
+<div class="col-xs-3"></div>
+<div id="adminSection" class="col-xs-7">
+    <div class="panel panel-danger">
+        <div class="panel-heading">Администрирование</div>
+        <table class="table table-striped">
+            <tr>
+                <td class="text-center">
+                    @Ajax.ActionLink("Пользователи", "Index", "Admin", null, new AjaxOptions()
+                    {
+                        Url = Url.Action("Index", "Admin"),
+                        UpdateTargetId = "adminSection"
+                    },
+                        new {@class = "btn btn-primary btn-raised btn-sm"})
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    @Ajax.ActionLink("Роли", "Index", "RoleAdmin", null, new AjaxOptions()
+                    {
+                        Url = Url.Action("Index", "RoleAdmin"),
+                        UpdateTargetId = "adminSection"
+                    },
+                        new {@class = "btn btn-primary btn-raised btn-sm"})
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    @Ajax.ActionLink("Почтовые ящики сервисов", "Index", "Mailbox", null, new AjaxOptions()
+                    {
+                        Url = Url.Action("Index", "Mailbox"),
+                        UpdateTargetId = "adminSection"
+                    },
+                        new {@class = "btn btn-primary btn-raised btn-sm"})
+                </td>
+            </tr>
+        </table>
+    </div>
+    @Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
+    {
+        OnBegin = "showPopupLogin",
+        OnSuccess = "hidePopup",
+        UpdateTargetId = "payingItemMainBody"
+    }, new {@class = "btn btn-default btn-raised btn-sm"})
+</div>

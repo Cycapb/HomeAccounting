@@ -1,0 +1,31 @@
+﻿@model WebUI.Models.CreateModel
+<div class="userContainer">
+    <div class="well">
+        @using (Ajax.BeginForm(new AjaxOptions()
+        {
+            UpdateTargetId = "adminSection"
+        }))
+        {
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control",placeholder="Имя" })
+                @Html.ValidationMessageFor(x => x.Name)
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control",placeholder= "Email" })
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control",placeholder="Пароль" })
+                @Html.ValidationMessageFor(x => x.Password)
+            </div>
+            <input type="submit" value="Создать" class="btn btn-success btn-raised btn-sm" />
+            @Ajax.ActionLink("Назад", "Index", null, new AjaxOptions()
+            {
+                Url = Url.Action("Index"),
+                UpdateTargetId = "adminSection"
+            },
+                new {@class = "btn btn-default btn-raised btn-sm"})
+        }
+    </div>
+</div>

@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/lib/jquery"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-ajax-unobtrusive@3.2.6",
+      "destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
+    },
+    {
+      "library": "bootstrap-select@1.13.17",
+      "destination": "wwwroot/lib/bootstrap-select"
+    },
+    {
+      "library": "bootstrap-datepicker@1.9.0",
+      "destination": "wwwroot/lib/bootstrap-datepicker"
+    },
+    {
+      "library": "jquery-blockui@2.7.0",
+      "destination": "wwwroot/lib/jquery-blockui"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-validate@1.19.2",
+      "destination": "wwwroot/lib/jquery-validate"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive"
+    }
+  ]
+}

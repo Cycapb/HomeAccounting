@@ -1,0 +1,69 @@
+﻿@model RoleEditModel
+@using (Ajax.BeginForm(new AjaxOptions()
+{
+    UpdateTargetId = "adminSection"
+}))
+{
+    @Html.ValidationSummary()
+    <input type="hidden" name="RoleName" value="@Model.Role.Name"/>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Редактирование роли: @Model.Role.Name</div>
+        <table class="table table-striped">
+            <caption class="text-center">Участники роли</caption>
+            @if (!Model.Members.Any() || Model.Members == null)
+            {
+                <tr>
+                    <td colspan="2" class="text-center">Нет пользователей</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Members)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td class="text-center">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="IdsToDelete" value="@item.Id">
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <table class="table table-striped">
+            <caption class="text-center">Не принадлежащие данной роли</caption>
+            @if (Model.NonMembers == null || !Model.NonMembers.Any())
+            {
+                <tr>
+                    <td colspan="2" class="text-center">Нет пользователей</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.NonMembers)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td class="text-center">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
+    @Ajax.ActionLink("Назад", "Index", "RoleAdmin", null, new AjaxOptions()
+    {
+        UpdateTargetId = "adminSection"
+    }, new {@class = "btn btn-default btn-raised btn-sm"})
+}

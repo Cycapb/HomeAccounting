@@ -1,0 +1,46 @@
+﻿@model Category
+@{
+    List<TypeOfFlow> list = ViewBag.TypesOfFlow;
+}
+    <div class="panel panel-primary">
+        <div class="panel-heading">Добавление категории</div>
+        @using (Ajax.BeginForm("Add","Category",null,new AjaxOptions()
+        {
+            Url = Url.Action("Add"),
+            UpdateTargetId = "categoryDiv"
+        }))
+        {
+            @Html.ValidationSummary(true)
+            <div class="panel-body">
+                @Html.HiddenFor(x => x.CategoryID)
+                @Html.HiddenFor(x => x.UserId)
+                <div class="form-group">
+                    <p>@Html.ValidationMessageFor(x => x.Name)</p>
+                    <label class="form-group">Название:</label>
+                    @Html.TextBoxFor(x => x.Name, new {@class = "form-control"})
+                </div>
+                <div class="form-group">
+                    <label class="form-group">Тип:</label>
+                    @Html.DropDownListFor(x => x.TypeOfFlowID, list.Select(x => new SelectListItem()
+                   {
+                       Text = x.TypeName,
+                       Value = x.TypeID.ToString()
+                   }), new { @class = "selectpicker" })
+                </div>
+            </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
+                    @Ajax.ActionLink("Вернуться назад", "Index", "Category", null, new AjaxOptions()
+                    {
+                        Url = Url.Action("Index"),
+                        UpdateTargetId = "payingDiv"
+                    },new { @class = "btn btn-default btn-raised btn-sm" })
+                </div>
+        }
+    </div> 
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $('.selectpicker').selectpicker();
+            });
+    </script>

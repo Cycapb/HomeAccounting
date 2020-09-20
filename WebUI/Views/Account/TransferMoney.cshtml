@@ -1,0 +1,69 @@
+﻿@model WebUI.Models.TransferModel
+
+    <script type="text/javascript">
+                        $(function () {
+
+                            $('#FromId').change(function () {
+                                var id = $(this).val();
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '@Url.Action("GetItems")/' + id,
+                                    success: function (data) {
+                                        $('#Transfer_To').replaceWith(data);
+                                    }
+                                });
+                            });
+                        })
+    </script>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Перевод денег</div>
+    @using (Ajax.BeginForm("TransferMoney", "Account", new AjaxOptions()
+    {
+        Url = Url.Action("TransferMoney"),
+        HttpMethod = "POST",
+        UpdateTargetId = "payingDiv",
+        OnSuccess = "updateAfterTransfer"
+    }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <div class="form-group" id="Transfer_From">
+                <label>Исходный счет:</label>
+                @Html.DropDownListFor(x => x.FromId, Model.FromAccounts.Select(x => new SelectListItem()
+                   {
+                       Text = x.AccountName,
+                       Value = x.AccountID.ToString(),
+                   }), new {@class = "selectpicker" })
+                @Html.ValidationMessageFor(x => x.FromId)
+            </div>
+            <div class="form-group" id="Transfer_To">
+                <label>Конечный счет:</label>
+                @Html.DropDownListFor(x => x.ToId, Model.ToAccounts.Select(x => new SelectListItem()
+                   {
+                       Text = x.AccountName,
+                       Value = x.AccountID.ToString()
+                   }), new {@class = "selectpicker" })
+            </div>
+            <div class="form-group">
+                <label>Сумма:</label>
+                @Html.TextBoxFor(x => x.Summ, new {@class = "form-control"})
+                @Html.ValidationMessageFor(x => x.Summ)
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Перевести деньги" class="btn btn-primary btn-raised btn-sm"/>
+            @Ajax.ActionLink("На главную","List","PayingItem",null, new AjaxOptions()
+            {
+                Url = Url.Action("List","PayingItem"),
+                UpdateTargetId = "payingDiv"
+            },new {@class="btn btn-default btn-raised btn-sm pull-right"})
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
+</script>

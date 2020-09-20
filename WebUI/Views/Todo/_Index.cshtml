@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNet.Identity
+<script type="text/javascript">
+    var currentUserId = "@HttpContext.Current.User.Identity.GetUserId()";
+</script>
+<script src="~/Models/KnockoutModels/TodoCreateViewModel.js"></script>
+@Html.Action("Index", "MainBar")
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">Создание задачи</h2>
+            </div>
+            <div class="panel-body" data-bind="with: addTodoViewModel">
+                @Html.Partial("_CreateToDo")
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">Группы задач</h2>
+            </div>
+            <div class="panel-body" data-bind="with: addGroupViewModel">
+                @Html.Partial("_CreateGroup")
+            </div>
+            <div class="panel-body" data-bind="with: groupListViewModel">
+                @Html.Partial("_Group")
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title">Текущий список дел: <span class="badge" data-bind="text: todoListViewModel.todos().length"></span></h2>
+            </div>
+            <div class="panel-body" data-bind="with: todoListViewModel">
+                @Html.Partial("_Todo")
+                @Html.Partial("_Edit")
+            </div>
+        </div>
+    </div>
+</div>

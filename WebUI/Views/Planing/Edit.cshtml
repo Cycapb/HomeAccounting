@@ -1,0 +1,44 @@
+﻿@model WebUI.Models.EditPlaningModel
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions()
+    {
+        Url = Url.Action("Edit"),
+        HttpMethod = "POST",
+        LoadingElementId = "changeData",
+        LoadingElementDuration = 300,
+        OnSuccess = "onSuccess"
+    };
+}    
+<div class="panel panel-info">
+    <div class="panel-heading">Изменение</div>
+    @using (Ajax.BeginForm(ajaxOptions))
+    {
+        <div class="panel-body">
+            @foreach (var prop in ViewData.ModelMetadata.Properties)
+            {
+                if (prop.PropertyName == "PlanItem")
+                {
+                    foreach (var pr in prop.Properties)
+                    {
+                        if (pr.PropertyName != "SummPlan" && pr.PropertyName != "Category")
+                        {
+                            @Html.Hidden("PlanItem." + pr.PropertyName)
+                        }
+                    }
+                }
+            }
+            <div class="form-group">
+                @Html.EditorFor(x => x.PlanItem.SummPlan, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                @Html.CheckBoxFor(x => x.Spread) Копировать на следующие месяцы
+            </div>
+        </div>
+        <div class="panel-footer">
+            <form class="form form-inline">
+                <input id="submit" type="submit" value="Сохранить" class="btn btn-success btn-raised" />
+                <div id="changeData" style="display: none">Изменение данных...</div>
+            </form>
+        </div>
+    }
+</div>

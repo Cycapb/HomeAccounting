@@ -1,0 +1,25 @@
+﻿@model WebUI.Abstract.IReportMenu
+
+@foreach (var item in Model.Items)
+{
+    if (item.Id != 3)
+    {
+        @Ajax.ActionLink(item.Name, "CreateByTypeOfFlowView", "Report",
+            new {id = item.Id},
+            new AjaxOptions()
+            {
+                UpdateTargetId = "reportPanelBody"
+            }, new {@class = "btn btn-block btn-raised btn-default", id = item.Id.ToString(), onclick = "changeButtonColor(this.id)" }
+            )
+    }
+    else
+    {
+        @Ajax.ActionLink(item.Name, "CreateByDatesView", "Report",
+            new {id = item.Id},
+            new AjaxOptions()
+            {
+                UpdateTargetId = "reportPanelBody"
+            }, new {@class = "btn btn-block btn-raised btn-default", id = item.Id.ToString(), onclick = "changeButtonColor(this.id)" }
+            )
+    }
+}

@@ -1,0 +1,41 @@
+﻿@model AccountAddModel
+<div class="panel panel-primary">
+    <div class="panel-heading">Добавление счета</div>
+    @using (Ajax.BeginForm("Add", new AjaxOptions()
+    {
+        Url = Url.Action("Add"),
+        HttpMethod = "POST",
+        UpdateTargetId = "payingDiv",
+        OnSuccess = "updateAfterTransfer"
+    }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="form-group">Название:</label>
+                @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.AccountName)
+            </div>
+            <div class="form-group">
+                <label class="form-group">Сумма:</label>
+                @Html.EditorFor(x => x.Cash, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Cash)
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input data-val="true" id="Use" name="Use" type="checkbox" value="true">
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Отображать в текущем бюджете
+                </label>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
+            @Ajax.ActionLink("Назад", "Index", null, new AjaxOptions()
+            {
+                Url = Url.Action("Index"),
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-default btn-raised btn-sm"})
+        </div>
+    }
+</div>

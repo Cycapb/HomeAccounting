@@ -1,0 +1,39 @@
+﻿@model WebUI.Models.ViewPlaningModel
+@if (Model.PlanItemsIncomePlan != null)
+{
+    <tr>
+        <td>
+            <strong>Доход</strong>
+        </td>
+        @foreach (var item in Model.PlanItemsIncomePlan)
+        {
+            <td>
+                <strong>@item.IncomePlan.ToString("c")</strong>
+            </td>
+            <td>
+                <strong>@item.IncomeOutgoFact.ToString("c")</strong>
+            </td>
+        }
+    </tr>
+    foreach (var category in Model.CategoryPlanItemsIncome)
+    {
+        <tr>
+            <td>@category.Name</td>
+            @foreach (var planItem in category.PlanItem.Where(x => x.Closed == false))
+            {
+                <td>
+                    @Ajax.ActionLink(@planItem.SummPlan.ToString("c"), "EditView", new {id = @planItem.PlanItemID},
+                        new AjaxOptions()
+                        {
+                            UpdateTargetId = "edit",
+                            Url = Url.Action("Edit", new {id = @planItem.PlanItemID}),
+                            HttpMethod = "GET"
+                        })
+                </td>
+                <td>@planItem.SummFact.ToString("c")</td>
+            }
+        </tr>
+    }
+}
+
+

@@ -1,0 +1,31 @@
+﻿<cache expires-sliding="@TimeSpan.FromSeconds(120)" vary-by-user="true">
+    @await Component.InvokeAsync(typeof(MainBar))
+    @await Component.InvokeAsync(typeof(MenuBar))
+</cache>
+<div class="col-xs-2 hidden-xs">
+    <div id="myAccounts">
+        @await Component.InvokeAsync(typeof(Accounts))
+    </div>
+    <div id="myBudgets">
+        @await Component.InvokeAsync(typeof(Budgets))
+    </div>
+    <div id="myDebts">
+        @await Component.InvokeAsync(typeof(Debts))
+    </div>
+</div>
+<div class="col-xs-6" id="payingDiv">
+    @await Component.InvokeAsync(typeof(PayingItemListWithPagination))
+</div>
+<div class="col-xs-2 hidden-xs">
+    <div id="expensiveCategories">
+        @await Component.InvokeAsync(typeof(ExpensiveCategories))
+    </div>
+</div>
+<div class="col-xs-2 hidden-xs">
+    <div id="income">
+        @await Component.InvokeAsync(typeof(MenuIncome))
+    </div>
+    <div id="outgo">
+        @await Component.InvokeAsync(typeof(MenuOutgo))
+    </div>
+</div>

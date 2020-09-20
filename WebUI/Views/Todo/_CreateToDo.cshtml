@@ -1,0 +1,24 @@
+﻿<form role="form">
+    <div class="form-group">
+        <input id="inpName" type="text" class="form-control" data-bind="value: Name,valueUpdate: 'keyup'" placeholder="Название"/>
+    </div>
+
+    <div class="form-group">
+        <textarea id="inpComment" type="text" class="form-control" data-bind="value: Comment" placeholder="Описание"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Группа</label>
+        <select id="inpGroup" class="selectpicker" data-bind="options: groups, optionsText: 'Name', value: GroupId"></select>
+    </div>
+    <input type="button" id="btnAddTodo" class="btn btn-sm btn-success btn-raised" value="Добавить задание" data-bind="click: addTodo"/>
+    <ul id="errors" class="error-element" data-bind="foreach: generalErrors">
+        <li><span data-bind="text: $data"></span></li>
+    </ul>
+</form>
+<script type="text/javascript">
+        $(document).ready(
+            function () {
+                $('.selectpicker').selectpicker();
+            });
+</script>

@@ -1,0 +1,94 @@
+﻿<div class="panel panel-info well">
+    <div style="text-align: center">
+        Добавить @Ajax.ActionLink("доходную", "Add", "PayingItem", new {typeOfFlow = 1}, new AjaxOptions()
+                 {
+                     Url = Url.Action("Add", "PayingItem", new {typeOfFlow = 1}),
+                     UpdateTargetId = "payingDiv"
+                 }) или @Ajax.ActionLink("расходную", "Add", "PayingItem", new {typeOfFlow = 2}, new AjaxOptions()
+                        {
+                            Url = Url.Action("Add", "PayingItem", new {typeOfFlow = 2}),
+                            UpdateTargetId = "payingDiv"
+                        }) транзакции
+    </div>
+    <ul class="list-inline text-center">
+        <li class="hidden-xs">
+            @Ajax.ActionLink("Категории", "Index", new
+            {
+                controller = "Category",
+                action = "Index",
+            }, new AjaxOptions() {Url = Url.Action("Index", "Category"), UpdateTargetId = "payingDiv", OnBegin = "showPopupLogin", OnSuccess = "hidePopup"},
+                new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li>
+            @Ajax.ActionLink("Счета", null, new
+            {
+                controller = "Account",
+                action = "Index"
+            }, new AjaxOptions()
+            {
+                Url = Url.Action("Index", "Account"),
+                HttpMethod = "GET",
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li>
+            @Ajax.ActionLink("Перевод денег", null, new
+            {
+                controller = "Account",
+                action = "TransferMoney"
+            }, new AjaxOptions()
+            {
+                Url = Url.Action("TransferMoney", "Account"),
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        <li class="hidden-xs">
+            @Ajax.ActionLink("Отчеты", "Index", "Report", null, new AjaxOptions()
+            {
+                Url = Url.Action("Index", "Report"),
+                OnBegin = "showPopupLogin",
+                OnSuccess = "hidePopup",
+                UpdateTargetId = "payingItemMainBody"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+        @*<li class="hidden-xs">
+                @Html.RouteLink("Планирование", new
+       {
+           controller = "Planing",
+           action = "Prepare"
+       }, new { @class = "btn btn-raised btn-info btn-round" })
+            </li>*@
+        @if (HttpContext.Current.User.IsInRole("Administrators"))
+        {
+            <li class="hidden-xs">
+                @Ajax.ActionLink("Администрирование", "Index", "AdminSection", null, new AjaxOptions()
+                {
+                    Url = Url.Action("Index", "AdminSection"),
+                    OnBegin = "showPopupLogin",
+                    OnSuccess = "hidePopup",
+                    UpdateTargetId = "payingItemMainBody"
+                }, new {@class = "btn btn-raised btn-info btn-round"})
+            </li>
+        }
+        @*<li>
+            @Ajax.ActionLink("Список ToDo", "Index", "Todo", null, new AjaxOptions()
+       {
+           Url = Url.Action("Index", "Todo"),
+           OnBegin = "showPopupLogin",
+           OnSuccess = "hidePopup",
+           UpdateTargetId = "payingItemMainBody"
+       }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>*@
+        <li>
+            @Ajax.ActionLink("Список покупок", null, new
+            {
+                controller = "Order",
+                action = "Index"
+            }, new AjaxOptions()
+            {
+                Url = Url.Action("Index", "Order"),
+                UpdateTargetId = "payingDiv"
+            }, new {@class = "btn btn-raised btn-info btn-round"})
+        </li>
+    </ul>
+</div>

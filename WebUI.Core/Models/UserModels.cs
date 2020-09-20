@@ -1,0 +1,61 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace WebUI.Core.Models
+{
+    public class CreateModel
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+
+    public class RoleEditModel
+    {
+        public AccRoleModel Role { get; set; }
+        public IEnumerable<AccountingUserModel> Members { get; set; } 
+        public IEnumerable<AccountingUserModel> NonMembers { get; set; } 
+    }
+
+    public class RoleModificationModel
+    {
+        public string RoleName { get; set; }
+        public string[] IdsToAdd { get; set; }
+        public string[] IdsToDelete { get; set; }
+    }
+
+    public class ChangePasswordModel
+    {
+        [Required(ErrorMessage = "Не указан текущий пароль")]
+        [Display(Name = "Текущий пароль")]
+        [UIHint("password")]
+        public string CurrentPassword { get; set; }
+
+        [Required(ErrorMessage = "Не указан новый пароль")]
+        [Display(Name = "Новый пароль")]
+        [UIHint("password")]
+        public string NewPassword { get; set; }
+
+        [Required(ErrorMessage = "Не подтвержден новый пароль пароль")]
+        [Compare("NewPassword", ErrorMessage = "Не совпадает новый пароль и подтверждение")]
+        [Display(Name = "Подтверждение пароля")]
+        [UIHint("password")]
+        public string ConfirmPassword { get; set; }
+    }
+
+    public class EditModel
+    {
+        public string Id { get; set; }
+
+        [Required(ErrorMessage = "Не указан Email")]
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+    }
+
+}

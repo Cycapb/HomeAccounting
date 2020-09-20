@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Account>
+<div class="panel panel-default">
+    <div class="panel-heading"><b>Мои счета</b></div>
+    <table class="table table-striped">
+        @foreach (var acc in @Model)
+        {
+            <tr>
+                <th>@acc.AccountName</th>
+                <td>@acc.Cash.ToString("c")</td>
+            </tr>
+        }
+    </table>
+</div>

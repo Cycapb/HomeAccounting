@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="../Content/assets/img/favicon.png">
+    <title>Ошибка</title>
+    <style>
+        .container {
+            padding-top: 15px
+        }
+    </style>
+    @Styles.Render("~/bundles/bootstrap/css")
+</head>
+<body>
+<div class="col-xs-4"></div>
+    <div class="container">
+        <div class="panel panel-danger">
+            <div class="panel-heading text-center">В приложении возникла ошибка!</div>
+            <div class="panel-body">
+                Приносим свои извинения за неудобства. Описание ошибки отправлено администратору.
+            </div>
+        </div>
+    </div>   
+    <div class="col-xs-4"></div>
+</body>
+</html>
