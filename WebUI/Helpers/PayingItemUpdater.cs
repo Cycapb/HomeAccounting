@@ -34,6 +34,7 @@ namespace WebUI.Helpers
             payingItem.Comment = comment;
             payingItem.CategoryID = model.PayingItem.CategoryID;
             payingItem.AccountID = model.PayingItem.AccountID;
+            payingItem.Date = model.PayingItem.Date;
 
             payingItem.PayingItemProducts.Clear();
 
