@@ -131,7 +131,7 @@ namespace WebUI.Core.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUser = await GetCurrentUser();
+                var currentUser = await GetCurrentUserAsync();
                 var pass = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash, model.CurrentPassword);
 
                 if (pass == PasswordVerificationResult.Failed)
@@ -153,7 +153,7 @@ namespace WebUI.Core.Controllers
                     {
                         currentUser.PasswordHash = _userManager.PasswordHasher.HashPassword(currentUser, model.NewPassword);
                         var updateResult = await _userManager.UpdateAsync(currentUser);
-                        
+
                         if (!updateResult.Succeeded)
                         {
                             AddModelErrors(updateResult);
@@ -176,7 +176,7 @@ namespace WebUI.Core.Controllers
         [Authorize]
         public async Task<ActionResult> ViewCredentials()
         {
-            var currentIUser = await GetCurrentUser();
+            var currentIUser = await GetCurrentUserAsync();
             var credentialsModel = new CredentialsModel()
             {
                 Email = currentIUser.Email,
@@ -188,11 +188,13 @@ namespace WebUI.Core.Controllers
             return PartialView("_ViewCredentials", credentialsModel);
         }
 
-        //[Authorize]
-        //public ActionResult ChangeCredentials()
-        //{
-        //    return PartialView("_ChangeCredentials", CurrentUser);
-        //}
+        [Authorize]
+        public async Task<IActionResult> ChangeCredentials()
+        {
+            var currentUser = await GetCurrentUserAsync();
+
+            return PartialView("_ChangeCredentials", currentUser);
+        }
 
         //[HttpPost]
         //[Authorize]
@@ -292,7 +294,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        private async Task<AccountingUserModel> GetCurrentUser()
+        private async Task<AccountingUserModel> GetCurrentUserAsync()
         {
             return await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
         }
