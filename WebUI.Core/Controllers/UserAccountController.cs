@@ -98,20 +98,6 @@ namespace WebUI.Core.Controllers
             return PartialView("_Login", model);
         }
 
-        private async Task<Microsoft.AspNetCore.Identity.SignInResult> SignInUser(AccountingUserModel userModel, string password)
-        {
-            await _signInManager.SignOutAsync();
-            var result = await _signInManager.PasswordSignInAsync(userModel, password, false, false);
-
-            if (result.Succeeded)
-            {
-                var webUser = new WebUser() { Email = userModel.Email, Name = userModel.UserName, Id = userModel.Id };
-                await HttpContext.Session.SetJsonAsync<WebUser>(nameof(WebUser), webUser);
-            }
-
-            return result;
-        }
-
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Logout()
@@ -302,6 +288,20 @@ namespace WebUI.Core.Controllers
         private async Task<AccountingUserModel> GetCurrentUserAsync()
         {
             return await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+        }
+
+        private async Task<Microsoft.AspNetCore.Identity.SignInResult> SignInUser(AccountingUserModel userModel, string password)
+        {
+            await _signInManager.SignOutAsync();
+            var result = await _signInManager.PasswordSignInAsync(userModel, password, false, false);
+
+            if (result.Succeeded)
+            {
+                var webUser = new WebUser() { Email = userModel.Email, Name = userModel.UserName, Id = userModel.Id };
+                await HttpContext.Session.SetJsonAsync<WebUser>(nameof(WebUser), webUser);
+            }
+
+            return result;
         }
     }
 }

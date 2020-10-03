@@ -13,7 +13,7 @@ using WebUI.Core.Models.Enums;
 
 namespace WebUI.Core.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class NavRightController : Controller
     {
         private readonly IPayingItemService _payingItemService;
