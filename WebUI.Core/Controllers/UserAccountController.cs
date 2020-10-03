@@ -208,7 +208,7 @@ namespace WebUI.Core.Controllers
             if (userToChange != null)
             {
                 userToChange.Email = email;
-                var validEmail = await _userValidator.ValidateAsync(_userManager, userToChange); //_userManager.UserValidators.ValidateAsync(userToChange);
+                var validEmail = await _userValidator.ValidateAsync(_userManager, userToChange);
                 if (!validEmail.Succeeded)
                 {
                     AddModelErrors(validEmail);
