@@ -15,17 +15,20 @@ namespace WebUI.Core.Controllers
         private readonly UserManager<AccountingUserModel> _userManager;
         private readonly SignInManager<AccountingUserModel> _signInManager;
         private readonly IPasswordValidator<AccountingUserModel> _passwordValidator;
+        private readonly IUserValidator<AccountingUserModel> _userValidator;
         private readonly ILogger _logger = Log.Logger.ForContext<UserAccountController>();
 
         public UserAccountController(
             UserManager<AccountingUserModel> userManager,
             SignInManager<AccountingUserModel> signInManager,
-            IPasswordValidator<AccountingUserModel> passwordValidator
+            IPasswordValidator<AccountingUserModel> passwordValidator,
+            IUserValidator<AccountingUserModel> userValidator
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _passwordValidator = passwordValidator;
+            _userValidator = userValidator;
         }
 
         [AllowAnonymous]
@@ -196,40 +199,42 @@ namespace WebUI.Core.Controllers
             return PartialView("_ChangeCredentials", currentUser);
         }
 
-        //[HttpPost]
-        //[Authorize]
-        //public async Task<ActionResult> ChangeCredentials(string id, string email, string firstName, string lastName)
-        //{
-        //    var userToChange = await UserManager.FindByIdAsync(id);
-        //    if (userToChange != null)
-        //    {
-        //        userToChange.Email = email;
-        //        var validEmail = await UserManager.UserValidator.ValidateAsync(userToChange);
-        //        if (!validEmail.Succeeded)
-        //        {
-        //            AddModelErrors(validEmail);
-        //        }
-        //        else
-        //        {
-        //            userToChange.FirstName = firstName;
-        //            userToChange.LastName = lastName;
-        //            var result = await UserManager.UpdateAsync(userToChange);
-        //            if (!result.Succeeded)
-        //            {
-        //                AddModelErrors(result);
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("ViewCredentials");
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return View("Error", new string[] { "Ошибка при изменении данных" });
-        //    }
-        //    return PartialView("_ChangeCredentials", userToChange);
-        //}
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> ChangeCredentials(string id, string email, string firstName, string lastName)
+        {
+            var userToChange = await _userManager.FindByIdAsync(id);
+
+            if (userToChange != null)
+            {
+                userToChange.Email = email;
+                var validEmail = await _userValidator.ValidateAsync(_userManager, userToChange); //_userManager.UserValidators.ValidateAsync(userToChange);
+                if (!validEmail.Succeeded)
+                {
+                    AddModelErrors(validEmail);
+                }
+                else
+                {
+                    userToChange.FirstName = firstName;
+                    userToChange.LastName = lastName;
+                    var result = await _userManager.UpdateAsync(userToChange);
+
+                    if (!result.Succeeded)
+                    {
+                        AddModelErrors(result);
+                    }
+                    else
+                    {
+                        return RedirectToAction("ViewCredentials");
+                    }
+                }
+            }
+            else
+            {
+                return View("Error", new string[] { "Ошибка при изменении данных" });
+            }
+            return PartialView("_ChangeCredentials", userToChange);
+        }
 
         [AllowAnonymous]
         public ActionResult Register(string returnUrl)
@@ -298,25 +303,5 @@ namespace WebUI.Core.Controllers
         {
             return await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
         }
-
-        //private async void ActualizePlanItems(AccUserModel user)
-        //{
-        //    try
-        //    {
-        //        await _planingHelper.ActualizePlanItems(user.Id);
-        //    }
-        //    catch (WebUiHelperException e)
-        //    {
-        //        throw new WebUiException(
-        //            $"Ошибка в контроллере {nameof(UserAccountController)} в методе {nameof(ActualizePlanItems)}",
-        //            e);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new WebUiException(
-        //            $"Ошибка в контроллере {nameof(UserAccountController)} в методе {nameof(ActualizePlanItems)}",
-        //            e);
-        //    }
-        //}
     }
 }
