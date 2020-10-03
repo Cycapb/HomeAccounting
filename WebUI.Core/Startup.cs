@@ -11,7 +11,7 @@ using Serilog;
 using System;
 using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Identity;
-using WebUI.Core.Infrastructure.Identity.Models;
+using WebUI.Core.Models;
 using WebUI.Core.Infrastructure.Identity.Validators;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;

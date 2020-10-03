@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using WebUI.Core.Infrastructure.Identity.Models;
+using WebUI.Core.Models;
 
 namespace WebUI.Core.Infrastructure.Identity.Validators
 {

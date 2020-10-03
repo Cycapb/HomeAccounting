@@ -5,6 +5,6 @@ namespace WebUI.Core.Abstract
 {
     public interface IReporter
     {
-        Task Report(AccUserModel user, string address);
+        Task Report(AccountingUserModel user, string address);
     }
 }

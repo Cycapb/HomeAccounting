@@ -1,4 +1,5 @@
 ﻿using DomainModels.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Exceptions;
@@ -15,6 +16,7 @@ using WebUI.Core.Models.PayingItemModels;
 
 namespace WebUI.Core.Controllers
 {
+    [Authorize]
     public class PayingItemController : Controller
     {
         private readonly IPayingItemService _payingItemService;

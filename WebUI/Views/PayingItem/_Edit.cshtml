@@ -112,7 +112,7 @@
 
             <div class="form-group">
                 <label>Дата:</label>
-                @Html.TextBoxFor(x => x.PayingItem.Date, new { @class = "datepicker form-control", onclick = "clickDate()", Value = DateTime.Today.ToShortDateString() })
+                @Html.TextBoxFor(x => x.PayingItem.Date, new { @class = "datepicker form-control", onclick = "clickDate()", Value = Model.PayingItem.Date.ToShortDateString() })
                 @Html.ValidationMessageFor(x => x.PayingItem.Date)
             </div>
 

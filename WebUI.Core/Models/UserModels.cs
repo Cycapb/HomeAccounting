@@ -15,22 +15,11 @@ namespace WebUI.Core.Models
         public string Password { get; set; }
     }
 
-    public class LoginModel
-    {
-        [Required(ErrorMessage = "Не указан логин")]
-        [Display(Name = "Логин")]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage = "Не указан пароль")]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-    }
-
     public class RoleEditModel
     {
         public AccRoleModel Role { get; set; }
-        public IEnumerable<AccUserModel> Members { get; set; } 
-        public IEnumerable<AccUserModel> NonMembers { get; set; } 
+        public IEnumerable<AccountingUserModel> Members { get; set; } 
+        public IEnumerable<AccountingUserModel> NonMembers { get; set; } 
     }
 
     public class RoleModificationModel
@@ -44,33 +33,18 @@ namespace WebUI.Core.Models
     {
         [Required(ErrorMessage = "Не указан текущий пароль")]
         [Display(Name = "Текущий пароль")]
+        [UIHint("password")]
         public string CurrentPassword { get; set; }
 
         [Required(ErrorMessage = "Не указан новый пароль")]
         [Display(Name = "Новый пароль")]
+        [UIHint("password")]
         public string NewPassword { get; set; }
 
         [Required(ErrorMessage = "Не подтвержден новый пароль пароль")]
+        [Compare("NewPassword", ErrorMessage = "Не совпадает новый пароль и подтверждение")]
         [Display(Name = "Подтверждение пароля")]
-        public string ConfirmPassword { get; set; }
-    }
-
-    public class RegisterModel
-    {
-        [Required]
-        [Display(Name = "Логин")]
-        public string Login { get; set; }
-
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-
-        [Required]
-        [Display(Name = "Подтверждение пароля")]
+        [UIHint("password")]
         public string ConfirmPassword { get; set; }
     }
 

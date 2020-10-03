@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity;
-using WebUI.Core.Infrastructure.Identity.Models;
+using WebUI.Core.Models;
 
 namespace WebUI.Core.Infrastructure.Migrators
 {

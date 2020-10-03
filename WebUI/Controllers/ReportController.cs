@@ -96,8 +96,7 @@ namespace WebUI.Controllers
         }
 
         [UserHasCategoriesAttribute]
-        public ActionResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo,
-            int typeOfFlowId)
+        public ActionResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo, int typeOfFlowId)
         {
             ViewBag.TypeOfFlowName = typeOfFlowId == 1 ? "Доход" : "Расход";
             ViewBag.dtFrom = dateFrom;

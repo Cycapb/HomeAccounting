@@ -63,8 +63,9 @@ namespace WebUI.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            var model = new LoginModel();
 
-            return PartialView("_Login");
+            return PartialView("_Login", model);
         }
 
         [HttpPost]
