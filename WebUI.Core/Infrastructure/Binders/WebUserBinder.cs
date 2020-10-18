@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Extensions;
@@ -8,6 +9,8 @@ namespace WebUI.Core.Infrastructure.Binders
 {
     public class WebUserBinder : IModelBinder
     {
+        private readonly ILogger _logger = Log.Logger.ForContext<WebUserBinder>();
+
         public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext is null)
@@ -16,20 +19,16 @@ namespace WebUI.Core.Infrastructure.Binders
             }
 
             var user = await bindingContext.HttpContext.Session.GetJsonAsync<WebUser>("WebUser");
-            user ??= CreateDefaultUserWithNameApostol();
-            
+
+            if (user == null)
+            {
+                _logger.Error("Не удалось получить данные пользователя из сессии");
+
+                throw new ArgumentNullException(nameof(user));
+            }
+
             bindingContext.Result = ModelBindingResult.Success(user);
             return;
-        }
-
-        private WebUser CreateDefaultUserWithNameApostol()
-        {
-            return new WebUser()
-            {
-                Email = "aka.apostol@gmail.com",
-                Name = "Apostol",
-                Id = "c4b81c0d-8843-437a-8730-95b1641eeb7d"
-            };
         }
     }
 }
