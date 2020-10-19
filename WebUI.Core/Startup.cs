@@ -82,7 +82,6 @@ namespace WebUI.Core
 
             app.UseStaticFiles();
             app.UseSession();
-            app.UseMiddleware<SessionExpireMiddleware>();
             app.UseSerilogRequestLogging(options =>
             {
                 options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
@@ -96,6 +95,7 @@ namespace WebUI.Core
                 };
             });
             app.UseAuthentication();
+            app.UseMiddleware<SessionExpireMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });
