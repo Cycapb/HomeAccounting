@@ -1,14 +1,14 @@
-﻿using System;
+﻿using DomainModels.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Services;
+using Services.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DomainModels.Model;
-using WebUI.Core.Models;
-using Services;
-using Services.Exceptions;
 using WebUI.Core.Exceptions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using WebUI.Core.Models;
 
 namespace WebUI.Core.Controllers
 {
@@ -26,9 +26,8 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var list = (await _accountService.GetListAsync())
-                    .Where(x => x.UserId == user.Id)
-                    .ToList();
+                var list = (await _accountService.GetListAsync(x => x.UserId == user.Id)).ToList();
+
                 return PartialView(list);
             }
             catch (ServiceException e)
@@ -37,19 +36,21 @@ namespace WebUI.Core.Controllers
             }
             catch (Exception e)
             {
-                throw  new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(Index)}", e);
             }
         }
 
-        public async Task<ActionResult> Edit(WebUser user, int id)
+        public async Task<IActionResult> Edit(WebUser user, int id)
         {
             try
             {
                 var acc = await _accountService.GetItemAsync(id);
+
                 if (acc != null)
                 {
                     return PartialView(acc);
                 }
+
                 return PartialView(new Account() { UserId = user.Id });
             }
             catch (ServiceException e)
@@ -59,13 +60,8 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(Account account)
+        public async Task<IActionResult> Edit(Account account)
         {
-            if (account == null)
-            {
-                return RedirectToAction("Index");
-            }
-
             if (account.AccountID == 0)
             {
                 return RedirectToAction("Index");
@@ -76,6 +72,7 @@ namespace WebUI.Core.Controllers
                 try
                 {
                     await _accountService.UpdateAsync(account);
+
                     return RedirectToAction("Index");
                 }
                 catch (ServiceException e)
@@ -87,13 +84,13 @@ namespace WebUI.Core.Controllers
             return PartialView(account);
         }
 
-        public ActionResult Add()
+        public IActionResult Add()
         {
             return PartialView(new AccountAddModel());
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, AccountAddModel model)
+        public async Task<IActionResult> Add(WebUser user, AccountAddModel model)
         {
             if (ModelState.IsValid)
             {
@@ -108,6 +105,7 @@ namespace WebUI.Core.Controllers
                 try
                 {
                     await _accountService.CreateAsync(account);
+
                     return RedirectToAction("Index");
                 }
                 catch (ServiceException e)
@@ -115,10 +113,11 @@ namespace WebUI.Core.Controllers
                     throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Add)}", e);
                 }
             }
+
             return PartialView(model);
         }
 
-        public async Task<ActionResult> Delete(WebUser user,int id)
+        public async Task<IActionResult> Delete(WebUser user, int id)
         {
             try
             {
@@ -131,12 +130,14 @@ namespace WebUI.Core.Controllers
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(Delete)}", e);
             }
+
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> TransferMoney(WebUser user)
+        public async Task<IActionResult> TransferMoney(WebUser user)
         {
             var transfer = new TransferModel();
+
             try
             {
                 await FillTransferModel(user, transfer);
@@ -146,28 +147,36 @@ namespace WebUI.Core.Controllers
                 throw new WebUiException(
                     $"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
             }
+
             return PartialView(transfer);
         }
 
         [HttpPost]
-        public async Task<ActionResult> TransferMoney(WebUser user, TransferModel tModel)
+        //ToDo Вынести логику перевода денег из контроллера в сервис IAccountService
+        public async Task<IActionResult> TransferMoney(WebUser user, TransferModel tModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     var accFrom = await _accountService.GetItemAsync(tModel.FromId);
+
                     if (!_accountService.HasEnoughMoney(accFrom, decimal.Parse(tModel.Summ)))
                     {
                         ModelState.AddModelError("", "Недостаточно средств на исходном счету");
                         await FillTransferModel(user, tModel);
+
                         return PartialView(tModel);
                     }
+
                     var accTo = await _accountService.GetItemAsync(tModel.ToId);
                     await TransferMoney(accFrom, accTo, tModel.Summ);
+
                     return RedirectToAction("TransferMoney");
                 }
+
                 await FillTransferModel(user, tModel);
+
                 return PartialView(tModel);
             }
             catch (ServiceException e)
@@ -184,10 +193,9 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var list = (await _accountService.GetListAsync())
-                .Where(x => x.AccountID != id && x.UserId == user.Id)
-                .ToList();
-                return PartialView(list);
+                var accounts = (await _accountService.GetListAsync(x => x.AccountID != id && x.UserId == user.Id)).ToList();
+
+                return PartialView(accounts);
             }
             catch (ServiceException e)
             {
@@ -207,9 +215,7 @@ namespace WebUI.Core.Controllers
 
         private async Task FillTransferModel(WebUser user, TransferModel tModel)
         {
-            tModel.FromAccounts = (await _accountService.GetListAsync())
-                .Where(x => x.UserId == user.Id)
-                .ToList();
+            tModel.FromAccounts = (await _accountService.GetListAsync(x => x.UserId == user.Id)).ToList();
             tModel.ToAccounts = new List<Account>(tModel.FromAccounts);
         }
 
@@ -221,4 +227,4 @@ namespace WebUI.Core.Controllers
             await _accountService.UpdateAsync(toAcc);
         }
     }
-} 
+}
