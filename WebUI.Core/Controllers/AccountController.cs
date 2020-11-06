@@ -28,7 +28,7 @@ namespace WebUI.Core.Controllers
             {
                 var list = (await _accountService.GetListAsync(x => x.UserId == user.Id)).ToList();
 
-                return PartialView(list);
+                return PartialView("_Index", list);
             }
             catch (ServiceException e)
             {
