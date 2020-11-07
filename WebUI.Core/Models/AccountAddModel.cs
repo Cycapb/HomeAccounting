@@ -4,7 +4,7 @@ namespace WebUI.Core.Models
 {
     public class AccountAddModel
     {
-        [Required]
+        [Required(ErrorMessage = "Необходимо ввести название счета")]
         [StringLength(50)]
         public string AccountName { get; set; }
 

@@ -86,7 +86,7 @@ namespace WebUI.Core.Controllers
 
         public IActionResult Add()
         {
-            return PartialView(new AccountAddModel());
+            return PartialView("_Add", new AccountAddModel());
         }
 
         [HttpPost]
@@ -114,7 +114,7 @@ namespace WebUI.Core.Controllers
                 }
             }
 
-            return PartialView(model);
+            return PartialView("_Add", model);
         }
 
         public async Task<IActionResult> Delete(WebUser user, int id)
