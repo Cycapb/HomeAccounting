@@ -1,7 +1,7 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:10855",
       "sslPort": 0
@@ -18,10 +18,17 @@
     "WebUI.Core": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:50000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:50000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "commandLineArgs": "--network=\"host\"",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true
     }
   }
 }
