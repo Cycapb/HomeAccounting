@@ -48,10 +48,10 @@ namespace WebUI.Core.Controllers
 
                 if (acc != null)
                 {
-                    return PartialView(acc);
+                    return PartialView("_Edit", acc);
                 }
 
-                return PartialView(new Account() { UserId = user.Id });
+                return RedirectToAction("Index");
             }
             catch (ServiceException e)
             {
