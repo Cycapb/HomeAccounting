@@ -81,7 +81,7 @@ namespace WebUI.Core.Controllers
                 }
             }
 
-            return PartialView(account);
+            return PartialView("_Edit", account);
         }
 
         public IActionResult Add()
