@@ -136,22 +136,22 @@ namespace WebUI.Core.Controllers
 
         public async Task<IActionResult> TransferMoney(WebUser user)
         {
-            var transfer = new TransferModel();
-
             try
             {
+                var transfer = new TransferModel();
                 await FillTransferModel(user, transfer);
+
+                return PartialView("_TransferMoney", transfer);
             }
             catch (Exception e)
             {
                 throw new WebUiException(
                     $"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(TransferMoney)}", e);
             }
-
-            return PartialView(transfer);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         //ToDo Вынести логику перевода денег из контроллера в сервис IAccountService
         public async Task<IActionResult> TransferMoney(WebUser user, TransferModel tModel)
         {
@@ -189,7 +189,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<PartialViewResult> GetItems(int id, WebUser user)
+        public async Task<PartialViewResult> GetUserAccounts(int id, WebUser user)
         {
             try
             {
@@ -199,11 +199,11 @@ namespace WebUI.Core.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(GetItems)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(AccountController)} в методе {nameof(GetUserAccounts)}", e);
             }
             catch (Exception e)
             {
-                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(GetItems)}", e);
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(AccountController)} в методе {nameof(GetUserAccounts)}", e);
             }
         }
 
