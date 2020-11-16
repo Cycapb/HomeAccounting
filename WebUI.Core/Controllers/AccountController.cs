@@ -166,7 +166,7 @@ namespace WebUI.Core.Controllers
                         ModelState.AddModelError("", "Недостаточно средств на исходном счету");
                         await FillTransferModel(user, tModel);
 
-                        return PartialView(tModel);
+                        return PartialView("_TransferMoney", tModel);
                     }
 
                     var accTo = await _accountService.GetItemAsync(tModel.ToId);
@@ -177,7 +177,7 @@ namespace WebUI.Core.Controllers
 
                 await FillTransferModel(user, tModel);
 
-                return PartialView(tModel);
+                return PartialView("TransferMoney", tModel);
             }
             catch (ServiceException e)
             {
