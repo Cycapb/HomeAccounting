@@ -60,6 +60,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Account account)
         {
             if (account.AccountID == 0)
@@ -90,6 +91,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(WebUser user, AccountAddModel model)
         {
             if (ModelState.IsValid)
