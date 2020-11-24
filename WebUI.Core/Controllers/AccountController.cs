@@ -62,6 +62,11 @@ namespace WebUI.Core.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Account account)
         {
+            if (account is null)
+            {
+                throw new ArgumentNullException(nameof(account));
+            }
+
             if (account.AccountID == 0)
             {
                 return RedirectToAction("Index");
