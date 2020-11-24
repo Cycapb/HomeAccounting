@@ -36,12 +36,12 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task IndexReturnsPartialView()
+        public async Task Index_Returns_PartialViewWithAccountsOfUser()
         {
-            _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
-            AccountController target = new AccountController(_mockAccountService.Object);
+            var account = new Account() { UserId = "1" };
+            _mockAccountService.Setup(m => m.GetListAsync(It.Is<Expression<Func<Account, bool>>>(x => x.Compile()(account)))).ReturnsAsync(_accounts);
 
-            var result = await target.Index(new WebUser() { Id = "1" });
+            var result = await _target.Index(new WebUser() { Id = "1" });
             var model = ((PartialViewResult)result).ViewData.Model as List<Account>;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
@@ -80,7 +80,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Index_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
-
+            WebUiException exception = null;
             var target = new AccountController(_mockAccountService.Object);
 
             try
@@ -89,8 +89,10 @@ namespace WebUI.Core.Tests.ControllersTests
             }
             catch (WebUiException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+                exception = e;
             }
+
+            Assert.IsInstanceOfType(exception.InnerException, typeof(ServiceException));
         }
 
         [TestMethod]
@@ -247,6 +249,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task GetItems_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).ThrowsAsync(new ServiceException());
+            WebUiException exception = null;
 
             try
             {
@@ -254,27 +257,37 @@ namespace WebUI.Core.Tests.ControllersTests
             }
             catch (WebUiException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+                exception = e;
             }
+
+            Assert.IsInstanceOfType(exception, typeof(WebUiException));
         }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task EditInputIdReturnsNewAccount()
+        public async Task Edit_InputId2_Returns_PartialViewWithAccountWithId2()
+        {
+            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v == 2))).ReturnsAsync(_accounts.Find(x => x.AccountID == 2));            
+            var target = new AccountController(_mockAccountService.Object);
+
+            var result = ((PartialViewResult)await target.Edit(new WebUser(), 2));
+            var model = (Account)result.Model;
+
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+            Assert.AreEqual(2, model.AccountID);
+        }
+
+        [TestMethod]
+        [TestCategory("AccountControllerTests")]
+        public async Task Edit_InputId0_Returns_RedirectToIndexAction()
         {
             Account acc = null;
-            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v == 2))).ReturnsAsync(_accounts.Find(x => x.AccountID == 2));
-            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v < 1))).ReturnsAsync(acc);
             _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v > 3))).ReturnsAsync(acc);
             var target = new AccountController(_mockAccountService.Object);
 
-            var result2 = ((PartialViewResult)await target.Edit(new WebUser(), 2)).Model as Account;
-            var result0 = await target.Edit(new WebUser(), 0);
-            var result4 = await target.Edit(new WebUser(), 4);
+            var result = (RedirectToActionResult)await target.Edit(new WebUser(), 4);
 
-            Assert.AreEqual(result2.AccountID, 2);
-            Assert.AreEqual(typeof(RedirectToActionResult), result0);
-            Assert.AreEqual(typeof(RedirectToActionResult), result4);
+            Assert.AreEqual(nameof(AccountController.Index), result.ActionName);
         }
 
         [TestMethod]
@@ -443,13 +456,14 @@ namespace WebUI.Core.Tests.ControllersTests
         }
 
         [TestMethod]
-        [TestCategory("AccountControllerTests")]
-        public async Task GetItemsReturnsListofAccounts()
+        [TestCategory("AccountControllerTests")]        
+        public async Task GetItems_Returns_PartialViewWithListofAccounts_ExceptAccountWithIdFromInput()
         {
-            _mockAccountService.Setup(m => m.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).ReturnsAsync(_accounts);            
-            var id = 3;
+            var exceptedAccountId = 3;
+            var userId = "1";
+            _mockAccountService.Setup(m => m.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).ReturnsAsync(_accounts.Where(x => x.AccountID != exceptedAccountId && x.UserId == userId));            
 
-            var result = (await _target.GetUserAccounts(id, new WebUser() { Id = "1" })).ViewData.Model as List<Account>;
+            var result = (await _target.GetUserAccounts(exceptedAccountId, new WebUser() { Id = userId })).ViewData.Model as List<Account>;
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count == 1);
