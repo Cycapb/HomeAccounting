@@ -38,8 +38,9 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task Index_Returns_PartialViewWithAccountsOfUser()
         {
-            var account = new Account() { UserId = "1" };
-            _mockAccountService.Setup(m => m.GetListAsync(It.Is<Expression<Func<Account, bool>>>(x => x.Compile()(account)))).ReturnsAsync(_accounts);
+            var userId = "1";
+            var account = new Account() { UserId = userId };
+            _mockAccountService.Setup(m => m.GetListAsync(It.Is<Expression<Func<Account, bool>>>(x => x.Compile()(account)))).ReturnsAsync(_accounts.Where(x => x.UserId == userId));
 
             var result = await _target.Index(new WebUser() { Id = "1" });
             var model = ((PartialViewResult)result).ViewData.Model as List<Account>;
