@@ -111,14 +111,19 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task Edit_InputWebUser_RaiseWebuiExceptionWithInnerServiceException()
         {
+            WebUiException exception = null;
+            _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+
             try
             {
                 await _target.Edit(new WebUser(), 1);
             }
             catch (WebUiException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+                exception = e;
             }
+
+            Assert.IsInstanceOfType(exception.InnerException, typeof(ServiceException));
         }
 
         [TestMethod]
@@ -146,6 +151,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Add_InputAccount_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mockAccountService.Setup(x => x.CreateAsync(It.IsAny<Account>())).Throws<ServiceException>();
+            WebUiException exception = null;
 
             try
             {
@@ -153,8 +159,10 @@ namespace WebUI.Core.Tests.ControllersTests
             }
             catch (WebUiException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+                exception = e;
             }
+
+            Assert.IsInstanceOfType(exception.InnerException, typeof(ServiceException));
         }
 
         [TestMethod]
@@ -188,7 +196,7 @@ namespace WebUI.Core.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public async Task TransferMoney_InputWebUser_RaiseWebUiException()
         {
-            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+            _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).Throws<ServiceException>();
 
             await _target.TransferMoney(new WebUser());
         }
@@ -197,7 +205,8 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestMethod]
         public async Task TransferMoney_InputWebUser_RaiseWebUiExceptionWithInnerServiceException()
         {
-            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+            _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).Throws<ServiceException>();
+            WebUiException exception = null;
 
             try
             {
@@ -205,8 +214,10 @@ namespace WebUI.Core.Tests.ControllersTests
             }
             catch (WebUiException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+                exception = e;
             }
+
+            Assert.IsInstanceOfType(exception.InnerException, typeof(ServiceException));
         }
 
         [TestMethod]
@@ -224,6 +235,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task TransferMoney_InputTransferModel_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
+            Exception exception = null;
 
             try
             {
@@ -231,8 +243,10 @@ namespace WebUI.Core.Tests.ControllersTests
             }
             catch (Exception e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
+                exception = e;
             }
+
+            Assert.IsInstanceOfType(exception.InnerException, typeof(ServiceException));
         }
 
         [TestMethod]
@@ -284,9 +298,8 @@ namespace WebUI.Core.Tests.ControllersTests
         {
             Account acc = null;
             _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v > 3))).ReturnsAsync(acc);
-            var target = new AccountController(_mockAccountService.Object);
 
-            var result = (RedirectToActionResult)await target.Edit(new WebUser(), 4);
+            var result = (RedirectToActionResult)await _target.Edit(new WebUser(), 4);
 
             Assert.AreEqual(nameof(AccountController.Index), result.ActionName);
         }
@@ -303,7 +316,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task EditInputModelInvalidReturnsPartial()
+        public async Task Edit_InputModelInvalid_ReturnsPartialView()
         {
             var target = new AccountController(null);
             target.ModelState.AddModelError("", "");
@@ -316,7 +329,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task EditInputModelValidReturnsRedirectToIndex()
+        public async Task Edit_InputModelValid_ReturnsRedirectToIndex()
         {
 
             var target = new AccountController(_mockAccountService.Object);
@@ -367,7 +380,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task DeleteInput6ReturnsRedirectToIndex()
+        public async Task Delete_Input6_ReturnsRedirectToIndex()
         {
             _mockAccountService.Setup(m => m.HasAnyDependencies(It.Is<int>(v => v >= 6 && v <= 10))).Returns(false);
             var target = new AccountController(_mockAccountService.Object);
@@ -379,7 +392,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task DeleteInput3ReturnsRedirectAfterDelete()
+        public async Task Delete_Input3_ReturnsRedirectAfterDelete()
         {
             _mockAccountService.Setup(m => m.HasAnyDependencies(It.Is<int>(v => v >= 1 && v <= 5))).Returns(true);
             var target = new AccountController(_mockAccountService.Object);
