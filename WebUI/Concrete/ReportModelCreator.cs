@@ -1,5 +1,4 @@
-﻿using DomainModels.Model;
-using Services;
+﻿using Services;
 using Services.Caching;
 using Services.Exceptions;
 using System;
@@ -21,7 +20,11 @@ namespace WebUI.Concrete
         private readonly ICacheManager _cacheManager;
         private bool _disposed;
 
-        public ReportModelCreator(ICategoryService categoryService, IReportHelper dbHelper, IPagingInfoCreator pagingCreator, ICacheManager cacheManager)
+        public ReportModelCreator(
+            ICategoryService categoryService,
+            IReportHelper dbHelper,
+            IPagingInfoCreator pagingCreator,
+            ICacheManager cacheManager)
         {
             _cacheManager = cacheManager;
             _categoryService = categoryService;
@@ -59,7 +62,7 @@ namespace WebUI.Concrete
         public ReportModel CreateByTypeReportModel(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page)
         {
             List<PayItem> tempList = new List<PayItem>();
-            var cacheKey = "ByTypeOfFlow_" + model.DtFrom.Date.ToShortDateString() + "_" + model.DtTo.Date.ToShortDateString();
+            var cacheKey = $"ByTypeOfFlow_{model.TypeOfFlowId}_{model.CatId}_{model.DtFrom.Date.ToShortDateString()}_{model.DtTo.Date.ToShortDateString()}";
             try
             {
                 var cachedItems = (List<PayItem>)_cacheManager.Get(cacheKey);
