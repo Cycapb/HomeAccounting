@@ -57,7 +57,7 @@ namespace WebUI.Core.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public async Task Index_RaiseWebUiExceptionIfException()
         {
-            _mockAccountService.Setup(x => x.GetListAsync()).Throws<Exception>();
+            _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).Throws<Exception>();
 
             var target = new AccountController(_mockAccountService.Object);
 
