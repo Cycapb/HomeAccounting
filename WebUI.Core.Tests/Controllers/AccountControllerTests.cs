@@ -59,9 +59,7 @@ namespace WebUI.Core.Tests.ControllersTests
         {
             _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).Throws<Exception>();
 
-            var target = new AccountController(_mockAccountService.Object);
-
-            await target.Index(new WebUser());
+            await _target.Index(new WebUser());
         }
 
         [TestMethod]
@@ -71,22 +69,19 @@ namespace WebUI.Core.Tests.ControllersTests
         {
             _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).Throws<ServiceException>();
 
-            var target = new AccountController(_mockAccountService.Object);
-
-            await target.Index(new WebUser());
+            await _target.Index(new WebUser());
         }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
         public async Task Index_RaiseWebUiExceptionWithInnerServiceException()
         {
-            _mockAccountService.Setup(x => x.GetListAsync()).Throws<ServiceException>();
+            _mockAccountService.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Account, bool>>>())).Throws<ServiceException>();
             WebUiException exception = null;
-            var target = new AccountController(_mockAccountService.Object);
 
             try
             {
-                await target.Index(new WebUser());
+                await _target.Index(new WebUser());
             }
             catch (WebUiException e)
             {
@@ -102,9 +97,8 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Edit_InputWebUser_RaiseWebUiException()
         {
             _mockAccountService.Setup(x => x.GetItemAsync(It.IsAny<int>())).Throws<ServiceException>();
-            var target = new AccountController(_mockAccountService.Object);
 
-            await target.Edit(new WebUser(), 1);
+            await _target.Edit(new WebUser(), 1);
         }
 
         [TestMethod]
@@ -168,22 +162,22 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestMethod]
         [TestCategory("AccountControllerTests")]
         [ExpectedException(typeof(WebUiException))]
-        public async Task Delete_InputInt_RaiseWebUiException()
+        public async Task Delete_InputAnyAccountId_RaiseWebUiException()
         {
             _mockAccountService.Setup(x => x.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
 
-            await _target.Delete(new WebUser(), 1);
+            await _target.Delete(1);
         }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task Delete_InputInt_RaiseWebUiExceptionWithInnerServiceException()
+        public async Task Delete_InputAnyAccountId_RaiseWebUiExceptionWithInnerServiceException()
         {
             _mockAccountService.Setup(x => x.DeleteAsync(It.IsAny<int>())).Throws<ServiceException>();
 
             try
             {
-                await _target.Delete(new WebUser(), 1);
+                await _target.Delete(1);
             }
             catch (WebUiException e)
             {
@@ -282,10 +276,9 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task Edit_InputId2_Returns_PartialViewWithAccountWithId2()
         {
-            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v == 2))).ReturnsAsync(_accounts.Find(x => x.AccountID == 2));            
-            var target = new AccountController(_mockAccountService.Object);
+            _mockAccountService.Setup(m => m.GetItemAsync(It.Is<int>(v => v == 2))).ReturnsAsync(_accounts.Find(x => x.AccountID == 2));
 
-            var result = ((PartialViewResult)await target.Edit(new WebUser(), 2));
+            var result = ((PartialViewResult)await _target.Edit(new WebUser(), 2));
             var model = (Account)result.Model;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
@@ -309,19 +302,16 @@ namespace WebUI.Core.Tests.ControllersTests
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task Edit_InputAccountNull_ThrowsArgumentNullException()
         {
-            var target = new AccountController(null);
-
-            await target.Edit(null);
+            await _target.Edit(null);
         }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
         public async Task Edit_InputModelInvalid_ReturnsPartialView()
         {
-            var target = new AccountController(null);
-            target.ModelState.AddModelError("", "");
+            _target.ModelState.AddModelError("", "");
 
-            var result = await target.Edit(new Account() { AccountID = 1 });
+            var result = await _target.Edit(new Account() { AccountID = 1 });
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsInstanceOfType(((PartialViewResult)result).Model, typeof(Account));
@@ -331,10 +321,7 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public async Task Edit_InputModelValid_ReturnsRedirectToIndex()
         {
-
-            var target = new AccountController(_mockAccountService.Object);
-
-            var result = await target.Edit(new Account() { AccountID = 1 });
+            var result = await _target.Edit(new Account() { AccountID = 1 });
 
             _mockAccountService.Verify(m => m.UpdateAsync(It.IsAny<Account>()), Times.Once);
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
@@ -344,9 +331,7 @@ namespace WebUI.Core.Tests.ControllersTests
         [TestCategory("AccountControllerTests")]
         public void Add_HttpGet_ReturnsPartialView()
         {
-            var target = new AccountController(null);
-
-            var result = target.Add();
+            var result = _target.Add();
             var model = ((PartialViewResult)result).ViewData.Model as AccountAddModel;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
@@ -355,12 +340,11 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task AddModelStateValidReturnsRedirectToIndex()
+        public async Task Add_ModelStateValid_ReturnsRedirectToIndex()
         {
             var accountViewModel = new AccountAddModel() { AccountName = "Acc1" };
-            var target = new AccountController(_mockAccountService.Object);
 
-            var result = await target.Add(new WebUser() { Id = "1" }, accountViewModel);
+            var result = await _target.Add(new WebUser() { Id = "1" }, accountViewModel);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
@@ -370,10 +354,9 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Cannot_Add_Invalid_Account()
         {
             var accountViewModel = new AccountAddModel() { AccountName = "Acc1" };
-            var target = new AccountController(null);
-            target.ModelState.AddModelError("error", "error");
+            _target.ModelState.AddModelError("error", "error");
 
-            var result = await target.Add(new WebUser() { Id = "1" }, accountViewModel);
+            var result = await _target.Add(new WebUser() { Id = "1" }, accountViewModel);
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
@@ -383,11 +366,10 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Delete_Input6_ReturnsRedirectToIndex()
         {
             _mockAccountService.Setup(m => m.HasAnyDependencies(It.Is<int>(v => v >= 6 && v <= 10))).Returns(false);
-            var target = new AccountController(_mockAccountService.Object);
 
-            var id6 = await target.Delete(new WebUser() { Id = "1" }, 6);
+            var result = await _target.Delete(6);
 
-            Assert.IsInstanceOfType(id6, typeof(RedirectToActionResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
         [TestMethod]
@@ -395,25 +377,25 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Delete_Input3_ReturnsRedirectAfterDelete()
         {
             _mockAccountService.Setup(m => m.HasAnyDependencies(It.Is<int>(v => v >= 1 && v <= 5))).Returns(true);
-            var target = new AccountController(_mockAccountService.Object);
 
-            var id3 = await target.Delete(new WebUser() { Id = "1" }, 3);
+            var result = await _target.Delete(3);
 
             _mockAccountService.Verify(m => m.HasAnyDependencies(3), Times.Once);
-            Assert.IsInstanceOfType(id3, typeof(RedirectToActionResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task TransferMoneyReturnPartialView()
+        public async Task TransferMoney_ReturnPartialView()
         {
-            _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
-            AccountController target = new AccountController(_mockAccountService.Object);
+            var userId = "1";
+            var account = new Account() { UserId = userId };
+            _mockAccountService.Setup(m => m.GetListAsync(It.Is<Expression<Func<Account, bool>>>(x => x.Compile()(account)))).ReturnsAsync(_accounts.Where(x => x.UserId == userId));
 
-            var result = ((PartialViewResult)await target.TransferMoney(new WebUser() { Id = "1" })).ViewData.Model as TransferModel;
+            var result = ((PartialViewResult)await _target.TransferMoney(new WebUser() { Id = userId })).ViewData.Model as TransferModel;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(result.FromAccounts.Count, 2);
+            Assert.AreEqual(2, result.FromAccounts.Count);
         }
 
         [TestMethod]
@@ -424,9 +406,8 @@ namespace WebUI.Core.Tests.ControllersTests
             _mockAccountService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { AccountID = 1, UserId = "1", Cash = 5000 });
             TransferModel tmodel = new TransferModel() { FromId = 1, ToId = 1, Summ = 1000.ToString() };
             WebUser user = new WebUser() { Id = "1" };
-            AccountController target = new AccountController(_mockAccountService.Object);
 
-            var result = await target.TransferMoney(user, tmodel);
+            var result = await _target.TransferMoney(user, tmodel);
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             _mockAccountService.Verify(m => m.UpdateAsync(It.IsAny<Account>()), Times.Never);
@@ -444,28 +425,26 @@ namespace WebUI.Core.Tests.ControllersTests
                 FromAccounts = ((List<Account>)await _mockAccountService.Object.GetListAsync()).ToList(),
                 Summ = "1000"
             };
-            AccountController target = new AccountController(_mockAccountService.Object);
 
-            target.ModelState.AddModelError("error", "error");
-            var result = await target.TransferMoney(new WebUser() { Id = "1" }, tModel);
+            _target.ModelState.AddModelError("error", "error");
+            var result = await _target.TransferMoney(new WebUser() { Id = "1" }, tModel);
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
         [TestMethod]
         [TestCategory("AccountControllerTests")]
-        public async Task TransferMoneyIfAccountHasEnoughMoney()
+        public async Task TransferMoney_IfAccountHasEnoughMoney()
         {
             _mockAccountService.Setup(m => m.HasEnoughMoney(It.IsAny<Account>(), It.IsAny<decimal>())).Returns(true);
             _mockAccountService.Setup(m => m.GetListAsync()).ReturnsAsync(_accounts);
             _mockAccountService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Account() { AccountID = 1, UserId = "1", Cash = 5000 });
-            TransferModel tmodel = new TransferModel() { FromId = 1, ToId = 1, Summ = 1000.ToString() };
-            WebUser user = new WebUser() { Id = "1" };
-            AccountController target = new AccountController(_mockAccountService.Object);
+            var tmodel = new TransferModel() { FromId = 1, ToId = 1, Summ = 1000.ToString() };
+            var user = new WebUser() { Id = "1" };
 
-            var result = await target.TransferMoney(user, tmodel);
+            var result = await _target.TransferMoney(user, tmodel);
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
             _mockAccountService.Verify(m => m.UpdateAsync(It.IsAny<Account>()), Times.AtLeastOnce);
         }
 

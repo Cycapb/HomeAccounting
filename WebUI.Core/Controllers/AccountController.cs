@@ -124,7 +124,9 @@ namespace WebUI.Core.Controllers
             return PartialView("_Add", model);
         }
 
-        public async Task<IActionResult> Delete(WebUser user, int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {

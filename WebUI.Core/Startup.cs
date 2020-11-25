@@ -75,7 +75,6 @@ namespace WebUI.Core
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages();
                 app.UseBrowserLink();
             }
