@@ -14,6 +14,6 @@
 
         public static string SessionId => "SessionId";
 
-        public static string UserLogin => "UserLogin";
+        public static string UserName => "UserName";
     }
 }
