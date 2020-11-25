@@ -60,8 +60,14 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Account account)
         {
+            if (account is null)
+            {
+                throw new ArgumentNullException(nameof(account));
+            }
+
             if (account.AccountID == 0)
             {
                 return RedirectToAction("Index");
@@ -90,6 +96,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(WebUser user, AccountAddModel model)
         {
             if (ModelState.IsValid)
@@ -117,7 +124,9 @@ namespace WebUI.Core.Controllers
             return PartialView("_Add", model);
         }
 
-        public async Task<IActionResult> Delete(WebUser user, int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {

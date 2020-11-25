@@ -49,7 +49,7 @@ namespace Loggers.Extensions.Serilog.Enrichers
                 new LogEventProperty(LoggingProperties.RequestMethod, new ScalarValue(_httpContextAccessor.HttpContext.Request.Method)),
                 new LogEventProperty(LoggingProperties.RequestPath, new ScalarValue(_httpContextAccessor.HttpContext.Request.Path)),
                 new LogEventProperty(LoggingProperties.SessionId, new ScalarValue(_httpContextAccessor.HttpContext.Session?.Id)),
-                new LogEventProperty(LoggingProperties.UserLogin, new ScalarValue(_httpContextAccessor.HttpContext.User.Identity?.Name)),
+                new LogEventProperty(LoggingProperties.UserName, new ScalarValue(_httpContextAccessor.HttpContext.User.Identity?.Name)),
             };
         }
     }
