@@ -35,7 +35,7 @@
                       data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Delete", "PayingItem", new { id = item.ItemID })"
                       data-ajax-success="updateAccounts" data-ajax-method="post">
                     <a asp-action="Edit" asp-route-typeOfFlowId="@item.Category.TypeOfFlowID" asp-route-id="@item.ItemID"
-                       data-ajax="true" data-ajax-mode="replace" data-ajax-update="payingDiv"
+                       data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
                        data-ajax-url="@Url.Action("Edit", "PayingItem", new { id = item.ItemID, typeOfFlowId = item.Category.TypeOfFlowID })"
                        class="btn btn-warning btn-raised btn-xs">
                         Редактировать

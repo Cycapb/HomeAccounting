@@ -1,0 +1,56 @@
+﻿@model TransferModel
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Перевод денег</div>
+    <form asp-action="@Url.Action("TransferMoney")" method="post" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-sucess="updateAfterTransfer"
+          data-ajax-update="#payingDiv" data-ajax-method="post" data-ajax-url="@Url.Action("TransferMoney")">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="panel-body">
+            <div class="form-group" id="Transfer_From">
+                <label>Исходный счет:</label>
+                <select asp-for="FromId" asp-items="@Model.FromAccounts.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString() })"
+                        class="selectpicker">
+                </select>
+                <div><span asp-validation-for="FromId" class="text-danger"></span></div>
+            </div>
+            <div class="form-group" id="Transfer_To">
+                <label>Конечный счет:</label>
+                <select asp-for="ToId" asp-items="@Model.ToAccounts.Select(x => new SelectListItem(){ Text = x.AccountName, Value = x.AccountID.ToString() })" , class="selectpicker"></select>
+                <div><span asp-validation-for="ToId" class="text-danger"></span></div>
+            </div>
+            <div class="form-group">
+                <label>Сумма:</label>
+                <input asp-for="Summ" class="form-control" />
+                <div><span asp-validation-for="Summ" class="text-danger"></span></div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Перевести деньги" class="btn btn-primary btn-raised btn-sm" />
+            <a asp-action="List" asp-controller="PayingItem" data-ajax="true" data-ajax-mode="replace"
+               data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("List", "PayingItem")"
+               class="btn btn-default btn-raised btn-sm pull-right">На главную</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+                        $(function () {
+
+                            $('#FromId').change(function () {
+                                var id = $(this).val();
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '@Url.Action("GetUserAccounts")/' + id,
+                                    success: function (data) {
+                                        $('#Transfer_To').replaceWith(data);
+                                    }
+                                });
+                            });
+                        })
+</script>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
+</script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
