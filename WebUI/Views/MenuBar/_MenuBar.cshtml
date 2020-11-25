@@ -1,14 +1,14 @@
 ﻿<div class="panel panel-info well">
     <div style="text-align: center">
-        Добавить @Ajax.ActionLink("доходную", "Add", "PayingItem", new {typeOfFlow = 1}, new AjaxOptions()
-                 {
-                     Url = Url.Action("Add", "PayingItem", new {typeOfFlow = 1}),
-                     UpdateTargetId = "payingDiv"
-                 }) или @Ajax.ActionLink("расходную", "Add", "PayingItem", new {typeOfFlow = 2}, new AjaxOptions()
-                        {
-                            Url = Url.Action("Add", "PayingItem", new {typeOfFlow = 2}),
-                            UpdateTargetId = "payingDiv"
-                        }) транзакции
+        Добавить @Ajax.ActionLink("доходную", "Add", "PayingItem", new { typeOfFlowId = 1}, new AjaxOptions()
+            {
+                Url = Url.Action("Add", "PayingItem", new { typeOfFlowId = 1}),
+                UpdateTargetId = "payingDiv"
+            }) или @Ajax.ActionLink("расходную", "Add", "PayingItem", new { typeOfFlowId = 2}, new AjaxOptions()
+              {
+                  Url = Url.Action("Add", "PayingItem", new { typeOfFlowId = 2}),
+                  UpdateTargetId = "payingDiv"
+              }) транзакции
     </div>
     <ul class="list-inline text-center">
         <li class="hidden-xs">

@@ -112,9 +112,9 @@ namespace WebUI.Controllers
 
         [UserHasCategoriesAttribute]
         [UserHasAnyAccount]
-        public async Task<ActionResult> Add(WebUser user, int typeOfFlow)
+        public async Task<ActionResult> Add(WebUser user, int typeOfFlowId)
         {
-            await FillViewBag(user, typeOfFlow);
+            await FillViewBag(user, typeOfFlowId);
             var piModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem() { UserId = user.Id },
@@ -124,7 +124,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
+        public async Task<ActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlowId)
         {
             if (ModelState.IsValid)
             {
@@ -145,7 +145,7 @@ namespace WebUI.Controllers
                         $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(Add)}", e);
                 }                
             }
-            await FillViewBag(user, typeOfFlow);
+            await FillViewBag(user, typeOfFlowId);
             return PartialView("_Add", model);
         }
 

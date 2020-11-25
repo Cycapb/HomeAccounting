@@ -41,12 +41,13 @@ namespace WebUI.Controllers
             return PartialView("_Index");
         }
 
-        public ActionResult CreateByTypeOfFlowView(WebUser user, int id)
+        [UserHasCategoriesAttribute]
+        public ActionResult CreateByTypeOfFlowView(WebUser user, int typeOfFlowId)
         {
-            ViewBag.TypeOfFlowId = id;
+            ViewBag.TypeOfFlowId = typeOfFlowId;
             try
             {
-                var items = _reportControllerHelper.GetActiveCategoriesByType(user, id);
+                var items = _reportControllerHelper.GetActiveCategoriesByType(user, typeOfFlowId);
                 return PartialView("_CreateByTypeOfFlowView", items);
             }
             catch (ServiceException e)
@@ -56,7 +57,7 @@ namespace WebUI.Controllers
             }
         }
         
-        [UserHasCategoriesAttribute]
+        //[UserHasCategoriesAttribute]
         public ActionResult GetTypeOfFlowReport(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page = 1)
         {
             try

@@ -25,7 +25,7 @@ namespace WebUI.Infrastructure.Attributes
             var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
             {
-                if (filterContext.RequestContext.RouteData.Values.TryGetValue("typeOfFlow", out object value))
+                if (filterContext.RequestContext.RouteData.Values.TryGetValue("typeOfFlowId", out object value))
                 {
                     var tofId = int.Parse((string)value);
                     userHasCategories = _categoryService.GetList(x => x.UserId == curUser.Id && x.Active && x.TypeOfFlowID == tofId).Any();

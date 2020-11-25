@@ -22,7 +22,7 @@ namespace WebUI
             routes.MapRoute("Report", "Report/{action}/{typeOfFlowId}", new
             {
                 controller = "Report",
-                action = "Index",
+                //action = "Index",
                 typeOfFlowId = UrlParameter.Optional
             });
 
@@ -35,7 +35,7 @@ namespace WebUI
                 },
                 new {page = @"\d"});
 
-            routes.MapRoute("","{typeOfFlow}",
+            routes.MapRoute("","{typeOfFlowId}",
                 new
                 {
                     controller = "PayingItem",
@@ -43,7 +43,7 @@ namespace WebUI
                 },
                 new
                 {
-                    typeOfFlow = new RangeRouteConstraint(1,2)
+                    typeOfFlowId = new RangeRouteConstraint(1,2)
                 });
 
             routes.MapRoute("", "Category/{action}/{id}",
