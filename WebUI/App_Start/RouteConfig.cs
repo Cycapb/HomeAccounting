@@ -22,7 +22,7 @@ namespace WebUI
             routes.MapRoute("Report", "Report/{action}/{typeOfFlowId}", new
             {
                 controller = "Report",
-                //action = "Index",
+                action = "Index",
                 typeOfFlowId = UrlParameter.Optional
             });
 
