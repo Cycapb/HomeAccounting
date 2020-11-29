@@ -110,7 +110,7 @@ namespace WebUI.Controllers
             return PartialView("_PayingItemsPartial", items);
         }
 
-        [UserHasCategoriesAttribute]
+        [UserHasCategories]
         [UserHasAnyAccount]
         public async Task<ActionResult> Add(WebUser user, int typeOfFlowId)
         {

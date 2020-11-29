@@ -5,7 +5,7 @@
     if (item.Id != 3)
     {
         @Ajax.ActionLink(item.Name, "CreateByTypeOfFlowView", "Report",
-            new {id = item.Id},
+            new {typeOfFlowId = item.Id},
             new AjaxOptions()
             {
                 UpdateTargetId = "reportPanelBody"

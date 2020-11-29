@@ -1,18 +1,18 @@
-﻿using System.Linq;
+﻿using Services;
+using System.Linq;
 using System.Web.Mvc;
-using WebUI.Models;
 using WebUI.Abstract;
-using Services;
 using WebUI.App_Start;
+using WebUI.Models;
 
 namespace WebUI.Infrastructure.Attributes
 {
-    public class UserHasCategoriesAttributeAttribute:FilterAttribute,IActionFilter
+    public class UserHasCategoriesAttribute : FilterAttribute, IActionFilter
     {
         private readonly ICategoryService _categoryService;
         private readonly IMessageProvider _messageProvider;
 
-        public UserHasCategoriesAttributeAttribute()
+        public UserHasCategoriesAttribute()
         {
             _categoryService = (ICategoryService)NinjectWebCommon.Kernel.GetService(typeof(ICategoryService));
             _messageProvider = (IMessageProvider)NinjectWebCommon.Kernel.GetService(typeof(IMessageProvider));
@@ -20,7 +20,7 @@ namespace WebUI.Infrastructure.Attributes
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var session = filterContext.HttpContext.Session;                            
+            var session = filterContext.HttpContext.Session;
             var userHasCategories = false;
             var curUser = (WebUser)session?["WebUser"];
             if (curUser != null)
@@ -44,7 +44,7 @@ namespace WebUI.Infrastructure.Attributes
 
         public void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            
+
         }
     }
 }

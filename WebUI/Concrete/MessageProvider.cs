@@ -18,7 +18,7 @@ namespace WebUI.Concrete
         {
             string outMessage;
             var hasValue = _messages.TryGetValue(message, out outMessage);
-            return hasValue? outMessage : outMessage = "";
+            return hasValue? outMessage : "";
         }
 
         void FillDictionary()
