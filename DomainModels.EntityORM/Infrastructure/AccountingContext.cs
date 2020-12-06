@@ -59,6 +59,11 @@ namespace DomainModels.EntityORM
                 .WithRequired(e => e.Category)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Category>()
+                .HasMany(e => e.PlanItems)
+                .WithRequired(e => e.Category)
+                .WillCascadeOnDelete(true);
+
             modelBuilder.Entity<Debt>()
                 .Property(e => e.Summ)
                 .HasPrecision(19, 4);

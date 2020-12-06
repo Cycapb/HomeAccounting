@@ -41,22 +41,21 @@ namespace WebUI.Controllers
             return PartialView("_Index");
         }
 
-        public ActionResult CreateByTypeOfFlowView(WebUser user, int id)
+        [UserHasCategories]
+        public ActionResult CreateByTypeOfFlowView(WebUser user, int typeOfFlowId)
         {
-            ViewBag.TypeOfFlowId = id;
+            ViewBag.TypeOfFlowId = typeOfFlowId;
             try
             {
-                var items = _reportControllerHelper.GetActiveCategoriesByType(user, id);
+                var items = _reportControllerHelper.GetActiveCategoriesByType(user, typeOfFlowId);
                 return PartialView("_CreateByTypeOfFlowView", items);
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(CreateByTypeOfFlowView)}",
-                    e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(CreateByTypeOfFlowView)}", e);
             }
         }
-        
-        [UserHasCategoriesAttribute]
+
         public ActionResult GetTypeOfFlowReport(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page = 1)
         {
             try
@@ -67,8 +66,7 @@ namespace WebUI.Controllers
             }
             catch (WebUiException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetTypeOfFlowReport)}",
-                    e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetTypeOfFlowReport)}", e);
             }
         }
         
@@ -77,7 +75,7 @@ namespace WebUI.Controllers
             return PartialView("_CreateByDatesView");
         }
 
-        [UserHasCategoriesAttribute]
+        [UserHasCategories]
         public ActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
             try
@@ -95,7 +93,7 @@ namespace WebUI.Controllers
             }
         }
 
-        [UserHasCategoriesAttribute]
+        [UserHasCategories]
         public ActionResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo, int typeOfFlowId)
         {
             ViewBag.TypeOfFlowName = typeOfFlowId == 1 ? "Доход" : "Расход";
