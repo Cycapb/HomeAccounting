@@ -111,7 +111,7 @@ namespace WebUI.Core.Controllers
             return PartialView("_PayingItems", items);
         }
 
-        [TypeFilter(typeof(UserHasAnyCategory))]
+        [TypeFilter(typeof(UserHasCategories))]
         [TypeFilter(typeof(UserHasAnyAccount))]
         public async Task<IActionResult> Add(WebUser user, int typeOfFlowId)
         {
@@ -125,7 +125,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlow)
+        public async Task<IActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlowId)
         {
             if (ModelState.IsValid)
             {
@@ -147,7 +147,7 @@ namespace WebUI.Core.Controllers
                 }
             }
 
-            await FillViewBag(user, typeOfFlow);
+            await FillViewBag(user, typeOfFlowId);
             return PartialView("_Add", model);
         }
 
