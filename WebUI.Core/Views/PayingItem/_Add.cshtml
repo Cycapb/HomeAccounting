@@ -2,28 +2,17 @@
 @{
     List<Category> catList = ViewBag.Categories;
     List<Account> accList = ViewBag.Accounts;
-    //WebUI.Core.Models.WebUser user = new WebUI.Core.Models.WebUser()
-    //{
-    //    Id = "e88cee4a - 478a - 4999 - ab34 - 3c1469b58bc2"
-    //};
 }
 <div class="panel panel-primary">
     <div class="panel-heading">Добавление транзакции</div>
-
-    @*@using (Ajax.BeginForm("Add", new AjaxOptions() { Url = Url.Action("Add"), UpdateTargetId = "payingDiv", OnSuccess = "updateAccounts" }))
-    {*@
-<form method="POST" asp-action="Add" asp-antiforgery="true">
-    @Html.ValidationSummary(true)
-    <div class="panel-body"> 
-        @*<input type="hidden" name="user.Id" id="user.Id" value="@user.Id"/>*@
+    
+<form method="POST" asp-action="Add" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" 
+      data-ajax-method="post" data-ajax-success="updateAccounts" data-ajax-url="@Url.Action("Add")">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="panel-body">
         <div class="form-group">
             <label>Категория:</label>
-            @*@Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.CategoryID.ToString()
-            }), new { @class = "selectpicker", onchange = "changeCategoryAdd()" })*@
-        <select asp-for="PayingItem.CategoryID" asp-items="@catList.Select(x => new SelectListItem() { Text = x.Name, Value = x.CategoryID.ToString() })">
+        <select asp-for="PayingItem.CategoryID" asp-items="@catList.Select(x => new SelectListItem() { Text = x.Name, Value = x.CategoryID.ToString() })" onchange="changeCategoryAdd()">
             <option disabled selected value="">Выберите категорию</option>
         </select>
         </div>

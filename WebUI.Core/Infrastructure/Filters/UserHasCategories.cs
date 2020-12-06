@@ -10,7 +10,6 @@ namespace WebUI.Core.Infrastructure.Filters
 {
     public class UserHasCategories : IAsyncActionFilter
     {
-        private readonly string _webUserKey = "WebUSer";
         private readonly ICategoryService _categoryService;
         private readonly IMessageProvider _messageProvider;
 
@@ -24,7 +23,7 @@ namespace WebUI.Core.Infrastructure.Filters
         {
             var session = context.HttpContext.Session;
             var userHasCategories = false;
-            var curUser = await session.GetJsonAsync<WebUser>(_webUserKey);
+            var curUser = await session.GetJsonAsync<WebUser>(nameof(WebUser));
             if (curUser != null)
             {
                 if (context.HttpContext.Request.RouteValues.TryGetValue("typeOfFlowId", out var value))

@@ -293,7 +293,7 @@ namespace WebUI.Core.Controllers
         private async Task<Microsoft.AspNetCore.Identity.SignInResult> SignInUser(AccountingUserModel userModel, string password)
         {
             await _signInManager.SignOutAsync();
-            var result = await _signInManager.PasswordSignInAsync(userModel, password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(userModel, password, true, false);
 
             if (result.Succeeded)
             {

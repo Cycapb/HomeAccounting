@@ -125,6 +125,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(WebUser user, PayingItemModel model, int typeOfFlowId)
         {
             if (ModelState.IsValid)
