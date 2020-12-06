@@ -1,0 +1,62 @@
+﻿@model List<Product>
+
+
+@if (Model != null && Model.Count != 0)
+    {
+    <div id="subcategoriesDiv">
+            @if (Model.Any())
+            {
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="showSubcategoriesCheckBox" value="" />
+                        <span class="checkbox-material"><span class="check"></span></span>
+                        Показать подкатегории
+                    </label>
+                </div>
+            }
+        <div id="divProducts">
+            <table class="table table-striped">
+                <tr>
+                    <th>Добавить</th>
+                    <th>Наименование</th>
+                    <th>Описание</th>
+                    <th>Цена</th>
+                </tr>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <input name="Products[@i].UserID" value="@Model[i].UserID" type="hidden">
+                        <td>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="Products[@i].ProductID" value="@Model[i].ProductID" />
+                                    <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            @Model[i].ProductName
+                            <input type="hidden" name="Products[@i].ProductName" value="@Model[i].ProductName"/>
+                        </td>
+                        <td>
+                            @Model[i].Description
+                        </td>
+                        <td>
+                            <input name="Products[@i].Price" value="@Model[i].Price" class="form-control" placeholder = "Цена"/>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    }
+else
+{
+  <div id="subcategoriesDiv" hidden="hidden"></div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        showSubcategoriesCheckBoxClick();
+    });
+</script>
