@@ -62,7 +62,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestCategory("PayingItemControllerTests")]
         [TestMethod]
-        public async Task Add_InvalidModel_ReturnsPartialView()
+        public async Task Add_HttpPost_InvalidModelState_ReturnsPartialView()
         {
             _categoryServiceMock.Setup(m => m.GetActiveGategoriesByUserAsync(It.IsAny<string>())).ReturnsAsync(new List<Category>());
             _accountServiceMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
@@ -74,11 +74,8 @@ namespace WebUI.Tests.ControllersTests
             var viewDataAccounts = ((PartialViewResult)result).ViewData["Accounts"] as IEnumerable<Account>;
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
 
-            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-            Assert.AreEqual(0, model.Products.Count);
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));            
             Assert.IsNotNull(model.PayingItem);
-            Assert.AreEqual(viewDataCategories.Count(), 0);
-            Assert.AreEqual(viewDataAccounts.Count(), 0);
         }
 
         [TestMethod]
