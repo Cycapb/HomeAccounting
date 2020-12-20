@@ -185,6 +185,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(WebUser user, PayingItemEditModel model)
         {
             if (ModelState.IsValid)
