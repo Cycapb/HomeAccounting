@@ -99,7 +99,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task<bool> HasDependencies(int id)
+        public async Task<bool> HasDependenciesAsync(int id)
         {
             try
             {
@@ -107,11 +107,11 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(HasDependencies)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(HasDependenciesAsync)} при обращении к БД", e);
             }
         }
 
-        public async Task<IEnumerable<Category>> GetActiveGategoriesByUser(string userId)
+        public async Task<IEnumerable<Category>> GetActiveGategoriesByUserAsync(string userId)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetActiveGategoriesByUser)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(CategoryService)} в методе {nameof(GetActiveGategoriesByUserAsync)} при обращении к БД", e);
             }
         }
 

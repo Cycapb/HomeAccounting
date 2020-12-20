@@ -29,7 +29,7 @@ namespace WebUI.Helpers
 
         public async Task CreatePlanItems(WebUser user)
         {
-            var categories = (await _categoryService.GetActiveGategoriesByUser(user.Id))
+            var categories = (await _categoryService.GetActiveGategoriesByUserAsync(user.Id))
                 .ToList();
 
             for (int i = 0; i < categories.Count; i++)
@@ -138,11 +138,11 @@ namespace WebUI.Helpers
             IEnumerable<Category> categories = new List<Category>();
             if (showAll)
             {
-                categories = (await _categoryService.GetActiveGategoriesByUser(user.Id)).ToList();
+                categories = (await _categoryService.GetActiveGategoriesByUserAsync(user.Id)).ToList();
             }
             else
             {
-                categories = (await _categoryService.GetActiveGategoriesByUser(user.Id)).Where(x => x.ViewInPlan == true).ToList();
+                categories = (await _categoryService.GetActiveGategoriesByUserAsync(user.Id)).Where(x => x.ViewInPlan == true).ToList();
             }
 
 

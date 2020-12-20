@@ -27,7 +27,7 @@ namespace BussinessLogic.Tests.ServicesTests
         {            
             _catRepository.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>());            
 
-            var result = await _service.GetActiveGategoriesByUser(It.IsAny<string>());            
+            var result = await _service.GetActiveGategoriesByUserAsync(It.IsAny<string>());            
 
             Assert.AreEqual(0, result.Count());
         }
@@ -43,7 +43,7 @@ namespace BussinessLogic.Tests.ServicesTests
                 new Category() {CategoryID = 3, Name = "C3",Active = true,UserId = "2"}
             });
 
-            var result = (await _service.GetActiveGategoriesByUser("1")).ToList();
+            var result = (await _service.GetActiveGategoriesByUserAsync("1")).ToList();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count,2);

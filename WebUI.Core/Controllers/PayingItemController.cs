@@ -115,12 +115,14 @@ namespace WebUI.Core.Controllers
         [TypeFilter(typeof(UserHasAnyAccount))]
         public async Task<IActionResult> Add(WebUser user, int typeOfFlowId)
         {
-            await FillViewBag(user, typeOfFlowId);
+            await FillViewBagWithCategoriesAndAccounts(user, typeOfFlowId);
+
             var piModel = new PayingItemModel()
             {
                 PayingItem = new PayingItem() { UserId = user.Id, Date = DateTime.Today },
                 Products = new List<Product>()
             };
+
             return PartialView("_Add", piModel);
         }
 
@@ -148,7 +150,7 @@ namespace WebUI.Core.Controllers
                 }
             }
 
-            await FillViewBag(user, typeOfFlowId);
+            await FillViewBagWithCategoriesAndAccounts(user, typeOfFlowId);
             return PartialView("_Add", model);
         }
 
@@ -163,7 +165,7 @@ namespace WebUI.Core.Controllers
                     return RedirectToAction("ListAjax", 1);
                 }
 
-                await FillViewBag(user, typeOfFlowId);
+                await FillViewBagWithCategoriesAndAccounts(user, typeOfFlowId);
 
                 return PartialView("_Edit", payingItemEditModel);
             }
@@ -208,7 +210,7 @@ namespace WebUI.Core.Controllers
                 }
             }
 
-            await FillViewBag(user, await GetTypeOfFlowId(model.PayingItem));
+            await FillViewBagWithCategoriesAndAccounts(user, await GetTypeOfFlowId(model.PayingItem));
 
             return PartialView("_Edit", model);
         }
@@ -290,11 +292,11 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        private async Task FillViewBag(WebUser user, int typeOfFlowId)
+        private async Task FillViewBagWithCategoriesAndAccounts(WebUser user, int typeOfFlowId)
         {
             try
             {
-                ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUser(user.Id))
+                ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUserAsync(user.Id))
                     .Where(i => i.TypeOfFlowID == typeOfFlowId)
                     .OrderBy(x => x.Name)
                     .ToList();
@@ -305,12 +307,12 @@ namespace WebUI.Core.Controllers
             catch (NullReferenceException e)
             {
                 throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(FillViewBag)}", e);
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(FillViewBagWithCategoriesAndAccounts)}", e);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(FillViewBag)}", e);
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(FillViewBagWithCategoriesAndAccounts)}", e);
             }
         }
 

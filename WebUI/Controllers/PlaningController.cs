@@ -50,7 +50,7 @@ namespace WebUI.Controllers
 
         public async Task<ActionResult> ViewPlan(WebUser user)
         {
-            if((await _categoryService.GetActiveGategoriesByUser(user.Id)).Any(x => x.ViewInPlan == true))
+            if((await _categoryService.GetActiveGategoriesByUserAsync(user.Id)).Any(x => x.ViewInPlan == true))
             {
                 var model = await _planningHelper.GetUserBalance(user, false);
                 return View(model);
@@ -148,7 +148,7 @@ namespace WebUI.Controllers
 
         private async Task<IList<Category>> GetUserCategories(WebUser user)
         {
-            return (await _categoryService.GetActiveGategoriesByUser(user.Id)).ToList();
+            return (await _categoryService.GetActiveGategoriesByUserAsync(user.Id)).ToList();
         }
     }
 }

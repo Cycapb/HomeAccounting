@@ -170,7 +170,7 @@ namespace WebUI.Tests.ControllersTests
         public async Task Delete_CannotDeleteIfHasAnyDependencies()
         {
             var target = new CategoryController(null, null, _catService.Object, null);
-            _catService.Setup(m => m.HasDependencies(It.IsAny<int>())).ReturnsAsync(true);
+            _catService.Setup(m => m.HasDependenciesAsync(It.IsAny<int>())).ReturnsAsync(true);
 
             var result = await target.Delete(It.IsAny<int>());
 
@@ -182,7 +182,7 @@ namespace WebUI.Tests.ControllersTests
         public async Task Delete_CanDeleteIfHasNoDependencies()
         {
             var target = new CategoryController(null, null, _catService.Object, null);
-            _catService.Setup(m => m.HasDependencies(It.IsAny<int>())).ReturnsAsync(false);
+            _catService.Setup(m => m.HasDependenciesAsync(It.IsAny<int>())).ReturnsAsync(false);
 
             var result = await target.Delete(It.IsAny<int>());
 

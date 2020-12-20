@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.WebPages;
-using WebUI.Abstract;
-using WebUI.Controllers;
-using WebUI.Exceptions;
-using WebUI.Models;
-using WebUI.Models.CategoryModels;
-using WebUI.Models.PayingItemModels;
+
+using WebUI.Core.Controllers;
+using WebUI.Core.Abstract;
+using WebUI.Core.Exceptions;
+using WebUI.Core.Models;
+using WebUI.Core.Models.CategoryModels;
+using WebUI.Core.Models.PayingItemModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Tests.ControllersTests
 {
@@ -42,21 +42,22 @@ namespace WebUI.Tests.ControllersTests
 
         [TestCategory("PayingItemControllerTests")]
         [TestMethod]
-        public async Task Add_ReturnPartialView()
+        public async Task Add_HttpGet_ReturnsPartialView()
         {
             _categoryServiceMock.Setup(m => m.GetActiveGategoriesByUserAsync(It.IsAny<string>())).ReturnsAsync(new List<Category>());
             _accountServiceMock.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Account>());
             var target = new PayingItemController(null, _categoryServiceMock.Object, _accountServiceMock.Object, null, null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, 1);
-            var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
-            var viewBag = ((PartialViewResult)result).ViewBag;
+            var model = ((PartialViewResult)result).Model as PayingItemModel;
+            var viewDataCategories = ((PartialViewResult)result).ViewData["Categories"] as IEnumerable<Category>;
+            var viewDataAccounts = ((PartialViewResult)result).ViewData["Accounts"] as IEnumerable<Account>;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.AreEqual(model.Products.Count, 0);
             Assert.IsNotNull(model.PayingItem);
-            Assert.AreEqual(0, viewBag.Categories.Count);
-            Assert.AreEqual(0, viewBag.Accounts.Count);
+            Assert.AreEqual(viewDataCategories.Count(), 0);
+            Assert.AreEqual(viewDataAccounts.Count(), 0);
         }
 
         [TestCategory("PayingItemControllerTests")]
@@ -69,14 +70,15 @@ namespace WebUI.Tests.ControllersTests
             target.ModelState.AddModelError("", "");
 
             var result = await target.Add(new WebUser(), new PayingItemModel() { PayingItem = new PayingItem(), Products = new List<Product>() }, 1);
-            var viewBag = ((PartialViewResult)result).ViewBag;
+            var viewDataCategories = ((PartialViewResult)result).ViewData["Categories"] as IEnumerable<Category>;
+            var viewDataAccounts = ((PartialViewResult)result).ViewData["Accounts"] as IEnumerable<Account>;
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.AreEqual(0, model.Products.Count);
             Assert.IsNotNull(model.PayingItem);
-            Assert.AreEqual(0, viewBag.Categories.Count);
-            Assert.AreEqual(0, viewBag.Accounts.Count);
+            Assert.AreEqual(viewDataCategories.Count(), 0);
+            Assert.AreEqual(viewDataAccounts.Count(), 0);
         }
 
         [TestMethod]
@@ -172,14 +174,14 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public void List_ReturnsPartialView_With_PayingItemsByDate()
+        public async Task List_ReturnsPartialView_With_PayingItemsByDate()
         {
             DateTime date = DateTime.Now - TimeSpan.FromDays(2);
             var itemList = new List<PayingItem>()
                 {
                     new PayingItem()
                     {
-                        AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = "22.11.2015".AsDateTime(),
+                        AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = DateTime.Today - TimeSpan.FromDays(4),
                         Category = new Category() {Name = "Cat1"}
                     },
                     new PayingItem()
@@ -202,14 +204,15 @@ namespace WebUI.Tests.ControllersTests
                 .Returns(itemList.Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == "1"));
             PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
 
-            var result = ((PartialViewResult)target.List(new WebUser() { Id = "1" })).Model as PayingItemsCollectionModel;
+            var result = await target.List(new WebUser() { Id = "1" });
+            var viewModel = ((PartialViewResult)result).Model as PayingItemsListWithPaginationModel;
 
-            Assert.AreEqual(true, result.PayingItems.Count() == 3);
+            Assert.AreEqual(true, viewModel.PayingItems.Count() == 3);
         }
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public void Can_Paginate()
+        public async Task Can_Paginate()
         {
             DateTime date = DateTime.Today.AddDays(-2);
             var itemList = new PayingItem[]
@@ -238,12 +241,10 @@ namespace WebUI.Tests.ControllersTests
             _payingItemServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(itemList.Where(i => i.Date >= DateTime.Today.AddDays(-2) && i.UserId == "1"));
             var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null) { ItemsPerPage = 2 };
 
-            var pItemToView = ((PartialViewResult)target.List(new WebUser() { Id = "1" }, 2)).Model as PayingItemsCollectionModel;
-            var result = pItemToView?.PayingItems.ToArray();
+            var result = await target.List(new WebUser() { Id = "1" }, 2);
+            var viewModel = ((PartialViewResult)result).Model as PayingItemsListWithPaginationModel;
 
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual(1, result[0].AccountID);
-            Assert.AreEqual(2, result[1].AccountID);
+            Assert.AreEqual(2, viewModel.PayingItems.Count());
         }
 
         [TestMethod]
@@ -319,7 +320,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public void ExpensiveCategories()
+        public async Task ExpensiveCategories()
         {
             _payingItemServiceMock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
                 {
@@ -332,14 +333,13 @@ namespace WebUI.Tests.ControllersTests
             WebUser user = new WebUser() { Id = "1" };
             PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
 
-            //Act
-            var result = ((PartialViewResult)target.ExpensiveCategories(user)).ViewData.Model as List<CategorySumModel>;
+            var result = await target.ExpensiveCategories(user);
+            var model = ((PartialViewResult)result).Model as List<CategorySumModel>;
 
-            //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(result[0].Category, "Cat2");
-            Assert.AreEqual(result[1].Category, "Cat1");
-            Assert.AreEqual(result.Count, 2);
+            Assert.AreEqual(model[0].Category, "Cat2");
+            Assert.AreEqual(model[1].Category, "Cat1");
+            Assert.AreEqual(model.Count, 2);
         }
     }
 }

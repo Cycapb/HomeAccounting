@@ -180,7 +180,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                if (!await _categoryService.HasDependencies(id))
+                if (!await _categoryService.HasDependenciesAsync(id))
                 {
                     await _categoryService.DeleteAsync(id);
                 }

@@ -290,7 +290,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUser(user.Id))
+                ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUserAsync(user.Id))
                     .Where(i => i.TypeOfFlowID == typeOfFlowId)
                     .OrderBy(x => x.Name)
                     .ToList();
