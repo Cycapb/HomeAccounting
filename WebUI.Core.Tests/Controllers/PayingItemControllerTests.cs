@@ -158,15 +158,14 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Delete_RedirectsToActionList()
+        public async Task Delete_RedirectsToActionWithNameList()
         {
-            PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
+            var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
 
             var result = await target.Delete(new WebUser(), It.IsAny<int>());
-            var redirect = (RedirectToRouteResult)result;
+            var redirectResult = (RedirectToActionResult)result;
 
-            _payingItemServiceMock.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
-            Assert.AreEqual(redirect.RouteValues["action"], "List");
+            Assert.AreEqual("List", redirectResult.ActionName);
         }
 
         [TestMethod]
