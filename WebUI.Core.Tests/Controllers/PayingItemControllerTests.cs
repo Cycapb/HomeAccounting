@@ -128,10 +128,10 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(_payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, _payingItemEditViewModelCreatorMock.Object, null);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
-            var routes = (result as RedirectToRouteResult).RouteValues;
+            var routeActionName = (result as RedirectToActionResult).ActionName;
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(routes["action"], "ListAjax");
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("ListAjax", routeActionName);
         }
 
         [TestMethod]
