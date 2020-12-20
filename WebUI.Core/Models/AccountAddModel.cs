@@ -11,7 +11,8 @@ namespace WebUI.Core.Models
 
         [DataType(DataType.Currency)]
         [Display(Name = "Сумма на счету")]
-        public decimal Cash { get; set; }
+        [Required(ErrorMessage = "Необходимо ввести сумму")]
+        public decimal? Cash { get; set; }
 
         [Display(Name = "Отображать в текущем бюджете")]
         public bool Use { get; set; }

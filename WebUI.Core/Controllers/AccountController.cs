@@ -104,7 +104,7 @@ namespace WebUI.Core.Controllers
                 var account = new Account()
                 {
                     AccountName = model.AccountName,
-                    Cash = model.Cash,
+                    Cash = model.Cash.GetValueOrDefault(),
                     Use = model.Use,
                     UserId = user.Id
                 };
