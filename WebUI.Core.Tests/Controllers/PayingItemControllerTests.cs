@@ -80,7 +80,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Add_ValidModel_ReturnsRedirect_ToAction_List()
+        public async Task Add_HttpPost_ValidModelState_ReturnsRedirectToActionWithNameList()
         {
             var payingItemModel = new PayingItemModel()
             {
@@ -91,8 +91,8 @@ namespace WebUI.Tests.ControllersTests
 
             var result = await target.Add(new WebUser() { Id = "1" }, payingItemModel, It.IsAny<int>());
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("List", ((RedirectToRouteResult)result).RouteValues["action"]);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("List", ((RedirectToActionResult)result).ActionName);
         }
 
         [TestMethod]
