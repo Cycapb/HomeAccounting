@@ -172,69 +172,74 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("PayingItemControllerTests")]
         public async Task List_ReturnsPartialView_With_PayingItemsByDate()
         {
-            DateTime date = DateTime.Now - TimeSpan.FromDays(2);
+            var date = DateTime.Now - TimeSpan.FromDays(2);
+            var payingItem = new PayingItem() { UserId = "1", Date = DateTime.Today - TimeSpan.FromDays(1) };
             var itemList = new List<PayingItem>()
                 {
                     new PayingItem()
                     {
-                        AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = DateTime.Today - TimeSpan.FromDays(4),
+                        AccountID = 1, CategoryID = 1, Comment = "PayingItem 1", Date = DateTime.Today - TimeSpan.FromDays(4),
                         Category = new Category() {Name = "Cat1"}
                     },
                     new PayingItem()
                     {
-                        AccountID = 2,CategoryID = 1,Comment = "PayingItem 2",Date = date,UserId = "1",
+                        AccountID = 2, CategoryID = 1, Comment = "PayingItem 2", Date = date, UserId = "1",
                         Category = new Category() {Name = "Cat2"}
                     },
                     new PayingItem()
                     {
-                        AccountID = 3,CategoryID = 2,Comment = "PayingItem 3",Date = date,
-                        UserId = "1",Category = new Category() {Name = "Cat3"}
+                        AccountID = 3, CategoryID = 2, Comment = "PayingItem 3", Date = date,
+                        UserId = "1", Category = new Category() { Name = "Cat3" }
                     },
                     new PayingItem()
                     {
-                        AccountID = 4,CategoryID = 2,Comment = "PayingItem 4",Date = date,UserId = "1",
-                        Category = new Category() {Name = "Cat4"}
+                        AccountID = 4, CategoryID = 2, Comment = "PayingItem 4", Date = date, UserId = "1",
+                        Category = new Category() { Name = "Cat4" }
                     }
                 };
-            _payingItemServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>()))
-                .Returns(itemList.Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == "1"));
-            PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
+            _payingItemServiceMock.Setup(m => m.GetListAsync(It.Is<Expression<Func<PayingItem, bool>>>(x => x.Compile()(payingItem))))
+                .ReturnsAsync(itemList.Where(i => DateTime.Now.Date - i.Date <= TimeSpan.FromDays(2) && i.UserId == "1"));
+            var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
 
             var result = await target.List(new WebUser() { Id = "1" });
             var viewModel = ((PartialViewResult)result).Model as PayingItemsListWithPaginationModel;
 
-            Assert.AreEqual(true, viewModel.PayingItems.Count() == 3);
+            Assert.IsTrue(viewModel.PayingItems.Count() == 3);
         }
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Can_Paginate()
+        public async Task List_ItemsPerPage2_Returns_PartialViewResultWith2ItemsOnPage()
         {
-            DateTime date = DateTime.Today.AddDays(-2);
+            var dateMinusTwoDays = DateTime.Today - TimeSpan.FromDays(2);
+            var dateMinusOneDay = DateTime.Today - TimeSpan.FromDays(1);
+            var userId = "1";
             var itemList = new PayingItem[]
             {
                     new PayingItem()
                     {
-                        AccountID = 4,CategoryID = 4,Comment = "PayingItem 4",Date = date,UserId = "1",
+                        AccountID = 1, CategoryID = 1, Comment = "PayingItem 1", Date = dateMinusTwoDays, UserId = "1",
                         Category = new Category() {Name = "Cat1"}
                     },
                     new PayingItem()
                     {
-                        AccountID = 1,CategoryID = 1,Comment = "PayingItem 1",Date = date,UserId = "1",
-                        Category = new Category() {Name = "Cat2"}
+                        AccountID = 2, CategoryID = 2, Comment = "PayingItem 2", Date = dateMinusTwoDays, UserId = "1",
+                        Category = new Category() { Name = "Cat2" }
                     },
                     new PayingItem()
                     {
-                        AccountID = 2,CategoryID = 2,Comment = "PayingItem 2",Date = date,UserId = "1",
-                        Category = new Category() {Name = "Cat3"}
+                        AccountID = 3, CategoryID = 2, Comment = "PayingItem 3", Date = dateMinusOneDay, UserId = "1",
+                        Category = new Category() { Name = "Cat3" }
                     },
                     new PayingItem()
                     {
-                        AccountID = 3,CategoryID = 2,Comment = "PayingItem 3",Date = DateTime.Now - TimeSpan.FromDays(1),UserId = "1",
-                        Category = new Category() {Name = "Cat4"}
-                    }
+                        AccountID = 4, CategoryID = 4, Comment = "PayingItem 4", Date = dateMinusTwoDays, UserId = "1",
+                        Category = new Category() { Name = "Cat4" }
+                    },
             };
-            _payingItemServiceMock.Setup(m => m.GetList(It.IsAny<Expression<Func<PayingItem, bool>>>())).Returns(itemList.Where(i => i.Date >= DateTime.Today.AddDays(-2) && i.UserId == "1"));
+            var payingItem = new PayingItem() { UserId = "1", Date = DateTime.Today - TimeSpan.FromDays(1) };
+            _payingItemServiceMock.Setup(m => m.GetListAsync(It.Is<Expression<Func<PayingItem, bool>>>(x => x.Compile()(payingItem))))
+                .ReturnsAsync(itemList.Where(i => i.UserId == userId && (i.Date >= dateMinusTwoDays && i.Date <= DateTime.Today)));
             var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null) { ItemsPerPage = 2 };
 
             var result = await target.List(new WebUser() { Id = "1" }, 2);
@@ -261,7 +266,7 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task Edit_Post_ModelIsValid_CanUpdate_RedirectsToList()
+        public async Task Edit_HttpPost_ModelIsValid_CanUpdate_RedirectsToActionWithNameList()
         {
             var pItemEditModel = new PayingItemEditModel()
             {
@@ -271,10 +276,10 @@ namespace WebUI.Tests.ControllersTests
             var target = new PayingItemController(null, null, null, null, null, _payingItemUpdaterMock.Object);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
-            var routeResult = (RedirectToRouteResult)result;
+            var redirectResult = (RedirectToActionResult)result;
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(routeResult.RouteValues["action"], "List");
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("List", redirectResult.ActionName);
         }
 
         [TestMethod]
