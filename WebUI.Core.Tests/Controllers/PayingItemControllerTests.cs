@@ -325,6 +325,10 @@ namespace WebUI.Tests.ControllersTests
             "name and ordered by sum descending")]
         public async Task ExpensiveCategories_ReturnsPartialViewWithItemsGroupedByNameAndOrderedDescendingBySum()
         {
+            var payingItem = new PayingItem()
+            {
+                UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100
+            };
             var payingItems = new List<PayingItem>()
                 {
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100},
@@ -333,9 +337,11 @@ namespace WebUI.Tests.ControllersTests
                     new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
                 };
-            _payingItemServiceMock.Setup(m => m.GetList()).ReturnsAsync()
             var user = new WebUser() { Id = "1" };
-            PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
+            _payingItemServiceMock.Setup(m => m.GetListAsync(It.Is<Expression<Func<PayingItem, bool>>>(x => x.Compile()(payingItem))))
+            .ReturnsAsync(payingItems.Where(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year));            
+            var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
 
             var result = await target.ExpensiveCategories(user);
             var model = ((PartialViewResult)result).Model as List<CategorySumModel>;
