@@ -236,24 +236,15 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var tempList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                var groupedPaiyngItemsList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
                                 x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year))
-                    .ToList();
-                var outList = tempList.GroupBy(x => x.Category.Name)
-                    .Select(x => new CategorySumModel() { Category = x.Key, Sum = x.Sum(item => item.Summ) })
-                //var outList = (from item in tempList
-                //               group item by item.Category.Name
-                //    into grouping
-                //               select new CategorySumModel()
-                //               {
-                //                   Category = grouping.Key,
-                //                   Sum = grouping.Sum(x => x.Summ)
-                //               })
+                .GroupBy(x => x.Category.Name)
+                .Select(x => new CategorySumModel() { Category = x.Key, Sum = x.Sum(item => item.Summ) })
                 .OrderByDescending(x => x.Sum)
                 .Take(ItemsPerPage)
                 .ToList();
 
-                return PartialView("_ExpensiveCategories", outList);
+                return PartialView("_ExpensiveCategories", groupedPaiyngItemsList);
             }
             catch (ServiceException e)
             {
