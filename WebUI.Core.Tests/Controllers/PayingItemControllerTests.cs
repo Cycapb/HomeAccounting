@@ -321,17 +321,20 @@ namespace WebUI.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("PayingItemControllerTests")]
-        public async Task ExpensiveCategories()
+        [Description("Calls method ExpensiveCategories which returns partial view with collection of PayingItem entities grouped by " +
+            "name and ordered by sum descending")]
+        public async Task ExpensiveCategories_ReturnsPartialViewWithItemsGroupedByNameAndOrderedDescendingBySum()
         {
-            _payingItemServiceMock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
+            var payingItems = new List<PayingItem>()
                 {
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100},
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat2"},Date = DateTime.Now, Summ = 200},
                     new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 2},Date = DateTime.Now},
                     new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
                     new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-                });
-            WebUser user = new WebUser() { Id = "1" };
+                };
+            _payingItemServiceMock.Setup(m => m.GetList()).ReturnsAsync()
+            var user = new WebUser() { Id = "1" };
             PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
 
             var result = await target.ExpensiveCategories(user);
