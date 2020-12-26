@@ -316,30 +316,5 @@ namespace WebUI.Tests.ControllersTests
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
         }
-
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        public void ExpensiveCategories()
-        {
-            _payingItemServiceMock.Setup(m => m.GetList()).Returns(new List<PayingItem>()
-                {
-                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100},
-                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat2"},Date = DateTime.Now, Summ = 200},
-                    new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 2},Date = DateTime.Now},
-                    new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-                });
-            WebUser user = new WebUser() { Id = "1" };
-            PayingItemController target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
-
-            //Act
-            var result = ((PartialViewResult)target.ExpensiveCategories(user)).ViewData.Model as List<CategorySumModel>;
-
-            //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(result[0].Category, "Cat2");
-            Assert.AreEqual(result[1].Category, "Cat1");
-            Assert.AreEqual(result.Count, 2);
-        }
     }
 }

@@ -31,18 +31,10 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    var tempList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                    var groupedPaiyngItemsList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
                                 x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year))
-                    .ToList();
-
-                    expensiveCategories = (from item in tempList
-                                           group item by item.Category.Name
-                        into grouping
-                                           select new CategorySumModel()
-                                           {
-                                               Category = grouping.Key,
-                                               Sum = grouping.Sum(x => x.Summ)
-                                           })
+                    .GroupBy(x => x.Category.Name)
+                    .Select(x => new CategorySumModel() { Category = x.Key, Sum = x.Sum(item => item.Summ) })
                     .OrderByDescending(x => x.Sum)
                     .Take(_itemsPerPage)
                     .ToList();
