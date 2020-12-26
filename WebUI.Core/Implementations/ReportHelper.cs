@@ -181,43 +181,36 @@ namespace WebUI.Core.Implementations
             }
         }
 
-        public Task<string> GetBudgetOverAllWeb(IWorkingUser user)
+        public async Task<string> GetBudgetOverAllWeb(IWorkingUser user)
         {
-            return Task.Run(() =>
+            try
             {
-                try
-                {
-                    return _accountService.GetList(i => i.UserId == user.Id)
-                        .Sum(s => s.Cash)
-                        .ToString("c");
-                }
-                catch (DomainModelsException e)
-                {
-                    throw new ServiceException(
-                        $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetOverAllWeb)} при обращении к БД",
-                        e);
-                }
-            });
+                var accounts = await _accountService.GetListAsync(i => i.UserId == user.Id);
+
+                return accounts.Sum(s => s.Cash).ToString("c");
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException(
+                    $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetOverAllWeb)} при обращении к БД",
+                    e);
+            }
         }
 
-        public Task<string> GetBudgetInFactWeb(IWorkingUser user)
+        public async Task<string> GetBudgetInFactWeb(IWorkingUser user)
         {
-            return Task.Run(() =>
-                {
-                    try
-                    {
-                        return _accountService.GetList(b => b.Use && b.UserId == user.Id)
-                            .Sum(s => s.Cash)
-                            .ToString("c");
-                    }
-                    catch (DomainModelsException e)
-                    {
-                        throw new ServiceException(
-                            $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetInFactWeb)} при обращении к БД",
-                            e);
-                    }
-                }
-            );
+            try
+            {
+                var accounts = await _accountService.GetListAsync(b => b.Use && b.UserId == user.Id);
+
+                return accounts.Sum(s => s.Cash).ToString("c");
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException(
+                    $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetInFactWeb)} при обращении к БД",
+                    e);
+            }
         }
 
         public decimal GetSummForMonth(List<PayingItem> collection)
