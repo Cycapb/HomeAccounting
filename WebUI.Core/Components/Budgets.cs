@@ -41,7 +41,7 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    budgetViewModel = await GetBudget(user);
+                    budgetViewModel = await FillBudgetViewModel(user);
                 }
 
                 return View("/Views/NavLeft/_Budgets.cshtml", budgetViewModel);
@@ -69,7 +69,7 @@ namespace WebUI.Core.Components
             }
         }
 
-        private async Task<OverViewBudgetViewModel> GetBudget(IWorkingUser user)
+        private async Task<OverViewBudgetViewModel> FillBudgetViewModel(IWorkingUser user)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace WebUI.Core.Components
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(GetBudget)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(FillBudgetViewModel)}", e);
             }
         }
     }
