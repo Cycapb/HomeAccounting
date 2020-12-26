@@ -59,19 +59,20 @@ namespace WebUI.Core.Controllers
             {
                 var dateToday = DateTime.Now.Date;
                 var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
-                var items = (await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday))).ToList();
+                var taskResult = await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday));
+                var payingItems = taskResult.ToList();
                 var pItemToView = new PayingItemsListWithPaginationModel()
                 {
-                    PayingItems = items
+                    PayingItems = payingItems
                         .OrderByDescending(i => i.Date)
                         .ThenBy(x => x.Category.Name)
                         .Skip((page - 1) * ItemsPerPage)
-                        .Take(ItemsPerPage),
+                        .Take(ItemsPerPage),                        
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
                         ItemsPerPage = ItemsPerPage,
-                        TotalItems = items.Count
+                        TotalItems = payingItems.Count
                     }
                 };
 
@@ -95,7 +96,8 @@ namespace WebUI.Core.Controllers
             {
                 var dateToday = DateTime.Now.Date;
                 var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
-                var payingItems = (await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday))).ToList();
+                var taskResult = await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday));
+                var payingItems = taskResult.ToList();
                 var items = payingItems
                     .OrderByDescending(i => i.Date)
                     .ThenBy(x => x.Category.Name)
@@ -232,36 +234,17 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<IActionResult> ExpensiveCategories(WebUser user)
-        {
-            try
-            {
-                var groupedPaiyngItemsList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
-                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year))
-                .GroupBy(x => x.Category.Name)
-                .Select(x => new CategorySumModel() { Category = x.Key, Sum = x.Sum(item => item.Summ) })
-                .OrderByDescending(x => x.Sum)
-                .Take(ItemsPerPage)
-                .ToList();
-
-                return PartialView("_ExpensiveCategories", groupedPaiyngItemsList);
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ExpensiveCategories)}", e);
-            }
-        }
-
         public async Task<IActionResult> GetSubCategories(int id)
         {
             try
             {
-                var products = (await _categoryService.GetItemAsync(id))
+                var payingItem = await _categoryService.GetItemAsync(id); 
+                var payingItemProducts = payingItem
                     .Products
                     .OrderBy(x => x.ProductName)
                     .ToList();
-                return PartialView("_GetSubCategories", products);
+
+                return PartialView("_GetSubCategories", payingItemProducts);
             }
             catch (Exception e)
             {
@@ -274,7 +257,9 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var products = (await _categoryService.GetItemAsync(id)).Products.ToList();
+                var category = await _categoryService.GetItemAsync(id);
+                var products = category.Products.ToList();
+
                 return PartialView("_GetSubCategoriesForEdit", products);
             }
             catch (ServiceException e)
@@ -288,13 +273,14 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                ViewBag.Categories = (await _categoryService.GetActiveGategoriesByUserAsync(user.Id))
+                var activeCategoriesTaskResult = await _categoryService.GetActiveGategoriesByUserAsync(user.Id);
+                ViewBag.Categories = activeCategoriesTaskResult
                     .Where(i => i.TypeOfFlowID == typeOfFlowId)
                     .OrderBy(x => x.Name)
                     .ToList();
-                ViewBag.Accounts = (await _accountService.GetListAsync())
-                    .Where(x => x.UserId == user.Id)
-                    .ToList();
+
+                var getAccountTaskResult = await _accountService.GetListAsync(x => x.UserId == user.Id);
+                ViewBag.Accounts = getAccountTaskResult.ToList();
             }
             catch (NullReferenceException e)
             {
@@ -312,26 +298,14 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                return (await _categoryService.GetItemAsync(pItem.CategoryID)).TypeOfFlowID;
+                var payingItem = await _categoryService.GetItemAsync(pItem.CategoryID);
+
+                return payingItem.TypeOfFlowID;
             }
             catch (ServiceException e)
             {
                 throw new WebUiException(
                     $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(GetTypeOfFlowId)}", e);
-            }
-        }
-
-        private bool CheckForSubCategories(PayingItem item)
-        {
-            try
-            {
-                return _payingItemService.GetList(x => x.CategoryID == item.CategoryID)
-                    .Any();
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(CheckForSubCategories)}", e);
             }
         }
 

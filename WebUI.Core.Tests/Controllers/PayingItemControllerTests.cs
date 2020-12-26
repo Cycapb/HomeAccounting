@@ -318,38 +318,5 @@ namespace WebUI.Tests.ControllersTests
                 Assert.IsInstanceOfType(e.InnerException, typeof(ServiceException));
             }
         }
-
-        [TestMethod]
-        [TestCategory("PayingItemControllerTests")]
-        [Description("Calls method ExpensiveCategories which returns partial view with collection of PayingItem entities grouped by " +
-            "name and ordered by sum descending")]
-        public async Task ExpensiveCategories_ReturnsPartialViewWithItemsGroupedByNameAndOrderedDescendingBySum()
-        {
-            var payingItem = new PayingItem()
-            {
-                UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100
-            };
-            var payingItems = new List<PayingItem>()
-                {
-                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat1"},Date = DateTime.Now, Summ = 100},
-                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 2,Name = "Cat2"},Date = DateTime.Now, Summ = 200},
-                    new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 2},Date = DateTime.Now},
-                    new PayingItem() {UserId = "2",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-                    new PayingItem() {UserId = "1",Category = new Category() {TypeOfFlowID = 12},Date = DateTime.Now},
-                };
-            var user = new WebUser() { Id = "1" };
-            _payingItemServiceMock.Setup(m => m.GetListAsync(It.Is<Expression<Func<PayingItem, bool>>>(x => x.Compile()(payingItem))))
-            .ReturnsAsync(payingItems.Where(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
-                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year));            
-            var target = new PayingItemController(_payingItemServiceMock.Object, null, null, null, null, null);
-
-            var result = await target.ExpensiveCategories(user);
-            var model = ((PartialViewResult)result).Model as List<CategorySumModel>;
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(model[0].Category, "Cat2");
-            Assert.AreEqual(model[1].Category, "Cat1");
-            Assert.AreEqual(model.Count, 2);
-        }
     }
 }
