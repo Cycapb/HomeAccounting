@@ -46,7 +46,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
         {
             try
             {
-                return _dbSet;
+                return _dbSet.ToList();
             }
             catch (Exception ex)
             {
@@ -54,7 +54,18 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
         }
 
-        public virtual Task<IEnumerable<T>> GetListAsync() => Task.Run(() => _dbSet.AsEnumerable());
+        public virtual async Task<IEnumerable<T>> GetListAsync()
+        {
+            try
+            {
+                return await _dbSet.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new DomainModelsException($"Возникла ошибка на уровне доступа к данным в методе {nameof(GetListAsync)} репозитория {nameof(EntityRepositoryCore<T, TContext>)}", ex);
+            }
+        }
+
 
         public virtual T Create(T item)
         {
@@ -74,6 +85,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             try
             {
                 var item = _dbSet.Find(id);
+
                 if (item != null)
                 {
                     _dbSet.Remove(item);
@@ -169,7 +181,7 @@ namespace DomainModels.EntityORM.Core.Infrastructure
         {
             try
             {
-                return _dbSet.Where(predicate);
+                return _dbSet.Where(predicate).ToList();
             }
             catch (Exception ex)
             {
@@ -177,11 +189,11 @@ namespace DomainModels.EntityORM.Core.Infrastructure
             }
         }
 
-        public virtual Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> predicate)
+        public virtual async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> predicate)
         {
             try
             {
-                return Task.Run(() => _dbSet.Where(predicate).AsEnumerable());
+                return await _dbSet.Where(predicate).ToListAsync();
             }
             catch (Exception ex)
             {
