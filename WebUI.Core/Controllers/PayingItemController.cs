@@ -89,28 +89,6 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<IActionResult> ListAjax(WebUser user, int page)
-        {
-            try
-            {
-                var dateToday = DateTime.Now.Date;
-                var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
-                var payingItems = (await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday))).ToList();
-                var items = payingItems
-                    .OrderByDescending(i => i.Date)
-                    .ThenBy(x => x.Category.Name)
-                    .Skip((page - 1) * ItemsPerPage)
-                    .Take(ItemsPerPage);
-
-                return PartialView("_PayingItems", items);
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ListAjax)}", e);
-            }
-        }
-
         [TypeFilter(typeof(UserHasCategories))]
         [TypeFilter(typeof(UserHasAnyAccount))]
         public async Task<IActionResult> Add(WebUser user, int typeOfFlowId)
