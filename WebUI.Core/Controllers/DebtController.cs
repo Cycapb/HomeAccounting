@@ -61,13 +61,13 @@ namespace WebUI.Core.Controllers
                     MyDebts = items.Where(x => x.TypeOfFlowId == 1).ToList(),
                     DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
                 };
+
+                return PartialView("_DebtList", model);
             }
             catch (Exception e)
             {
                 throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(DebtList)}", e);
             }
-
-            return PartialView("_DebtList", model);
         }
 
         [TypeFilter(typeof(UserHasAnyAccount))]
@@ -75,8 +75,9 @@ namespace WebUI.Core.Controllers
         {
             var model = new DebtAddModel()
             {
-                Accounts = (await AccountList(user.Id)).ToList()
+                Accounts = (await GetAccountsByUserId(user.Id)).ToList()
             };
+
             return PartialView("_Add", model);
         }
 
@@ -105,7 +106,9 @@ namespace WebUI.Core.Controllers
 
                 return RedirectToAction("DebtList");
             }
-            model.Accounts = (await AccountList(user.Id)).ToList();
+
+            model.Accounts = (await GetAccountsByUserId(user.Id)).ToList();
+
             return PartialView("_Add", model);
         }
 
@@ -114,6 +117,7 @@ namespace WebUI.Core.Controllers
             try
             {
                 var debt = await _debtService.GetItemAsync(id);
+
                 if (debt == null)
                 {
                     return RedirectToAction("DebtList");
@@ -134,6 +138,7 @@ namespace WebUI.Core.Controllers
         public async Task<IActionResult> ClosePartially(DebtEditModel model)
         {
             Debt debt = null;
+
             if (ModelState.IsValid)
             {
                 try
@@ -156,6 +161,7 @@ namespace WebUI.Core.Controllers
 
                 return RedirectToAction("DebtList");
             }
+
             debt = await _debtService.GetItemAsync(model.DebtId);
             await FillDebtViewModel(debt, model);
 
@@ -186,7 +192,7 @@ namespace WebUI.Core.Controllers
             base.Dispose(disposing);
         }
 
-        private async Task<IEnumerable<Account>> AccountList(string userId)
+        private async Task<IEnumerable<Account>> GetAccountsByUserId(string userId)
         {
             try
             {
@@ -194,11 +200,11 @@ namespace WebUI.Core.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(AccountList)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(GetAccountsByUserId)}", e);
             }
             catch (Exception e)
             {
-                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(AccountList)}", e);
+                throw new WebUiException($"Ошибка {e.GetType()} в контроллере {nameof(DebtController)} в методе {nameof(GetAccountsByUserId)}", e);
             }
         }
 
