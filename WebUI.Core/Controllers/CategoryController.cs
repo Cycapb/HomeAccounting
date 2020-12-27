@@ -34,7 +34,7 @@ namespace WebUI.Core.Controllers
             _categoryHelper = categoryHelper;
         }
 
-        public async Task<ActionResult> Index(WebUser user, int page = 1)
+        public async Task<IActionResult> Index(WebUser user, int page = 1)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<ActionResult> GetAllCategories(WebUser user, int page = 1)
+        public async Task<IActionResult> GetAllCategories(WebUser user, int page = 1)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<ActionResult> GetCategoriesByType(WebUser user, int typeOfFlowId, int page)
+        public async Task<IActionResult> GetCategoriesByType(WebUser user, int typeOfFlowId, int page)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<ActionResult> GetCategoriesAndPagesByType(WebUser user, int typeOfFlowId, int page)
+        public async Task<IActionResult> GetCategoriesAndPagesByType(WebUser user, int typeOfFlowId, int page)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<ActionResult> GetCategoriesAndPages(WebUser user, int page = 1)
+        public async Task<IActionResult> GetCategoriesAndPages(WebUser user, int page = 1)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
             if (ModelState.IsValid)
             {
@@ -154,7 +154,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Add(WebUser user)
+        public async Task<IActionResult> Add(WebUser user)
         {
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
 
@@ -162,14 +162,13 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WebUser user, Category category)
+        public async Task<IActionResult> Add(WebUser user, Category category)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     await _categoryService.CreateAsync(category);
-                    await _planningHelper.CreatePlanItemsForCategory(user, category.CategoryID);
 
                     return RedirectToAction("GetCategoriesAndPages");
                 }
@@ -180,11 +179,12 @@ namespace WebUI.Core.Controllers
             }
 
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
+
             return PartialView(category);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
