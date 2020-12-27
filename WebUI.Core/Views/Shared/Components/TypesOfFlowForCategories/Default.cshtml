@@ -3,7 +3,8 @@
 {
     <a asp-action="GetCategoriesAndPagesByType" asp-controller="Category" asp-route-typeOfFlowId="@item.TypeID" asp-route-page="1"
        data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryDiv" 
-       data-ajax-url="@Url.Action("GetCategoriesAndPagesByType", "Category", new { typeOfFlowId = item.TypeID, page = 1})">
+       data-ajax-url="@Url.Action("GetCategoriesAndPagesByType", "Category", new { typeOfFlowId = item.TypeID, page = 1})"
+       class = "btn btn-block btn-default btn-raised" id = "@item.TypeName" onclick = "changeButtonColor(this.id)" >
     @item.TypeName</a>
 }
     @*@Ajax.ActionLink(item.TypeName, "GetCategoriesAndPagesByType", new
