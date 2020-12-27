@@ -16,20 +16,17 @@ namespace WebUI.Core.Controllers
     [Authorize]
     public class CategoryController : Controller
     {
-        private readonly ITypeOfFlowService _tofService;
-        private readonly IPlanningHelper _planningHelper;
+        private readonly ITypeOfFlowService _typeOfFlowService;
         private readonly ICategoryService _categoryService;
         private readonly ICategoryHelper _categoryHelper;
         private readonly int _pagesize = 7;
 
         public CategoryController(
             ITypeOfFlowService tofService,
-            IPlanningHelper planningHelper,
             ICategoryService categoryService, 
             ICategoryHelper categoryHelper)
         {
-            _tofService = tofService;
-            _planningHelper = planningHelper;
+            _typeOfFlowService = tofService;
             _categoryService = categoryService;
             _categoryHelper = categoryHelper;
         }
@@ -204,7 +201,7 @@ namespace WebUI.Core.Controllers
         protected override void Dispose(bool disposing)
         {
             _categoryService.Dispose();
-            _tofService.Dispose();
+            _typeOfFlowService.Dispose();
             _categoryHelper.Dispose();
 
             base.Dispose(disposing);
@@ -214,7 +211,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                return (await _tofService.GetListAsync()).ToList();
+                return (await _typeOfFlowService.GetListAsync()).ToList();
             }
             catch (ServiceException e)
             {

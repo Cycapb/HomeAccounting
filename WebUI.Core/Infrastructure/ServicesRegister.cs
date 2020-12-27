@@ -13,6 +13,7 @@ using WebUI.Core.Abstract;
 using WebUI.Core.Abstract.Converters;
 using WebUI.Core.Concrete.Converters;
 using WebUI.Core.Concrete.Providers;
+using WebUI.Core.Helpers;
 using WebUI.Core.Implementations;
 using WebUI.Core.Infrastructure.Attributes;
 using WebUI.Core.Infrastructure.Filters;
@@ -43,6 +44,7 @@ namespace WebUI.Core.Infrastructure
             services.AddTransient<IPayingItemUpdater, PayingItemUpdater>();
             services.AddTransient<IMessageProvider, MessageProvider>();
             services.AddTransient<IReportHelper, ReportHelper>();
+            services.AddTransient<ICategoryHelper, CategoryHelper>();
 
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
