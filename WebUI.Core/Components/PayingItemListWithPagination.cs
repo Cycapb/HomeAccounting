@@ -46,10 +46,10 @@ namespace WebUI.Core.Components
                     var dateToday = DateTime.Now.Date;
                     var dateMinusTwoDays = DateTime.Now.Date - TimeSpan.FromDays(2);
                     var result = await _payingItemService.GetListAsync(i => i.UserId == user.Id && (i.Date >= dateMinusTwoDays && i.Date <= dateToday));
-                    var items = result.ToList();
+                    var payingItems = result.ToList();
                     model = new PayingItemsListWithPaginationModel()
                     {
-                        PayingItems = items
+                        PayingItems = payingItems
                             .OrderByDescending(i => i.Date)
                             .ThenBy(x => x.Category.Name)
                             .Skip((_pageNumber - 1) * _itemsToShowOnPage)
@@ -58,7 +58,7 @@ namespace WebUI.Core.Components
                         {
                             CurrentPage = _pageNumber,
                             ItemsPerPage = _itemsToShowOnPage,
-                            TotalItems = items.Count
+                            TotalItems = payingItems.Count
                         }
                     };
 

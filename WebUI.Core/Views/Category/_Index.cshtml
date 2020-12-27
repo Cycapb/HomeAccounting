@@ -1,0 +1,45 @@
+﻿@model CategoriesCollectionModel
+
+<div class="col-xs-2">
+    @await Component.InvokeAsync(nameof(TypesOfFlowForCategories)) 
+</div>
+<div class="col-xs-10" id="categoryPanel">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Администрирование категорий</div>
+        <div class="panel-body" id="categoryDiv">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Наименование
+                    </th>
+                    <th>
+                        Подкатегории
+                    </th>
+                    <th>
+                        Действия
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="categoryContainer">
+                    @*@Html.Partial("CategorySummaryPartial", Model.Categories)*@
+                </tbody>
+            </table>
+            <div class="text-center">
+                @*@Html.Partial("PageLinksAjaxPartial", Model)*@
+            </div>
+        </div>        
+    </div>
+    <div class="pager">
+        @*@Ajax.ActionLink("Добавить категорию", "Add", "Category",null, new AjaxOptions()
+        {
+            Url = Url.Action("Add"),
+            UpdateTargetId = "categoryDiv"
+        }, new { @class = "btn btn-primary btn-raised btn-sm pull-left" })
+        @Ajax.ActionLink("На главную","List","PayingItem",null, new AjaxOptions()
+        {
+            Url = Url.Action("List","PayingItem"),
+            UpdateTargetId = "payingDiv"
+        },new { @class = "btn btn-default btn-raised btn-sm pull-right"})*@
+    </div>
+</div> 

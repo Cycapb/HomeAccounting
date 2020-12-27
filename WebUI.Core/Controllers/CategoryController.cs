@@ -40,7 +40,7 @@ namespace WebUI.Core.Controllers
             {
                 var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id);
 
-                return PartialView(categoriesViewModel);
+                return PartialView("_Index", categoriesViewModel);
             }
             catch (WebUiHelperException e)
             {

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<TypeOfFlow>
+@foreach (var item in Model)
+{
+    <a asp-action="GetCategoriesAndPagesByType" asp-controller="Category" asp-route-typeOfFlowId="@item.TypeID" asp-route-page="1"
+       data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryDiv" 
+       data-ajax-url="@Url.Action("GetCategoriesAndPagesByType", "Category", new { typeOfFlowId = item.TypeID, page = 1})">
+    @item.TypeName</a>
+}
+    @*@Ajax.ActionLink(item.TypeName, "GetCategoriesAndPagesByType", new
+{
+    controller = "Category",
+    typeOfFlowId = item.TypeID,
+    page = 1
+}, new AjaxOptions()
+{
+    Url = Url.Action("GetCategoriesAndPagesByType", "Category", new
+    {
+        typeOfFlowId = item.TypeID,
+        page = 1
+    },
+    UpdateTargetId = "categoryDiv"
+}, new { @class = "btn btn-block btn-default btn-raised", id = item.TypeName, onclick = "changeButtonColor(this.id)" })
+}
+@Ajax.ActionLink("Все статьи", "Index", new
+{
+    controller = "Category",
+    action = "Index"
+}, new AjaxOptions() { Url = Url.Action("GetCategoriesAndPages", "Category"), UpdateTargetId = "categoryDiv" },
+    new { @class = "btn btn-block btn-default btn-raised", id = "allCategories", onclick = "changeButtonColor(this.id)" })*@
