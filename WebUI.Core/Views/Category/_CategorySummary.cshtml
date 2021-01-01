@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Category>
+@foreach (var cat in Model)
+{
+    <tr>
+        <td>
+            @cat.Name
+        </td>
+        <td>
+            @*@Html.Action("List", "Product", new { categoryId = cat.CategoryID })*@
+        </td>
+        <td>
+            @*@using (Ajax.BeginForm("Delete", new { id = cat.CategoryID }, new AjaxOptions()
+            {
+                Url = Url.Action("Delete", new { id = cat.CategoryID }),
+                UpdateTargetId = "categoryDiv",
+                HttpMethod = "POST"
+            }))
+            {
+                @Ajax.ActionLink("Редактировать", "Edit", new { id = cat.CategoryID }, new AjaxOptions()
+                       {
+                           Url = Url.Action("Edit", new { id = cat.CategoryID }),
+                           UpdateTargetId = "categoryDiv"
+                       }, new { @class = "btn btn-warning btn-raised btn-xs" })
+                <input type="submit" value="Удалить" class="btn btn-xs btn-raised btn-danger"/>
+            }*@
+
+        </td>
+    </tr>
+}
