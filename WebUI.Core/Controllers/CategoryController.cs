@@ -52,7 +52,7 @@ namespace WebUI.Core.Controllers
             {
                 var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id);
 
-                return PartialView("CategorySummaryPartial", categories);
+                return PartialView("_CategorySummary", categories);
             }
             catch (WebUiHelperException e)
             {
@@ -61,18 +61,18 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public async Task<IActionResult> GetCategoriesByType(WebUser user, int typeOfFlowId, int page)
+        public async Task<IActionResult> GetCategoriesByTypeOfFlow(WebUser user, int typeOfFlowId, int page)
         {
             try
             {
                 var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
 
-                return PartialView("CategorySummaryPartial", categories);
+                return PartialView("_CategorySummary", categories);
             }
             catch (WebUiHelperException e)
             {
                 throw new WebUiException(
-                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetCategoriesByType)}", e);
+                    $"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(GetCategoriesByTypeOfFlow)}", e);
             }
         }
 
@@ -117,7 +117,7 @@ namespace WebUI.Core.Controllers
 
                 if (category == null)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("_Index");
                 }
 
                 return PartialView(category);
