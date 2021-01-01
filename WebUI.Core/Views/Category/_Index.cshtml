@@ -22,24 +22,19 @@
                 </tr>
                 </thead>
                 <tbody id="categoryContainer">
-                    @*@Html.Partial("CategorySummaryPartial", Model.Categories)*@
+                    @await Html.PartialAsync("_CategorySummary", Model.Categories)
                 </tbody>
             </table>
             <div class="text-center">
-                @*@Html.Partial("PageLinksAjaxPartial", Model)*@
+                @await Html.PartialAsync("_PageLinksAjax", Model)
             </div>
         </div>        
     </div>
     <div class="pager">
-        @*@Ajax.ActionLink("Добавить категорию", "Add", "Category",null, new AjaxOptions()
-        {
-            Url = Url.Action("Add"),
-            UpdateTargetId = "categoryDiv"
-        }, new { @class = "btn btn-primary btn-raised btn-sm pull-left" })
-        @Ajax.ActionLink("На главную","List","PayingItem",null, new AjaxOptions()
-        {
-            Url = Url.Action("List","PayingItem"),
-            UpdateTargetId = "payingDiv"
-        },new { @class = "btn btn-default btn-raised btn-sm pull-right"})*@
+        <a asp-action="Add" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryDiv"
+           data-ajax-url="@Url.Action("Add")" class="btn btn-primary btn-raised btn-sm pull-left">Добавить категорию</a>
+        
+        <a asp-action="List" asp-controller="PayingItem" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+           data-ajax-url="@Url.Action("List", "PayingItem")" class="btn btn-default btn-raised btn-sm pull-right">На главную</a>
     </div>
 </div> 

@@ -1,29 +1,32 @@
 ﻿@model IEnumerable<Category>
-@foreach (var cat in Model)
+@foreach (var category in Model)
 {
     <tr>
         <td>
-            @cat.Name
+            @category.Name
         </td>
         <td>
-            @*@Html.Action("List", "Product", new { categoryId = cat.CategoryID })*@
+            @if (category.Products.Count() == 0)
+            {
+                @: Нет подкатегорий
+            }
+            else
+            {
+                foreach (var product in category.Products)
+                {
+                    <p>
+                        @string.Join(",", product.ProductName)
+                    </p>
+                }
+            }
         </td>
         <td>
-            @*@using (Ajax.BeginForm("Delete", new { id = cat.CategoryID }, new AjaxOptions()
-            {
-                Url = Url.Action("Delete", new { id = cat.CategoryID }),
-                UpdateTargetId = "categoryDiv",
-                HttpMethod = "POST"
-            }))
-            {
-                @Ajax.ActionLink("Редактировать", "Edit", new { id = cat.CategoryID }, new AjaxOptions()
-                       {
-                           Url = Url.Action("Edit", new { id = cat.CategoryID }),
-                           UpdateTargetId = "categoryDiv"
-                       }, new { @class = "btn btn-warning btn-raised btn-xs" })
-                <input type="submit" value="Удалить" class="btn btn-xs btn-raised btn-danger"/>
-            }*@
-
+            <form asp-action="Delete" asp-route-id="@category.CategoryID" asp-antiforgery="true" method="post"
+                  data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#categoryDiv" data-ajax-url="@Url.Action("Delete", new { id = category.CategoryID })">
+                <a asp-action="Edit" asp-route-id="@category.CategoryID" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryDiv"
+                   data-ajax-url="@Url.Action("Edit", new { id = category.CategoryID })" class="btn btn-warning btn-raised btn-xs">Редактировать</a>
+                <input type="submit" value="Удалить" class="btn btn-xs btn-raised btn-danger" />
+            </form>
         </td>
     </tr>
 }
