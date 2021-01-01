@@ -77,6 +77,7 @@ namespace WebUI.Core
             {
                 app.UseStatusCodePages();
                 app.UseBrowserLink();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseStaticFiles();
