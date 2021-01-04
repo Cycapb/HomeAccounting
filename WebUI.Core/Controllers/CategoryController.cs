@@ -83,7 +83,7 @@ namespace WebUI.Core.Controllers
                 var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
                 categoriesViewModel.TypeOfFlowId = typeOfFlowId;
 
-                return PartialView(categoriesViewModel);
+                return PartialView("_CategoriesAndPagesByType", categoriesViewModel);
             }
             catch (WebUiHelperException e)
             {
@@ -98,7 +98,7 @@ namespace WebUI.Core.Controllers
             {
                 var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, c => c.UserId == user.Id);
 
-                return PartialView(categoriesViewModel);
+                return PartialView("_CategoriesAndPages", categoriesViewModel);
             }
             catch (WebUiHelperException e)
             {
