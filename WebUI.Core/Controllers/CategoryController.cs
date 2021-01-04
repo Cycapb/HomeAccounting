@@ -120,7 +120,7 @@ namespace WebUI.Core.Controllers
                     return RedirectToAction("_Index");
                 }
 
-                return PartialView(category);
+                return PartialView("_Edit", category);
             }
             catch (ServiceException e)
             {
