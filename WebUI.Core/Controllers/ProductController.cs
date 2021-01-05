@@ -78,8 +78,7 @@ namespace WebUI.Core.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(EditableList)}",
-                    e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(EditableList)}", e);
             }
         }
 
