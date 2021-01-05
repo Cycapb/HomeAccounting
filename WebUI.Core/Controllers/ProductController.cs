@@ -51,14 +51,14 @@ namespace WebUI.Core.Controllers
             return PartialView(product);
         }
 
-        public IActionResult GetProductListByCategoryId(int categoryId)
+        [ActionName("ProductList")]
+        public async Task<IActionResult> GetProductListByCategoryId(int categoryId)
         {
             try
             {
-                var products = _productService.GetList(p => p.CategoryID == categoryId)
-                    .ToList();
+                var products = (await _productService.GetListAsync(p => p.CategoryID == categoryId)).ToList();
 
-                return PartialView(products);
+                return PartialView("_ProductList", products);
             }
             catch (ServiceException e)
             {
