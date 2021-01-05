@@ -51,22 +51,6 @@ namespace WebUI.Core.Controllers
             return PartialView(product);
         }
 
-        public IActionResult List(int categoryId)
-        {
-            try
-            {
-                var products = _productService.GetList(p => p.CategoryID == categoryId)
-                    .ToList();
-
-                return PartialView(products);
-            }
-            catch (ServiceException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(List)}",
-                    e);
-            }
-        }
-
         public IActionResult EditableList(int categoryId)
         {
             try
