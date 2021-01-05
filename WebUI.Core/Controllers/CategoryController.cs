@@ -112,13 +112,14 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                ViewBag.TypesOfFlow = await GetTypesOfFlow();
                 var category = await _categoryService.GetItemAsync(id);
 
                 if (category == null)
                 {
                     return RedirectToAction("_Index");
                 }
+
+                ViewBag.TypesOfFlow = await GetTypesOfFlow();
 
                 return PartialView("_Edit", category);
             }
@@ -129,6 +130,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category category)
         {
             if (ModelState.IsValid)
