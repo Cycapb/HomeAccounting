@@ -20,7 +20,7 @@ namespace WebUI.Core.Components
             {
                 var products = await _productService.GetListAsync(p => p.CategoryID == categoryId);
 
-                return View(products);
+                return View("/Views/Product/_ProductList.cshtml", products);
             }
             catch (ServiceException e)
             {

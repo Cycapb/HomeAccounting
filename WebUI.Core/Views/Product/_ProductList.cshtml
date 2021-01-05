@@ -21,18 +21,14 @@
                     <td>@item.ProductName</td>
                     <td>@item.Description</td>
                     <td>
-                        @using (Ajax.BeginForm("Delete", "Product", new { id = item.ProductID }, new AjaxOptions()
-                        {
-                            Url = Url.Action("Delete", new {id = item.ProductID}),
-                            UpdateTargetId = "productsTable"
-                        }))
-                        {
-                            @Ajax.ActionLink("Редактировать", "Edit", new { id = item.ProductID }, new AjaxOptions()
-                       {
-                           Url = Url.Action("Edit", new { id = item.ProductID }),
-                           UpdateTargetId = "productsDiv"
-                       }, new { @class = "btn btn-warning btn-raised btn-xs" })
+                        <form asp-action="Delete" asp-antiforgery="true" asp-route-id="@item.ProductID" method="post" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace"
+                              data-ajax-update="#productsTable" data-ajax-url="@Url.Action("Delete", new { id = item.ProductID })">
+                            <a asp-action="Edit" asp-route-id="@item.ProductID" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#productsTable"
+                               data-ajax-url="@Url.Action("Edit", new { id = item.ProductID })">
+                                Редактировать
+                            </a>
                             <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+                        </form>
                         }
                     </td>
                 </tr>
