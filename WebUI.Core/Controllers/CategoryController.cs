@@ -161,6 +161,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(WebUser user, Category category)
         {
             if (ModelState.IsValid)
@@ -179,7 +180,7 @@ namespace WebUI.Core.Controllers
 
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
 
-            return PartialView(category);
+            return PartialView("_Add", category);
         }
 
         [HttpPost]
