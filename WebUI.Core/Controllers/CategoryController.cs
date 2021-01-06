@@ -157,7 +157,7 @@ namespace WebUI.Core.Controllers
         {
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
 
-            return PartialView(new Category() {UserId = user.Id});
+            return PartialView("_Add", new Category() { UserId = user.Id });
         }
 
         [HttpPost]
@@ -213,7 +213,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                return (await _typeOfFlowService.GetListAsync()).ToList();
+                return await _typeOfFlowService.GetListAsync();
             }
             catch (ServiceException e)
             {

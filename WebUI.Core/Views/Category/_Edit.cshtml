@@ -7,80 +7,61 @@
     <div class="panel-heading">Редактирование категории</div>
     <form asp-action="Edit" method="post" asp-antiforgery="true" class="form-inline" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace"
           data-ajax-update="#categoryDiv" data-ajax-url="@Url.Action("Edit")">
-        <div class="panel-heading">Подкатегории</div>
-        <div class="panel-body" id="productsDiv">
-            @await Component.InvokeAsync(nameof(ProductsForCategory), new { categoryId = Model.CategoryID })
-        </div>
-    </form>
-</div>
-    @*<div class="panel panel-default">
-        <div class="panel-heading">Редактирование категории</div>
-        @using (Ajax.BeginForm("Edit", "Category", null, new AjaxOptions()
-        {
-            Url = Url.Action("Edit"),
-            UpdateTargetId = "categoryDiv"
-        }, new { @class = "form-inline" }))
-        {
-            @Html.ValidationSummary(true)
-            @Html.ValidationMessageFor(x => x.Name)
-            <div class="panel-body">
-                @Html.HiddenFor(x => x.CategoryID)
-                @Html.HiddenFor(x => x.UserId)
-                <div class="form-group">
-                    <label class="form-group">Название:</label>
-                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    <label class="form-group">Тип:</label>
-                    @Html.DropDownListFor(x => x.TypeOfFlowID, list.Select(x => new SelectListItem()
-                       {
-                           Text = x.TypeName,
-                           Value = x.TypeID.ToString()
-                       }), new { @class = "selectpicker" })
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @if (Model.Active)
-                        {
-                            <input id="Active" name="Active" type="checkbox" value="true" checked="checked">
-                        }
-                        else
-                        {
-                            <input id="Active" name="Active" type="checkbox" value="true">
-                        }
-                        <span class="checkbox-material"><span class="check"></span></span>
-                        Активная
-                    </label>
-                </div>
+        <div class="panel-body">
+            @Html.HiddenFor(x => x.CategoryID)
+            @Html.HiddenFor(x => x.UserId)
+            <div class="form-group">
+                <label class="form-group">Название:</label>
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Name)
             </div>
-            <div class="panel-footer">
-                <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
-                @Ajax.ActionLink("Назад", "Index", "Category", null, new AjaxOptions()
-                {
-                    Url = Url.Action("Index"),
-                    UpdateTargetId = "payingDiv"
-                }, new { @class = "btn btn-default btn-raised btn-sm" })
+            <div class="form-group">
+                <label class="form-group">Тип:</label>
+                @Html.DropDownListFor(x => x.TypeOfFlowID, list.Select(x => new SelectListItem()
+                   {
+                       Text = x.TypeName,
+                       Value = x.TypeID.ToString()
+                   }), new { @class = "selectpicker" })
             </div>
-        }
-        <div class="panel-heading">Подкатегории</div>
-        <div class="panel-body" id="productsDiv">
-            @Html.Action("EditableList", "Product", new { categoryId = Model.CategoryID })
+            <div class="checkbox">
+                <label>
+                    @if (Model.Active)
+                    {
+                        <input id="Active" name="Active" type="checkbox" value="true" checked="checked">
+                    }
+                    else
+                    {
+                        <input id="Active" name="Active" type="checkbox" value="true">
+                    }
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Активная
+                </label>
+            </div>
         </div>
         <div class="panel-footer">
-            @Ajax.ActionLink("Добавить подкатегорию", "Add", "Product",
-                new { categoryId = Model.CategoryID },
-                new AjaxOptions()
-                {
-                    Url = Url.Action("Add", "Product", new { categoryId = Model.CategoryID }),
-                    UpdateTargetId = "productsDiv"
-                },
-                new { @class = "btn btn-primary btn-raised btn-sm" })
+            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
+            <a asp-action="Index" asp-controller="Category" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+               data-ajax-url="@Url.Action("Index", "Category")" class = "btn btn-default btn-raised btn-sm" }>
+                Назад
+            </a>
         </div>
-    </div>*@
+    </form>
+    <div class="panel-heading">Подкатегории</div>
+    <div class="panel-body" id="productsDiv">
+        @await Component.InvokeAsync(nameof(ProductsForCategory), new { categoryId = Model.CategoryID })
+    </div>
+    <div class="panel-footer">
+        <a asp-action="Add" asp-controller="Product" asp-route-categoryId="@Model.CategoryID" data-ajax="true" data-ajax-mode="replace"
+            data-ajax-update="#productsDiv" data-ajax-url="@Url.Action("Add", "Product", new { categoryId = Model.CategoryID })"
+            class="btn btn-primary btn-raised btn-sm">
+            Добавить подкатегорию
+        </a>
+    </div>
+</div>
 
-    <script type="text/javascript">
-        $(document).ready(
-            function () {
-                $('.selectpicker').selectpicker();
-            });
-    </script>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
+</script>
