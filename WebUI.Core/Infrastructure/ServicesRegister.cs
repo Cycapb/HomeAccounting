@@ -46,11 +46,11 @@ namespace WebUI.Core.Infrastructure
 
             services.AddTransient<IRepository<NotificationMailBox>, EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>();
             services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
-            services.AddTransient<IRepository<Category>, EntityRepositoryCore<Category, AccountingContextCore>>();
             services.AddTransient<IRepository<PayingItem>, EntityRepositoryCore<PayingItem, AccountingContextCore>>();
             services.AddTransient<IRepository<Account>, EntityRepositoryCore<Account, AccountingContextCore>>();
             services.AddTransient<IRepository<TypeOfFlow>, EntityRepositoryCore<TypeOfFlow, AccountingContextCore>>();
             services.AddTransient<IRepository<Debt>, EntityRepositoryCore<Debt, AccountingContextCore>>();
+            services.AddTransient<IRepository<Product>, EntityRepositoryCore<Product, AccountingContextCore>>();
 
             services.AddTransient<IServiceTrigger<PayingItem>, PayingItemServiceTrigger>();
         }
