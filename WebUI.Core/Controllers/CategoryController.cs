@@ -149,7 +149,7 @@ namespace WebUI.Core.Controllers
 
             ViewBag.TypesOfFlow = await GetTypesOfFlow();
 
-            return PartialView(category);
+            return PartialView("_Edit", category);
         }
 
         [HttpGet]
