@@ -32,7 +32,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Edit_InputCategory_ValidModelState_ReturnsRedirectToActionGetCategoriesAndPages()
+        public async Task Edit_HttpPost_InputCategory_ValidModelState_ReturnsRedirectToActionGetCategoriesAndPages()
         {
             var target = new CategoryController(_typeOfFlowService.Object, _categoryService.Object, null);
 
@@ -45,7 +45,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Edit_InputCategory_InvalidModelState_ReturnsPartialViewResult()
+        public async Task Edit_HttpPost_InputCategory_InvalidModelState_ReturnsPartialViewResult()
         {
             CategoryController target = new CategoryController(_typeOfFlowService.Object, _categoryService.Object, null);
             target.ModelState.AddModelError("error", "error");
@@ -59,7 +59,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Edit_CategoryIsNull_ReturnsRedirectToIndex()
+        public async Task Edit_HttpGet_CategoryIsNull_ReturnsRedirectToIndex()
         {
             Category category = null;
             var target = new CategoryController(_typeOfFlowService.Object, _categoryService.Object, null);
@@ -72,7 +72,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Edit_CategoryNotNull_ReturnsPartialView()
+        public async Task Edit_HttpGet_CategoryNotNull_ReturnsPartialView()
         {
             var target = new CategoryController(_typeOfFlowService.Object, _categoryService.Object, null);
             _categoryService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category());
@@ -84,35 +84,35 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Add_InputWebUser_ReturnsPartialView()
+        public async Task Add_HttpGet_InputWebUser_ReturnsPartialView()
         {
             var target = new CategoryController(_typeOfFlowService.Object, null, null);
 
             var result = await target.Add(new WebUser() { Id = "1" });
-            var model = (result as PartialViewResult).ViewData["TypesOfFlow"];
+            var typesOfFlowFromViewData = (result as PartialViewResult).ViewData["TypesOfFlow"];
 
-            _typeOfFlowService.Verify(m => m.GetListAsync(), Times.Exactly(1));
-            Assert.IsInstanceOfType(model, typeof(IEnumerable<TypeOfFlow>));
+            Assert.IsInstanceOfType(typesOfFlowFromViewData, typeof(IEnumerable<TypeOfFlow>));
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Can_Add_Valid_Category_Rerurns_RedirectToAction()
+        public async Task Add_HttpPost_ValidModelState_Category_ReturnsRedirectToAction()
         {
             var target = new CategoryController(null, _categoryService.Object, null);
 
             var result = await target.Add(new WebUser() { Id = "1" }, new Category() { CategoryID = 1, Name = "Cat1" });
+            var actionName = ((RedirectToActionResult)result).ActionName;
 
-            _categoryService.Verify(m => m.CreateAsync(It.IsAny<Category>()), Times.Exactly(1));
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual(nameof(CategoryController.GetCategoriesAndPages), actionName);
         }
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Cannot_Add_Invalid_Category()
+        public async Task Add_HttpPost_InvalidModelState_ReturnsPartialViewResult()
         {
-            Category category = new Category() { CategoryID = 1, Name = "Cat1" };
+            var category = new Category() { CategoryID = 1, Name = "Cat1" };
             _typeOfFlowService.Setup(m => m.GetList()).Returns(new List<TypeOfFlow>()
             {
                 new TypeOfFlow() {TypeID = 1, TypeName = "Type1"},
@@ -128,19 +128,19 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Delete_CannotDeleteIfHasAnyDependencies()
+        public async Task Delete_CannotDeleteIfHasAnyDependencies_ReturnsRedirectToActionResult()
         {
             var target = new CategoryController(null, _categoryService.Object, null);
             _categoryService.Setup(m => m.HasDependenciesAsync(It.IsAny<int>())).ReturnsAsync(true);
 
             var result = await target.Delete(It.IsAny<int>());
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Delete_CanDeleteIfHasNoDependencies()
+        public async Task Delete_CanDeleteIfHasNoDependencies_ReturnsRedirectToActionResult()
         {
             var target = new CategoryController(null, _categoryService.Object, null);
             _categoryService.Setup(m => m.HasDependenciesAsync(It.IsAny<int>())).ReturnsAsync(false);
@@ -148,7 +148,7 @@ namespace WebUI.Core.Tests.ControllersTests
             var result = await target.Delete(It.IsAny<int>());
 
             _categoryService.Verify(m => m.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
         [TestMethod]
@@ -179,35 +179,35 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task GetCategoriesByType_InputTypeOfFlowIdPage_ReturnsPartialView()
+        public async Task GetCategoriesAndPagesByType_InputTypeOfFlowIdPage_ReturnsPartialView()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.GetCategoriesToShowOnPage(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new List<Category>());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.GetCategoriesAndPagesByType(new WebUser(), 1, 1);
             var viewName = (result as PartialViewResult).ViewName;
 
-            Assert.AreEqual(viewName, "CategorySummaryPartial");
+            Assert.AreEqual(viewName, "_CategoriesAndPagesByType");
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task GetAllCategories_InputPage_returnsPartialView()
+        public async Task GetCategoriesAndPagesByType_InputPage_ReturnsPartialView()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.GetCategoriesToShowOnPage(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new List<Category>());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.GetCategoriesAndPagesByType(new WebUser(), 1, 1);
             var viewName = (result as PartialViewResult).ViewName;
 
-            Assert.AreEqual(viewName, "CategorySummaryPartial");
+            Assert.AreEqual(viewName, "_CategoriesAndPagesByType");
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task Index_ReturnsPartialView()
+        public async Task Index_ReturnsPartialViewWithCategories()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
             _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
@@ -221,7 +221,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
         [TestMethod]
         [TestCategory("CategoryControllerTests")]
-        public async Task GetAllCategories_ReturnsPartialViewresult()
+        public async Task GetAllCategories_ReturnsPartialViewResultWithCategoriesForUser()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
             _categoryHelper.Setup(m => m.GetCategoriesToShowOnPage(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new List<Category>());
@@ -231,7 +231,7 @@ namespace WebUI.Core.Tests.ControllersTests
             var model = (result as PartialViewResult).Model as IEnumerable<Category>;
 
             Assert.IsNotNull(model);
-            Assert.AreEqual(viewName, "CategorySummaryPartial");
+            Assert.AreEqual(viewName, "_CategorySummary");
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
