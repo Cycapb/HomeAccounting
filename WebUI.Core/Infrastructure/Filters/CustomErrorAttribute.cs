@@ -5,7 +5,7 @@ using System;
 using System.Text;
 using WebUI.Core.Abstract.Converters;
 
-namespace WebUI.Core.Infrastructure
+namespace WebUI.Core.Infrastructure.Filters
 {
     public class CustomErrorAttribute : IExceptionFilter
     {

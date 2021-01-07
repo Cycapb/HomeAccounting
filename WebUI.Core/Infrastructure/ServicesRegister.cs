@@ -15,6 +15,7 @@ using WebUI.Core.Concrete.Converters;
 using WebUI.Core.Concrete.Providers;
 using WebUI.Core.Helpers;
 using WebUI.Core.Implementations;
+using WebUI.Core.Infrastructure.Filters;
 
 namespace WebUI.Core.Infrastructure
 {

@@ -10,11 +10,12 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using WebUI.Core.Infrastructure;
+using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Infrastructure.Identity;
-using WebUI.Core.Models;
 using WebUI.Core.Infrastructure.Identity.Validators;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;
+using WebUI.Core.Models;
 
 namespace WebUI.Core
 {
