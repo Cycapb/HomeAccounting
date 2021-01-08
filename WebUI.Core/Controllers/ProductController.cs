@@ -16,20 +16,21 @@ namespace WebUI.Core.Controllers
     {
         private readonly IProductService _productService;
 
-
         public ProductController(IProductService productService)
         {
             _productService = productService;
         }
 
+        [HttpGet]
         public IActionResult Add(WebUser user, int categoryId)
         {
             ViewBag.CategoryId = categoryId;
 
-            return PartialView(new Product() { UserID = user.Id });
+            return PartialView("_Add", new Product() { UserID = user.Id });
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(WebUser user, Product product)
         {
             if (ModelState.IsValid)
@@ -38,7 +39,7 @@ namespace WebUI.Core.Controllers
                 {
                     await _productService.CreateAsync(product);
 
-                    return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
+                    return RedirectToAction("ProductList", new { categoryId = product.CategoryID });
                 }
                 catch (ServiceException e)
                 {
@@ -48,11 +49,10 @@ namespace WebUI.Core.Controllers
 
             ViewBag.CategoryId = product.CategoryID;
 
-            return PartialView(product);
+            return PartialView("_Add", product);
         }
 
-        [ActionName("ProductList")]
-        public async Task<IActionResult> GetProductListByCategoryId(int categoryId)
+        public async Task<IActionResult> ProductList(int categoryId)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace WebUI.Core.Controllers
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(GetProductListByCategoryId)}", e);
+                throw new WebUiException($"Ошибка в контроллере {nameof(ProductController)} в методе {nameof(ProductList)}", e);
             }
         }
 
@@ -75,7 +75,7 @@ namespace WebUI.Core.Controllers
                 var product = await _productService.GetItemAsync(id);
                 await _productService.DeleteAsync(id);
 
-                return RedirectToAction("EditableList", new { categoryId = product.CategoryID });
+                return RedirectToAction("ProductList", new { categoryId = product.CategoryID });
             }
             catch (ServiceException e)
             {
@@ -87,6 +87,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(WebUser user, int id)
         {
             try
