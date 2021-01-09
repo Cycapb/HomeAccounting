@@ -115,7 +115,7 @@ namespace BussinessLogic.Services
         {
             try
             {
-                return (await _categoryRepository.GetListAsync())?.Where(x => x.Active && x.UserId == userId);
+                return (await _categoryRepository.GetListAsync(x => x.Active && x.UserId == userId)).ToList();
             }
             catch (DomainModelsException e)
             {

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BussinessLogic.Services;
 using DomainModels.Model;
@@ -36,17 +38,21 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestCategory("CategoryServiceTests")]
         public async Task GetActiveGategoriesByUser_ReturnsListOfCategories()
         {
-            _catRepository.Setup(m => m.GetListAsync()).ReturnsAsync(new List<Category>()
+            var userId = "1";
+            var category = new Category() { CategoryID = 3, Name = "C1", Active = true, UserId = "1" };
+            var categories = new List<Category>()
             {
                 new Category() {CategoryID = 1,Name = "C1",Active = true,UserId = "1"},
                 new Category() {CategoryID = 2, Name = "C2",Active = true,UserId = "1"},
                 new Category() {CategoryID = 3, Name = "C3",Active = true,UserId = "2"}
-            });
+            };
+            _catRepository.Setup(m => m.GetListAsync(It.Is<Expression<Func<Category, bool>>>(x => x.Compile()(category))))
+                .ReturnsAsync(categories.Where(x => x.Active && x.UserId == userId));
 
-            var result = (await _service.GetActiveGategoriesByUserAsync("1")).ToList();
+            var result = (await _service.GetActiveGategoriesByUserAsync(userId)).ToList();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(result.Count,2);
+            Assert.AreEqual(2, result.Count);
         }
     }
 }

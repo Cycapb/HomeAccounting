@@ -269,6 +269,27 @@ namespace WebUI.Core.Controllers
             }
         }
 
+        public async Task<IActionResult> ExpensiveCategories(WebUser user)
+        {
+            try
+            {
+                var groupedPaiyngItemsList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                                                x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year))
+                                    .GroupBy(x => x.Category.Name)
+                                    .Select(x => new CategorySumModel() { Category = x.Key, Sum = x.Sum(item => item.Summ) })
+                                    .OrderByDescending(x => x.Sum)
+                                    .Take(ItemsPerPage)
+                                    .ToList();
+
+                return PartialView("_ExpensiveCategories", groupedPaiyngItemsList);
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException(
+                    $"Ошибка в контроллере {nameof(PayingItemController)} в методе {nameof(ExpensiveCategories)}", e);
+            }
+        }
+
         private async Task FillViewBagWithCategoriesAndAccounts(WebUser user, int typeOfFlowId)
         {
             try

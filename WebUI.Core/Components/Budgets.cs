@@ -62,10 +62,9 @@ namespace WebUI.Core.Components
             {
                 if (disposing)
                 {
-                    _reportHelper.Dispose();                    
+                    _reportHelper.Dispose();
+                    _disposed = true;
                 }
-
-                _disposed = true;
             }
         }
 

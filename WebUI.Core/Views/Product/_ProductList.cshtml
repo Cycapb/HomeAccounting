@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Product>
+
+<table class="table table-striped" id="productsTable">
+    <tr>
+        <th>Наименование</th>
+        <th>Описание</th>
+        <th>Действия</th>
+    </tr>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3" class="text-center">Нет подкатегорий</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <form asp-action="Delete" asp-controller="Product" asp-antiforgery="true" asp-route-id="@item.ProductID" method="post" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace"
+                              data-ajax-update="#productsTable" data-ajax-url="@Url.Action("Delete", "Product", new { id = item.ProductID })">
+                            <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductID" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#productsDiv"
+                               data-ajax-url="@Url.Action("Edit", "Product", new { id = item.ProductID })" class = "btn btn-warning btn-raised btn-xs">
+                                Редактировать
+                            </a>
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        }   
+    </tbody>
+</table>

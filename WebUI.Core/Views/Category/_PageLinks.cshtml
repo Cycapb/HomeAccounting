@@ -1,0 +1,9 @@
+﻿@model CategoriesCollectionModel
+
+@for (var i = 1; i <= Model.PagingInfo.TotalPages; i++)
+{
+    <a asp-action="GetAllCategories" asp-route-page="@i" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryContainer"
+       data-ajax-url="@Url.Action("GetAllCategories", new {page = i})" class="btn btn-default btn-raised btn-round btn-sm" id="@i.ToString()"
+       onclick="changeButtonColor(this.id)">
+    @i.ToString()</a>
+}
