@@ -1,6 +1,6 @@
 ﻿@model Product
 
-<form asp-action="Add" method="post" class="form-inline" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#productsDiv" 
+<form asp-action="Add" method="post" class="form-inline" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#productsDiv" 
       data-ajax-url="@Url.Action("Add")" data-ajax-method="post">
     <div class="panel-body">
         @Html.HiddenFor(x => x.ProductID)

@@ -1,0 +1,26 @@
+﻿@model ProductEditModel
+
+<form method="post" asp-action="Edit" asp-controller="Product" asp-antiforgery="true" class="form-inline" data-ajax="true" data-ajax-mode="replace"
+      data-ajax-update="#productsDiv" data-ajax-url="@Url.Action("Edit", "Product")" data-ajax-method="post">
+    @Html.ValidationMessageFor(x => x.Product.ProductName)
+    @Html.HiddenFor(x => x.Product.ProductID)
+    @Html.HiddenFor(x => x.Product.UserID)
+    @Html.HiddenFor(x => x.Product.CategoryID)
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="form-group">Наименование</label>
+            @Html.TextBoxFor(x => x.Product.ProductName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="form-group">Описание</label>
+            @Html.TextBoxFor(x => x.Product.Description, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="panel-footer">
+        <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
+        <a asp-action="ProductList" asp-controller="Product" asp-route-categoryId="@Model.Product.CategoryID" class="btn btn-default btn-raised btn-sm"
+           data-ajax="true" data-ajax-mode="replace" data-ajax-update="#productsDiv" data-ajax-url="@Url.Action("ProductList", "Product", new { categoryId = Model.Product.CategoryID })">
+            Назад
+        </a>
+    </div>
+</form>

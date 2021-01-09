@@ -98,7 +98,7 @@ namespace WebUI.Core.Controllers
                     Product = product
                 };
 
-                return PartialView(productEditModel);
+                return PartialView("_Edit", productEditModel);
             }
             catch (ServiceException e)
             {
@@ -122,7 +122,7 @@ namespace WebUI.Core.Controllers
                         e);
                 }
 
-                return RedirectToAction("EditableList", new { categoryId = ptEdit.Product.CategoryID });
+                return RedirectToAction("ProductList", new { categoryId = ptEdit.Product.CategoryID });
             }
 
             return PartialView(ptEdit);
