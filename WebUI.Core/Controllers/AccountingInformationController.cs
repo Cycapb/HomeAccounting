@@ -21,12 +21,12 @@ namespace WebUI.Controllers
         private readonly IPayingItemService _payingItemService;
 
         public AccountingInformationController(
-            IAccountService accService,
-            IReportHelper dbHelper,
+            IAccountService accountService,
+            IReportHelper reportHelper,
             IPayingItemService payingItemService)
         {
-            _accountService = accService;
-            _reportHelper = dbHelper;
+            _accountService = accountService;
+            _reportHelper = reportHelper;
             _payingItemService = payingItemService;
         }
 
