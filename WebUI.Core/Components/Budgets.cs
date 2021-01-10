@@ -74,8 +74,8 @@ namespace WebUI.Core.Components
             {
                 var budget = new OverViewBudgetViewModel
                 {
-                    BudgetInFact = await _reportHelper.GetBudgetInFactWeb(user),
-                    BudgetOverAll = await _reportHelper.GetBudgetOverAllWeb(user)
+                    BudgetInFact = await _reportHelper.GetBudgetInFactAsync(user),
+                    BudgetOverAll = await _reportHelper.GetBudgetOverAllAsync(user)
                 };
 
                 return budget;

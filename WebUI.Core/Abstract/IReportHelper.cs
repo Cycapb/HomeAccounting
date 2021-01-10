@@ -20,8 +20,8 @@ namespace WebUI.Core.Abstract
         IEnumerable<PayItem> GetPayItemsInDatesByTypeOfFlowWeb(DateTime dateFrom, DateTime dateTo,
             int typeOfFlowId, IWorkingUser user);
 
-        Task<string> GetBudgetOverAllWeb(IWorkingUser user);
-        Task<string> GetBudgetInFactWeb(IWorkingUser user);
+        Task<string> GetBudgetOverAllAsync(IWorkingUser user);
+        Task<string> GetBudgetInFactAsync(IWorkingUser user);
 
         decimal GetSummForMonth(List<PayingItem> collection);
         decimal GetSummForWeek(List<PayingItem> collection);

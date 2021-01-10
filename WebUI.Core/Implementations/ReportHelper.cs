@@ -181,7 +181,7 @@ namespace WebUI.Core.Implementations
             }
         }
 
-        public async Task<string> GetBudgetOverAllWeb(IWorkingUser user)
+        public async Task<string> GetBudgetOverAllAsync(IWorkingUser user)
         {
             try
             {
@@ -192,12 +192,12 @@ namespace WebUI.Core.Implementations
             catch (DomainModelsException e)
             {
                 throw new ServiceException(
-                    $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetOverAllWeb)} при обращении к БД",
+                    $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetOverAllAsync)} при обращении к БД",
                     e);
             }
         }
 
-        public async Task<string> GetBudgetInFactWeb(IWorkingUser user)
+        public async Task<string> GetBudgetInFactAsync(IWorkingUser user)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace WebUI.Core.Implementations
             catch (DomainModelsException e)
             {
                 throw new ServiceException(
-                    $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetInFactWeb)} при обращении к БД",
+                    $"Ошибка в сервисе {nameof(ReportHelper)} в методе {nameof(GetBudgetInFactAsync)} при обращении к БД",
                     e);
             }
         }

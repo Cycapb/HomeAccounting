@@ -72,7 +72,7 @@ namespace WebUI.Core.Components
         {
             var budget = new BudgetModel()
             {
-                TypeOfMoney = typeOfFlow == TypesOfFlow.Income ? "Доход" : "Расход",
+                TypeOfFlow = typeOfFlow == TypesOfFlow.Income ? "Доход" : "Расход",
                 Month = _reportHelper.GetSummForMonth(collection),
                 Week = _reportHelper.GetSummForWeek(collection),
                 Day = _reportHelper.GetSummForDay(collection)
