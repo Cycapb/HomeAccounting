@@ -5,7 +5,7 @@ using WebUI.Core.Models;
 using WebUI.Core.Models.CategoryModels;
 using WebUI.Core.Models.ReportModels;
 
-namespace WebUI.Core.Abstract
+namespace WebUI.Core.Abstract.Helpers
 {
     public interface IReportControllerHelper : IDisposable
     {

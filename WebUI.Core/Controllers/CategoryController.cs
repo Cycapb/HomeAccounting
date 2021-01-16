@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DomainModels.Model;
 using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Model;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Exceptions;
-using WebUI.Core.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 
@@ -23,7 +22,7 @@ namespace WebUI.Core.Controllers
 
         public CategoryController(
             ITypeOfFlowService tofService,
-            ICategoryService categoryService, 
+            ICategoryService categoryService,
             ICategoryHelper categoryHelper)
         {
             _typeOfFlowService = tofService;
@@ -126,7 +125,7 @@ namespace WebUI.Core.Controllers
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Edit)}", e);
-            }            
+            }
         }
 
         [HttpPost]
@@ -175,7 +174,7 @@ namespace WebUI.Core.Controllers
                 catch (ServiceException e)
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Add)}", e);
-                }                
+                }
             }
 
             ViewBag.TypesOfFlow = await GetTypesOfFlow();

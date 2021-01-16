@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DomainModels.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DomainModels.Model;
 using WebUI.Core.Models.ReportModels;
 
-namespace WebUI.Core.Abstract
+namespace WebUI.Core.Abstract.Helpers
 {
     public interface IReportHelper : IDisposable
     {

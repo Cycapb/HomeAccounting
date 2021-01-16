@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebUI.Core.Models.CategoryModels;
 
-namespace WebUI.Core.Abstract
+namespace WebUI.Core.Abstract.Helpers
 {
     public interface ICategoryHelper : IDisposable
     {
