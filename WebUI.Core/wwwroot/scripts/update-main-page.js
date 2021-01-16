@@ -1,7 +1,7 @@
-﻿function updateAccounts() {
+﻿function updateAfterAccountChange() {
     $.when(
         $.ajax({
-                url: '/NavLeft/GetAccounts',
+            url: '/AccountingInformation/Accounts',
                 cache: false,
                 success: function (data) {
                                 $('#myAccounts').empty();
@@ -9,7 +9,7 @@
                             }
             }),
             $.ajax({
-                url: '/NavLeft/GetBudgets',
+                url: '/AccountingInformation/Budgets',
                 cache: false,
                 success: function(budgets) {
                     $('#myBudgets').empty();
@@ -25,7 +25,7 @@
                 }
             }),
             $.ajax({
-                url: '/NavRight/MenuIncoming',
+                url: '/AccountingInformation/Incomes',
                 cache: false,
                 success: function(data) {
                     $('#income').empty();
@@ -33,7 +33,7 @@
                 }
             }),
             $.ajax({
-                url: '/NavRight/MenuOutgo',
+                url: '/AccountingInformation/Outgoes',
                 cache: false,
                 success: function (data) {
                                 $('#outgo').empty();
@@ -49,7 +49,7 @@
 function updateAfterTransfer() {
     $.when(
             $.ajax({
-                url: '/NavLeft/GetAccounts',
+                url: '/AccountingInformation/Accounts',
                 cache: false,
                 success: function (data) {
                     var target = $('#myAccounts');
@@ -58,7 +58,7 @@ function updateAfterTransfer() {
                 }
             }),
             $.ajax({
-                url: '/NavLeft/GetBudgets',
+                url: '/AccountingInformation/Budgets',
                 cache: false,
                 success: function (budgets) {
                     var target = $('#myBudgets');
@@ -75,7 +75,7 @@ function updateAfterTransfer() {
 function updateAfterDebt() {
     $.when(
             $.ajax({
-                url: '/NavLeft/GetAccounts',
+                url: '/AccountingInformation/Accounts',
                 cache: false,
                 success: function(data) {
                     var target = $('#myAccounts');
@@ -84,7 +84,7 @@ function updateAfterDebt() {
                 }
             }),
             $.ajax({
-                url: '/NavLeft/GetBudgets',
+                url: '/AccountingInformation/Budgets',
                 cache: false,
                 success: function(budgets) {
                     var target = $('#myBudgets');
@@ -101,7 +101,7 @@ function updateAfterDebt() {
             }
         }),
             $.ajax({
-                url: '/NavRight/MenuIncoming',
+                url: '/AccountingInformation/Incomes',
                 cache: false,
                 success: function(data) {
                     $('#income').empty();
@@ -109,7 +109,7 @@ function updateAfterDebt() {
                 }
             }),
             $.ajax({
-                url: '/NavRight/MenuOutgo',
+                url: '/AccountingInformation/Outgoes',
                 cache: false,
                 success: function(data) {
                     $('#outgo').empty();

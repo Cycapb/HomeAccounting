@@ -11,12 +11,12 @@ using WebUI.Core.Models.BudgetModels;
 
 namespace WebUI.Core.Components
 {
-    public class Budgets : ViewComponent, IDisposable
+    public class AccountingInformationBudgets : ViewComponent, IDisposable
     {
         private readonly IReportHelper _reportHelper;
         private bool _disposed = false;
 
-        public Budgets(IReportHelper reportHelper)
+        public AccountingInformationBudgets(IReportHelper reportHelper)
         {
             _reportHelper = reportHelper;
         }
@@ -44,15 +44,15 @@ namespace WebUI.Core.Components
                     budgetViewModel = await FillBudgetViewModel(user);
                 }
 
-                return View("/Views/NavLeft/_Budgets.cshtml", budgetViewModel);
+                return View("/Views/AccountingInformation/_Budgets.cshtml", budgetViewModel);
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(InvokeAsync)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(AccountingInformationBudgets)} в методе {nameof(InvokeAsync)}", e);
             }
             catch (Exception ex)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(InvokeAsync)}", ex);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(AccountingInformationBudgets)} в методе {nameof(InvokeAsync)}", ex);
             }
         }
 
@@ -82,7 +82,7 @@ namespace WebUI.Core.Components
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Budgets)} в методе {nameof(FillBudgetViewModel)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(AccountingInformationBudgets)} в методе {nameof(FillBudgetViewModel)}", e);
             }
         }
     }

@@ -15,22 +15,16 @@ using WebUI.Core.Models.Enums;
 
 namespace WebUI.Core.Components
 {
-    public class MenuIncome : ViewComponent, IDisposable
+    public class AccountingInformationOutgo : ViewComponent, IDisposable
     {
         private readonly IPayingItemService _payingItemService;
         private readonly IReportHelper _reportHelper;
         private bool _disposed = false;
 
-        public MenuIncome(IPayingItemService payingItemService, IReportHelper reportHelper)
+        public AccountingInformationOutgo(IPayingItemService payingItemService, IReportHelper reportHelper)
         {
             _payingItemService = payingItemService;
             _reportHelper = reportHelper;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -42,17 +36,23 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    collection = _payingItemService.GetListByTypeOfFlow(user, (int)TypesOfFlow.Income).ToList();
+                    collection = _payingItemService.GetListByTypeOfFlow(user, 2).ToList();
                 }
 
-                var budgetModel = BudgetModel(collection, TypesOfFlow.Income);
+                var budgetModel = BudgetModel(collection, TypesOfFlow.Outgo);
 
-                return View("/Views/NavRight/_MenuIncoming.cshtml", budgetModel);
+                return View("/Views/AccountingInformation/_IncomesOutgoes.cshtml", budgetModel);
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(MenuIncome)} в методе {nameof(InvokeAsync)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(AccountingInformationOutgo)} в методе {nameof(InvokeAsync)}", e);
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -63,6 +63,7 @@ namespace WebUI.Core.Components
                 {
                     _payingItemService.Dispose();
                     _reportHelper.Dispose();
+
                     _disposed = true;
                 }
             }

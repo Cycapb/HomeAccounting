@@ -13,12 +13,12 @@ using WebUI.Core.Models;
 
 namespace WebUI.Core.Components
 {
-    public class Accounts : ViewComponent, IDisposable
+    public class AccountingInformationAccounts : ViewComponent, IDisposable
     {
         private readonly IAccountService _accountService;
         private bool _disposed = false;
 
-        public Accounts(IAccountService accountService)
+        public AccountingInformationAccounts(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -29,24 +29,24 @@ namespace WebUI.Core.Components
             {
                 var accounts = new List<Account>();
                 var user = await HttpContext.Session.GetJsonAsync<WebUser>(nameof(WebUser));
-                
+
                 if (user != null)
                 {
                     var taskResult = await _accountService.GetListAsync(u => u.UserId == user.Id);
                     accounts = taskResult.ToList();
                 }
 
-                return View("/Views/NavLeft/_Accounts.cshtml", accounts);
+                return View("/Views/AccountingInformation/_Accounts.cshtml", accounts);
             }
             catch (ServiceException e)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Accounts)} в методе {nameof(InvokeAsync)}", e);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(AccountingInformationAccounts)} в методе {nameof(InvokeAsync)}", e);
             }
             catch (Exception ex)
             {
-                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(Accounts)} в методе {nameof(InvokeAsync)}", ex);
+                throw new WebUiException($"Ошибка в ViewComponent с названием {nameof(AccountingInformationAccounts)} в методе {nameof(InvokeAsync)}", ex);
             }
-        }        
+        }
 
         public void Dispose()
         {

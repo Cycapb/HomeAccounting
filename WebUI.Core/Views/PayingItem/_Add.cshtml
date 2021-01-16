@@ -7,7 +7,7 @@
     <div class="panel-heading">Добавление транзакции</div>
 
     <form method="POST" asp-action="Add" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
-          data-ajax-method="post" data-ajax-success="updateAccounts" data-ajax-url="@Url.Action("Add")">
+          data-ajax-method="post" data-ajax-success="updateAfterAccountChange" data-ajax-url="@Url.Action("Add")">
         <div asp-validation-summary="ModelOnly"></div>
         <div class="panel-body">
             <input asp-for="PayingItem.UserId" type="hidden" />
