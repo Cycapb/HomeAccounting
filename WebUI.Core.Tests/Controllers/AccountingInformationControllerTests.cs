@@ -121,7 +121,7 @@ namespace WebUI.Tests.ControllersTests
         [ExpectedException(typeof(WebUiException))]
         public async Task Outgoes_RaisesWebUiException()
         {
-            _payingItemsServiceMock.Setup(m => m.GetListByTypeOfFlow(It.IsAny<IWorkingUser>(), It.IsAny<int>()))
+            _payingItemsServiceMock.Setup(m => m.GetListByTypeOfFlowAsync(It.IsAny<string>(), It.IsAny<int>()))
                 .Throws<ServiceException>();
             var target = new AccountingInformationController(null, null, _payingItemsServiceMock.Object);
 

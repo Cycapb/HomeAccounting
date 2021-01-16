@@ -35,7 +35,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id);
+                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModelAsync(page, _pagesize, x => x.UserId == user.Id);
 
                 return PartialView("_Index", categoriesViewModel);
             }
@@ -50,7 +50,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id);
+                var categories = await _categoryHelper.GetCategoriesToShowOnPageAsync(page, _pagesize, x => x.UserId == user.Id);
 
                 return PartialView("_CategorySummary", categories);
             }
@@ -65,7 +65,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+                var categories = await _categoryHelper.GetCategoriesToShowOnPageAsync(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
 
                 return PartialView("_CategorySummary", categories);
             }
@@ -80,7 +80,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModelAsync(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
                 categoriesViewModel.TypeOfFlowId = typeOfFlowId;
 
                 return PartialView("_CategoriesAndPagesByType", categoriesViewModel);
@@ -96,7 +96,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, c => c.UserId == user.Id);
+                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModelAsync(page, _pagesize, c => c.UserId == user.Id);
 
                 return PartialView("_CategoriesAndPages", categoriesViewModel);
             }

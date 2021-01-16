@@ -156,7 +156,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task GetCategoriesAndPages_ReturnsPartialView()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModelAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.GetCategoriesAndPages(new WebUser(), 1);
 
@@ -168,7 +168,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task GetCategoriesAndPagesByType_ReturnsPartialView()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModelAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.GetCategoriesAndPagesByType(new WebUser(), 1, 1);
             var model = (result as PartialViewResult).Model as CategoriesCollectionModel;
@@ -182,7 +182,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task GetCategoriesAndPagesByType_InputTypeOfFlowIdPage_ReturnsPartialView()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModelAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.GetCategoriesAndPagesByType(new WebUser(), 1, 1);
             var viewName = (result as PartialViewResult).ViewName;
@@ -196,7 +196,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task GetCategoriesAndPagesByType_InputPage_ReturnsPartialView()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModelAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.GetCategoriesAndPagesByType(new WebUser(), 1, 1);
             var viewName = (result as PartialViewResult).ViewName;
@@ -210,7 +210,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Index_ReturnsPartialViewWithCategories()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
+            _categoryHelper.Setup(m => m.CreateCategoriesViewModelAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new CategoriesCollectionModel());
 
             var result = await target.Index(new WebUser(), 1);
             var model = (result as PartialViewResult).Model as CategoriesCollectionModel;
@@ -224,7 +224,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task GetAllCategories_ReturnsPartialViewResultWithCategoriesForUser()
         {
             var target = new CategoryController(null, null, _categoryHelper.Object);
-            _categoryHelper.Setup(m => m.GetCategoriesToShowOnPage(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new List<Category>());
+            _categoryHelper.Setup(m => m.GetCategoriesToShowOnPageAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Expression<Func<Category, bool>>>())).ReturnsAsync(new List<Category>());
 
             var result = await target.GetAllCategories(new WebUser(), 1);
             var viewName = (result as PartialViewResult).ViewName;
@@ -271,7 +271,7 @@ namespace WebUI.Core.Tests.ControllersTests
         public async Task Index_RaisesWebUiHelperException()
         {
             _categoryHelper
-                .Setup(m => m.CreateCategoriesViewModel(It.IsAny<int>(), It.IsAny<int>(),
+                .Setup(m => m.CreateCategoriesViewModelAsync(It.IsAny<int>(), It.IsAny<int>(),
                     It.IsAny<Expression<Func<Category, bool>>>())).Throws<WebUiHelperException>();
             var target = new CategoryController(null, null, _categoryHelper.Object);
 
