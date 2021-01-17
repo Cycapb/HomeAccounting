@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Models.ReportModels;
 
-namespace WebUI.Core.Helpers
+namespace WebUI.Core.Implementations.Helpers
 {
     public class ReportHelper : IReportHelper
     {

@@ -11,7 +11,7 @@ using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 using WebUI.Core.Models.CategoryModels;
 
-namespace WebUI.Core.Helpers
+namespace WebUI.Core.Implementations.Helpers
 {
     public class CategoryHelper : ICategoryHelper
     {

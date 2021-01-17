@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebUI.Core.Exceptions;
-using WebUI.Core.Helpers;
+using WebUI.Core.Implementations.Helpers;
 
 namespace WebUI.Tests.HelpersTests
 {
@@ -38,7 +38,7 @@ namespace WebUI.Tests.HelpersTests
         {
             var category = new Category() { UserId = "1" };
             _categoryService.Setup(m => m.GetListAsync(It.Is<Expression<Func<Category, bool>>>(x => x.Compile()(category))))
-                .ReturnsAsync(Categories.Where(category =>  category.UserId == "1"));
+                .ReturnsAsync(Categories.Where(category => category.UserId == "1"));
             var target = new CategoryHelper(_categoryService.Object);
             var page = 1;
             var itemsPerPage = 7;

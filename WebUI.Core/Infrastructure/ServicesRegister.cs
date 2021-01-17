@@ -11,10 +11,11 @@ using Services;
 using Services.Triggers;
 using WebUI.Core.Abstract;
 using WebUI.Core.Abstract.Converters;
-using WebUI.Core.Concrete.Converters;
-using WebUI.Core.Concrete.Providers;
-using WebUI.Core.Helpers;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Implementations;
+using WebUI.Core.Implementations.Converters;
+using WebUI.Core.Implementations.Helpers;
+using WebUI.Core.Implementations.Providers;
 using WebUI.Core.Infrastructure.Filters;
 
 namespace WebUI.Core.Infrastructure
