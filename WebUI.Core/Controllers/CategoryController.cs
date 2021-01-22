@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DomainModels.Model;
 using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Model;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Exceptions;
-using WebUI.Core.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 
@@ -23,7 +22,7 @@ namespace WebUI.Core.Controllers
 
         public CategoryController(
             ITypeOfFlowService tofService,
-            ICategoryService categoryService, 
+            ICategoryService categoryService,
             ICategoryHelper categoryHelper)
         {
             _typeOfFlowService = tofService;
@@ -35,7 +34,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id);
+                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModelAsync(page, _pagesize, x => x.UserId == user.Id);
 
                 return PartialView("_Index", categoriesViewModel);
             }
@@ -50,7 +49,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id);
+                var categories = await _categoryHelper.GetCategoriesToShowOnPageAsync(page, _pagesize, x => x.UserId == user.Id);
 
                 return PartialView("_CategorySummary", categories);
             }
@@ -65,7 +64,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categories = await _categoryHelper.GetCategoriesToShowOnPage(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+                var categories = await _categoryHelper.GetCategoriesToShowOnPageAsync(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
 
                 return PartialView("_CategorySummary", categories);
             }
@@ -80,7 +79,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
+                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModelAsync(page, _pagesize, x => x.UserId == user.Id && x.TypeOfFlowID == typeOfFlowId);
                 categoriesViewModel.TypeOfFlowId = typeOfFlowId;
 
                 return PartialView("_CategoriesAndPagesByType", categoriesViewModel);
@@ -96,7 +95,7 @@ namespace WebUI.Core.Controllers
         {
             try
             {
-                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModel(page, _pagesize, c => c.UserId == user.Id);
+                var categoriesViewModel = await _categoryHelper.CreateCategoriesViewModelAsync(page, _pagesize, c => c.UserId == user.Id);
 
                 return PartialView("_CategoriesAndPages", categoriesViewModel);
             }
@@ -126,7 +125,7 @@ namespace WebUI.Core.Controllers
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Edit)}", e);
-            }            
+            }
         }
 
         [HttpPost]
@@ -175,7 +174,7 @@ namespace WebUI.Core.Controllers
                 catch (ServiceException e)
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(CategoryController)} в методе {nameof(Add)}", e);
-                }                
+                }
             }
 
             ViewBag.TypesOfFlow = await GetTypesOfFlow();

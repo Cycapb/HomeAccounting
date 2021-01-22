@@ -4,10 +4,10 @@
 </cache>
 <div class="col-xs-2 hidden-xs">
     <div id="myAccounts">
-        @await Component.InvokeAsync(typeof(Accounts))
+        @await Component.InvokeAsync(typeof(AccountingInformationAccounts))
     </div>
     <div id="myBudgets">
-        @await Component.InvokeAsync(typeof(Budgets))
+        @await Component.InvokeAsync(typeof(AccountingInformationBudgets))
     </div>
     <div id="myDebts">
         @await Component.InvokeAsync(typeof(Debts))
@@ -23,9 +23,9 @@
 </div>
 <div class="col-xs-2 hidden-xs">
     <div id="income">
-        @await Component.InvokeAsync(typeof(MenuIncome))
+        @await Component.InvokeAsync(typeof(AccountingInformationIncome))
     </div>
     <div id="outgo">
-        @await Component.InvokeAsync(typeof(MenuOutgo))
+        @await Component.InvokeAsync(typeof(AccountingInformationOutgo))
     </div>
 </div>

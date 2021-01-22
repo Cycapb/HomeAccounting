@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WebUI.Core.Models;
 using WebUI.Core.Models.PlanningModels;
 
-namespace WebUI.Core.Abstract
+namespace WebUI.Core.Abstract.Helpers
 {
     public interface IPlanningHelper
     {

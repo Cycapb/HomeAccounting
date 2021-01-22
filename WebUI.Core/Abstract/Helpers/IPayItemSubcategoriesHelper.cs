@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebUI.Core.Models.ReportModels;
 
-namespace WebUI.Core.Abstract
+namespace WebUI.Core.Abstract.Helpers
 {
     public interface IPayItemSubcategoriesHelper : IDisposable
     {

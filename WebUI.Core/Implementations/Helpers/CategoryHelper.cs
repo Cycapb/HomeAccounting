@@ -1,17 +1,17 @@
-﻿using System;
-using System.Linq;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using Services;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Services.Exceptions;
-using WebUI.Core.Abstract;
-using WebUI.Core.Models.CategoryModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
-using System.Linq.Expressions;
+using WebUI.Core.Models.CategoryModels;
 
-namespace WebUI.Core.Helpers
+namespace WebUI.Core.Implementations.Helpers
 {
     public class CategoryHelper : ICategoryHelper
     {
@@ -23,8 +23,8 @@ namespace WebUI.Core.Helpers
             _categoryService = categoryService;
         }
 
-        public async Task<CategoriesCollectionModel> CreateCategoriesViewModel(
-            int page, 
+        public async Task<CategoriesCollectionModel> CreateCategoriesViewModelAsync(
+            int page,
             int itemsPerPage,
             Expression<Func<Category, bool>> predicate)
         {
@@ -49,12 +49,12 @@ namespace WebUI.Core.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
+                    $"Ошибка в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModelAsync)}", e);
             }
             catch (Exception e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModel)}", e);
+                    $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(CreateCategoriesViewModelAsync)}", e);
             }
         }
         public void Dispose()
@@ -63,21 +63,8 @@ namespace WebUI.Core.Helpers
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _categoryService.Dispose();
-                }
-
-                _disposed = true;
-            }
-        }
-
-        public async Task<IEnumerable<Category>> GetCategoriesToShowOnPage(
-            int page, 
+        public async Task<IEnumerable<Category>> GetCategoriesToShowOnPageAsync(
+            int page,
             int itemsPerPage,
             Expression<Func<Category, bool>> predicate)
         {
@@ -91,12 +78,25 @@ namespace WebUI.Core.Helpers
             catch (ServiceException e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка в типе {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
+                    $"Ошибка в типе {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPageAsync)}", e);
             }
             catch (Exception e)
             {
                 throw new WebUiHelperException(
-                    $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPage)}", e);
+                    $"Ошибка {e.GetType()} в типе {nameof(CategoryHelper)} в методе {nameof(GetCategoriesToShowOnPageAsync)}", e);
+            }
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _categoryService.Dispose();
+                }
+
+                _disposed = true;
             }
         }
     }

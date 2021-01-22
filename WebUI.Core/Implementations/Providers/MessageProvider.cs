@@ -2,7 +2,7 @@
 using WebUI.Core.Abstract;
 using WebUI.Core.Infrastructure;
 
-namespace WebUI.Core.Concrete.Providers
+namespace WebUI.Core.Implementations.Providers
 {
     public class MessageProvider : IMessageProvider
     {

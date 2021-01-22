@@ -6,7 +6,7 @@ using Services.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebUI.Core.Abstract;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 using WebUI.Core.Models.BudgetModels;
@@ -21,12 +21,12 @@ namespace WebUI.Controllers
         private readonly IPayingItemService _payingItemService;
 
         public AccountingInformationController(
-            IAccountService accService,
-            IReportHelper dbHelper,
+            IAccountService accountService,
+            IReportHelper reportHelper,
             IPayingItemService payingItemService)
         {
-            _accountService = accService;
-            _reportHelper = dbHelper;
+            _accountService = accountService;
+            _reportHelper = reportHelper;
             _payingItemService = payingItemService;
         }
 

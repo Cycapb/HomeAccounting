@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebUI.Core.Abstract.Converters;
 
-namespace WebUI.Core.Concrete.Converters
+namespace WebUI.Core.Implementations.Converters
 {
     public class RouteDataConverter : IRouteDataConverter
     {

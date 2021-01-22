@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebUI.Core.Abstract;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Models.ReportModels;
 
-namespace WebUI.Core.Implementations
+namespace WebUI.Core.Implementations.Helpers
 {
     public class ReportHelper : IReportHelper
     {
@@ -21,6 +21,10 @@ namespace WebUI.Core.Implementations
         {
             _accountService = accountService;
             _payingItemService = payingItemService;
+        }
+
+        public ReportHelper()
+        {
         }
 
         public IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user)

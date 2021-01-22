@@ -5,7 +5,7 @@
 }
 <div class="panel panel-primary">
     <div class="panel-heading">Редактирование транзакции</div>    
-    <form method="post" asp-action="Edit" asp-antiforgery="true" data-ajax="true" data-ajax-method="post" data-ajax-update="#payingDiv" data-ajax-success="updateAccounts"
+    <form method="post" asp-action="Edit" asp-antiforgery="true" data-ajax="true" data-ajax-method="post" data-ajax-update="#payingDiv" data-ajax-success="updateAfterAccountChange"
           data-ajax-mode="replace" data-ajax-url="@Url.Action("Edit")">
         <div class="panel-body">
             <div class="form-group">
