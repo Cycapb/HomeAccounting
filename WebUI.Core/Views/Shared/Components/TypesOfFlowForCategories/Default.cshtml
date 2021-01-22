@@ -1,0 +1,13 @@
+﻿@model IEnumerable<TypeOfFlow>
+@foreach (var item in Model)
+{
+    <a asp-action="GetCategoriesAndPagesByType" asp-controller="Category" asp-route-typeOfFlowId="@item.TypeID" asp-route-page="1"
+       data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryDiv" 
+       data-ajax-url="@Url.Action("GetCategoriesAndPagesByType", "Category", new { typeOfFlowId = item.TypeID, page = 1})"
+       class = "btn btn-block btn-default btn-raised" id = "@item.TypeName" onclick = "changeButtonColor(this.id)" >
+    @item.TypeName</a>
+}
+
+<a asp-action="Index" asp-controller="Category" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#categoryDiv"
+   data-ajax-url="@Url.Action("GetCategoriesAndPages", "Category")" class="btn btn-block btn-default btn-raised"
+   id="allCategories" onclick="changeButtonColor(this.id)">Все статьи</a>

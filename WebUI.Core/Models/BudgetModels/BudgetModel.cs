@@ -2,7 +2,7 @@
 {
     public class BudgetModel
     {
-        public string TypeOfMoney { get; set; }
+        public string TypeOfFlow { get; set; }
 
         public decimal Month { get; set; }
 

@@ -2,6 +2,7 @@
 using Services.BaseInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Services
 {
@@ -13,5 +14,7 @@ namespace Services
         IDisposable
     {
         IEnumerable<PayingItem> GetListByTypeOfFlow(IWorkingUser user, int typeOfFlow);
+
+        Task<IEnumerable<PayingItem>> GetListByTypeOfFlowAsync(string userId, int typeOfFlow);
     }
 }

@@ -168,45 +168,16 @@ namespace BussinessLogic.Services
             }
         }
 
-        private async Task<(PayingItem OldItem, PayingItem NewItem)> GetNewAndOldItems(PayingItem item)
+        public async Task<IEnumerable<PayingItem>> GetListByTypeOfFlowAsync(string userId, int typeOfFlow)
         {
-            var typeOfFlowId = (await _categoryService.GetItemAsync(item.CategoryID)).TypeOfFlowID;
-            var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
-            var oldCategoryId = await GetCategoryIdAsync(categories, item.ItemID);
-            var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
-            var oldPayingItem = oldCategory.PayingItems.FirstOrDefault(x => x.ItemID == item.ItemID);
-            var newPayingItem = new PayingItem()
+            try
             {
-                Category = oldCategory,
-                AccountID = item.AccountID,
-                Summ = item.Summ
-            };
-
-            return (oldPayingItem, newPayingItem);
-        }
-
-        private Task<int> GetCategoryIdAsync(IEnumerable<Category> categories, int itemId)
-        {
-            return Task.Run(() =>
+                return await _repository.GetListAsync(u => u.UserId == userId && u.Category.TypeOfFlowID == typeOfFlow);
+            }
+            catch (DomainModelsException e)
             {
-                var categoryId = 0;
-                foreach (var category in categories)
-                {
-                    foreach (var payingItem in category.PayingItems)
-                    {
-                        if (payingItem.ItemID == itemId)
-                        {
-                            categoryId = payingItem.CategoryID;
-                            break;
-                        }
-                        if (categoryId != 0)
-                        {
-                            break;
-                        }
-                    }
-                }
-                return categoryId;
-            });
+                throw new ServiceException($"Ошибка в сервисе {nameof(PayingItemService)} в методе {nameof(GetListByTypeOfFlowAsync)} при обращении к БД", e);
+            }
         }
 
         public void Dispose()
@@ -228,6 +199,45 @@ namespace BussinessLogic.Services
 
                 _disposed = true;
             }
+        }
+
+        private async Task<(PayingItem OldItem, PayingItem NewItem)> GetNewAndOldItems(PayingItem item)
+        {
+            var typeOfFlowId = (await _categoryService.GetItemAsync(item.CategoryID)).TypeOfFlowID;
+            var categories = (await _typeOfFlowService.GetCategoriesAsync(typeOfFlowId)).Where(x => x.UserId == item.UserId);
+            var oldCategoryId = GetCategoryId(categories, item.ItemID);
+            var oldCategory = await _categoryService.GetItemAsync(oldCategoryId);
+            var oldPayingItem = oldCategory.PayingItems.FirstOrDefault(x => x.ItemID == item.ItemID);
+            var newPayingItem = new PayingItem()
+            {
+                Category = oldCategory,
+                AccountID = item.AccountID,
+                Summ = item.Summ
+            };
+
+            return (oldPayingItem, newPayingItem);
+        }
+
+        private int GetCategoryId(IEnumerable<Category> categories, int payingItemId)
+        {
+            var categoryId = 0;
+            foreach (var category in categories)
+            {
+                foreach (var payingItem in category.PayingItems)
+                {
+                    if (payingItem.ItemID == payingItemId)
+                    {
+                        categoryId = payingItem.CategoryID;
+                        break;
+                    }
+                    if (categoryId != 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return categoryId;
         }
     }
 }
