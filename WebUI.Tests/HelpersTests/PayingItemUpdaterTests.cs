@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DomainModels.Model;
+﻿using DomainModels.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WebUI.Helpers;
 using WebUI.Models.PayingItemModels;
 
@@ -24,8 +24,8 @@ namespace WebUI.Tests.HelpersTests
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
         [ExpectedException(typeof(ArgumentNullException))]
-        public async Task PayingItemEditViewModelIsNull_ThrowsArgumentNullException()
-        {            
+        public async Task UpdatePayingItemFromViewModel_PayingItemEditViewModelIsNull_ThrowsArgumentNullException()
+        {
             var target = new PayingItemUpdater(_payinItemServiceMock.Object);
 
             await target.UpdatePayingItemFromViewModel(null);
@@ -33,7 +33,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectSumFromViewModelIfAllProductsAreNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectSumFromViewModelIfAllProductsAreNull()
         {
             var payingItem = new PayingItem()
             {
@@ -57,7 +57,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectCommentFromViewModelIfAllProductsAreNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectCommentFromViewModelIfAllProductsAreNull()
         {
             var payingItem = new PayingItem()
             {
@@ -82,7 +82,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectCommentIfProductsInItemAreUncheckedAndProductsNotInItemAreNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectCommentIfProductsInItemAreUncheckedAndProductsNotInItemAreNull()
         {
             var payingItem = new PayingItem()
             {
@@ -120,7 +120,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectCommentIfProductsInItemAreCheckedAndProductsNotInItemAreNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectCommentIfProductsInItemAreCheckedAndProductsNotInItemAreNull()
         {
             var payingItem = new PayingItem()
             {
@@ -160,7 +160,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectSumFromViewModelIfProductsInItemAreNotNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectSumFromViewModelIfProductsInItemAreNotNull()
         {
             var payingItem = new PayingItem()
             {
@@ -177,7 +177,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectSumFromViewModelIfProductsInItemAndNotInItemAreNotNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectSumFromViewModelIfProductsInItemAndNotInItemAreNotNull()
         {
             var payingItem = new PayingItem()
             {
@@ -245,7 +245,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectCommentFromViewModelIfProductsInItemAreNotNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectCommentFromViewModelIfProductsInItemAreNotNull()
         {
             var payingItem = new PayingItem()
             {
@@ -262,7 +262,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectCommentFromViewModelIfProductsInItemAndNotInItemAreNotNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectCommentFromViewModelIfProductsInItemAndNotInItemAreNotNull()
         {
             var payingItem = new PayingItem()
             {
@@ -330,7 +330,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task CreateNewPayingItemProductsFromPayingItemEditViewModel()
+        public async Task UpdatePayingItemFromViewModel_CreateNewPayingItemProductsFromPayingItemEditViewModel()
         {
             var payingItem = new PayingItem()
             {
@@ -366,7 +366,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectSumIfProductsInItemAreUncheckedAndProductsNotInItemAreUnchecked()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectSumIfProductsInItemAreUncheckedAndProductsNotInItemAreUnchecked()
         {
             var payingItem = new PayingItem()
             {
@@ -416,7 +416,7 @@ namespace WebUI.Tests.HelpersTests
 
         [TestMethod]
         [TestCategory("PayingItemUpdaterTests")]
-        public async Task SetCorrectSumIfProductsInItemAreUncheckedAndProductsNotInItemAreNull()
+        public async Task UpdatePayingItemFromViewModel_SetCorrectSumIfProductsInItemAreUncheckedAndProductsNotInItemAreNull()
         {
             var payingItem = new PayingItem()
             {
@@ -443,7 +443,7 @@ namespace WebUI.Tests.HelpersTests
                         ProductID = 0,
                         Price = 100
                     }
-                }                
+                }
             };
 
             var result = await target.UpdatePayingItemFromViewModel(payingItemViewModel);
