@@ -1,18 +1,18 @@
 ﻿using DomainModels.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Services;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using WebUI.Core.Abstract;
+using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Controllers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 using WebUI.Core.Models.CategoryModels;
-using System.Linq.Expressions;
 
 namespace WebUI.Core.Tests.ControllersTests
 {
@@ -38,7 +38,7 @@ namespace WebUI.Core.Tests.ControllersTests
 
             var result = await target.Edit(new Category());
             var actionName = ((RedirectToActionResult)result).ActionName;
-            
+
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
             Assert.AreEqual(nameof(CategoryController.GetCategoriesAndPages), actionName);
         }
@@ -51,8 +51,8 @@ namespace WebUI.Core.Tests.ControllersTests
             target.ModelState.AddModelError("error", "error");
 
             var result = await target.Edit(new Category());
-            var typesOfFlowFromViewData = (result as PartialViewResult).ViewData["TypesOfFlow"];           
-            
+            var typesOfFlowFromViewData = (result as PartialViewResult).ViewData["TypesOfFlow"];
+
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
             Assert.IsInstanceOfType(typesOfFlowFromViewData, typeof(IEnumerable<TypeOfFlow>));
         }
@@ -66,7 +66,7 @@ namespace WebUI.Core.Tests.ControllersTests
             _categoryService.Setup(m => m.GetItemAsync(It.IsAny<int>())).ReturnsAsync(category);
 
             var result = await target.Edit(It.IsAny<int>());
-            
+
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
