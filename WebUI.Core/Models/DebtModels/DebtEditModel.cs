@@ -12,7 +12,7 @@ namespace WebUI.Core.Models.DebtModels
 
         [Required(ErrorMessage = "Не указана сумма")]
         [DataType(DataType.Currency)]
-        public decimal Sum { get; set; }
+        public decimal? Sum { get; set; }
 
         public string Person { get; set; }
 

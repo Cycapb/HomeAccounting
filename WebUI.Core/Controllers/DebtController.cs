@@ -82,6 +82,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(WebUser user, DebtAddModel model)
         {
             if (ModelState.IsValid)
@@ -137,6 +138,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClosePartially(DebtEditModel model)
         {
             Debt debt;
@@ -145,7 +147,7 @@ namespace WebUI.Core.Controllers
             {
                 try
                 {
-                    await _createCloseDebtService.PartialCloseAsync(model.DebtId, model.Sum, model.AccountId);
+                    await _createCloseDebtService.PartialCloseAsync(model.DebtId, model.Sum.GetValueOrDefault(), model.AccountId);
                 }
                 catch (ServiceException e)
                 {
@@ -171,6 +173,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
