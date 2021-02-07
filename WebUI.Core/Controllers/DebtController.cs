@@ -99,13 +99,13 @@ namespace WebUI.Core.Controllers
                 try
                 {
                     await _createCloseDebtService.CreateAsync(debt);
+
+                    return RedirectToAction("DebtList");
                 }
                 catch (ServiceException e)
                 {
                     throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Add)}", e);
                 }
-
-                return RedirectToAction("DebtList");
             }
 
             var userAccounts = (await GetAccountsByUserId(user.Id)).ToList();

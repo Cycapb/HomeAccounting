@@ -1,0 +1,44 @@
+﻿@model DebtAddModel
+<div class="panel panel-success">
+    <form method="post" asp-antiforgery="true" asp-action="Add" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+          data-ajax-success="updateAfterDebt" data-ajax-method="post" data-ajax-url="@Url.Action("Add")">
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.DropDownListFor(x => x.TypeOfFlowId, Model.TypesOfFlow.Select(x => new SelectListItem()
+                   {
+                       Value = x.TypeId.ToString(),
+                       Text = x.Name
+                   }), new { @class = "selectpicker" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Summ, new { placeholder = "Сумма", @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(x => x.Summ)
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Person, new { @class = "form-control", placeholder = "Кому занял/Кто мне занял" })
+            </div>
+            @Html.ValidationMessageFor(x => x.Person)
+            <div class="form-group">
+                @Html.DropDownListFor(x => x.AccountId, Model.Accounts.Select(x => new SelectListItem()
+                   {
+                       Value = x.AccountID.ToString(),
+                       Text = x.AccountName
+                   }), new { @class = "selectpicker" })
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-raised btn-success btn-sm" />
+            <a asp-action="DebtList" data-ajax="true" data-ajax-update="#payingDiv" data-ajax-mode="replace"
+               data-ajax-url="@Url.Action("DebtList")"
+               class="btn btn-raised btn-sm btn-default">
+                Отмена
+            </a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
+</script>
