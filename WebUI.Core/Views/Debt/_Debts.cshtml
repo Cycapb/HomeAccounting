@@ -1,0 +1,48 @@
+﻿@model DebtsCollectionModel
+<div class="panel panel-primary">
+    <div class="panel-heading">Долги</div>
+    <div class="panel-body" id="debtPanel">
+        <div id="myDebtsDiv">
+            <table class="table table-hover">
+                <caption>Я должен</caption>
+                <tr>
+                    <th>Сколько</th>
+                    <th>Кому</th>
+                    <th>Счет</th>
+                    <th>Дата займа</th>
+                    <th colspan="2" class="text-center">Действия</th>
+                </tr>
+                <tbody>
+                @await Html.PartialAsync("_DebtsList", Model.MyDebts)
+                </tbody>
+            </table>
+        </div>
+        <div id="debtsToMeDiv">
+            <table class="table table-hover">
+                <caption>Мне должны</caption>
+                <tr>
+                    <th>Сколько</th>
+                    <th>Кто</th>
+                    <th>Счет</th>
+                    <th>Дата займа</th>
+                    <th colspan="2" class="text-center">Действия</th>
+                </tr>
+                <tbody>
+                @await Html.PartialAsync("_DebtsList", Model.DebtsToMe)
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <a asp-action="Add" data-ajax="true" data-ajax-update="#debtPanel" data-ajax-mode="replace" data-ajax-url="@Url.Action("Add")"
+           class="btn btn-raised btn-primary btn-sm">
+            Добавить
+        </a>
+
+        <a asp-action="List" asp-controller="PayingItem" data-ajax="true" data-ajax-update="#payingDiv" data-ajax-mode="replace" 
+           data-ajax-url="@Url.Action("List", "PayingItem")"
+           class="btn btn-default btn-raised btn-sm pull-right">
+            На главную
+        </a>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Debt>
+@foreach (var debt in Model)
+{
+    <tr>
+        <td>@debt.Summ.ToString("c")</td>
+        <td>@debt.Person</td>
+        <td>@debt.Account.AccountName</td>
+        <td>@debt.DateBegin.Date.ToShortDateString()</td>
+        <td class="text-center">
+            <a asp-action="ClosePartially" asp-route-id="@debt.DebtID" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+               data-ajax-success="updateAfterDebt" data-ajax-url="@Url.Action("ClosePartially", new {id = debt.DebtID})"
+               class="btn btn-success btn-raised btn-xs">
+                Закрыть
+            </a>
+        </td>
+        <td class="text-center">
+            <form asp-action="Delete" asp-antiforgery="true" method="post" asp-route-id="@debt.DebtID"
+                  data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+                  data-ajax-url="@Url.Action("Delete", new { id = debt.DebtID })"
+                  data-ajax-success="updateAfterDebt" data-ajax-method="post">
+                <input type="submit" class="btn btn-danger btn-raised btn-xs" value="Удалить" />
+            </form>
+        </td>
+    </tr>
+}

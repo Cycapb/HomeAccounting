@@ -61,7 +61,7 @@ namespace WebUI.Core.Controllers
                     DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
                 };
 
-                return PartialView("_DebtList", model);
+                return PartialView("_Debts", model);
             }
             catch (Exception e)
             {

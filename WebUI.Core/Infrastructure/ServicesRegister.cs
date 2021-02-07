@@ -38,6 +38,7 @@ namespace WebUI.Core.Infrastructure
             services.AddTransient<ITypeOfFlowService, TypeOfFlowService>();
             services.AddTransient<IDebtService, DebtService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICreateCloseDebtService, CreateCloseDebtService>();
 
             services.AddTransient<IPayingItemCreator, PayingItemCreator>();
             services.AddTransient<IPayingItemEditViewModelCreator, PayingItemEditViewModelCreator>();
