@@ -32,12 +32,9 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    var items = _debtService.GetOpenUserDebts(user.Id).ToList();
-                    model = new DebtsSumModel()
-                    {
-                        MyDebtsSumm = items.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
-                        DebtsToMeSumm = items.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
-                    };
+                    var openUserDebts = (await _debtService.GetOpenUserDebtsAsync(user.Id)).ToList();
+                    model.MyDebtsSumm = openUserDebts.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ);
+                    model.DebtsToMeSumm = openUserDebts.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ);
                 }
 
                 return View("/Views/Debt/_Index.cshtml", model);
