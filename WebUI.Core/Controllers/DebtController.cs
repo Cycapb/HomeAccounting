@@ -31,15 +31,15 @@ namespace WebUI.Core.Controllers
             _accService = accService;
         }
 
-        public IActionResult Index(WebUser user)
+        public async Task<IActionResult> Index(WebUser user)
         {
             try
             {
-                var items = _debtService.GetOpenUserDebts(user.Id).ToList();
+                var openUserDebts = (await _debtService.GetOpenUserDebtsAsync(user.Id)).ToList();
                 var model = new DebtsSumModel()
                 {
-                    MyDebtsSumm = items.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
-                    DebtsToMeSumm = items.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
+                    MyDebtsSumm = openUserDebts.Where(x => x.TypeOfFlowId == 1).Sum(x => x.Summ),
+                    DebtsToMeSumm = openUserDebts.Where(x => x.TypeOfFlowId == 2).Sum(x => x.Summ)
                 };
 
                 return PartialView("_Index", model);
@@ -50,13 +50,12 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public IActionResult DebtList(WebUser user)
-        {
-            DebtsCollectionModel model;
+        public async Task<IActionResult> DebtList(WebUser user)
+        {            
             try
             {
-                var items = _debtService.GetOpenUserDebts(user.Id).ToList();
-                model = new DebtsCollectionModel()
+                var items = (await _debtService.GetOpenUserDebtsAsync(user.Id)).ToList();
+                var model = new DebtsCollectionModel()
                 {
                     MyDebts = items.Where(x => x.TypeOfFlowId == 1).ToList(),
                     DebtsToMe = items.Where(x => x.TypeOfFlowId == 2).ToList()
@@ -73,9 +72,10 @@ namespace WebUI.Core.Controllers
         [TypeFilter(typeof(UserHasAnyAccount))]
         public async Task<IActionResult> Add(WebUser user)
         {
+            var userAccounts = (await GetAccountsByUserId(user.Id)).ToList();
             var model = new DebtAddModel()
             {
-                Accounts = (await GetAccountsByUserId(user.Id)).ToList()
+                Accounts = userAccounts
             };
 
             return PartialView("_Add", model);
@@ -95,6 +95,7 @@ namespace WebUI.Core.Controllers
                     Summ = model.Summ,
                     UserId = user.Id
                 };
+
                 try
                 {
                     await _createCloseDebtService.CreateAsync(debt);
@@ -107,7 +108,8 @@ namespace WebUI.Core.Controllers
                 return RedirectToAction("DebtList");
             }
 
-            model.Accounts = (await GetAccountsByUserId(user.Id)).ToList();
+            var userAccounts = (await GetAccountsByUserId(user.Id)).ToList();
+            model.Accounts = userAccounts;
 
             return PartialView("_Add", model);
         }
@@ -137,7 +139,7 @@ namespace WebUI.Core.Controllers
         [HttpPost]
         public async Task<IActionResult> ClosePartially(DebtEditModel model)
         {
-            Debt debt = null;
+            Debt debt;
 
             if (ModelState.IsValid)
             {
@@ -174,13 +176,13 @@ namespace WebUI.Core.Controllers
             try
             {
                 await _debtService.DeleteAsync(id);
+
+                return RedirectToAction("DebtList");
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(DebtController)} в методе {nameof(Delete)}", e);
             }
-
-            return RedirectToAction("DebtList");
         }
 
         protected override void Dispose(bool disposing)
