@@ -10,7 +10,7 @@ namespace WebUI.Core.Models.DebtModels
         public string Person { get; set; }
 
         [Required(ErrorMessage = "Не указана сумма")]
-        public decimal Summ { get; set; }
+        public decimal? Summ { get; set; }
 
         public IEnumerable<Account> Accounts { get; set; }
 

@@ -93,7 +93,7 @@ namespace WebUI.Core.Controllers
                     Person = model.Person,
                     TypeOfFlowId = model.TypeOfFlowId,
                     AccountId = model.AccountId,
-                    Summ = model.Summ,
+                    Summ = model.Summ.GetValueOrDefault(),
                     UserId = user.Id
                 };
 
