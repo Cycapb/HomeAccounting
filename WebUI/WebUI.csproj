@@ -464,6 +464,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="TestFile2.json" />
     <None Include="Web.Debug.Local.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
