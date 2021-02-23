@@ -1,5 +1,6 @@
 ﻿@model DebtAddModel
-<div class="panel panel-success">
+<div class="panel panel-primary">
+    <div class="panel-heading">Добавление долга</div>
     <form method="post" asp-antiforgery="true" asp-action="Add" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
           data-ajax-success="updateAfterDebt" data-ajax-method="post" data-ajax-url="@Url.Action("Add")">
         <div class="panel-body">
