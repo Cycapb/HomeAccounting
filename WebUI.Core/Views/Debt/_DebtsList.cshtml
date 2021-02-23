@@ -8,7 +8,7 @@
         <td>@debt.DateBegin.Date.ToShortDateString()</td>
         <td class="text-center">
             <a asp-action="ClosePartially" asp-route-id="@debt.DebtID" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
-               data-ajax-success="updateAfterDebt" data-ajax-url="@Url.Action("ClosePartially", new {id = debt.DebtID})"
+               data-ajax-url="@Url.Action("ClosePartially", new {id = debt.DebtID})"
                class="btn btn-success btn-raised btn-xs">
                 Закрыть
             </a>
