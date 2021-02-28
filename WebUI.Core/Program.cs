@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -33,6 +34,7 @@ namespace WebUI.Core
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog()
             .ConfigureWebHostDefaults(webBuilder =>
             {
@@ -40,7 +42,7 @@ namespace WebUI.Core
                 webBuilder.UseKestrel();
                 webBuilder.UseIISIntegration();
                 webBuilder.UseStartup<Startup>();
-                webBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
+                //webBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
             })
             .ConfigureAppConfiguration((builderContext, configBuilder) =>
                 {
