@@ -1,6 +1,4 @@
 using Autofac;
-using Autofac.Core;
-using BussinessLogic.Services;
 using DomainModels.EntityORM.Core.Infrastructure;
 using Loggers.Extensions.Serilog.Enrichers;
 using Microsoft.AspNetCore.Builder;
@@ -11,11 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Services;
 using System;
 using WebUI.Core.Configuration;
-using WebUI.Core.Controllers;
-using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Infrastructure.Identity;
 using WebUI.Core.Infrastructure.Identity.Validators;
@@ -69,8 +64,6 @@ namespace WebUI.Core
             services.AddMemoryCache();
 
             services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(14));
-
-            ServicesRegister.RegisterAdditionalServices(services);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Core;
 using System;
 using System.IO;
 
@@ -22,7 +21,7 @@ namespace WebUI.Core
             {
                 CreateHostBuilder(args).Build().Run();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Fatal(ex, "Error while starting application");
             }
@@ -55,6 +54,6 @@ namespace WebUI.Core
                     {
                         configBuilder.AddCommandLine(args);
                     }
-                });            
+                });
     }
 }
