@@ -31,7 +31,7 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    var groupedPaiyngItemsList = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
+                    expensiveCategories = (await _payingItemService.GetListAsync(x => x.UserId == user.Id && x.Category.TypeOfFlowID == 2 &&
                                 x.Date.Month == DateTime.Today.Month && x.Date.Year == DateTime.Today.Year))
                     .GroupBy(x => x.Category.Name)
                     .Select(x => new CategorySumModel() { Category = x.Key, Sum = x.Sum(item => item.Summ) })
