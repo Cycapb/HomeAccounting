@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Services;
 using System;
+using WebUI.Core.Configuration;
 using WebUI.Core.Controllers;
 using WebUI.Core.Infrastructure;
 using WebUI.Core.Infrastructure.Filters;
@@ -67,19 +68,14 @@ namespace WebUI.Core
 
             services.AddMemoryCache();
 
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromDays(14);
-            });
+            services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(14));
 
             ServicesRegister.RegisterAdditionalServices(services);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<CreateCloseDebtService>().As<ICreateCloseDebtService>();
-            builder.RegisterType<CreateCloseDebtServicePayingItemDecorator>().Named<ICreateCloseDebtService>("debtController");
-            builder.RegisterType<DebtController>().WithParameter(ResolvedParameter.ForNamed<ICreateCloseDebtService>("debtController"));
+            builder.RegisterModule<WebUiCoreModule>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
