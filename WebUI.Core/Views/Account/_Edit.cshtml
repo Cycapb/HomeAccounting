@@ -18,15 +18,8 @@
                 <div><span asp-validation-for="Cash" class="text-danger"></span></div>
             </div>
             <div class="checkbox">
-                <label>
-                    @if (Model.Use)
-                    {
-                        <input data-val="true" id="Use" name="Use" type="checkbox" value="true" checked="checked">
-                    }
-                    else
-                    {
-                        <input data-val="true" id="Use" name="Use" type="checkbox" value="true">
-                    }
+                <label class="form-check-label">
+                    <input asp-for="Use"/>
                     <span class="checkbox-material"><span class="check"></span></span>
                     Отображать в текущем бюджете
                 </label>
