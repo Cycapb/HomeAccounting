@@ -6,11 +6,13 @@ namespace WebUI.Core.Models.DebtModels
 {
     public class DebtAddModel
     {
+        [Display(Name = "Кому занял/Кто мне занял")]
         [Required(ErrorMessage = "Не указано поле Кому/Кто")]
         public string Person { get; set; }
 
+        [Display(Name = "Сумма")]
         [Required(ErrorMessage = "Не указана сумма")]
-        public decimal Summ { get; set; }
+        public decimal? Summ { get; set; }
 
         public IEnumerable<Account> Accounts { get; set; }
 

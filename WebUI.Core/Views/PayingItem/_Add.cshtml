@@ -38,9 +38,7 @@
                     {
                         @class = "datepicker form-control",
                         onclick = "clickDate()"
-                    }
-                        )
-                    @Html.ValidationMessageFor(x => x.PayingItem.Date)
+                    })
                 </div>
                 <div><span asp-validation-for="PayingItem.Date"></span></div>
             </div>

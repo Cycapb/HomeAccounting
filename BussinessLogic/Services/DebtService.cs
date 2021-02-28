@@ -117,6 +117,18 @@ namespace BussinessLogic.Services
             }
         }
 
+        public async Task<IEnumerable<Debt>> GetOpenUserDebtsAsync(string userId)
+        {
+            try
+            {
+                return await _debtRepo.GetListAsync(x => x.UserId == userId && x.DateEnd == null);
+            }
+            catch (DomainModelsException e)
+            {
+                throw new ServiceException($"Ошибка в сервисе {nameof(DebtService)} в методе {nameof(GetOpenUserDebts)} при обращении к БД", e);
+            }
+        }
+
         public void Dispose()
         {
             Dispose(true);

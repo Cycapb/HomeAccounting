@@ -1,0 +1,41 @@
+﻿@model DebtAddModel
+<div class="panel panel-primary">
+    <div class="panel-heading">Добавление долга</div>
+    <form method="post" asp-antiforgery="true" asp-action="Add" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+          data-ajax-success="updateAfterDebt" data-ajax-method="post" data-ajax-url="@Url.Action("Add")">
+        <div class="panel-body">
+            <div class="form-group">
+                <select asp-for="TypeOfFlowId" asp-items="@Model.TypesOfFlow.Select(x => new SelectListItem() { Text = x.Name, Value = x.TypeId.ToString() })" class="selectpicker"></select>
+            </div>
+            <div class="label-floating form-group">
+                <label asp-for="Summ" class="control-label"></label>
+                <input asp-for="Summ" class="form-control" />
+                <div><span asp-validation-for="Summ" class="text-danger"></span></div>
+            </div>
+            <div class="label-floating form-group">
+                <label asp-for="Person" class="control-label"></label>
+                <input asp-for="Person" class="form-control" />
+                <div><span asp-validation-for="Person" class="text-danger"></span></div>
+            </div>
+            <div class="form-group">
+                <select asp-for="AccountId" asp-items="@Model.Accounts.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString() })" class="selectpicker"></select>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-raised btn-success btn-sm" />
+            <a asp-action="DebtList" data-ajax="true" data-ajax-update="#payingDiv" data-ajax-mode="replace"
+               data-ajax-url="@Url.Action("DebtList")"
+               class="btn btn-raised btn-sm btn-default">
+                Отмена
+            </a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
+</script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+<script src="~/assets/js/material-kit.js" asp-append-version="true"></script>

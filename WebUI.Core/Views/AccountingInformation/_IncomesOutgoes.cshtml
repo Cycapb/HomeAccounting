@@ -1,5 +1,5 @@
 ﻿@model BudgetModel
-<div class="panel panel-success">
+<div class="@(Model.TypeOfFlow == "Доход" ? "panel panel-success" : "panel panel-danger")">
     <div class="panel-heading">@Model.TypeOfFlow</div>
     <table class="table table-striped">
         <tr>

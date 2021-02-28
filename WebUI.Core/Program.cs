@@ -1,8 +1,8 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Core;
 using System;
 using System.IO;
 
@@ -21,7 +21,7 @@ namespace WebUI.Core
             {
                 CreateHostBuilder(args).Build().Run();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Fatal(ex, "Error while starting application");
             }
@@ -33,6 +33,7 @@ namespace WebUI.Core
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog()
             .ConfigureWebHostDefaults(webBuilder =>
             {
@@ -40,7 +41,6 @@ namespace WebUI.Core
                 webBuilder.UseKestrel();
                 webBuilder.UseIISIntegration();
                 webBuilder.UseStartup<Startup>();
-                webBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
             })
             .ConfigureAppConfiguration((builderContext, configBuilder) =>
                 {
@@ -54,6 +54,6 @@ namespace WebUI.Core
                     {
                         configBuilder.AddCommandLine(args);
                     }
-                });            
+                });
     }
 }

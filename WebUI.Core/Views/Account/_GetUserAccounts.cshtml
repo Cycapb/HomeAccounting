@@ -2,11 +2,7 @@
 
 <div class="form-group" id="Transfer_To">
     <label>Конечный счет:</label>
-    @Html.DropDownList("ToId", Model.Select(x => new SelectListItem()
-       {
-           Text = x.AccountName,
-           Value = x.AccountID.ToString()
-       }), new {@class = "selectpicker" })
+    <select id="ToId" name="ToId" asp-items="@Model.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString() })" class = "selectpicker"></select>
 </div>
 <script type="text/javascript">
     $(document).ready(
