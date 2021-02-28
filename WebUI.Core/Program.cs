@@ -42,7 +42,6 @@ namespace WebUI.Core
                 webBuilder.UseKestrel();
                 webBuilder.UseIISIntegration();
                 webBuilder.UseStartup<Startup>();
-                //webBuilder.UseDefaultServiceProvider(options => options.ValidateScopes = false);
             })
             .ConfigureAppConfiguration((builderContext, configBuilder) =>
                 {
