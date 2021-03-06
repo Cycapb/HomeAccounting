@@ -27,6 +27,7 @@ namespace DomainModels.Model
         [DataType(DataType.Currency)]
         public decimal Summ { get; set; }
 
+        [UIHint("text")]
         [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Необходимо указать дату")]

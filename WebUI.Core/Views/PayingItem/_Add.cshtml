@@ -33,11 +33,7 @@
             <div class="form-group">
                 <div class="form-group">
                     <label>Дата:</label>
-                    @Html.TextBoxFor(x => x.PayingItem.Date, new
-                    {
-                        @class = "datepicker form-control",
-                        onclick = "clickDate()"
-                    })
+                    <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
                 </div>
                 <div><span asp-validation-for="PayingItem.Date"></span></div>
             </div>
