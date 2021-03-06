@@ -12,7 +12,7 @@ namespace WebUI.Core.Models.DebtModels
 
         [Display(Name = "Сумма")]
         [Required(ErrorMessage = "Не указана сумма")]
-        public decimal? Summ { get; set; }
+        public decimal? Summ { get; set; } = 0M;
 
         public IEnumerable<Account> Accounts { get; set; }
 
