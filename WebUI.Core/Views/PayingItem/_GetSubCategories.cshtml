@@ -42,7 +42,7 @@
                             @Model[i].Description
                         </td>
                         <td>
-                            <input name="Products[@i].Price" value="@Model[i].Price" class="form-control" placeholder = "Цена"/>
+                            <input asp-for="@Model[i].Price" class="form-control"/>
                         </td>
                     </tr>
                 }
