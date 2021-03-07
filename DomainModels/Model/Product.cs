@@ -7,7 +7,6 @@ namespace DomainModels.Model
     [Table("Product")]
     public partial class Product
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
             OrderDetails = new HashSet<OrderDetail>();            
@@ -35,7 +34,6 @@ namespace DomainModels.Model
 
         public virtual Category Category { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         public virtual ICollection<PayingItemProduct> PayingItemProducts { get; set; }

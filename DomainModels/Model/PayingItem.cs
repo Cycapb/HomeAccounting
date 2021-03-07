@@ -9,7 +9,6 @@ namespace DomainModels.Model
     [Table("PayingItem")]
     public partial class PayingItem
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PayingItem()
         {
             PayingItemProducts = new HashSet<PayingItemProduct>();

@@ -9,14 +9,10 @@
           data-ajax-mode="replace" data-ajax-url="@Url.Action("Edit")">
         <div class="panel-body">
             <div class="form-group">
-                @Html.HiddenFor(x => x.PayingItem.ItemID)
-                @Html.HiddenFor(x => x.PayingItem.UserId)
+                <input asp-for="PayingItem.ItemID" type="hidden" />
+                <input asp-for="PayingItem.UserId" type="hidden" />
                 <label>Категория:</label>
-                @Html.DropDownListFor(x => x.PayingItem.CategoryID, catList.Select(x => new SelectListItem()
-                {
-                    Text = x.Name,
-                    Value = x.CategoryID.ToString()
-                }), new { @class = "selectpicker", onchange = "changeCategoryEdit()" })
+                <select asp-for="PayingItem.CategoryID" asp-items="@catList.Select(x => new SelectListItem() { Text = x.Name, Value = x.CategoryID.ToString() })" class="selectpicker" , onchange="changeCategoryEdit()"></select>
             </div>
             @if (Model.ProductsInItem.Count != 0)
             {
@@ -31,7 +27,7 @@
 
                         @for (int i = 0; i < Model.ProductsInItem.Count; i++)
                         {
-                            @Html.HiddenFor(x => x.ProductsInItem[i].UserID)
+                            <input asp-for="ProductsInItem[i].UserID" type="hidden" />
                             <tr>
                                 <td>
                                     <div class="checkbox">
@@ -45,19 +41,19 @@
                                 </td>
                                 <td>
                                     @Model.ProductsInItem[i].ProductName
-                                    @Html.HiddenFor(x => x.ProductsInItem[i].ProductName)
+                                    <input asp-for="ProductsInItem[i].ProductName" type="hidden" />
                                 </td>
                                 <td>
                                     @Model.ProductsInItem[i].Description
                                 </td>
                                 <td>
-                                    @Html.TextBox("ProductsInItem[" + i + "].Price", Model.ProductsInItem[i].Price.ToString("F"), new { @class = "form-control" })
+                                    <input asp-for="ProductsInItem[i].Price" class="form-control" />
                                 </td>
                             </tr>
                         }
                         @for (int i = 0; i < Model.ProductsNotInItem.Count; i++)
                         {
-                            @Html.HiddenFor(x => x.ProductsNotInItem[i].UserID)
+                            <input asp-for="ProductsNotInItem[i].UserID" type="hidden" />
                             <tr>
                                 <td>
                                     <div class="checkbox">
@@ -71,13 +67,13 @@
                                 </td>
                                 <td>
                                     @Model.ProductsNotInItem[i].ProductName
-                                    @Html.HiddenFor(x => x.ProductsNotInItem[i].ProductName)
+                                    <input asp-for="ProductsNotInItem[i].ProductName" type="hidden" />
                                 </td>
                                 <td>
                                     @Model.ProductsNotInItem[i].Description
                                 </td>
                                 <td>
-                                    @Html.TextBox("ProductsNotInItem[" + i + "].Price", Model.ProductsNotInItem[i].Price.ToString("F"), new { @class = "form-control" })
+                                    <input asp-for="ProductsNotInItem[i].Price" class="form-control" />
                                 </td>
                             </tr>
                         }
@@ -91,28 +87,29 @@
 
             <div class="form-group" id="divPayingItemSum">
                 <label>Сумма:</label>
-                <input type="text" id="sumInput" name="PayingItem.Summ" value="@Model.PayingItem.Summ.ToString("F")" class="form-control" />
-                @Html.ValidationMessageFor(x => x.PayingItem.Summ)
+                <input asp-for="PayingItem.Summ" id="sumInput" class="form-control" />
+                <div><span asp-validation-for="PayingItem.Summ" class="text-danger"></span></div>
             </div>
 
             <div class="form-group">
                 <label>Счет:</label>
-                @Html.DropDownListFor(x => x.PayingItem.AccountID, accList.Select(x => new SelectListItem()
-                {
-                    Text = x.AccountName,
-                    Value = x.AccountID.ToString()
-                }), new { @class = "selectpicker" })
+                <select asp-for="PayingItem.AccountID" asp-items="@accList.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString() })" class="selectpicker"></select>
             </div>
 
             <div class="form-group">
                 <label>Дата:</label>
-                @Html.TextBoxFor(x => x.PayingItem.Date, new { @class = "datepicker form-control", onclick = "clickDate()", Value = Model.PayingItem.Date.ToShortDateString() })
-                @Html.ValidationMessageFor(x => x.PayingItem.Date)
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>Дата:</label>
+                        <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
+                    </div>
+                    <div><span asp-validation-for="PayingItem.Date"></span></div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label>Комментарий:</label>
-                @Html.TextAreaFor(x => x.PayingItem.Comment, new { @class = "form-control" })
+                <textarea asp-for="PayingItem.Comment" class="form-control"></textarea>
             </div>
         </div>
         <div class="panel-footer">
