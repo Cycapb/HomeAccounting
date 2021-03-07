@@ -4,7 +4,7 @@
     List<Account> accList = ViewBag.Accounts;
 }
 <div class="panel panel-primary">
-    <div class="panel-heading">Редактирование транзакции</div>    
+    <div class="panel-heading">Редактирование транзакции</div>
     <form method="post" asp-action="Edit" asp-antiforgery="true" data-ajax="true" data-ajax-method="post" data-ajax-update="#payingDiv" data-ajax-success="updateAfterAccountChange"
           data-ajax-mode="replace" data-ajax-url="@Url.Action("Edit")">
         <div class="panel-body">
@@ -98,13 +98,8 @@
 
             <div class="form-group">
                 <label>Дата:</label>
-                <div class="form-group">
-                    <div class="form-group">
-                        <label>Дата:</label>
-                        <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
-                    </div>
-                    <div><span asp-validation-for="PayingItem.Date"></span></div>
-                </div>
+                <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
+                <div><span asp-validation-for="PayingItem.Date"></span></div>
             </div>
 
             <div class="form-group">
@@ -115,7 +110,7 @@
         <div class="panel-footer">
             <input type="submit" value="Сохранить изменения" class="btn btn-success btn-raised btn-sm" />
             <a asp-action="List" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax="true" data-ajax-url="@Url.Action("List")"
-           class = "btn btn-default btn-raised btn-sm">Назад</a>
+               class="btn btn-default btn-raised btn-sm">Назад</a>
         </div>
     </form>
 </div>
