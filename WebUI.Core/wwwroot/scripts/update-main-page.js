@@ -1,5 +1,4 @@
 ﻿function updateAfterAccountChange() {
-    if (!hasErrors) {
         $.when(
             $.ajax({
                 url: '/AccountingInformation/Accounts',
@@ -45,11 +44,9 @@
             .then(function () {
 
             });
-    }    
 }
 
 function updateAfterTransferMoneyOrAddAccount() {
-    if (hasNoValidationErrors) {
         $.when(
             $.ajax({
                 url: '/AccountingInformation/Accounts',
@@ -73,7 +70,6 @@ function updateAfterTransferMoneyOrAddAccount() {
             .then(function () {
 
             });
-    }    
 }
 
 function updateAfterDebt() {
