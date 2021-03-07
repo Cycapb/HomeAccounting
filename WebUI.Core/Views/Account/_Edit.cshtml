@@ -2,7 +2,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">Редактирование счета: @Model.AccountName</div>
     <form asp-action="Edit" method="post" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-method="post"
-          data-ajax-update="#payingDiv" data-ajax-success="updateAfterTransfer" data-ajax-url="@Url.Action("Edit")">
+          data-ajax-update="#payingDiv" data-ajax-success="updateAfterTransferMoneyOrAddAccount" data-ajax-url="@Url.Action("Edit")">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="panel-body">
             <input type="hidden" name="AccountId" value="@Model.AccountID" />

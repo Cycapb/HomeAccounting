@@ -125,10 +125,6 @@
 			var datepicker = this.picker;
 			datepicker.removeClass('open');
 			
-			setTimeout(function(){
-    			this.picker.hide();
-			}, 500);
-			
 			$(window).off('resize', this.place);
 			this.viewMode = this.startViewMode;
 			this.showMode();
