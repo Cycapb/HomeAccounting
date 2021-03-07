@@ -83,17 +83,13 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(WebUser user, int id)
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
                 var product = await _productService.GetItemAsync(id);
-                var productEditModel = new ProductEditModel()
-                {
-                    Product = product
-                };
 
-                return PartialView("_Edit", productEditModel);
+                return PartialView("_Edit", product);
             }
             catch (ServiceException e)
             {
@@ -103,13 +99,13 @@ namespace WebUI.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProductEditModel ptEdit)
+        public async Task<IActionResult> Edit(Product product)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _productService.UpdateAsync(ptEdit.Product);
+                    await _productService.UpdateAsync(product);
                 }
                 catch (ServiceException e)
                 {
@@ -117,10 +113,10 @@ namespace WebUI.Core.Controllers
                         e);
                 }
 
-                return RedirectToAction("ProductList", new { categoryId = ptEdit.Product.CategoryID });
+                return RedirectToAction("ProductList", new { categoryId = product.CategoryID });
             }
 
-            return PartialView(ptEdit);
+            return PartialView("_Edit", product);
         }
 
         protected override void Dispose(bool disposing)
