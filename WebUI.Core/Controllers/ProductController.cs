@@ -22,12 +22,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(WebUser user, int categoryId)
-        {
-            ViewBag.CategoryId = categoryId;
-
-            return PartialView("_Add", new Product() { UserID = user.Id });
-        }
+        public IActionResult Add(WebUser user, int categoryId) => PartialView("_Add", new Product() { UserID = user.Id, CategoryID = categoryId });
 
         [HttpPost]
         [ValidateAntiForgeryToken]
