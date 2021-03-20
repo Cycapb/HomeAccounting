@@ -115,7 +115,7 @@ namespace WebUI.Core.Controllers
 
                 if (category == null)
                 {
-                    return RedirectToAction("_Index");
+                    return RedirectToAction("Index");
                 }
 
                 ViewBag.TypesOfFlow = await GetTypesOfFlow();
