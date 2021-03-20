@@ -16,18 +16,13 @@ namespace WebUI.Core.Infrastructure.TagHelpers
 
         public string AjaxSuccess { get; set; }
 
+        public string AjaxBegin { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.Attributes.Add("data-ajax", "true");
-            
-            if (string.IsNullOrWhiteSpace(AjaxMode))
-            {
-                output.Attributes.Add("data-ajax-mode", "replace");
-            }
-            else
-            {
-                output.Attributes.Add("data-ajax-mode", AjaxMode);
-            }
+
+            output.Attributes.Add("data-ajax-mode", string.IsNullOrWhiteSpace(AjaxMode) ? "replace" : AjaxMode);
 
             output.Attributes.Add("data-ajax-update", AjaxUpdateElementId);
             output.Attributes.Add("data-ajax-url", AjaxUrl);
@@ -35,6 +30,11 @@ namespace WebUI.Core.Infrastructure.TagHelpers
             if (!string.IsNullOrWhiteSpace(AjaxSuccess))
             {
                 output.Attributes.Add("data-ajax-success", AjaxSuccess);
+            }
+
+            if (!string.IsNullOrWhiteSpace(AjaxBegin))
+            {
+                output.Attributes.Add("data-ajax-begin", AjaxBegin);
             }
         }
     }

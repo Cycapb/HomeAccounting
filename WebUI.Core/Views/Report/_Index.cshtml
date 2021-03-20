@@ -13,13 +13,11 @@
         </div>
         <p>
             <div>
-                @*@Ajax.ActionLink("На главную", "MainPage", "PayingItem", null, new AjaxOptions()
-                {
-                    OnBegin = "showPopupLogin",
-                    OnSuccess = "hidePopup",
-                    UpdateTargetId = "payingItemMainBody"
-                },
-                    new {@class = "btn btn-default btn-raised btn-sm pull-right"})*@
+                <a asp-controller="PayingItem" asp-action="MainPage" class="btn btn-default btn-raised btn-sm pull-right"
+                   ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#payingItemMainBody" ajax-success="hidePopup" ajax-begin="showPopupLogin"
+                   ajax-url="@Url.Action("MainPage", "PayingItem")">
+                    На главную
+                </a>
             </div>
         </p>
     </div>
