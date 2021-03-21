@@ -15,10 +15,10 @@
 else
 {
     @pageCreator.CreatePages(pagingInfo.ItemsPerPage, pagingInfo.CurrentPage, pagingInfo.TotalItems, "#reportPanelBody", x => Url.Action("GetTypeOfFlowReport", new
-    {
-        catId = Model.CategoryId,
-        dtFrom = Model.DtFrom,
-        dtTo = Model.DtTo,
-        page = x
-    }))
+{
+    categoryId = Model.CategoryId,
+    dtFrom = Model.DtFrom,
+    dtTo = Model.DtTo,
+    page = x
+}))
 }

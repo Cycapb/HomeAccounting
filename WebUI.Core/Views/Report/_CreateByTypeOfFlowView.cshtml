@@ -3,7 +3,7 @@
     int typeOfFlowId = ViewBag.TypeOfFlowId;
 }
 <div class="well">
-    <form method="post" asp-action="GetTypeOfFlowReport" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+    <form method="post" asp-action="GetTypeOfFlowReport" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
           ajax-url="@Url.Action("GetTypeOfFlowReport")" ajax-method="POST">
         <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId"/>
         <div>

@@ -30,7 +30,7 @@
                 <td class="text-warning">
                     <a asp-action="SubcategoriesReport" asp-route-date="@item.Date" asp-route-typeOfFlowId="2" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
                        ajax-url="@Url.Action("SubcategoriesReport", "Report", new {typeOfFlowId = 2, date = item.Date})" class="text-danger">
-                        Доход
+                        Расход
                     </a>
                 </td><td>@item.SummOut</td>
             </tr>
