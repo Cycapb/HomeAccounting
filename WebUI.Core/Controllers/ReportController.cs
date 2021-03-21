@@ -65,6 +65,7 @@ namespace WebUI.Core.Controllers
             {
                 var reportModel = _reportModelCreator.CreateByTypeReportModel(model, user, page);
                 ViewBag.PageCreator = _pageCreator;
+
                 return PartialView("_GetByTypeOfFlowReport", reportModel);
             }
             catch (WebUiException e)
@@ -79,6 +80,8 @@ namespace WebUI.Core.Controllers
         }
 
         [TypeFilter(typeof(UserHasCategories))]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult GetByDatesReport(WebUser user, DateTime dtFrom, DateTime dtTo, int page = 1)
         {
             try
@@ -87,6 +90,7 @@ namespace WebUI.Core.Controllers
                 ViewBag.OutgoSum = GetSummOfItems(reportModel.AllItems, 2);
                 ViewBag.IncomingSum = GetSummOfItems(reportModel.AllItems, 1);
                 ViewBag.PageCreator = _pageCreator;
+
                 return PartialView("_GetByDatesReport", reportModel);
             }
             catch (WebUiException e)
@@ -110,6 +114,7 @@ namespace WebUI.Core.Controllers
                     .OrderByDescending(x => x.Sum)
                     .ToList();
                 ViewBag.Summ = list.Sum(x => x.Sum);
+
                 return PartialView("_GetAllCategoriesReport", list);
             }
             catch (WebUiHelperException e)
@@ -123,12 +128,14 @@ namespace WebUI.Core.Controllers
         {
             var dtFrom = date;
             var dtTo = EndDateFromDate(date);
+
             return RedirectToAction("GetByDatesReport", new { dtFrom, dtTo });
         }
 
         public async Task<ActionResult> SubcategoriesReport(WebUser user, int typeOfFlowId, DateTime date)
         {
             var payItemSubcategoriesList = await GetPayitemSubcategoriesForView(user, typeOfFlowId, date);
+
             return PartialView("_SubcategoriesReport", payItemSubcategoriesList);
         }
 
@@ -141,8 +148,7 @@ namespace WebUI.Core.Controllers
             base.Dispose(disposing);
         }
 
-        private async Task<List<PayItemSubcategories>> GetPayitemSubcategoriesForView(WebUser user, int typeOfFlowId,
-            DateTime date)
+        private async Task<List<PayItemSubcategories>> GetPayitemSubcategoriesForView(WebUser user, int typeOfFlowId, DateTime date)
         {
             ViewBag.TypeOfFlowName = typeOfFlowId == 1 ? "Доход" : "Расход";
             ViewBag.Month = date.ToString("MMMMMM", CultureInfo.CurrentCulture);
@@ -154,6 +160,7 @@ namespace WebUI.Core.Controllers
                     await _payItemSubcategoriesHelper.GetPayItemsWithSubcategoriesInDatesWeb(date, dtTo, user,
                         typeOfFlowId);
                 ViewBag.Summ = payItemSubcategoriesList.Sum(x => x.CategorySumm.Sum);
+
                 return payItemSubcategoriesList;
             }
             catch (WebUiHelperException e)

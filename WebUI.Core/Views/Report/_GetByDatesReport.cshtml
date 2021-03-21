@@ -1,0 +1,43 @@
+﻿@model ReportModel
+@{
+    ViewBag.Title = "Отчет по датам";
+}
+<div class="well">
+    <table class="table table-condensed table-bordered">
+        <caption>Все транзакции за период с @Model.DtFrom.ToShortDateString() до @Model.DtTo.ToShortDateString()<span class="pull-right" id="loading" style="display: none">Формирование...</span></caption>
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Счет</th>
+            <th>Категория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+        </tr>
+        </thead>
+        <tbody id="reportTable">
+        @foreach (var item in Model.ItemsPerPage)
+        {
+            <tr>
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.AccountName</td>
+                <td>@item.CategoryName</td>
+                @if (item.TypeOfFlowId == 2)
+                {
+                    <td>-@item.Summ.ToString("c")</td>
+                }
+                else
+                {
+                    <td>@item.Summ.ToString("c")</td>
+                }
+                <td>@item.Comment</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <p>Доход за период: @ViewBag.IncomingSum.ToString("c")</p>
+    <p>Расход за период: @ViewBag.OutgoSum.ToString("c")</p>
+    <div class="text-center">
+        @await Html.PartialAsync("_PageLinks", Model)
+    </div>
+</div>
+

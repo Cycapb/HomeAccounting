@@ -22,6 +22,8 @@ namespace WebUI.Core.Infrastructure.TagHelpers
 
         public string AjaxLoadingElementDuration { get; set; }
 
+        public string AjaxMethod { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.Attributes.Add("data-ajax", "true");
@@ -49,6 +51,11 @@ namespace WebUI.Core.Infrastructure.TagHelpers
             if (!string.IsNullOrWhiteSpace(AjaxLoadingElementId))
             {
                 output.Attributes.Add("data-ajax-loading", AjaxLoadingElementId);
+            }
+
+            if (!string.IsNullOrWhiteSpace(AjaxMethod))
+            {
+                output.Attributes.Add("data-ajax-method", AjaxMethod);
             }
         }
     }

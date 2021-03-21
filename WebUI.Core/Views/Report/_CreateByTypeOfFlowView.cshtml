@@ -4,7 +4,7 @@
 }
 <div class="well">
     <form method="post" asp-action="GetTypeOfFlowReport" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
-          ajax-url="@Url.Action("GetTypeOfFlowReport")">
+          ajax-url="@Url.Action("GetTypeOfFlowReport")" ajax-method="POST">
         <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId"/>
         <div>
             <div class="form-group">
@@ -29,7 +29,7 @@
 
 <div class="well">
     <form method="post" asp-antiforgery="true" asp-action="GetAllCategoriesReport" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
-          ajax-url="@Url.Action("GetAllCategoriesReport")" ajax-loading-element-duration="300" ajax-loading-element-id="#loading">
+          ajax-url="@Url.Action("GetAllCategoriesReport")" ajax-loading-element-duration="300" ajax-loading-element-id="#loading" ajax-method="POST">
         <div>
             <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId" />
             <div class="form-group">
