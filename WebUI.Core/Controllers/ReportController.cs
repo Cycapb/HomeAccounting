@@ -58,6 +58,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult GetTypeOfFlowReport(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page = 1)
         {
             try
@@ -96,6 +97,8 @@ namespace WebUI.Core.Controllers
         }
 
         [TypeFilter(typeof(UserHasCategories))]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult GetAllCategoriesReport(WebUser user, DateTime dateFrom, DateTime dateTo, int typeOfFlowId)
         {
             ViewBag.TypeOfFlowName = typeOfFlowId == 1 ? "Доход" : "Расход";

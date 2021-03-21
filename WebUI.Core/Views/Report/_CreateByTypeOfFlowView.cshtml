@@ -3,7 +3,7 @@
     int typeOfFlowId = ViewBag.TypeOfFlowId;
 }
 <div class="well">
-    <form method="post" asp-action="GetTypeOfFlowReport" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="reportPanelBody"
+    <form method="post" asp-action="GetTypeOfFlowReport" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
           ajax-url="@Url.Action("GetTypeOfFlowReport")">
         <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId"/>
         <div>
@@ -28,37 +28,24 @@
 </div>
 
 <div class="well">
-    @*@using (Ajax.BeginForm(new AjaxOptions()
-    {
-        Url = Url.Action("GetAllCategoriesReport"),
-        UpdateTargetId = "reportPanelBody",
-        LoadingElementId = "loading",
-        LoadingElementDuration = 300
-    }))
-    {
+    <form method="post" asp-antiforgery="true" asp-action="GetAllCategoriesReport" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+          ajax-url="@Url.Action("GetAllCategoriesReport")" ajax-loading-element-duration="300" ajax-loading-element-id="#loading">
         <div>
-            @Html.Hidden("typeOfFlowId", typeOfFlowId)
-            <label class="form-group">Начальная дата: </label>
-            @Html.TextBox("DateFrom", null, new
-            {
-                @class = "datepicker form-control",
-                onclick = "clickDateFrom()",
-                Value = DateTime.Today.ToShortDateString()
-            })
-
-            <label class="form-group">Конечная дата: </label>
-            @Html.TextBox("DateTo", null, new
-            {
-                @class = "datepicker form-control",
-                onclick = "clickDateTo()",
-                Value = DateTime.Today.ToShortDateString()
-            })
+            <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId" />
+            <div class="form-group">
+                <label>Начальная дата:</label>
+                <input name="DateFrom" id="DateFrom" class="datepicker form-control" value="@DateTime.Today.ToShortDateString()" onclick="clickDateFrom()" />
+            </div>
+            <div class="form-group">
+                <label>Конечная дата:</label>
+                <input name="DateTo" id="DateTo" class="datepicker form-control" value="@DateTime.Today.ToShortDateString()" onclick="clickDateTo()" />
+            </div>
         </div>
         <p>
-            <input type="submit" value="Сформировать отчет по всем категориям" class="btn btn-success btn-raised"/>
+            <input type="submit" value="Сформировать отчет по всем категориям" class="btn btn-success btn-raised" />
             <span id="loading" style="display: none">Формирование отчета...</span>
         </p>
-    }*@
+    </form>
 </div>
 <script type="text/javascript">
     $(document).ready(function ()
