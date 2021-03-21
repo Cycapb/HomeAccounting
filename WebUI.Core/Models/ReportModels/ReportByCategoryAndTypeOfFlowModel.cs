@@ -4,7 +4,7 @@ namespace WebUI.Core.Models.ReportModels
 {
     public class ReportByCategoryAndTypeOfFlowModel
     {
-        public int CatId { get; set; }
+        public int CategoryId { get; set; }
 
         public int TypeOfFlowId { get; set; }
 

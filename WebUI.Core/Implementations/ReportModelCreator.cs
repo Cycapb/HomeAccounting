@@ -67,7 +67,7 @@ namespace WebUI.Core.Implementations
 
         public ReportModel CreateByTypeReportModel(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page)
         {
-            var cacheKey = $"ByTypeOfFlow_{model.TypeOfFlowId}_{model.CatId}_{model.DtFrom.Date.ToShortDateString()}_{model.DtTo.Date.ToShortDateString()}";
+            var cacheKey = $"ByTypeOfFlow_{model.TypeOfFlowId}_{model.CategoryId}_{model.DtFrom.Date.ToShortDateString()}_{model.DtTo.Date.ToShortDateString()}";
 
             try
             {
@@ -81,7 +81,7 @@ namespace WebUI.Core.Implementations
                 else
                 {
                     tempList =
-                    _reportHelper.GetCategoryPayItemsInDatesWeb(model.DtFrom, model.DtTo, model.CatId, user)
+                    _reportHelper.GetCategoryPayItemsInDatesWeb(model.DtFrom, model.DtTo, model.CategoryId, user)
                         .OrderByDescending(x => x.Date)
                         .ToList();
                     _cache.Set(cacheKey, tempList);
@@ -125,7 +125,7 @@ namespace WebUI.Core.Implementations
 
             try
             {
-                categoryName = _categoryService.GetItem(model.CatId).Name;
+                categoryName = _categoryService.GetItem(model.CategoryId).Name;
             }
             catch (ServiceException e)
             {
@@ -143,7 +143,7 @@ namespace WebUI.Core.Implementations
                     .ToList(),
                 AllItems = pItemList.ToList(),
                 PagingInfo = _pagingCreator.Create(page, _itemsPerPage, pItemList.Count),
-                CategoryId = model.CatId,
+                CategoryId = model.CategoryId,
                 DtFrom = model.DtFrom,
                 DtTo = model.DtTo
             };

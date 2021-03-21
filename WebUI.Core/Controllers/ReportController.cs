@@ -57,6 +57,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult GetTypeOfFlowReport(ReportByCategoryAndTypeOfFlowModel model, WebUser user, int page = 1)
         {
             try
