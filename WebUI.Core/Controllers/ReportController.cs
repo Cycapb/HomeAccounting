@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Paginator.Abstract;
-using Services.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Paginator.Abstract;
+using Services.Exceptions;
 using WebUI.Core.Abstract;
 using WebUI.Core.Abstract.Helpers;
 using WebUI.Core.Exceptions;
@@ -14,7 +14,7 @@ using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Models;
 using WebUI.Core.Models.ReportModels;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize]
     public class ReportController : Controller
@@ -111,22 +111,6 @@ namespace WebUI.Controllers
             catch (WebUiHelperException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(GetAllCategoriesReport)}",
-                    e);
-            }
-        }
-
-        public PartialViewResult OverallLastYearMonths(WebUser user)
-        {
-            var model = new ReportMonthsModel();
-            try
-            {
-                var tempQuery = _reportControllerHelper.GetPayingItemsForLastYear(user).ToList();
-                _reportControllerHelper.FillReportMonthsModel(model, tempQuery);
-                return PartialView("_OverallLastYearMonths", model);
-            }
-            catch (WebUiHelperException e)
-            {
-                throw new WebUiException($"Ошибка в контроллере {nameof(ReportController)} в методе {nameof(OverallLastYearMonths)}",
                     e);
             }
         }

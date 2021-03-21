@@ -60,7 +60,7 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public void FillReportMonthsModel(ReportMonthsModel model, List<PayingItem> repo)
+        public void FillReportMonthsModel(ReportOverallLastYearByMonthsModel model, List<PayingItem> repo)
         {
             var income = GetOverallByTypeOfFlow(repo, 1);
             var outgo = GetOverallByTypeOfFlow(repo, 2);
@@ -129,7 +129,7 @@ namespace WebUI.Core.Implementations.Helpers
                 .ToList();
         }
 
-        private void FillMonths(IEnumerable<MonthSumm> listMonths, ReportMonthsModel model)
+        private void FillMonths(IEnumerable<MonthSumm> listMonths, ReportOverallLastYearByMonthsModel model)
         {
             foreach (var item in listMonths)
             {
@@ -141,7 +141,7 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        private void FillIncomeSumm(List<MonthSumm> listmonths, ReportMonthsModel model)
+        private void FillIncomeSumm(List<MonthSumm> listmonths, ReportOverallLastYearByMonthsModel model)
         {
             foreach (var monthSumm in listmonths)
             {
@@ -154,7 +154,7 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        private void FillOutgoSumm(List<MonthSumm> listmonths, ReportMonthsModel model)
+        private void FillOutgoSumm(List<MonthSumm> listmonths, ReportOverallLastYearByMonthsModel model)
         {
             foreach (var monthSumm in listmonths)
             {

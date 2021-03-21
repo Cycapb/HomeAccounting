@@ -9,7 +9,7 @@ namespace WebUI.Core.Abstract.Helpers
 {
     public interface IReportControllerHelper : IDisposable
     {
-        void FillReportMonthsModel(ReportMonthsModel model, List<PayingItem> repo);
+        void FillReportMonthsModel(ReportOverallLastYearByMonthsModel model, List<PayingItem> repo);
 
         IEnumerable<Category> GetCategoriesByType(WebUser user, int flowId);
 

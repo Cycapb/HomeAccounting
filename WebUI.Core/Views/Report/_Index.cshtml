@@ -22,6 +22,6 @@
         </p>
     </div>
     <div class="col-xs-3">
-        @*@Html.Action("OverallLastYearMonths", "Report")*@
+        @await Component.InvokeAsync(typeof(ReportOverallLastYearByMonths))
     </div>
 </div>

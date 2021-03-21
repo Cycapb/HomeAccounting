@@ -23,7 +23,7 @@ namespace WebUI.Core.Models.ReportModels
         public DateTime DtTo { get; set; }
     }
 
-    public class ReportMonthsModel
+    public class ReportOverallLastYearByMonthsModel
     {
         public List<MonthInOut> MonthInOuts { get; set; }
     }
