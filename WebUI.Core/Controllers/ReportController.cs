@@ -120,7 +120,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
-        public IActionResult GetItemsByMonth(WebUser user, DateTime date)
+        public IActionResult GetItemsByMonth(DateTime date)
         {
             var dtFrom = date;
             var dtTo = EndDateFromDate(date);
