@@ -126,6 +126,21 @@ namespace WebUI.Core.Implementations
             try
             {
                 categoryName = _categoryService.GetItem(model.CategoryId).Name;
+
+                return new ReportModel()
+                {
+                    CategoryName = categoryName,
+                    ItemsPerPage = pItemList
+                    .Skip((page - 1) * _itemsPerPage)
+                    .Take(_itemsPerPage)
+                    .ToList(),
+                    AllItems = pItemList.ToList(),
+                    PagingInfo = _pagingCreator.Create(page, _itemsPerPage, pItemList.Count),
+                    CategoryId = model.CategoryId,
+                    DtFrom = model.DtFrom,
+                    DtTo = model.DtTo,
+                    TypeOfFlowId = model.TypeOfFlowId
+                };
             }
             catch (ServiceException e)
             {
@@ -133,20 +148,6 @@ namespace WebUI.Core.Implementations
                     $"Ошибка в типе {nameof(ReportModelCreator)} в методе {nameof(GetByTypeOfFlowReportModel)}",
                     e);
             }
-
-            return new ReportModel()
-            {
-                CategoryName = categoryName,
-                ItemsPerPage = pItemList
-                    .Skip((page - 1) * _itemsPerPage)
-                    .Take(_itemsPerPage)
-                    .ToList(),
-                AllItems = pItemList.ToList(),
-                PagingInfo = _pagingCreator.Create(page, _itemsPerPage, pItemList.Count),
-                CategoryId = model.CategoryId,
-                DtFrom = model.DtFrom,
-                DtTo = model.DtTo
-            };
         }
 
         private ReportModel GetByDatesReportModel(DateTime dtFrom, DateTime dtTo, int page, List<PayItem> pItemList)

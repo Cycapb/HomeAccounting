@@ -21,6 +21,8 @@ namespace WebUI.Core.Models.ReportModels
         public DateTime DtFrom { get; set; }
 
         public DateTime DtTo { get; set; }
+
+        public int TypeOfFlowId { get; set; }
     }
 
     public class ReportOverallLastYearByMonthsModel
