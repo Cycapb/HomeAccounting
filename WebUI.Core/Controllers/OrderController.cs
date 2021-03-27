@@ -29,6 +29,7 @@ namespace WebUI.Controllers
             try
             {
                 var orders = (await _orderService.GetListAsync(x => x.UserId == user.Id && x.Active)).ToList();
+
                 return PartialView("_Index", orders);
             }
             catch (ServiceException e)
