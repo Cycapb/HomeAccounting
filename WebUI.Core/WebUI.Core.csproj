@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="lib\Paginator.dll" />
     <None Remove="Models\KnockoutModels\AccountModel.js" />
     <None Remove="Models\KnockoutModels\TodoCreateViewModel.js" />
   </ItemGroup>
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="lib\Paginator.dll" />
     <Content Include="Models\KnockoutModels\AccountModel.js" />
     <Content Include="Models\KnockoutModels\TodoCreateViewModel.js" />
   </ItemGroup>
@@ -49,6 +51,12 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Paginator">
+      <HintPath>lib\Paginator.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

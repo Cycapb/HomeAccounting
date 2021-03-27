@@ -6,6 +6,8 @@ using DomainModels.EntityORM.Core.Infrastructure;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Microsoft.AspNetCore.Http;
+using Paginator.Abstract;
+using Paginator.Concrete;
 using Providers;
 using Services;
 using Services.Triggers;
@@ -48,6 +50,12 @@ namespace WebUI.Core.Configuration
             builder.RegisterType<MessageProvider>().As<IMessageProvider>();
             builder.RegisterType<ReportHelper>().As<IReportHelper>();
             builder.RegisterType<CategoryHelper>().As<ICategoryHelper>();
+            builder.RegisterType<PayItemSubcategoriesHelper>().As<IPayItemSubcategoriesHelper>();
+            builder.RegisterType<ReportControllerHelper>().As<IReportControllerHelper>();
+            builder.RegisterType<ReportModelCreator>().As<IReportModelCreator>();
+            builder.RegisterType<AjaxPageCreator>().As<IPageCreator>();
+            builder.RegisterType<PagingInfoCreator>().As<IPagingInfoCreator>();
+            builder.RegisterType<Paginator.Concrete.Paginator>().As<IPaginator>();
 
             builder.RegisterType<EntityRepositoryCore<NotificationMailBox, AccountingContextCore>>().As<IRepository<NotificationMailBox>>();
             builder.RegisterType<EntityRepositoryCore<Category, AccountingContextCore>>().As<IRepository<Category>>();

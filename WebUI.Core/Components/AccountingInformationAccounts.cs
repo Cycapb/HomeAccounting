@@ -1,5 +1,4 @@
 ﻿using DomainModels.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Exceptions;
@@ -16,7 +15,7 @@ namespace WebUI.Core.Components
     public class AccountingInformationAccounts : ViewComponent, IDisposable
     {
         private readonly IAccountService _accountService;
-        private bool _disposed = false;
+        private bool _disposed;
 
         public AccountingInformationAccounts(IAccountService accountService)
         {
@@ -56,15 +55,14 @@ namespace WebUI.Core.Components
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _accountService.Dispose();
-                }
+            if (_disposed) return;
 
-                _disposed = true;
+            if (disposing)
+            {
+                _accountService.Dispose();
             }
+
+            _disposed = true;
         }
     }
 }

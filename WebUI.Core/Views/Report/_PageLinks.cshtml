@@ -1,0 +1,25 @@
+﻿@model ReportModel
+@{
+    var pageCreator = (IPageCreator) ViewBag.PageCreator;
+    var pagingInfo = Model.PagingInfo;
+}
+@if (Model.CategoryId == 0)
+{
+    @pageCreator.CreatePages(pagingInfo.ItemsPerPage, pagingInfo.CurrentPage, pagingInfo.TotalItems, "#reportPanelBody", x => Url.Action("GetByDatesReport", new
+    {
+        dtFrom = Model.DtFrom,
+        dtTo = Model.DtTo,
+        page = x
+    }))
+}
+else
+{
+    @pageCreator.CreatePages(pagingInfo.ItemsPerPage, pagingInfo.CurrentPage, pagingInfo.TotalItems, "#reportPanelBody", x => Url.Action("GetTypeOfFlowReport", new
+{
+    categoryId = Model.CategoryId,
+    dtFrom = Model.DtFrom,
+    dtTo = Model.DtTo,
+    page = x,
+    typeOfFlowId = Model.TypeOfFlowId
+}))
+}

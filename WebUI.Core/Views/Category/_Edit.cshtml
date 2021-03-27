@@ -8,31 +8,20 @@
     <form asp-action="Edit" method="post" asp-antiforgery="true" class="form-inline" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace"
           data-ajax-update="#categoryDiv" data-ajax-url="@Url.Action("Edit")">
         <div class="panel-body">
-            @Html.HiddenFor(x => x.CategoryID)
-            @Html.HiddenFor(x => x.UserId)
+            <input asp-for="CategoryID" type="hidden" />
+            <input asp-for="UserId" type="hidden" />
             <div class="form-group">
-                <label class="form-group">Название:</label>
-                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Name)
+                <label>Название:</label>
+                <input asp-for="Name" class="form-control" />
+                <div><span asp-validation-for="Name" class="text-danger"></span></div>
             </div>
             <div class="form-group">
-                <label class="form-group">Тип:</label>
-                @Html.DropDownListFor(x => x.TypeOfFlowID, list.Select(x => new SelectListItem()
-                   {
-                       Text = x.TypeName,
-                       Value = x.TypeID.ToString()
-                   }), new { @class = "selectpicker" })
+                <label>Тип:</label>
+                <select asp-for="TypeOfFlowID" asp-items="@list.Select(x => new SelectListItem() { Text = x.TypeName, Value = x.TypeID.ToString() })" class="selectpicker"></select>
             </div>
             <div class="checkbox">
                 <label>
-                    @if (Model.Active)
-                    {
-                        <input id="Active" name="Active" type="checkbox" value="true" checked="checked">
-                    }
-                    else
-                    {
-                        <input id="Active" name="Active" type="checkbox" value="true">
-                    }
+                    <input asp-for="Active" />
                     <span class="checkbox-material"><span class="check"></span></span>
                     Активная
                 </label>
@@ -41,7 +30,7 @@
         <div class="panel-footer">
             <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
             <a asp-action="Index" asp-controller="Category" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
-               data-ajax-url="@Url.Action("Index", "Category")" class = "btn btn-default btn-raised btn-sm" }>
+               data-ajax-url="@Url.Action("Index", "Category")" class="btn btn-default btn-raised btn-sm" }>
                 Назад
             </a>
         </div>
@@ -52,8 +41,8 @@
     </div>
     <div class="panel-footer">
         <a asp-action="Add" asp-controller="Product" asp-route-categoryId="@Model.CategoryID" data-ajax="true" data-ajax-mode="replace"
-            data-ajax-update="#productsDiv" data-ajax-url="@Url.Action("Add", "Product", new { categoryId = Model.CategoryID })"
-            class="btn btn-primary btn-raised btn-sm">
+           data-ajax-update="#productsDiv" data-ajax-url="@Url.Action("Add", "Product", new { categoryId = Model.CategoryID })"
+           class="btn btn-primary btn-raised btn-sm">
             Добавить подкатегорию
         </a>
     </div>

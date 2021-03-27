@@ -47,12 +47,8 @@ namespace WebUI.Core.Controllers
         [AllowAnonymous]
         public IActionResult Index(string returnUrl)
         {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                return View("Error", new string[] { "Доступ запрещен" });
-            }
-
             ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
@@ -195,6 +191,7 @@ namespace WebUI.Core.Controllers
             {
                 userToChange.Email = email;
                 var validEmail = await _userValidator.ValidateAsync(_userManager, userToChange);
+                
                 if (!validEmail.Succeeded)
                 {
                     AddModelErrors(validEmail);
@@ -219,6 +216,7 @@ namespace WebUI.Core.Controllers
             {
                 return View("Error", new string[] { "Ошибка при изменении данных" });
             }
+
             return PartialView("_ChangeCredentials", userToChange);
         }
 

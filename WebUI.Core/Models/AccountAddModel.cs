@@ -8,10 +8,10 @@ namespace WebUI.Core.Models
         [StringLength(50)]
         [Display(Name = "Наименование счета")]
         public string AccountName { get; set; }
-                
+
         [Display(Name = "Сумма на счету")]
         [Required(ErrorMessage = "Необходимо ввести сумму")]
-        public decimal? Cash { get; set; }
+        public decimal? Cash { get; set; } = 0M;
 
         [Display(Name = "Отображать в текущем бюджете")]
         public bool Use { get; set; }

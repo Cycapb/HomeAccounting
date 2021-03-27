@@ -186,7 +186,7 @@ namespace WebUI.Core.Controllers
 
                 await FillTransferModel(user, tModel);
 
-                return PartialView("TransferMoney", tModel);
+                return PartialView("_TransferMoney", tModel);
             }
             catch (ServiceException e)
             {
@@ -204,7 +204,7 @@ namespace WebUI.Core.Controllers
             {
                 var accounts = (await _accountService.GetListAsync(x => x.AccountID != id && x.UserId == user.Id)).ToList();
 
-                return PartialView(accounts);
+                return PartialView("_GetUserAccounts", accounts);
             }
             catch (ServiceException e)
             {

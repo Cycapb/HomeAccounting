@@ -1,9 +1,9 @@
 ﻿@model AccountAddModel
+
 <div class="panel panel-primary">
     <div class="panel-heading">Добавление счета</div>
     <form asp-action="Add" method="post" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-method="post"
-          data-ajax-update="#payingDiv" data-ajax-success="updateAfterTransfer" data-ajax-url="@Url.Action("Add")">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          data-ajax-update="#payingDiv" data-ajax-success="updateAfterTransferMoneyOrAddAccount" data-ajax-url="@Url.Action("Add")">
         <div class="panel-body">
             <div class="label-floating form-group">
                 <label asp-for="AccountName" class="control-label"></label>
@@ -17,7 +17,7 @@
             </div>
             <div class="checkbox">
                 <label class="form-check-label">
-                    <input asp-for="Use"/>
+                    <input asp-for="Use" />
                     Отображать в текущем бюджете
                     <span class="form-check-sign">
                         <span class="check"></span>
@@ -29,6 +29,7 @@
                 <a asp-action="Index" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index")"
                    class="btn btn-default btn-raised btn-sm">Назад</a>
             </div>
+        </div>
     </form>
 </div>
-<script src="~/assets/js/material-kit.js"></script>
+<script src="~/assets/js/material-kit.js" asp-append-version="true"></script>

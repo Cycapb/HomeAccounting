@@ -1,27 +1,27 @@
 ﻿@model IEnumerable<Account>
-    <div class="panel panel-primary">
-        <div class="panel-heading">Администрирование счетов</div>
-        <div class="panel-body" id="accountList">
-            <table class="table table-striped">
-                <tr>
-                    <th>
-                        Наименование:
-                    </th>
-                    <th>
-                        Сумма:
-                    </th>
-                    <th>
-                        Действия:
-                    </th>
-                </tr>                
-                @await Html.PartialAsync("_AccountSummary", Model)
-            </table>
-        </div>
-        <div class="panel-footer">
-            <a asp-action="Add" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
-               data-ajax-url="@Url.Action("Add")" class="btn btn-primary btn-raised btn-sm">Добавить счет</a>
-
-            <a asp-action="List" asp-controller="PayingItem" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
-               data-ajax-url="@Url.Action("List", "PayingItem")" class="btn btn-default btn-raised btn-sm pull-right">На главную</a>            
-        </div>
+<div class="panel panel-primary">
+    <div class="panel-heading">Администрирование счетов</div>
+    <div class="panel-body" id="accountList">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Наименование:
+                </th>
+                <th>
+                    Сумма:
+                </th>
+                <th>
+                    Действия:
+                </th>
+            </tr>
+            @await Html.PartialAsync("_AccountSummary", Model)
+        </table>
     </div>
+    <div class="panel-footer">
+        <a asp-action="Add" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+           data-ajax-url="@Url.Action("Add")" class="btn btn-primary btn-raised btn-sm">Добавить счет</a>
+
+        <a asp-action="List" asp-controller="PayingItem" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+           data-ajax-url="@Url.Action("List", "PayingItem")" class="btn btn-default btn-raised btn-sm pull-right">На главную</a>
+    </div>
+</div>

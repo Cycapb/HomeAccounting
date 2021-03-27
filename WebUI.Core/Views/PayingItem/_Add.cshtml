@@ -8,7 +8,6 @@
 
     <form method="POST" asp-action="Add" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
           data-ajax-method="post" data-ajax-success="updateAfterAccountChange" data-ajax-url="@Url.Action("Add")">
-        <div asp-validation-summary="ModelOnly"></div>
         <div class="panel-body">
             <input asp-for="PayingItem.UserId" type="hidden" />
             <div class="form-group">
@@ -32,14 +31,7 @@
 
             <div class="form-group">
                 <label>Дата:</label>
-                <div class="form-group">
-                    <label>Дата:</label>
-                    @Html.TextBoxFor(x => x.PayingItem.Date, new
-                    {
-                        @class = "datepicker form-control",
-                        onclick = "clickDate()"
-                    })
-                </div>
+                <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
                 <div><span asp-validation-for="PayingItem.Date"></span></div>
             </div>
 

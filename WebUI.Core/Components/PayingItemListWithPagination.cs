@@ -1,6 +1,5 @@
 ﻿using DomainModels.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Services;
 using Services.Exceptions;
 using System;
@@ -32,7 +31,7 @@ namespace WebUI.Core.Components
                 var user = await ViewContext.HttpContext.Session.GetJsonAsync<WebUser>(nameof(WebUser));
                 var model = new PayingItemsListWithPaginationModel()
                 {
-                    PagingInfo = new PagingInfo() 
+                    PagingInfo = new PagingInfo()
                     {
                         CurrentPage = _pageNumber,
                         ItemsPerPage = _itemsToShowOnPage,

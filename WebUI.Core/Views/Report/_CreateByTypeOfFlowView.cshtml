@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Category>
+@{
+    int typeOfFlowId = ViewBag.TypeOfFlowId;
+}
+<div class="well">
+    <form method="post" asp-action="GetTypeOfFlowReport" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+          ajax-url="@Url.Action("GetTypeOfFlowReport")" ajax-method="POST">
+        <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId"/>
+        <div>
+            <div class="form-group">
+                <label>Категория:</label>
+                <select name="CategoryId" id="CategoryId" asp-items="@Model.Select(x => new SelectListItem() { Text = x.Name, Value = x.CategoryID.ToString()})" class="selectpicker">                    
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Начальная дата:</label>
+                <input name="DtFrom" id="DtFrom" class="datepicker form-control" value="@DateTime.Today.ToShortDateString()" onclick="clickDtFrom()"/>
+            </div>
+            <div class="form-group">
+                <label>Конечная дата:</label>
+                <input name="DtTo" id="DtTo" class="datepicker form-control" value="@DateTime.Today.ToShortDateString()" onclick="clickDtTo()" />
+            </div>
+        </div>
+        <p>
+            <input type="submit" value="Сформировать отчет по категории" class="btn btn-success btn-raised"/>
+        </p>
+    </form>
+</div>
+
+<div class="well">
+    <form method="post" asp-antiforgery="true" asp-action="GetAllCategoriesReport" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+          ajax-url="@Url.Action("GetAllCategoriesReport")" ajax-loading-element-duration="300" ajax-loading-element-id="#loading" ajax-method="POST">
+        <div>
+            <input type="hidden" name="TypeOfFlowId" id="TypeOfFlowId" value="@typeOfFlowId" />
+            <div class="form-group">
+                <label>Начальная дата:</label>
+                <input name="DateFrom" id="DateFrom" class="datepicker form-control" value="@DateTime.Today.ToShortDateString()" onclick="clickDateFrom()" />
+            </div>
+            <div class="form-group">
+                <label>Конечная дата:</label>
+                <input name="DateTo" id="DateTo" class="datepicker form-control" value="@DateTime.Today.ToShortDateString()" onclick="clickDateTo()" />
+            </div>
+        </div>
+        <p>
+            <input type="submit" value="Сформировать отчет по всем категориям" class="btn btn-success btn-raised" />
+            <span id="loading" style="display: none">Формирование отчета...</span>
+        </p>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        clickDateFrom();
+        clickDateTo();
+        clickDtFrom();
+        clickDtTo();
+        $('.selectpicker').selectpicker();
+    });
+</script>

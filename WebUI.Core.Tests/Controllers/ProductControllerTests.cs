@@ -175,11 +175,11 @@ namespace WebUI.Tests.ControllersTests
             var productId = 1;
             _productServiceMock.Setup(m => m.GetItemAsync(productId)).ReturnsAsync(new Product() { CategoryID = 1, ProductID = 1, UserID = "1" });
 
-            var result = await target.Edit(new WebUser(), productId);
-            var productToEdit = target.ViewData.Model as ProductEditModel;
+            var result = await target.Edit(productId);
+            var productToEdit = target.ViewData.Model as Product;
 
             Assert.IsNotNull(productToEdit);
-            Assert.AreEqual(productToEdit.Product.ProductID, productId);
+            Assert.AreEqual(productToEdit.ProductID, productId);
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
@@ -187,15 +187,13 @@ namespace WebUI.Tests.ControllersTests
         [TestCategory("ProductControllerTests")]
         public async Task Can_Edit_Valid_Product()
         {
-            ProductEditModel productToEdit = new ProductEditModel()
-            {
-                Product = new Product() { CategoryID = 1, ProductID = 1 }
-            };
+            var productToEdit = new Product() { CategoryID = 1, ProductID = 1 };
+            
             var target = new ProductController(_productServiceMock.Object);
 
             var result = await target.Edit(productToEdit);
 
-            _productServiceMock.Verify(m => m.UpdateAsync(productToEdit.Product));
+            _productServiceMock.Verify(m => m.UpdateAsync(productToEdit));
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
@@ -204,11 +202,10 @@ namespace WebUI.Tests.ControllersTests
         public async Task Cannot_Edit_Invalid_Product()
         {
             var target = new ProductController(_productServiceMock.Object);
-            ProductEditModel pToEdit = new ProductEditModel();
-            Product product = new Product();
+            var product = new Product();
 
             target.ModelState.AddModelError("error", "error");
-            var result = await target.Edit(pToEdit);
+            var result = await target.Edit(product);
 
             Assert.IsNotInstanceOfType(result, typeof(RedirectToRouteResult));
         }

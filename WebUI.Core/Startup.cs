@@ -59,6 +59,8 @@ namespace WebUI.Core
             {
                 options.Filters.AddService<CustomErrorAttribute>();
                 options.EnableEndpointRouting = false;
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => $"Необходимо ввести значение");
+                options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"{x} некорректное значения для этого поля");
             });
 
             services.AddMemoryCache();
@@ -100,7 +102,7 @@ namespace WebUI.Core
             app.UseMiddleware<SessionExpireMiddleware>();
             app.UseMvc(routes =>
             {
-                routes.MapRoute("Report", "Report/{action}", new { controller = "Report", action = "Index" });
+                routes.MapRoute("Report", "Report", new { controller = "Report", action = "Index" });
                 routes.MapRoute("", "Report/{action}/{typeOfFlowId?}", new { controller = "Report", action = "SubcategoriesReport" });
                 routes.MapRoute("Page", "Page{page}", new { controller = "PayingItem", action = "List", page = 1 }, new { page = @"\d" });
                 routes.MapRoute("", "{typeOfFlowId:range(1,2)}", new { controller = "PayingItem", action = "Add" });

@@ -6,58 +6,49 @@
 }
 <div class="panel panel-primary">
     <div class="panel-heading">Закрытие долга: @Model.Person</div>
-<form method="post" asp-antiforgery="true" asp-action="ClosePartially" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
-      data-ajax-method="post" data-ajax-url="@Url.Action("ClosePartially")" data-ajax-success="updateAfterDebt">
-    <div class="panel-body">
-        @Html.HiddenFor(x => x.DebtId)
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            <label>Сумма долга:</label>
-            @Html.EditorFor(x => x.Sum, new
-            {
-                htmlAttributes = new
-                {
-                    @class = "form-control"
-                }
-            })
-            @Html.ValidationMessageFor(x => x.Sum)
-        </div>
-        <div class="form-group">
-            <label>@personality:</label>
-            <div>
-                @Html.DisplayFor(x => x.Person)
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Дата займа:</label>
-            <div>
-                @Html.DisplayFor(x => x.Date)
-            </div>
-        </div>
-        <div class="form-group">
-            <label>@populatedAccount:</label>
-            <p>
-                @Html.DropDownListFor(x => x.AccountId, Model.Accounts.Select(a => new SelectListItem()
-                {
-                    Text = a.AccountName,
-                    Value = a.AccountID.ToString()
-                }), new { @class = "selectpicker" })
-            </p>
-        </div>
-    </div>
-    <div class="panel-footer">
-        <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг" />
+    <form method="post" asp-antiforgery="true" asp-action="ClosePartially" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+          data-ajax-method="post" data-ajax-url="@Url.Action("ClosePartially")" data-ajax-success="updateAfterDebt">
+        <div class="panel-body">
+            <input asp-for="DebtId" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <a asp-action="DebtList" data-ajax="true" data-ajax-update="#payingDiv" data-ajax-mode="replace"
-           data-ajax-url="@Url.Action("DebtList")" class="btn btn-default btn-raised btn-sm pull-right">
-            К списку долгов
-        </a>
-    </div>
-</form>
+            <div class="form-group">
+                <label>Сумма долга:</label>
+                <input asp-for="Sum" class="form-control" />
+                <div><span asp-validation-for="Sum"></span></div>
+            </div>
+            <div class="form-group">
+                <label>@personality:</label>
+                <div>
+                    @Model.Person
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Дата займа:</label>
+                <div>
+                    @Model.Date
+                </div>
+            </div>
+            <div class="form-group">
+                <label>@populatedAccount:</label>
+                <div>
+                    <select asp-for="AccountId" asp-items="@Model.Accounts.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString() })" class="selectpicker"></select>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-success btn-raised btn-xs" value="Закрыть долг" />
+
+            <a asp-action="DebtList" data-ajax="true" data-ajax-update="#payingDiv" data-ajax-mode="replace"
+               data-ajax-url="@Url.Action("DebtList")" class="btn btn-default btn-raised btn-sm pull-right">
+                К списку долгов
+            </a>
+        </div>
+    </form>
 </div>
 <script type="text/javascript">
     $(document).ready(
-        function() {
+        function () {
             $('.selectpicker').selectpicker();
         });
 </script>

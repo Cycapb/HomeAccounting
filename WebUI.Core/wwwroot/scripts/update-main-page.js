@@ -1,17 +1,17 @@
 ﻿function updateAfterAccountChange() {
-    $.when(
-        $.ajax({
-            url: '/AccountingInformation/Accounts',
+        $.when(
+            $.ajax({
+                url: '/AccountingInformation/Accounts',
                 cache: false,
                 success: function (data) {
-                                $('#myAccounts').empty();
-                                $('#myAccounts').html(data);
-                            }
+                    $('#myAccounts').empty();
+                    $('#myAccounts').html(data);
+                }
             }),
             $.ajax({
                 url: '/AccountingInformation/Budgets',
                 cache: false,
-                success: function(budgets) {
+                success: function (budgets) {
                     $('#myBudgets').empty();
                     $('#myBudgets').html(budgets);
                 }
@@ -19,7 +19,7 @@
             $.ajax({
                 url: '/PayingItem/ExpensiveCategories',
                 cache: false,
-                success: function(data) {
+                success: function (data) {
                     $('#expensiveCategories').empty();
                     $('#expensiveCategories').html(data);
                 }
@@ -27,7 +27,7 @@
             $.ajax({
                 url: '/AccountingInformation/Incomes',
                 cache: false,
-                success: function(data) {
+                success: function (data) {
                     $('#income').empty();
                     $('#income').html(data);
                 }
@@ -36,18 +36,18 @@
                 url: '/AccountingInformation/Outgoes',
                 cache: false,
                 success: function (data) {
-                                $('#outgo').empty();
-                                $('#outgo').html(data);
-                            }
+                    $('#outgo').empty();
+                    $('#outgo').html(data);
+                }
             })
-    )
-.then(function () {
-            
-        });
+        )
+            .then(function () {
+
+            });
 }
 
-function updateAfterTransfer() {
-    $.when(
+function updateAfterTransferMoneyOrAddAccount() {
+        $.when(
             $.ajax({
                 url: '/AccountingInformation/Accounts',
                 cache: false,
@@ -67,9 +67,9 @@ function updateAfterTransfer() {
                 }
             })
         )
-        .then(function () {
-            
-        });
+            .then(function () {
+
+            });
 }
 
 function updateAfterDebt() {

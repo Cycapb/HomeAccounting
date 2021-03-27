@@ -1,0 +1,39 @@
+﻿@model ReportOverallLastYearByMonthsModel
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Доходы и расходы по месяцам</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Тип</th>
+            <th>Сумма</th>
+        </tr>
+        @foreach (var item in Model.MonthInOuts)
+        {
+            <tr>
+                <td colspan="2" class="text-center text-primary">
+                    <a asp-action="GetItemsByMonth" asp-route-date="@item.Date" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+                       ajax-url="@Url.Action("GetItemsByMonth", "Report", new { date = item.Date })">
+                        @item.Month
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-info">
+                    <a asp-action="SubcategoriesReport" asp-route-date="@item.Date" asp-route-typeOfFlowId="1" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+                       ajax-url="@Url.Action("SubcategoriesReport", "Report", new {typeOfFlowId = 1, date = item.Date})" class="text-info">
+                        Доход
+                    </a>
+                </td>
+                <td>@item.SummIn</td>
+            </tr>
+            <tr>
+                <td class="text-warning">
+                    <a asp-action="SubcategoriesReport" asp-route-date="@item.Date" asp-route-typeOfFlowId="2" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+                       ajax-url="@Url.Action("SubcategoriesReport", "Report", new {typeOfFlowId = 2, date = item.Date})" class="text-danger">
+                        Расход
+                    </a>
+                </td><td>@item.SummOut</td>
+            </tr>
+        }
+    </table>
+</div>

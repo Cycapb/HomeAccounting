@@ -9,7 +9,6 @@ namespace DomainModels.Model
     [Table("PayingItem")]
     public partial class PayingItem
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PayingItem()
         {
             PayingItemProducts = new HashSet<PayingItemProduct>();
@@ -27,6 +26,7 @@ namespace DomainModels.Model
         [DataType(DataType.Currency)]
         public decimal Summ { get; set; }
 
+        [UIHint("text")]
         [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Необходимо указать дату")]
