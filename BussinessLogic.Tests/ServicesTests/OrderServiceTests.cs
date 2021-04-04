@@ -34,7 +34,7 @@ namespace BussinessLogic.Tests.ServicesTests
                 OrderID = 1
             });
 
-            await _orderService.SendByEmail(orderId, String.Empty);
+            await _orderService.SendByEmailAsync(orderId, String.Empty);
 
             _emailSender.Verify(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
@@ -43,7 +43,7 @@ namespace BussinessLogic.Tests.ServicesTests
         [TestCategory("OrderServiceTests")]
         public async Task SendByEmailCannotFindOrderById()
         {
-            await _orderService.SendByEmail(It.IsAny<int>(), String.Empty);
+            await _orderService.SendByEmailAsync(It.IsAny<int>(), String.Empty);
 
             _emailSender.Verify(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
@@ -56,7 +56,7 @@ namespace BussinessLogic.Tests.ServicesTests
             _orderRepository.Setup(m => m.GetItem(It.IsAny<int>())).Returns(new Order() { OrderID = 1 });
             _emailSender.Setup(m => m.SendAsync(It.IsAny<string>(), It.IsAny<string>())).Throws<SendEmailException>();
 
-            await _orderService.SendByEmail(1, It.IsAny<string>());
+            await _orderService.SendByEmailAsync(1, It.IsAny<string>());
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Services
         ICreateCommandServiceAsync<Order>,
         IDisposable
     {
-        Task SendByEmail(int orderId, string mailTo);
+        Task SendByEmailAsync(int orderId, string mailTo);
 
-        Task CloseOrder(int id);
+        Task CloseOrderAsync(int id);
     }
 }

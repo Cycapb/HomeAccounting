@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services;
 using Services.Exceptions;
 using System;
@@ -18,10 +19,12 @@ namespace WebUI.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly ILogger _logger;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, ILogger<OrderController> logger)
         {
             _orderService = orderService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index(WebUser user)
@@ -115,11 +118,11 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await _orderService.SendByEmail(id, mailTo);
+                    await _orderService.SendByEmailAsync(id, mailTo);
                 }
-                catch (ServiceException e)
+                catch (Exception ex)
                 {
-                    throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(SendEmail)}", e);
+                    _logger.LogError(ex, $"Ошибка в контроллере {nameof(OrderController)} при отправке почти в методе {nameof(Add)}");
                 }
             }
         }
@@ -130,7 +133,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _orderService.CloseOrder(id);
+                await _orderService.CloseOrderAsync(id);
             }
             catch (ServiceException e)
             {

@@ -65,7 +65,7 @@ namespace BussinessLogic.Services
             }
         }
 
-        public async Task SendByEmail(int orderId, string mailTo)
+        public async Task SendByEmailAsync(int orderId, string mailTo)
         {
             try
             {
@@ -94,19 +94,19 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmailAsync)} при обращении к БД", e);
             }
             catch (SendEmailException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmailAsync)} при отправке почты", e);
             }
             catch (Exception ex)
             {
-                throw new ServiceException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmail)} при отправке почты", ex);
+                throw new ServiceException($"Возникла ошибка в сервисе {nameof(OrderService)} в методе {nameof(SendByEmailAsync)} при отправке почты", ex);
             }
         }
 
-        public async Task CloseOrder(int id)
+        public async Task CloseOrderAsync(int id)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace BussinessLogic.Services
             }
             catch (DomainModelsException e)
             {
-                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CloseOrder)} при обращении к БД", e);
+                throw new ServiceException($"Ошибка в сервисе {nameof(OrderService)} в методе {nameof(CloseOrderAsync)} при обращении к БД", e);
             }
 
         }

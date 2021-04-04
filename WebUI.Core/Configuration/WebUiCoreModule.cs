@@ -43,6 +43,9 @@ namespace WebUI.Core.Configuration
             builder.RegisterType<TypeOfFlowService>().As<ITypeOfFlowService>();
             builder.RegisterType<DebtService>().As<IDebtService>();
             builder.RegisterType<ProductService>().As<IProductService>();
+            builder.RegisterType<OrderService>().As<IOrderService>();
+            builder.RegisterType<OrderSenderService>().As<IEmailSender>();
+            builder.RegisterType<AccountingNotificationMailBoxProvider>().As<IMailSettingsProvider>();
 
             builder.RegisterType<PayingItemCreator>().As<IPayingItemCreator>();
             builder.RegisterType<PayingItemEditViewModelCreator>().As<IPayingItemEditViewModelCreator>();
@@ -64,6 +67,7 @@ namespace WebUI.Core.Configuration
             builder.RegisterType<EntityRepositoryCore<Debt, AccountingContextCore>>().As<IRepository<Debt>>();
             builder.RegisterType<EntityRepositoryCore<Product, AccountingContextCore>>().As<IRepository<Product>>();
             builder.RegisterType<EntityRepositoryCore<PayingItem, AccountingContextCore>>().As<IRepository<PayingItem>>();
+            builder.RegisterType<EntityRepositoryCore<Order, AccountingContextCore>>().As<IRepository<Order>>();
 
             builder.RegisterType<PayingItemServiceTrigger>().As<IServiceTrigger<PayingItem>>();
         }
