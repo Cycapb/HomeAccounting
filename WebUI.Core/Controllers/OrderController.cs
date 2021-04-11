@@ -13,7 +13,7 @@ using WebUI.Core.Infrastructure.Extensions;
 using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Models;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize]
     public class OrderController : Controller
