@@ -26,7 +26,7 @@ namespace WebUI.Core.Configuration
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CustomErrorAttribute>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomErrorFilter>().InstancePerLifetimeScope();
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().InstancePerLifetimeScope();
             builder.RegisterType<RouteDataConverter>().As<IRouteDataConverter>();
 

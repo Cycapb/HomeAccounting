@@ -57,7 +57,7 @@ namespace WebUI.Core
 
             services.AddMvc().AddMvcOptions(options =>
             {
-                options.Filters.AddService<CustomErrorAttribute>();
+                options.Filters.AddService<CustomErrorFilter>();
                 options.EnableEndpointRouting = false;
                 options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => $"Необходимо ввести значение");
                 options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"{x} некорректное значения для этого поля");
