@@ -44,7 +44,7 @@ namespace WebUI.Core.Configuration
             builder.RegisterType<DebtService>().As<IDebtService>();
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<OrderService>().As<IOrderService>();
-            builder.RegisterType<OrderSenderService>().As<IEmailSender>();
+            builder.RegisterType<EmailSenderService>().As<IEmailSender>();
             builder.RegisterType<AccountingNotificationMailBoxProvider>().As<IMailSettingsProvider>();
 
             builder.RegisterType<PayingItemCreator>().As<IPayingItemCreator>();

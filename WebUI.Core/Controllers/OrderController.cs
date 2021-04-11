@@ -122,7 +122,7 @@ namespace WebUI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Ошибка в контроллере {nameof(OrderController)} при отправке почти в методе {nameof(Add)}");
+                    _logger.LogError(ex, $"Ошибка в контроллере {nameof(OrderController)} при отправке почты в методе {nameof(SendEmail)}");
                 }
             }
         }

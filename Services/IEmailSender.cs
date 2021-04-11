@@ -8,7 +8,6 @@ namespace Services
     /// </summary>
     public interface IEmailSender : IDisposable
     {
-        Task SendAsync(string message, string mailTo);
-        string MailTo { get; }
+        Task SendAsync(string message, string subject, string mailTo);
     }
 }

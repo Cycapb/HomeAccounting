@@ -89,7 +89,9 @@ namespace BussinessLogic.Services
                 message.Append("");
                 message.Append($"Итого: {order.OrderDetails.Sum(x => x.ProductPrice)?.ToString("F")}");
 
-                await _emailSender.SendAsync(message.ToString(), mailTo);
+                var subject = "Список покупок";
+
+                await _emailSender.SendAsync(message.ToString(), subject, mailTo);
 
             }
             catch (DomainModelsException e)
