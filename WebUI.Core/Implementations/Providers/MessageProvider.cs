@@ -16,15 +16,16 @@ namespace WebUI.Core.Implementations.Providers
 
         public string Get(MessagesEnum message)
         {
-            string outMessage;
-            var hasValue = _messages.TryGetValue(message, out outMessage);
+            var hasValue = _messages.TryGetValue(message, out var outMessage);
+
             return hasValue ? outMessage : "";
         }
 
         private void FillDictionary()
         {
-            _messages.Add(MessagesEnum.UserHasNoAccounts, "Сначала необходимо завести хотя бы один счет.");
-            _messages.Add(MessagesEnum.UserHasNoCategories, "Сначала необходимо завести хотя бы одну категорию.");
+            _messages.Add(MessagesEnum.UserHasNoAccounts, "Сначала необходимо завести хотя бы один счет");
+            _messages.Add(MessagesEnum.UserHasNoCategories, "Сначала необходимо завести хотя бы одну категорию");
+            _messages.Add(MessagesEnum.UserHasNoExpenseCategoriesWithPurchases, "Сначала необходимо совершить покупку, используя подкатегории");
         }
     }
 }

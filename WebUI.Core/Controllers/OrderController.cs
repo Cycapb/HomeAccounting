@@ -86,7 +86,7 @@ namespace WebUI.Core.Controllers
         }
 
         [HttpPost]
-        [TypeFilter(typeof(UserHasCategories))]
+        [TypeFilter(typeof(UserHasExpenseCategoriesWithPurchases))]
         public async Task<IActionResult> Add(WebUser user)
         {
             try

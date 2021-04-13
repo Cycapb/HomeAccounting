@@ -6,11 +6,11 @@ using WebUI.Core.Abstract;
 
 namespace WebUI.Core.Infrastructure.ActionResults
 {
-    public class UserHasNoAccountsActiontResult : IActionResult
+    public class UserHasNoExpenseCategoriesWithPurchasesActionResult : IActionResult
     {
         private readonly IMessageProvider _messageProvider;
 
-        public UserHasNoAccountsActiontResult(IMessageProvider messageProvider)
+        public UserHasNoExpenseCategoriesWithPurchasesActionResult(IMessageProvider messageProvider)
         {
             _messageProvider = messageProvider;
         }
@@ -18,10 +18,8 @@ namespace WebUI.Core.Infrastructure.ActionResults
         public async Task ExecuteResultAsync(ActionContext context)
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status200OK;
-            var body = Encoding.UTF8.GetBytes($"<div class='alert alert-danger'>{_messageProvider.Get(MessagesEnum.UserHasNoAccounts)}</div>");
-
-            await context.HttpContext.Response.Body
-                .WriteAsync(body);
+            var response = Encoding.UTF8.GetBytes($"<div class='alert alert-danger'>{_messageProvider.Get(MessagesEnum.UserHasNoExpenseCategoriesWithPurchases)}</div>");
+            await context.HttpContext.Response.Body.WriteAsync(response);
         }
     }
 }

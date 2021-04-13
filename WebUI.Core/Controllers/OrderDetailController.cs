@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Infrastructure.Extensions;
+using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Models;
 using WebUI.Core.Models.OrderModels;
 
@@ -57,6 +58,7 @@ namespace WebUI.Core.Controllers
             }
         }
 
+        [TypeFilter(typeof(UserHasExpenseCategoriesWithPurchases))]
         public async Task<IActionResult> Add(WebUser user, int id)
         {
             try

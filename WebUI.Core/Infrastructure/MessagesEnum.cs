@@ -3,6 +3,7 @@
     public enum MessagesEnum
     {
         UserHasNoCategories,
-        UserHasNoAccounts
+        UserHasNoAccounts,
+        UserHasNoExpenseCategoriesWithPurchases
     }
 }
