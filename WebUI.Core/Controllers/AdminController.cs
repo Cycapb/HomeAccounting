@@ -24,6 +24,7 @@ namespace WebUI.Controllers
             _userManager = userManager;
             _userValidator = userValidator;
             _passwordHasher = passwordHasher;
+            _passwordValidator = passwordValidator;
         }
 
         public IActionResult Index()

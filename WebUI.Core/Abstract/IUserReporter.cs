@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using WebUI.Core.Models;
+using WebUI.Core.Infrastructure.Identity.Models;
 
 namespace WebUI.Core.Abstract
 {

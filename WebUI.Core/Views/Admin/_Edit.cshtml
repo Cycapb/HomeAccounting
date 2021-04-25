@@ -1,0 +1,31 @@
+﻿@*@model EditModel
+<div class="userContainer">
+    <div class="well">
+        <div class="form-group">
+            <label>Id</label>
+            <p class="form-control-static">@Model.Id</p>
+        </div>
+        @using (Ajax.BeginForm(new AjaxOptions()
+        {
+            UpdateTargetId = "adminSection"
+        }))
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(x => x.Id)
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Email, new {@class = "form-control", placeholder = "Email"})
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+            <div class="form-group">
+                <input name="password" type="password" class="form-control" placeholder="Пароль"/>
+            </div>
+            <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
+            @Ajax.ActionLink("Отменить", "Index", null, new AjaxOptions()
+            {
+                Url = Url.Action("Index"),
+                UpdateTargetId = "adminSection"
+            },
+                new {@class = "btn btn-default btn-raised btn-sm"})
+        }
+    </div>
+</div>*@

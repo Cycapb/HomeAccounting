@@ -13,6 +13,7 @@ using System;
 using WebUI.Core.Configuration;
 using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Infrastructure.Identity;
+using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Infrastructure.Identity.Validators;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;

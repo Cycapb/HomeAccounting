@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebUI.Core.Infrastructure.Identity.Models;
 
 namespace WebUI.Core.Models
 {
