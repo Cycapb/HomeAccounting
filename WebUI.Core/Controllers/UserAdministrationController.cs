@@ -8,14 +8,14 @@ using WebUI.Core.Models;
 namespace WebUI.Controllers
 {
     [Authorize(Roles = "Administrators")]
-    public class AdminController : Controller
+    public class UserAdministrationController : Controller
     {
         private readonly UserManager<AccountingUserModel> _userManager;
         private readonly IUserValidator<AccountingUserModel> _userValidator;
         private readonly IPasswordValidator<AccountingUserModel> _passwordValidator;
         private readonly IPasswordHasher<AccountingUserModel> _passwordHasher;
 
-        public AdminController(
+        public UserAdministrationController(
             UserManager<AccountingUserModel> userManager,
             IUserValidator<AccountingUserModel> userValidator,
             IPasswordValidator<AccountingUserModel> passwordValidator,
