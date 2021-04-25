@@ -24,9 +24,9 @@
                     <td>@item.UserName</td>
                     <td>@item.Email</td>
                     <td>
-                        <form method="post" asp-action="Delete" asp-antiforgery="true" ajax-enable="true" ajax-method="POST" ajax-mode="replace" ajax-update-element-id="#adminSection"
-                              ajax-url="@Url.Action("Delete")">
-                            <a asp-action="Edit" ajax-enable="true" ajax-method="GET" ajax-update-element-id="#adminSection" ajax-mode="replace" ajax-url="@Url.Action("Edit")"
+                        <form method="post" asp-action="Delete" asp-route-id="@item.Id" asp-antiforgery="true" ajax-enable="true" ajax-method="POST" ajax-mode="replace" ajax-update-element-id="#adminSection"
+                              ajax-url="@Url.Action("Delete", "Admin", new { id = item.Id })">
+                            <a asp-action="Edit" asp-route-id="@item.Id" ajax-enable="true" ajax-method="GET" ajax-update-element-id="#adminSection" ajax-mode="replace" ajax-url="@Url.Action("Edit", "Admin", new { id = item.Id })"
                                class="btn btn-warning btn-raised btn-xs">
                                 Изменить
                             </a>

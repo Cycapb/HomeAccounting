@@ -57,6 +57,8 @@ namespace WebUI.Core.Models
         [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Не указан пароль")]
+        [UIHint("password")]
         public string Password { get; set; }
     }
 
