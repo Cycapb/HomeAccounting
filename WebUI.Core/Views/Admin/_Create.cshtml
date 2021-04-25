@@ -1,31 +1,24 @@
-﻿@*@model WebUI.Models.CreateModel
+﻿@model CreateModel
+
 <div class="userContainer">
     <div class="well">
-        @using (Ajax.BeginForm(new AjaxOptions()
-        {
-            UpdateTargetId = "adminSection"
-        }))
-        {
-            @Html.ValidationSummary(true)
+        <form method="post" asp-antiforgery="true" ajax-enable="true" ajax-method="POST" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Create")">
+            <div asp-validation-summary="ModelOnly"></div>   
             <div class="form-group">
-                @Html.TextBoxFor(x => x.Name, new { @class = "form-control",placeholder="Имя" })
-                @Html.ValidationMessageFor(x => x.Name)
+                <input asp-for="Name" class="form-control" placeholder="Имя"/>
+                <div><span asp-validation-for="Name" class="text-danger"></span></div>
             </div>
             <div class="form-group">
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control",placeholder= "Email" })
-                @Html.ValidationMessageFor(x => x.Email)
+                <input asp-for="Email" class="form-control" placeholder="Email"/>
+                <div><span asp-validation-for="Email" class="text-danger"></span></div>
             </div>
             <div class="form-group">
-                @Html.PasswordFor(x => x.Password, new { @class = "form-control",placeholder="Пароль" })
-                @Html.ValidationMessageFor(x => x.Password)
+                <input asp-for="Password" class="form-control" placeholder="Пароль"/>
+                <div><span asp-validation-for="Password" class="text-danger"></span></div>
             </div>
             <input type="submit" value="Создать" class="btn btn-success btn-raised btn-sm" />
-            @Ajax.ActionLink("Назад", "Index", null, new AjaxOptions()
-            {
-                Url = Url.Action("Index"),
-                UpdateTargetId = "adminSection"
-            },
-                new {@class = "btn btn-default btn-raised btn-sm"})
-        }
+            <a asp-action="Index" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Index")"
+               class="btn btn-default btn-raised btn-sm">Назад</a>
+        </form>
     </div>
-</div>*@
+</div>
