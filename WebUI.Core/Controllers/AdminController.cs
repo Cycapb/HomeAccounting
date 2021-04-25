@@ -38,7 +38,8 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateUserModel model)
         {
             if (ModelState.IsValid)
             {
@@ -56,6 +57,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
             var userToDelete = await _userManager.FindByIdAsync(id);
@@ -81,7 +83,7 @@ namespace WebUI.Controllers
 
             if (user != null)
             {
-                var userModel = new EditModel()
+                var userModel = new EditUserModel()
                 {
                     Id = user.Id,
                     Email = user.Email
@@ -94,7 +96,8 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditUserModel model)
         {
             var accUser = await _userManager.FindByIdAsync(model.Id);
             if (accUser != null)

@@ -4,7 +4,7 @@ using WebUI.Core.Infrastructure.Identity.Models;
 
 namespace WebUI.Core.Models
 {
-    public class CreateModel
+    public class CreateUserModel
     {
         [Required(ErrorMessage = "Не указано имя")]
         public string Name { get; set; }
@@ -50,7 +50,7 @@ namespace WebUI.Core.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class EditModel
+    public class EditUserModel
     {
         public string Id { get; set; }
 
