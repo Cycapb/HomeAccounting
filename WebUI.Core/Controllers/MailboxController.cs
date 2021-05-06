@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Core.Exceptions;
-using WebUI.Core.Models;
+using WebUI.Core.Models.MailboxModels;
 
 namespace WebUI.Controllers
 {
@@ -51,14 +51,15 @@ namespace WebUI.Controllers
 
         public IActionResult Add()
         {
-            var model = new NotificationMailboxModel();
+            var model = new AddNotificationMailboxModel();
             ViewBag.PanelTitle = "Добавление почтового ящика";
 
             return PartialView("_AddOrEdit", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(NotificationMailboxModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(AddNotificationMailboxModel model)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +90,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             await _mailboxService.DeleteAsync(id);
@@ -107,7 +109,7 @@ namespace WebUI.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var mailBoxModel = new NotificationMailboxModel()
+                var mailBoxModel = new AddNotificationMailboxModel()
                 {
                     Id = model.Id,
                     MailBoxName = model.MailBoxName,
@@ -131,7 +133,8 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(NotificationMailboxModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditNotificationMailboxModel model)
         {
             if (model == null)
             {
