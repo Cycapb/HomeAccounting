@@ -1,0 +1,37 @@
+﻿@model IDictionary<string, string>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Список </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Пользователи</th>
+            <th>Действия</th>
+        </tr>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center">Список ролей пуст</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var key in Model.Keys)
+            {
+                @await Html.PartialAsync("_RoleSummary", Model[key])
+            }
+        }
+    </table>
+</div>
+<a asp-action="Create" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Create")"
+   class="btn btn-primary btn-raised btn-sm">
+    Создать
+</a>
+<a asp-action="Index" asp-controller="AdminSection" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#payingItemMainBody" ajax-url="@Url.Action("Index", "AdminSection")"
+   class="btn btn-default btn-raised btn-sm">
+    Назад
+</a>
+<a asp-action="MainPage" asp-controller="PayingItem" ajax-enable="true" ajax-mode="replace" ajax-begin="showPopupLogin" ajax-url="@Url.Action("Index", "AdminSection")"
+   ajax-success="redirectToMain" class="btn btn-default btn-raised btn-sm pull-right">
+    На главную
+</a>

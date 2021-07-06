@@ -1,0 +1,22 @@
+﻿@model string
+<div class="userContainer">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Создание роли</div>
+        <form asp-action="Create" method="post" asp-antiforgery="true" ajax-enable="true" ajax-update-element-id="#adminSection" ajax-method="POST" ajax-mode="replace"
+              ajax-url="@Url.Action("Create")">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <input type="text" name="roleName" id="roleName" class="form-control" placeholder="Название роли" />
+                </div>
+            </div>
+            <div class="panel-footer">
+                <input type="submit" value="Создать" class="btn btn-success btn-raised btn-sm" />
+                <a asp-action="Index" asp-controller="RoleAdmin" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Index", "RoleAdmin")"
+                   class="btn btn-default btn-raised btn-sm">
+                    Назад
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

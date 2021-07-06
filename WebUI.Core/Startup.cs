@@ -45,7 +45,7 @@ namespace WebUI.Core
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingIdentity:ConnectionString"]);
             });
 
-            services.AddIdentity<AccountingUserModel, IdentityRole>(options =>
+            services.AddIdentity<AccountingUserModel, AccountingRoleModel>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;

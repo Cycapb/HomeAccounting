@@ -19,7 +19,7 @@ namespace WebUI.Core.Models
 
     public class RoleEditModel
     {
-        public AccRoleModel Role { get; set; }
+        public AccountingRoleModel Role { get; set; }
         public IEnumerable<AccountingUserModel> Members { get; set; } 
         public IEnumerable<AccountingUserModel> NonMembers { get; set; } 
     }

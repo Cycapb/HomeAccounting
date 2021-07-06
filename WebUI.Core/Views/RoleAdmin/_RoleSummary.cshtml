@@ -1,0 +1,37 @@
+﻿@using WebUI.Core.Infrastructure.Extensions
+
+@model AccountingRoleModel
+<tr>
+    <td>@Model.Name</td>
+    <td>
+        @if (Model.Users == null || Model.Users.Count == 0)
+        {
+            @: Нет пользователей
+        }
+        else
+        {
+            foreach (var user in Model.Users)
+            {
+                <p>
+                    @string.Join(",", Html.GetNameAsync(user.UserId))
+                </p>
+            }
+        }
+    </td>
+    <td>
+        @using (Ajax.BeginForm(new AjaxOptions()
+        {
+            Url = Url.Action("Delete", new { id = Model.Id }),
+            UpdateTargetId = "adminSection"
+        }))
+        {
+            @Ajax.ActionLink("Редактировать", "Edit", null, new AjaxOptions()
+            {
+                Url = Url.Action("Edit", new {id = Model.Id}),
+                UpdateTargetId = "adminSection"
+            },
+                new {@class = "btn btn-success btn-raised btn-xs"})
+            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
+        }
+    </td>
+</tr>
