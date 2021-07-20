@@ -113,7 +113,7 @@ namespace WebUI.Core.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> ChangePassword(ChangePasswordModel model)
+        public async Task<ActionResult> ChangePassword(ChangeUserPasswordModel model)
         {
             if (ModelState.IsValid)
             {

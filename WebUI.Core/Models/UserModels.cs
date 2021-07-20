@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using WebUI.Core.Infrastructure.Identity.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebUI.Core.Models
 {
@@ -17,21 +15,7 @@ namespace WebUI.Core.Models
         public string Password { get; set; }
     }
 
-    public class RoleEditModel
-    {
-        public AccountingRoleModel Role { get; set; }
-        public IEnumerable<AccountingUserModel> Members { get; set; } 
-        public IEnumerable<AccountingUserModel> NonMembers { get; set; } 
-    }
-
-    public class RoleModificationModel
-    {
-        public string RoleName { get; set; }
-        public string[] IdsToAdd { get; set; }
-        public string[] IdsToDelete { get; set; }
-    }
-
-    public class ChangePasswordModel
+    public class ChangeUserPasswordModel
     {
         [Required(ErrorMessage = "Не указан текущий пароль")]
         [Display(Name = "Текущий пароль")]

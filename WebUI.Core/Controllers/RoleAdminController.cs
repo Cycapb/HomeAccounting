@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models;
+using WebUI.Core.Models.RoleModels;
 
 namespace WebUI.Controllers
 {
@@ -30,6 +31,7 @@ namespace WebUI.Controllers
             foreach (var role in roles)
             {
                 rolesWithUsers[role.Name] = role.Name;
+
                 foreach (var user in users)
                 {
                     var isInRole = await _userManager.IsInRoleAsync(user, role.Name);
