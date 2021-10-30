@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebUI.Core.Models;
+using WebUI.Core.Infrastructure.Identity.Models;
 
 namespace WebUI.Core.Infrastructure.Identity
 {

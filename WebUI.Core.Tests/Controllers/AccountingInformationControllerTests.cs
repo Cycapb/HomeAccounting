@@ -15,7 +15,7 @@ using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 using WebUI.Core.Models.BudgetModels;
 
-namespace WebUI.Tests.ControllersTests
+namespace WebUI.Core.Tests.Controllers
 {
     [TestClass]
     public class AccountingInformationControllerTests

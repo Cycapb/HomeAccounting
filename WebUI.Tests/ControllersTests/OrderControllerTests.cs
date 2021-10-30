@@ -25,7 +25,7 @@ namespace WebUI.Tests.ControllersTests
 
             await target.CloseOrder(1);
 
-            _orderService.Verify(m => m.CloseOrder(It.IsAny<int>()),Times.Once);
+            _orderService.Verify(m => m.CloseOrderAsync(It.IsAny<int>()),Times.Once);
         }
 
         [TestMethod]

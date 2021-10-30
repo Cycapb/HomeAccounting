@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using WebUI.Core.Infrastructure.Attributes;
 
-namespace WebUI.Core.Models
+namespace WebUI.Core.Models.MailboxModels
 {
-    public class NotificationMailboxModel
+    public abstract class NotificationMailboxModelBase
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Не задано Имя")]
-        [IsUnique(ErrorMessage = "Такой почтовый ящик уже существует")]
         [StringLength(50)]
-        public string MailBoxName { get; set; }
+        public abstract string MailBoxName { get; set; }
 
         [Required(ErrorMessage = "Не указано От кого")]
         [StringLength(50)]

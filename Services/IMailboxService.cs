@@ -7,7 +7,7 @@ namespace Services
     /// <summary>
     /// Is used to work with notification mailboxes of the system
     /// </summary>
-    public interface IMailboxService : 
+    public interface IMailboxService :
         IQueryService<NotificationMailBox>,
         IQueryServiceAsync<NotificationMailBox>,
         IUpdateDeleteCommandServiceAsync<NotificationMailBox>,

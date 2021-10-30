@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity;
+using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models;
 
 namespace WebUI.Core.Infrastructure.Migrators
@@ -75,7 +76,7 @@ namespace WebUI.Core.Infrastructure.Migrators
                     MailBoxName = "Accounting",
                     MailFrom = "home.accounting@list.ru",
                     UserName = "home.accounting@list.ru",
-                    Password = "23we45rt",
+                    Password = "Cb.cP^.t3P[8CWAz@",
                     UseSsl = true,
                     Server = "smtp.list.ru",
                     Port = 587

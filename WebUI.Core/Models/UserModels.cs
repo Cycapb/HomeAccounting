@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebUI.Core.Infrastructure.Identity.Models;
 
 namespace WebUI.Core.Models
 {
-    public class CreateModel
+    public class CreateUserModel
     {
-        [Required]
+        [Required(ErrorMessage = "Не указано имя")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
 
-        [Required]
+        [UIHint("password")]
+        [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
     }
 
@@ -48,13 +50,14 @@ namespace WebUI.Core.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class EditModel
+    public class EditUserModel
     {
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Не указан Email")]
         public string Email { get; set; }
 
+        [UIHint("password")]
         public string Password { get; set; }
     }
 

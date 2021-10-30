@@ -1,44 +1,48 @@
 ﻿using DomainModels.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services;
 using Services.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.SessionState;
-using WebUI.Exceptions;
-using WebUI.Infrastructure.Attributes;
-using WebUI.Models;
+using WebUI.Core.Exceptions;
+using WebUI.Core.Infrastructure.Extensions;
+using WebUI.Core.Infrastructure.Filters;
+using WebUI.Core.Models;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize]
-    [SessionState(SessionStateBehavior.ReadOnly)]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly ILogger _logger;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, ILogger<OrderController> logger)
         {
             _orderService = orderService;
+            _logger = logger;
         }
 
-        public async Task<ActionResult> Index(WebUser user)
+        public async Task<IActionResult> Index(WebUser user)
         {
             try
             {
                 var orders = (await _orderService.GetListAsync(x => x.UserId == user.Id && x.Active)).ToList();
+
                 return PartialView("_Index", orders);
             }
             catch (ServiceException e)
             {
                 throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Index)}", e);
-            }            
+            }
         }
 
-        public async Task<ActionResult> OrderList(WebUser user)
-        {            
+        public async Task<IActionResult> OrderList(WebUser user)
+        {
             try
             {
                 var orders = (await _orderService.GetListAsync(o => o.UserId == user.Id && o.Active)).ToList();
@@ -52,7 +56,8 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -66,7 +71,7 @@ namespace WebUI.Controllers
             return RedirectToAction("OrderList");
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
@@ -81,8 +86,8 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        [UserHasCategories]
-        public async Task<ActionResult> Add(WebUser user)
+        [TypeFilter(typeof(UserHasExpenseCategoriesWithPurchases))]
+        public async Task<IActionResult> Add(WebUser user)
         {
             try
             {
@@ -95,7 +100,7 @@ namespace WebUI.Controllers
 
                 var createdOrder = await _orderService.CreateAsync(order);
 
-                return RedirectToAction("Edit", new { id = createdOrder.OrderID});
+                return RedirectToAction("Edit", new { id = createdOrder.OrderID });
             }
             catch (ServiceException e)
             {
@@ -104,24 +109,27 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task SendEmail(int id)
         {
-            var mailTo = ((WebUser)Session["WebUser"]).Email;
+            var mailTo = (await HttpContext.Session.GetJsonAsync<WebUser>(nameof(WebUser)))?.Email;
+
             if (mailTo != null)
             {
                 try
                 {
-                    await Task.Run(() => _orderService.SendByEmailAsync(id, ((WebUser)Session["WebUser"]).Email));
+                    await _orderService.SendByEmailAsync(id, mailTo);
                 }
-                catch (ServiceException e)
+                catch (Exception ex)
                 {
-                    throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(SendEmail)}", e);
+                    _logger.LogError(ex, $"Ошибка в контроллере {nameof(OrderController)} при отправке почты в методе {nameof(SendEmail)}");
                 }
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> CloseOrder(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CloseOrder(int id)
         {
             try
             {

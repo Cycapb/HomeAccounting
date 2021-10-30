@@ -17,7 +17,7 @@ using WebUI.Core.Models.CategoryModels;
 using WebUI.Core.Models.PayingItemModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Tests.ControllersTests
+namespace WebUI.Core.Tests.Controllers
 {
 
     [TestClass]
