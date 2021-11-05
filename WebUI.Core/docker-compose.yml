@@ -1,0 +1,40 @@
+﻿version: "3"
+
+networks:
+  frontend:
+  backend:
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      - backend
+    ports:
+      - 4433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Aq23we45rt
+      - MSSQL_PID=Express
+
+  mvc:
+    build:
+      context: ../
+      dockerfile: WebUI.Core/Dockerfile
+    networks:
+      - backend
+      - frontend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - mssql
+
+  loadbalancer:
+    image: haproxy:1.7.0
+    ports:
+      - 3000:80
+    links:
+      - mvc
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      - frontend

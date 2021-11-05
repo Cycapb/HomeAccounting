@@ -18,12 +18,15 @@ COPY ["DomainModels.EntityORM/DomainModels.EntityORM.csproj", "DomainModels.Enti
 RUN dotnet restore "WebUI.Core/WebUI.Core.csproj"
 COPY . .
 WORKDIR "/src/WebUI.Core"
-RUN dotnet build "WebUI.Core.csproj" -c Release -o /app/build
+RUN dotnet build "WebUI.Core.csproj" -c Debug.Local -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "WebUI.Core.csproj" -c Release -o /app/publish
+RUN dotnet publish "WebUI.Core.csproj" -c Debug.Local -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "WebUI.Core.dll"]
+COPY ["WebUI.Core/node_modules/wait-for-it.sh/wait-for-it", "/app/wait-for-it.sh"]
+RUN chmod +x /app/wait-for-it.sh
+ENV WAITHOST=mssql WAITPORT=4433
+ENTRYPOINT ./wait-for-it.sh $WAITHOST:$WAITPORT --timeout=60 && exec dotnet WebUI.Core.dll
