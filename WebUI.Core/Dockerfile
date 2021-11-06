@@ -26,7 +26,6 @@ RUN dotnet publish "WebUI.Core.csproj" -c Debug.Local -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY ["WebUI.Core/node_modules/wait-for-it.sh/wait-for-it", "/app/wait-for-it.sh"]
+COPY ["WebUI.Core/wait-for-it.sh", "/app/wait-for-it.sh"]
 RUN chmod +x /app/wait-for-it.sh
-ENV WAITHOST=mssql WAITPORT=4433
-ENTRYPOINT ./wait-for-it.sh $WAITHOST:$WAITPORT --timeout=60 && exec dotnet WebUI.Core.dll
+ENTRYPOINT ["dotnet", "WebUI.Core.dll"]

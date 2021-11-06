@@ -27,6 +27,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - mssql
+    entrypoint: ["./wait-for-it.sh", "mssql:4433", "-t", "60", "--", "dotnet", "WebUI.Core.dll"]
 
   loadbalancer:
     image: haproxy:1.7.0
