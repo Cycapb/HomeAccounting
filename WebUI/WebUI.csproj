@@ -470,9 +470,6 @@
     <None Include="Web.Debug.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.Release.Prod.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
     <None Include="Web.Release.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
