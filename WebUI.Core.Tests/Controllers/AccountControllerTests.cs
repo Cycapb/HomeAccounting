@@ -13,7 +13,7 @@ using WebUI.Core.Controllers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 
-namespace WebUI.Core.Tests.ControllersTests
+namespace WebUI.Core.Tests.Controllers
 {
     [TestClass]
     public class AccountControllerTests

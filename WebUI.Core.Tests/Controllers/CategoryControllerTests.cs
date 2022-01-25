@@ -14,7 +14,7 @@ using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 using WebUI.Core.Models.CategoryModels;
 
-namespace WebUI.Core.Tests.ControllersTests
+namespace WebUI.Core.Tests.Controllers
 {
     [TestClass]
     public class CategoryControllerTests

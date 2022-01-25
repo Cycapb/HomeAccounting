@@ -1,0 +1,19 @@
+﻿@model IEnumerable<NotificationMailBox>
+
+<div id="mailBoxes">
+    @await Html.PartialAsync("_List")
+</div>
+<a asp-action="Add" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Add")"
+   class="btn btn-primary btn-raised btn-sm" id="addBtn">
+    Создать
+</a>
+
+<a asp-action="Index" asp-controller="AdminSection" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#payingItemMainBody"
+   ajax-url="@Url.Action("Index", "AdminSection")" class="btn btn-default btn-raised btn-sm" id="returnBtn">
+    Назад
+</a>
+
+<a asp-action="MainPage" asp-controller="PayingItem" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#payingItemMainBody" ajax-begin="showPopupLogin"
+   ajax-success="hidePopup" ajax-url="@Url.Action("MainPage", "PayingItem")" class="btn btn-default btn-raised btn-sm pull-right">
+    На главную
+</a>

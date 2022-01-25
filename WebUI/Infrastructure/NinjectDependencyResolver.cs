@@ -59,7 +59,7 @@ namespace WebUI.Infrastructure
             _kernel.Bind<IAccountService>().To<AccountService>();
             _kernel.Bind<IProductService>().To<ProductService>();
             _kernel.Bind<IMailSettingsProvider>().To<AccountingNotificationMailBoxProvider>();
-            _kernel.Bind<IEmailSender>().To<OrderSenderService>();
+            _kernel.Bind<IEmailSender>().To<EmailSenderService>();
             _kernel.Bind<IOrderService>().To<OrderService>();
             _kernel.Bind<ITypeOfFlowService>().To<TypeOfFlowService>();
             _kernel.Bind<IPlanItemService>().To<PlanItemService>();

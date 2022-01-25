@@ -1,0 +1,56 @@
+﻿@model NotificationMailboxModelBase
+
+@{
+    var routeAction = Context.Request.RouteValues["action"];
+    var action = routeAction.ToString() == "Add" ? "Add" : "Edit";
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.PanelTitle</div>
+    <form asp-action="@action" method="post" asp-antiforgery="true" ajax-enable="true" ajax-method="POST" ajax-mode="replace" ajax-update-element-id="#adminSection"
+          ajax-url="@Url.Action(action)">
+        <div class="panel-body">
+            <div class="form-group">
+                <input asp-for="MailBoxName" class="form-control" placeholder="Название ящика" />
+                <div><span asp-validation-for="MailBoxName"></span></div>
+            </div>
+            <div class="form-group">
+                <input asp-for="MailFrom" class="form-control" placeholder="От кого" />
+                <div><span asp-validation-for="MailFrom"></span></div>
+            </div>
+            <div class="form-group">
+                <input asp-for="UserName" class="form-control" placeholder="Логин" />
+                <div><span asp-validation-for="UserName"></span></div>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" placeholder="Пароль" />
+                <div><span asp-validation-for="Password"></span></div>
+            </div>
+            <div class="form-group">
+                <input asp-for="PasswordConfirmation" class="form-control" placeholder="Подтверждение пароля" />
+                <div><span asp-validation-for="PasswordConfirmation"></span></div>
+            </div>
+            <div class="form-group">
+                <input asp-for="Server" class="form-control" placeholder="Smtp-сервер" />
+                <div><span asp-validation-for="Server"></span></div>
+            </div>
+            <div class="form-group">
+                <input asp-for="Port" class="form-control" placeholder="Smtp-сервер порт" />
+                <div><span asp-validation-for="Port"></span></div>
+            </div>
+            <div class="checkbox">
+                <label class="form-check-label">
+                    <input asp-for="UseSsl" />
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    Использовать SSL
+                </label>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-raised btn-sm btn-success" />
+            <a asp-action="Index" asp-controller="Mailbox" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Index", "Mailbox")"
+               class="btn btn-default btn-raised btn-sm">
+                Назад
+            </a>
+        </div>
+    </form>
+</div>

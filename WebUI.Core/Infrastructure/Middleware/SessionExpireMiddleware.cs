@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Extensions;
+using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models;
 
 namespace WebUI.Core.Infrastructure.Middleware

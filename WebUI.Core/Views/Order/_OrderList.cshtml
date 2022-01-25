@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Order>
+
+<table class="table table-hover">
+    <tr>
+        <th>Дата</th>
+        <th class="text-center">Общая сумма</th>
+        <th colspan="3" class="text-center">Действия со списком</th>
+    </tr>
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.OrderDate.ToShortDateString()</td>
+            <td>
+                @{
+                    var sum = order.OrderDetails.Sum(x => x.ProductPrice);
+                }
+                @if (sum != null)
+                {
+                    @sum.Value.ToString("c")
+                }
+            </td>
+            <td>
+                <form asp-action="Delete" method="post" asp-route-id="@order.OrderID" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" ajax-method="post"
+                      ajax-update-element-id="#orderDetailDiv" ajax-url="@Url.Action("Delete", new { id = order.OrderID })">
+                    <a asp-action="Edit" asp-route-id="@order.OrderID" ajax-enable="true" ajax-method="replace" ajax-update-element-id="#orderDetailDiv"
+                       ajax-url="@Url.Action("Edit", new { id = order.OrderID })" ajax-success="disableButtons" class="btn btn-xs btn-raised">
+                        Редактировать
+                    </a>
+                    <input type="submit" value="Удалить" class="btn btn-danger btn-xs btn-raised" />
+                </form>
+            </td>
+            <td>
+                <form asp-action="SendEmail" asp-route-id="@order.OrderID" method="post" ajax-enable="true" ajax-mode="replace" ajax-method="post" ajax-loading-element-id="#loading"
+                      ajax-loading-element-duration="1500" ajax-url="@Url.Action("SendEmail", new { id = order.OrderID })">
+                    <input type="submit" value="Отправить на почту" class="btn btn-xs btn-raised btn-warning" />
+                </form>
+            </td>
+            <td>
+                <form asp-action="CloseOrder" asp-route-id="@order.OrderID" method="post" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" 
+                      ajax-update-element-id="#orderDetailDiv" ajax-url="@Url.Action("CloseOrder", new { id = order.OrderID })">
+                    <input type="submit" value="Закрыть список" class="btn btn-raised btn-xs btn-success" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>

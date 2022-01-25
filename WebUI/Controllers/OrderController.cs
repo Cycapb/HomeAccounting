@@ -111,7 +111,7 @@ namespace WebUI.Controllers
             {
                 try
                 {
-                    await Task.Run(() => _orderService.SendByEmail(id, ((WebUser)Session["WebUser"]).Email));
+                    await Task.Run(() => _orderService.SendByEmailAsync(id, ((WebUser)Session["WebUser"]).Email));
                 }
                 catch (ServiceException e)
                 {
@@ -125,7 +125,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _orderService.CloseOrder(id);
+                await _orderService.CloseOrderAsync(id);
             }
             catch (ServiceException e)
             {

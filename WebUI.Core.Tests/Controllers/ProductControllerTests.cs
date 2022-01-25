@@ -12,7 +12,7 @@ using WebUI.Core.Controllers;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 
-namespace WebUI.Tests.ControllersTests
+namespace WebUI.Core.Tests.Controllers
 {
     [TestClass]
     public class ProductControllerTests

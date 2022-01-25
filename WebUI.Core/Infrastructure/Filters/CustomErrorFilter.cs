@@ -7,13 +7,13 @@ using WebUI.Core.Abstract.Converters;
 
 namespace WebUI.Core.Infrastructure.Filters
 {
-    public class CustomErrorAttribute : IExceptionFilter
+    public class CustomErrorFilter : IExceptionFilter
     {
-        private readonly ILogger _logger = Log.Logger.ForContext<CustomErrorAttribute>();
+        private readonly ILogger _logger = Log.Logger.ForContext<CustomErrorFilter>();
         private readonly IRouteDataConverter _routeDataConverter;
         private readonly IMultipleIpAddressProvider _multipleIpAddressProvider;
 
-        public CustomErrorAttribute(
+        public CustomErrorFilter(
             IRouteDataConverter routeDataConverter,
             IMultipleIpAddressProvider multipleIpAddressProvider
             )

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Threading.Tasks;
 using WebUI.Core.Abstract;
@@ -16,7 +17,7 @@ namespace WebUI.Core.Infrastructure.ActionResults
 
         public async Task ExecuteResultAsync(ActionContext context)
         {
-            context.HttpContext.Response.StatusCode = 200;
+            context.HttpContext.Response.StatusCode = StatusCodes.Status200OK;
             var body = Encoding.UTF8.GetBytes($"<div class='alert alert-danger'>{_messageProvider.Get(MessagesEnum.UserHasNoAccounts)}</div>");
 
             await context.HttpContext.Response.Body

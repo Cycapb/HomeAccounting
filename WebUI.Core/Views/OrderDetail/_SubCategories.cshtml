@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Product>
+
+<div class="form-group" id="OrderDetail">
+    <label>Подкатегории</label>
+    <select name="OrderDetail.ProductId" id="OrderDetail_ProductId" asp-items="@Model.Select(x => new SelectListItem() { Text = x.ProductName, Value = x.ProductID.ToString() })"
+            class="selectpicker"></select>
+</div>
+
+<script type="text/javascript">
+$(document).ready(
+    function () {
+        $('.selectpicker').selectpicker();
+    });
+</script>

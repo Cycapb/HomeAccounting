@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AccountingUserModel>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Аккаунты пользователей
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Действия</th>
+        </tr>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center">Нет пользователей</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                    <td>
+                        <form method="post" asp-action="Delete" asp-route-id="@item.Id" asp-antiforgery="true" ajax-enable="true" ajax-method="POST" ajax-mode="replace" ajax-update-element-id="#adminSection"
+                              ajax-url="@Url.Action("Delete", "UserAdministration", new { id = item.Id })">
+                            <a asp-action="Edit" asp-route-id="@item.Id" ajax-enable="true" ajax-method="GET" ajax-update-element-id="#adminSection" ajax-mode="replace" ajax-url="@Url.Action("Edit", "UserAdministration", new { id = item.Id })"
+                               class="btn btn-warning btn-raised btn-xs">
+                                Изменить
+                            </a>
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+<a asp-action="Create" ajax-enable="true" ajax-method="GET" ajax-update-element-id="#adminSection" ajax-mode="replace" ajax-url="@Url.Action("Create")"
+   class="btn btn-primary btn-raised btn-sm">
+    Добавить
+</a>
+
+<a asp-action="Index" asp-controller="AdminSection" ajax-enable="true" ajax-method="GET" ajax-update-element-id="#payingItemMainBody" ajax-mode="replace" ajax-url="@Url.Action("Index", "AdminSection")"
+   class="btn btn-default btn-raised btn-sm">
+    Назад
+</a>
+
+<a asp-action="MainPage" asp-controller="PayingItem" ajax-enable="true" ajax-method="GET" ajax-update-element-id="#payingItemMainBody" ajax-mode="replace" ajax-url="@Url.Action("MainPage", "PayingItem")"
+   ajax-begin="showPopupLogin" ajax-success="hidePopup" class="btn btn-default btn-raised pull-right btn-sm">
+    На главную
+</a>
