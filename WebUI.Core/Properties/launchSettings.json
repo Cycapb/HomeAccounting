@@ -25,13 +25,23 @@
     },
     "Docker": {
       "commandName": "Docker",
-      "commandLineArgs": "--network=\"host\"",
+      "commandLineArgs": "--network=backend",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "publishAllPorts": true
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:50000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:50000"
+      },
+      "distributionName": ""
     }
   }
 }
