@@ -4,6 +4,7 @@ using Loggers.Extensions.Serilog.Enrichers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,6 @@ using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Infrastructure.Identity.Validators;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;
-using WebUI.Core.Models;
 
 namespace WebUI.Core
 {
@@ -45,7 +45,7 @@ namespace WebUI.Core
                 options.UseSqlServer(_configuration["ConnectionStrings:AccountingIdentity:ConnectionString"]);
             });
 
-            services.AddIdentity<AccountingUserModel, AccountingRoleModel>(options =>
+            services.AddIdentity<AccountingUserModel, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
@@ -56,17 +56,28 @@ namespace WebUI.Core
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options => options.LoginPath = "/UserAccount/Index");
 
-            services.AddMvc().AddMvcOptions(options =>
+            services.AddMvc()
+                .AddNewtonsoftJson()
+                .AddXmlSerializerFormatters()
+                .AddMvcOptions(options =>
             {
                 options.Filters.AddService<CustomErrorFilter>();
                 options.EnableEndpointRouting = false;
                 options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => $"Необходимо ввести значение");
                 options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"{x} некорректное значения для этого поля");
+                options.RespectBrowserAcceptHeader = true;
+                options.ReturnHttpNotAcceptable = true;
             });
 
             services.AddMemoryCache();
 
             services.AddSession(options => options.IdleTimeout = TimeSpan.FromDays(14));
+            services.Configure<MvcNewtonsoftJsonOptions>(opts =>
+            {
+                opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                opts.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
+            services.AddSwaggerGen(opts => opts.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "HomeAccounting", Version = "v1" }));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -113,6 +124,9 @@ namespace WebUI.Core
                 routes.MapRoute("", "Todo/{action}", new { controller = "Todo", action = "Index" });
                 routes.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "PayingItem", action = "Index" });
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HomeAccounting"));
 
             DatabaseMigrator.MigrateDatabaseAndSeed(app);
             DatabaseMigrator.MigrateIdentityDatabaseAndSeed(app).Wait();
