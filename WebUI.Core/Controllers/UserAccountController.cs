@@ -258,19 +258,17 @@ namespace WebUI.Core.Controllers
 
                     return PartialView("_Register", model);
                 }
-                else
+
+                var signInResult = await SignInUser(userToAdd, model.Password);
+
+                if (signInResult.Succeeded)
                 {
-                    var signInResult = await SignInUser(userToAdd, model.Password);
+                    var urlToRedirect = Url.Action("Index", "PayingItem");
 
-                    if (signInResult.Succeeded)
-                    {
-                        var urlToRedirect = Url.Action("Index", "PayingItem");
-
-                        return Json(new { url = urlToRedirect, hasErrors = "false" });
-                    }
-
-                    ModelState.AddModelError("", "Невозможно аутентифицироваться после регистрации");
+                    return Json(new { url = urlToRedirect, hasErrors = "false" });
                 }
+
+                ModelState.AddModelError("", "Невозможно аутентифицироваться после регистрации");
             }
 
             return PartialView("_Register", model);

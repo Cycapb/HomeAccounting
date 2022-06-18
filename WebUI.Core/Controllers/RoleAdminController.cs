@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity.Models;
-using WebUI.Core.Models;
 using WebUI.Core.Models.RoleModels;
 
 namespace WebUI.Controllers
@@ -13,10 +12,10 @@ namespace WebUI.Controllers
     [Authorize(Roles = "Administrators")]
     public class RoleAdminController : Controller
     {
-        private readonly RoleManager<AccountingRoleModel> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AccountingUserModel> _userManager;
 
-        public RoleAdminController(RoleManager<AccountingRoleModel> roleManager, UserManager<AccountingUserModel> userManager)
+        public RoleAdminController(RoleManager<IdentityRole> roleManager, UserManager<AccountingUserModel> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -57,7 +56,7 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _roleManager.CreateAsync(new AccountingRoleModel(rolename));
+                var result = await _roleManager.CreateAsync(new IdentityRole(rolename));
 
                 if (result.Succeeded)
                 {
