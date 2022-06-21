@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Extensions;
 using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models;
+using WebUI.Core.Models.UserModels;
 
 namespace WebUI.Core.Controllers
 {

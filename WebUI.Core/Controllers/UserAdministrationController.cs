@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity.Models;
-using WebUI.Core.Models;
+using WebUI.Core.Models.UserModels;
 
 namespace WebUI.Controllers
 {

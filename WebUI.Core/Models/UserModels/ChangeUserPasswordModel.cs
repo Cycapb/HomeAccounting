@@ -1,22 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
-namespace WebUI.Core.Models
+namespace WebUI.Core.Models.UserModels
 {
-    public class CreateUserModel
-    {
-        [Required(ErrorMessage = "Не указано имя")]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage = "Не указан Email")]
-        public string Email { get; set; }
-
-        [UIHint("password")]
-        [Required(ErrorMessage = "Не указан пароль")]
-        public string Password { get; set; }
-    }
-
     public class ChangeUserPasswordModel
-    {
+{
         [Required(ErrorMessage = "Не указан текущий пароль")]
         [Display(Name = "Текущий пароль")]
         [UIHint("password")]
@@ -33,16 +21,4 @@ namespace WebUI.Core.Models
         [UIHint("password")]
         public string ConfirmPassword { get; set; }
     }
-
-    public class EditUserModel
-    {
-        public string Id { get; set; }
-
-        [Required(ErrorMessage = "Не указан Email")]
-        public string Email { get; set; }
-
-        [UIHint("password")]
-        public string Password { get; set; }
-    }
-
 }
