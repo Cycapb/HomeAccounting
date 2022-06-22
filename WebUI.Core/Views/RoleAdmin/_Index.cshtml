@@ -1,4 +1,4 @@
-﻿@model IDictionary<string, string>
+﻿@model IList<RoleModel>
 
 <div class="panel panel-primary">
     <div class="panel-heading">Список </div>
@@ -16,9 +16,9 @@
         }
         else
         {
-            foreach (var key in Model.Keys)
+            foreach (var role in Model)
             {
-                @await Html.PartialAsync("_RoleSummary", Model[key])
+                @await Html.PartialAsync("_RoleSummary", role)
             }
         }
     </table>

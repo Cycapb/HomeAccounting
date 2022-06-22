@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models.RoleModels;
+using WebUI.Core.Models.UserModels;
 
 namespace WebUI.Controllers
 {
@@ -25,11 +26,15 @@ namespace WebUI.Controllers
         {
             var roles = _roleManager.Roles;
             var users = _userManager.Users;
-            var rolesWithUsers = new Dictionary<string, string>();
+            var rolesWithUsers = new List<RoleModel>();
 
             foreach (var role in roles)
             {
-                rolesWithUsers[role.Name] = role.Name;
+                var roleModel = new RoleModel()
+                {
+                    Id = role.Id,
+                    Name = role.Name
+                };                
 
                 foreach (var user in users)
                 {
@@ -37,9 +42,17 @@ namespace WebUI.Controllers
                     
                     if (isInRole)
                     {
-                        rolesWithUsers[role.Name] = user.UserName;
+                        var userModel = new UserModel()
+                        {
+                            Id = user.Id,
+                            Name = user.UserName
+                        };
+
+                        roleModel.Users.Add(userModel);
                     }
                 }
+
+                rolesWithUsers.Add(roleModel);
             }
 
             return PartialView("_Index", rolesWithUsers);

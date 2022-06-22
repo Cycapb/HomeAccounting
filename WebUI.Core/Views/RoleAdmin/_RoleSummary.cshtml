@@ -1,5 +1,4 @@
-﻿@*@using WebUI.Core.Infrastructure.Extensions
-
+﻿@model RoleModel
 <tr>
     <td>@Model.Name</td>
     <td>
@@ -12,12 +11,18 @@
             foreach (var user in Model.Users)
             {
                 <p>
-                    @string.Join(",", Html.GetNameAsync(user.UserId))
+                    @user.Name
                 </p>
             }
         }
     </td>
-    <td>
+    @*<td>
+        <form asp-antiforgery="true" asp-action="Delete" method="post" asp-route-id="@Model.Id"
+            ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#payingDiv"
+                  ajax-url="@Url.Action("Delete", new { id = @Model.Id })"
+                  ajax-method="post">
+        </form>
+
         @using (Ajax.BeginForm(new AjaxOptions()
         {
             Url = Url.Action("Delete", new { id = Model.Id }),
@@ -32,5 +37,5 @@
                 new {@class = "btn btn-success btn-raised btn-xs"})
             <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs"/>
         }
-    </td>
-</tr>*@
+    </td>*@
+</tr>
