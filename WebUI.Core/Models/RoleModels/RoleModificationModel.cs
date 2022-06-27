@@ -3,7 +3,7 @@
     public class RoleModificationModel
     {
         public string RoleName { get; set; }
-        public string[] IdsToAdd { get; set; }
-        public string[] IdsToDelete { get; set; }
+        public string[] UsersToAdd { get; set; }
+        public string[] UsersToDelete { get; set; }
     }
 }

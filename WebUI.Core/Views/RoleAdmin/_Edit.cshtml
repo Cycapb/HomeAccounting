@@ -1,31 +1,31 @@
 ﻿@model RoleEditModel
-@*@using (Ajax.BeginForm(new AjaxOptions()
-{
-    UpdateTargetId = "adminSection"
-}))*@
-<form asp-action="Edit" method="post" ajax-enable="true" ajax-loading-element-id="#adminSection" ajax-method="post" ajax-mode="replace" ajax-url="@Url.Action("Edit")">
-     @Html.ValidationSummary()
-    <input type="hidden" name="RoleName" value="@Model.Role.Name"/>
+
+<form asp-action="Edit" asp-antiforgery="true" method="post" ajax-enable="true" ajax-update-element-id="#adminSection" ajax-method="post" ajax-mode="replace" ajax-url="@Url.Action("Edit")">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" name="RoleName" id="RoleName" value="@Model.Role.Name"/>
     <div class="panel panel-primary">
         <div class="panel-heading">Редактирование роли: @Model.Role.Name</div>
         <table class="table table-striped">
-            <caption class="text-center">Участники роли</caption>
-            @if (!Model.Members.Any() || Model.Members == null)
+            @if (!Model.Members.Any())
             {
                 <tr>
-                    <td colspan="2" class="text-center">Нет пользователей</td>
+                    <td colspan="2" class="text-center">Нет пользователей в данной роли</td>
                 </tr>
             }
             else
             {
+                <tr>
+                    <th>Пользователи, принадлежащие роли</th>
+                    <th>Пометить для удаления из роли</th>
+                </tr>
                 foreach (var item in Model.Members)
                 {
                     <tr>
-                        <td>@item.UserName</td>
+                        <td>@item.Name</td>
                         <td class="text-center">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="IdsToDelete" value="@item.Id">
+                                    <input type="checkbox" name="UsersToDelete" value="@item.Id">
                                     <span class="checkbox-material"><span class="check"></span></span>
                                 </label>
                             </div>
@@ -35,23 +35,26 @@
             }
         </table>
         <table class="table table-striped">
-            <caption class="text-center">Не принадлежащие данной роли</caption>
-            @if (Model.NonMembers == null || !Model.NonMembers.Any())
+            @if (!Model.NonMembers.Any())
             {
                 <tr>
-                    <td colspan="2" class="text-center">Нет пользователей</td>
+                    <td colspan="2" class="text-center">Нет пользователей для добавления к роли</td>
                 </tr>
             }
             else
             {
+                <tr>
+                    <th>Пользователи, не принадлежащие роли</th>
+                    <th>Пометить для добавления к роли</th>
+                </tr>
                 foreach (var item in Model.NonMembers)
                 {
                     <tr>
-                        <td>@item.UserName</td>
+                        <td>@item.Name</td>
                         <td class="text-center">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                                    <input type="checkbox" name="UsersToAdd" value="@item.Id">
                                     <span class="checkbox-material"><span class="check"></span></span>
                                 </label>
                             </div>
@@ -61,12 +64,9 @@
             }
         </table>
     </div>
-    <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm"/>
+    <input type="submit" value="Сохранить" class="btn btn-success btn-raised btn-sm" />
+    <a asp-action="Index" asp-controller="RoleAdmin" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection" ajax-url="@Url.Action("Index", "RoleAdmin")"
+       class="btn btn-default btn-raised btn-sm">
+        Назад
+    </a>
 </form>
-@*{*@
-   
-@*    @Ajax.ActionLink("Назад", "Index", "RoleAdmin", null, new AjaxOptions()
-    {
-        UpdateTargetId = "adminSection"
-    }, new {@class = "btn btn-default btn-raised btn-sm"})*@
-@*}*@

@@ -3,22 +3,16 @@ using Providers;
 using Serilog;
 using System;
 using System.Text;
-using WebUI.Core.Abstract.Converters;
 
 namespace WebUI.Core.Infrastructure.Filters
 {
     public class CustomErrorFilter : IExceptionFilter
     {
         private readonly ILogger _logger = Log.Logger.ForContext<CustomErrorFilter>();
-        private readonly IRouteDataConverter _routeDataConverter;
         private readonly IMultipleIpAddressProvider _multipleIpAddressProvider;
 
-        public CustomErrorFilter(
-            IRouteDataConverter routeDataConverter,
-            IMultipleIpAddressProvider multipleIpAddressProvider
-            )
+        public CustomErrorFilter(IMultipleIpAddressProvider multipleIpAddressProvider)
         {
-            _routeDataConverter = routeDataConverter;
             _multipleIpAddressProvider = multipleIpAddressProvider;
         }
 

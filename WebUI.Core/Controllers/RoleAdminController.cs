@@ -110,18 +110,18 @@ namespace WebUI.Controllers
 
             if (role != null)
             {
-                var members = new List<AccountingUserModel>();
-                var nonMembers = new List<AccountingUserModel>();
+                var members = new List<UserModel>();
+                var nonMembers = new List<UserModel>();
 
                 foreach (var user in _userManager.Users)
                 {
                     var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
-                    list.Add(user);
+                    list.Add(new UserModel() { Id = user.Id, Name = user.UserName });
                 }
 
                 var roleEditModel = new RoleEditModel()
                 {
-                    Role = role,
+                    Role = new RoleModel() { Id = role.Id, Name = role.Name },
                     Members = members,
                     NonMembers = nonMembers
                 };
@@ -133,34 +133,47 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        //public async Task<ActionResult> Edit(RoleModificationModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        IdentityResult result;
-        //        foreach (var userId in model.IdsToAdd ?? new string[] { })
-        //        {
-        //            result = await _userManager.AddToRoleAsync(userId, model.RoleName);
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(RoleModificationModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result;
+                foreach (var userId in model.UsersToAdd ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    
+                    if (user != null)
+                    {
+                        result = await _userManager.AddToRoleAsync(user, model.RoleName);
 
-        //            if (!result.Succeeded)
-        //            {
-        //                return View("Error", result.Errors);
-        //            }
-        //        }
-        //        foreach (var userId in model.IdsToDelete ?? new string[] { })
-        //        {
-        //            result = await UserManager.RemoveFromRoleAsync(userId, model.RoleName);
-        //            if (!result.Succeeded)
-        //            {
-        //                return View("Error", result.Errors);
-        //            }
-        //        }
+                        if (!result.Succeeded)
+                        {
+                            return View("Error", result.Errors);
+                        }
+                    }
+                }
 
-        //        return RedirectToAction("Index");
-        //    }
+                foreach (var userId in model.UsersToDelete ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
 
-        //    return RedirectToAction("Index");
-        //}
+                    if(user != null)
+                    {
+                        result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
+
+                        if (!result.Succeeded)
+                        {
+                            return View("Error", result.Errors);
+                        }
+                    }
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
 
 
         private void AddErrorsToModel(IdentityResult result)
