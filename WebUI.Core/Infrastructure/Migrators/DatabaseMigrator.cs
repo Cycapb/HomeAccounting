@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity;
 using WebUI.Core.Infrastructure.Identity.Models;
-using WebUI.Core.Models;
 
 namespace WebUI.Core.Infrastructure.Migrators
 {
@@ -52,7 +51,7 @@ namespace WebUI.Core.Infrastructure.Migrators
 
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(newUser, roleName).Wait();
+                    await userManager.AddToRoleAsync(newUser, roleName);
                 }
             }
         }
