@@ -28,7 +28,6 @@ namespace WebUI.Core.Infrastructure.Binders
             }
 
             bindingContext.Result = ModelBindingResult.Success(user);
-            return;
         }
     }
 }

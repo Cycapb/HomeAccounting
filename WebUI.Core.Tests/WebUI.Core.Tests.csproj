@@ -19,5 +19,11 @@
     <ProjectReference Include="..\Services\Services.csproj" />
     <ProjectReference Include="..\WebUI.Core\WebUI.Core.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Reference Include="Paginator">
+      <HintPath>..\WebUI.Core\lib\Paginator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

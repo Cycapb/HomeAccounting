@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models.UserModels;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize(Roles = "Administrators")]
     public class UserAdministrationController : Controller
@@ -69,10 +70,8 @@ namespace WebUI.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    return View("Error", result.Errors);
-                }
+
+                return View("Error", result.Errors.Select(x => x.Description));
             }
             return View("Error", new string[] { "Пользователь не найден" });
         }

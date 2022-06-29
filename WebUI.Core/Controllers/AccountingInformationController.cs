@@ -11,7 +11,7 @@ using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
 using WebUI.Core.Models.BudgetModels;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize]
     public class AccountingInformationController : Controller

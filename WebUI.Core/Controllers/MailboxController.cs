@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models.MailboxModels;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize(Roles = "Administrators")]
     public class MailboxController : Controller

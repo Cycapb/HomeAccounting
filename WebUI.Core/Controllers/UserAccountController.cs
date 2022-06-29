@@ -216,7 +216,7 @@ namespace WebUI.Core.Controllers
             }
             else
             {
-                return View("Error", new string[] { "Ошибка при изменении данных" });
+                return View("Error", new [] { "Ошибка при изменении данных" });
             }
 
             return PartialView("_ChangeCredentials", userToChange);
@@ -296,7 +296,7 @@ namespace WebUI.Core.Controllers
             if (result.Succeeded)
             {
                 var webUser = new WebUser() { Email = userModel.Email, Name = userModel.UserName, Id = userModel.Id };
-                await HttpContext.Session.SetJsonAsync<WebUser>(nameof(WebUser), webUser);
+                await HttpContext.Session.SetJsonAsync(nameof(WebUser), webUser);
             }
 
             return result;
