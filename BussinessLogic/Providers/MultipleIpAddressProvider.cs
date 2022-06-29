@@ -13,24 +13,24 @@ namespace BussinessLogic.Providers
             _singleIpAddressProvider = singleIpAddressProvider;
         }
 
-        public string GetIpAddresses(string ipAdresses)
+        public string GetIpAddresses(string ipAddresses)
         {
-            var outAdresses = new StringBuilder();
-            var adresses = ipAdresses.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var outAddresses = new StringBuilder();
+            var addresses = ipAddresses.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var ip in adresses)
+            foreach (var ip in addresses)
             {
-                if (outAdresses.Length == 0)
+                if (outAddresses.Length == 0)
                 {
-                    outAdresses.Append(_singleIpAddressProvider.GetIpAddress(ip));
+                    outAddresses.Append(_singleIpAddressProvider.GetIpAddress(ip));
                 }
                 else
                 {
-                    outAdresses.Append("," + _singleIpAddressProvider.GetIpAddress(ip));
+                    outAddresses.Append("," + _singleIpAddressProvider.GetIpAddress(ip));
                 }
             }
 
-            return outAdresses.ToString();
+            return outAddresses.ToString();
         }
     }
 }
