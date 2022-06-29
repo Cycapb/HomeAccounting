@@ -22,7 +22,7 @@ using WebUI.Core.Infrastructure.Filters;
 
 namespace WebUI.Core.Configuration
 {
-    public class WebUiCoreModule : Autofac.Module
+    public class WebUiCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

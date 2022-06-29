@@ -2,6 +2,7 @@
 
 <form asp-action="Edit" asp-antiforgery="true" method="post" ajax-enable="true" ajax-update-element-id="#adminSection" ajax-method="post" ajax-mode="replace" ajax-url="@Url.Action("Edit")">
     <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" name="RoleId" id="RoleId" value="@Model.Role.Id"/>
     <input type="hidden" name="RoleName" id="RoleName" value="@Model.Role.Name"/>
     <div class="panel panel-primary">
         <div class="panel-heading">Редактирование роли: @Model.Role.Name</div>

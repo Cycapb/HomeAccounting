@@ -17,7 +17,6 @@ using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Infrastructure.Identity.Validators;
 using WebUI.Core.Infrastructure.Middleware;
 using WebUI.Core.Infrastructure.Migrators;
-using WebUI.Core.Models;
 
 namespace WebUI.Core
 {

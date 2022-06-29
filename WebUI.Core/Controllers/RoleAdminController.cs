@@ -1,18 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using WebUI.Core.Exceptions;
 using WebUI.Core.Infrastructure.Identity.Models;
 using WebUI.Core.Models.RoleModels;
 using WebUI.Core.Models.UserModels;
 
-namespace WebUI.Controllers
+namespace WebUI.Core.Controllers
 {
     [Authorize(Roles = "Administrators")]
     public class RoleAdminController : Controller
     {
+        private enum UserActions
+        {
+            RemoveFromRole,
+            AddToRole
+        }
+
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AccountingUserModel> _userManager;
 
@@ -65,116 +73,154 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Required(ErrorMessage = "Не указано название роли")] string rolename)
+        public async Task<ActionResult> Create([Required(ErrorMessage = "Не указано название роли")] string roleName)
         {
             if (ModelState.IsValid)
             {
-                var result = await _roleManager.CreateAsync(new IdentityRole(rolename));
-
-                if (result.Succeeded)
+                try
                 {
-                    return RedirectToAction("Index");
-                }
+                    var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
 
-                AddErrorsToModel(result);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+
+                    AddErrorsToModel(result);
+                }
+                catch (Exception e)
+                {
+                    throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Create)}", e);
+                }
             } 
 
-            return PartialView("_Create", rolename);
+            return PartialView("_Create", roleName);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
-            
-            if (role != null)
+            try
             {
-                var result = await _roleManager.DeleteAsync(role);
+                var role = await _roleManager.FindByIdAsync(id);
             
-                if (result.Succeeded)
+                if (role != null)
                 {
-                    return RedirectToAction("Index");
+                    var result = await _roleManager.DeleteAsync(role);
+            
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+
+                    AddErrorsToModel(result);
+
+                    return await Index();
                 }
 
-                return View("Error", result.Errors);
-            }
+                ModelState.AddModelError("",$"Роль с Id {id} не найдена");
 
-            return RedirectToAction("Index");
+                return await Index();
+            }
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Delete)}", e);
+            }
         }
 
 
         public async Task<ActionResult> Edit(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
-
-            if (role != null)
+            try
             {
-                var members = new List<UserModel>();
-                var nonMembers = new List<UserModel>();
+                var role = await _roleManager.FindByIdAsync(id);
 
-                foreach (var user in _userManager.Users)
+                if (role != null)
                 {
-                    var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
-                    list.Add(new UserModel() { Id = user.Id, Name = user.UserName });
+                    var members = new List<UserModel>();
+                    var nonMembers = new List<UserModel>();
+
+                    foreach (var user in _userManager.Users)
+                    {
+                        var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                        list.Add(new UserModel() { Id = user.Id, Name = user.UserName });
+                    }
+
+                    var roleEditModel = new RoleEditModel()
+                    {
+                        Role = new RoleModel() { Id = role.Id, Name = role.Name },
+                        Members = members,
+                        NonMembers = nonMembers
+                    };
+
+                    return PartialView("_Edit", roleEditModel);
                 }
 
-                var roleEditModel = new RoleEditModel()
-                {
-                    Role = new RoleModel() { Id = role.Id, Name = role.Name },
-                    Members = members,
-                    NonMembers = nonMembers
-                };
-
-                return PartialView("_Edit", roleEditModel);
+                return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Index");
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Edit)}", e);
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(RoleModificationModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                IdentityResult result;
-                foreach (var userId in model.UsersToAdd ?? new string[] { })
-                {
-                    var user = await _userManager.FindByIdAsync(userId);
-                    
-                    if (user != null)
-                    {
-                        result = await _userManager.AddToRoleAsync(user, model.RoleName);
+                await AddOrRemoveUsersFromRole(model.UsersToAdd, model.RoleName, UserActions.AddToRole);
+                await AddOrRemoveUsersFromRole(model.UsersToDelete, model.RoleName, UserActions.RemoveFromRole);
 
-                        if (!result.Succeeded)
-                        {
-                            return View("Error", result.Errors);
-                        }
-                    }
+                if (ModelState.IsValid)
+                {
+                    return RedirectToAction("Index");
                 }
 
-                foreach (var userId in model.UsersToDelete ?? new string[] { })
-                {
-                    var user = await _userManager.FindByIdAsync(userId);
+                return await Edit(model.RoleId);
 
-                    if(user != null)
-                    {
-                        result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
-
-                        if (!result.Succeeded)
-                        {
-                            return View("Error", result.Errors);
-                        }
-                    }
-                }
-
-                return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Index");
+            catch (Exception e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(OrderController)} в методе {nameof(Edit)}", e);
+            }
         }
 
+
+        private async Task AddOrRemoveUsersFromRole(IEnumerable<string> userIds, string roleName, UserActions userActions)
+        {
+            foreach (var userId in userIds ?? new string[] { })
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+
+                if (user != null)
+                {
+                    IdentityResult result;
+                    switch (userActions)
+                    {
+                        case UserActions.RemoveFromRole:
+                            result = await _userManager.RemoveFromRoleAsync(user, roleName);
+                            break;
+                        case UserActions.AddToRole:
+                            result = await _userManager.AddToRoleAsync(user, roleName);
+                            break;
+                        default: result = IdentityResult.Failed();
+                            break;
+                    }
+
+                    if (!result.Succeeded)
+                    {
+                        AddErrorsToModel(result);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"Невозможно добавить/удалить пользователя с Id {userId}, так как он не существует");
+                }
+            }
+        }
 
         private void AddErrorsToModel(IdentityResult result)
         {
