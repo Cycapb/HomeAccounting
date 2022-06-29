@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Infrastructure.Identity.Models;
+using WebUI.Core.Models.Enums;
 using WebUI.Core.Models.RoleModels;
 using WebUI.Core.Models.UserModels;
 
@@ -15,12 +16,6 @@ namespace WebUI.Core.Controllers
     [Authorize(Roles = "Administrators")]
     public class RoleAdminController : Controller
     {
-        private enum UserActions
-        {
-            RemoveFromRole,
-            AddToRole
-        }
-
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AccountingUserModel> _userManager;
 
