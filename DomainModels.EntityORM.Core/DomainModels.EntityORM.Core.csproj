@@ -1,22 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Migrations\20200226184832_InitMigration.cs" />
-    <Compile Remove="Migrations\20200226184832_InitMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200229123040_InitMigration.cs" />
-    <Compile Remove="Migrations\20200229123040_InitMigration.Designer.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\AssemblyInfo.cs">
+			<Link>Properties\AssemblyInfo.cs</Link>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Migrations\20200226184832_InitMigration.cs" />
+		<Compile Remove="Migrations\20200226184832_InitMigration.Designer.cs" />
+		<Compile Remove="Migrations\20200229123040_InitMigration.cs" />
+		<Compile Remove="Migrations\20200229123040_InitMigration.Designer.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DomainModels\DomainModels.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DomainModels\DomainModels.csproj" />
+	</ItemGroup>
 
 </Project>

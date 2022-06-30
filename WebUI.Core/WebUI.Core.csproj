@@ -8,19 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="lib\Paginator.dll" />
-    <None Remove="Models\KnockoutModels\AccountModel.js" />
-    <None Remove="Models\KnockoutModels\TodoCreateViewModel.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="lib\Paginator.dll" />
-    <Content Include="Models\KnockoutModels\AccountModel.js" />
-    <Content Include="Models\KnockoutModels\TodoCreateViewModel.js" />
   </ItemGroup>
 
   <ItemGroup>    
