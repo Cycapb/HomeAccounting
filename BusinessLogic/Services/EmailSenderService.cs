@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using DomainModels.Model;
 using Providers;
@@ -45,12 +44,8 @@ namespace BusinessLogic.Services
             }
             else
             {
-                var errorMessage = new StringBuilder();
-                errorMessage.AppendLine("\r\n");
-                errorMessage.AppendLine("Ошибка: Невозможно получить учетные данные почтового ящика для отправки списка покупок!");
-
                 throw new SendEmailException($"Возникла ошибка в сервисе {nameof(EmailSenderService)} в методе {nameof(SendAsync)} при отправке почты. " +
-                    "Ошибка: Невозможно получить учетные данные почтового ящика для отправки списка покупок!", null);
+                                             "Ошибка: Невозможно получить учетные данные почтового ящика для отправки списка покупок!", null);
             }
 
         }
