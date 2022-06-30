@@ -93,9 +93,16 @@ namespace WebUI.Core.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _mailboxService.DeleteAsync(id);
+            try
+            {
+                await _mailboxService.DeleteAsync(id);
 
-            return RedirectToAction("List");
+                return RedirectToAction("List");
+            }
+            catch (ServiceException e)
+            {
+                throw new WebUiException($"Ошибка в контроллере {nameof(MailboxController)} в методе {nameof(Delete)}", e);
+            }            
         }
 
         public async Task<IActionResult> Edit(int id)

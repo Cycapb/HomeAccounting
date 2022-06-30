@@ -1,5 +1,4 @@
-﻿using DomainModels.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebUI.Core.Models.ReportModels;
@@ -11,7 +10,7 @@ namespace WebUI.Core.Abstract.Helpers
         Task<List<PayItemSubcategories>> GetPayItemsWithSubcategoriesInDatesWeb(
             DateTime dateFrom,
             DateTime dateTo,
-            IWorkingUser user,
+            string userId,
             int typeOfFlowId);
     }
 }

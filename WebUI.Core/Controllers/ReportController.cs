@@ -153,8 +153,7 @@ namespace WebUI.Core.Controllers
             try
             {
                 var payItemSubcategoriesList =
-                    await _payItemSubcategoriesHelper.GetPayItemsWithSubcategoriesInDatesWeb(date, dtTo, user,
-                        typeOfFlowId);
+                    await _payItemSubcategoriesHelper.GetPayItemsWithSubcategoriesInDatesWeb(date, dtTo, user.Id, typeOfFlowId);
                 ViewBag.Summ = payItemSubcategoriesList.Sum(x => x.CategorySumm.Sum);
 
                 return payItemSubcategoriesList;

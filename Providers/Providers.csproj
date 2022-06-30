@@ -1,14 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Configurations>Release.Prod;Debug.Local;Debug.Test;Release.Test</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>pdbonly</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="..\AssemblyInfo.cs">
+			<Link>Properties\AssemblyInfo.cs</Link>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-	<Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DomainModels\DomainModels.csproj" />
+	</ItemGroup>
 
 </Project>

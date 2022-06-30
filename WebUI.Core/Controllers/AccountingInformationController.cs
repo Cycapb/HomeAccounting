@@ -50,8 +50,8 @@ namespace WebUI.Core.Controllers
             {
                 var budgetViewModel = new OverViewBudgetViewModel
                 {
-                    BudgetInFact = await _reportHelper.GetBudgetInFactAsync(user),
-                    BudgetOverAll = await _reportHelper.GetBudgetOverAllAsync(user)
+                    BudgetInFact = await _reportHelper.GetBudgetInFactAsync(user.Id),
+                    BudgetOverAll = await _reportHelper.GetBudgetOverAllAsync(user.Id)
                 };
 
                 return PartialView("_Budgets", budgetViewModel);

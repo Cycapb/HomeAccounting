@@ -6,8 +6,8 @@ namespace DomainModels.Infrastructure
     {
         public override bool IsValid(object value)
         {
-            int? val = null;
-            val = (int) value;
+            int? val = (int)value;
+
             if (val.Value == 0)
             {
                 return false;

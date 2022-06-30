@@ -42,7 +42,7 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    collection = _payingItemService.GetListByTypeOfFlow(user, (int)TypesOfFlow.Income).ToList();
+                    collection = _payingItemService.GetListByTypeOfFlow(user.Id, (int)TypesOfFlow.Income).ToList();
                 }
 
                 var budgetModel = BudgetModel(collection, TypesOfFlow.Income);

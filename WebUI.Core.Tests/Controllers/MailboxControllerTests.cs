@@ -102,14 +102,12 @@ namespace WebUI.Core.Tests.Controllers
 
         [TestMethod]
         [TestCategory("MailboxControllerTests")]
-        public async Task Delete()
+        public async Task Delete_ReturnsRedirectToActionList()
         {
             var result = await _controller.Delete(It.IsAny<int>());
-            var routeResults = ((RedirectToRouteResult)result).RouteValues;
-
-            _mailboxService.Verify(x => x.DeleteAsync(It.IsAny<int>()), Times.Exactly(1));
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(routeResults["action"], "List");
+            
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("List", ((RedirectToActionResult)result).ActionName);
         }
 
         [TestMethod]
@@ -135,34 +133,33 @@ namespace WebUI.Core.Tests.Controllers
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(mBox);
 
             var result = await _controller.Edit(It.IsAny<int>());
-            var redirectResult = ((RedirectToRouteResult)result);
+            var redirectResult = ((RedirectToActionResult)result);
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"], "Index");
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("Index", redirectResult.ActionName);
         }
 
         [TestMethod]
         [TestCategory("MailboxControllerTests")]
-        public async Task Edit_InputMailboxAddViewModelNull_ReturnsRedirectToList()
+        public async Task Edit_InputEditNotificationMailboxModelNull_ReturnsRedirectToList()
         {
             var result = await _controller.Edit(null);
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
         [TestMethod]
         [TestCategory("MailboxControllerTests")]
-        public async Task Edit_InputmailboxAddViewModel_ReturnsRedirectToList()
+        public async Task Edit_InputValidEditNotificationMailboxModel_ReturnsRedirectToList()
         {
             var model = new EditNotificationMailboxModel() { Id = 2, MailBoxName = "M2" };
             _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new NotificationMailBox() { Id = 1, MailBoxName = "M1" });
 
             var result = await _controller.Edit(model);
-            var redirectResult = ((RedirectToRouteResult)result);
+            var redirectResult = ((RedirectToActionResult)result);
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual(redirectResult.RouteValues["action"], "Index");
-            _mailboxService.Verify(x => x.UpdateAsync(It.IsAny<NotificationMailBox>()), Times.Exactly(1));
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("Index", redirectResult.ActionName);
         }
 
         [TestMethod]

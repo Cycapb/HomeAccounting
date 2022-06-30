@@ -1,9 +1,0 @@
-﻿@model PagingInfo
-@for (var i = 1; i <= Model.TotalPages; i++)
-{
-    @Ajax.ActionLink(i.ToString(), "List", new { page = i }, new AjaxOptions()
-{
-    Url = Url.Action("ListAjax", new { page = i }),
-    UpdateTargetId = "payingTable"
-}, new { @class = "btn btn-default btn-raised btn-round btn-xs", id = i.ToString(), onclick = "changeButtonColor(this.id)" })
-}

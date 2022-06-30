@@ -34,11 +34,10 @@ namespace WebUI.Core.Tests.Controllers
         public async Task Delete_ReturnsRedirectToRouteResult()
         { 
             var result = await _debtController.Delete(It.IsAny<int>());
-            var resultType = (result as RedirectToRouteResult);
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.IsNotNull(resultType);
-            Assert.AreEqual(resultType.RouteValues["action"], "DebtList");
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));            
+            Assert.AreEqual("DebtList", ((RedirectToActionResult)result).ActionName);
         }
 
         [TestMethod]
@@ -57,10 +56,9 @@ namespace WebUI.Core.Tests.Controllers
             _debtService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync((Debt)null);
 
             var result = await _debtController.ClosePartially(It.IsAny<int>());
-            var viewResult = result as RedirectToRouteResult;
 
-            Assert.IsNotNull(viewResult);
-            Assert.AreEqual("DebtList", viewResult.RouteValues["action"]);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("DebtList", ((RedirectToActionResult)result).ActionName);
         }
 
         [TestMethod]
@@ -127,11 +125,10 @@ namespace WebUI.Core.Tests.Controllers
         [TestCategory("DebtControllerTests")]
         public async Task ClosePartially_Post_ValidModelState_ReturnRedirectToAction_DebtList()
         {
-            var result = await _debtController.ClosePartially(new DebtEditModel());
-            var routeValues = ((RedirectToRouteResult) result).RouteValues;
+            var result = await _debtController.ClosePartially(new DebtEditModel());            
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("DebtList", routeValues["action"]);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.AreEqual("DebtList", ((RedirectToActionResult)result).ActionName);
         }
 
         [TestMethod]
