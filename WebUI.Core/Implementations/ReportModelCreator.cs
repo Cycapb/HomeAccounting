@@ -49,7 +49,7 @@ namespace WebUI.Core.Implementations
                 }
                 else
                 {
-                    tempList = _reportHelper.GetPayItemsInDatesWeb(dtFrom, dtTo, user).OrderByDescending(x => x.Date).ToList();
+                    tempList = _reportHelper.GetPayItemsInDatesWeb(dtFrom, dtTo, user.Id).OrderByDescending(x => x.Date).ToList();
                     _cache.Set(cacheKey, tempList);
                 }
 
@@ -81,7 +81,7 @@ namespace WebUI.Core.Implementations
                 else
                 {
                     tempList =
-                    _reportHelper.GetCategoryPayItemsInDatesWeb(model.DtFrom, model.DtTo, model.CategoryId, user)
+                    _reportHelper.GetCategoryPayItemsInDatesWeb(model.DtFrom, model.DtTo, model.CategoryId, user.Id)
                         .OrderByDescending(x => x.Date)
                         .ToList();
                     _cache.Set(cacheKey, tempList);

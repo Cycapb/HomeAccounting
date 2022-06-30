@@ -3,16 +3,23 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Release.Prod;Debug.Local;Debug.Test;Release.Test</Configurations>
+    <RootNamespace>BussinessLogic</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-	<Compile Include="..\AssemblyInfo.cs">
+    <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DomainModels\DomainModels.csproj" />
+    <ProjectReference Include="..\Providers\Providers.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>

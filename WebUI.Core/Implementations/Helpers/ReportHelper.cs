@@ -27,11 +27,11 @@ namespace WebUI.Core.Implementations.Helpers
         {
         }
 
-        public IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user)
+        public IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, string userId)
         {
             try
             {
-                return _payingItemService.GetList(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date) && d.UserId == user.Id)
+                return _payingItemService.GetList(d => (d.Date >= dateFrom.Date) && (d.Date <= dateTo.Date) && d.UserId == userId)
                     .OrderBy(d => d.Date)
                     .ToList();
             }
@@ -43,11 +43,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public IEnumerable<PayingItem> GetPayingItemsByDateWeb(DateTime date, IWorkingUser user)
+        public IEnumerable<PayingItem> GetPayingItemsByDateWeb(DateTime date, string userId)
         {
             try
             {
-                return _payingItemService.GetList(d => d.Date == date.Date && d.UserId == user.Id)
+                return _payingItemService.GetList(d => d.Date == date.Date && d.UserId == userId)
                     .ToList();
             }
             catch (DomainModelsException e)
@@ -58,11 +58,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public IEnumerable<PayItem> GetPayItemsByDateWeb(DateTime date, IWorkingUser user)
+        public IEnumerable<PayItem> GetPayItemsByDateWeb(DateTime date, string userId)
         {
             try
             {
-                return _payingItemService.GetList(pItem => pItem.UserId == user.Id && pItem.Date == date.Date)
+                return _payingItemService.GetList(pItem => pItem.UserId == userId && pItem.Date == date.Date)
                         .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
@@ -82,11 +82,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public IEnumerable<PayItem> GetPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user)
+        public IEnumerable<PayItem> GetPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, string userId)
         {
             try
             {
-                return _payingItemService.GetList(pItem => pItem.UserId == user.Id && (pItem.Date >= dateFrom.Date && pItem.Date <= dateTo.Date))
+                return _payingItemService.GetList(pItem => pItem.UserId == userId && (pItem.Date >= dateFrom.Date && pItem.Date <= dateTo.Date))
                         .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
@@ -108,11 +108,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public IEnumerable<PayItem> GetCategoryPayItemsByDateWeb(DateTime date, int categoryId, IWorkingUser user)
+        public IEnumerable<PayItem> GetCategoryPayItemsByDateWeb(DateTime date, int categoryId, string userId)
         {
             try
             {
-                return _payingItemService.GetList(pItem => pItem.CategoryID == categoryId && pItem.UserId == user.Id && (pItem.Date == date.Date))
+                return _payingItemService.GetList(pItem => pItem.CategoryID == categoryId && pItem.UserId == userId && (pItem.Date == date.Date))
                         .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
@@ -132,12 +132,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public IEnumerable<PayItem> GetCategoryPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, int categoryId,
-            IWorkingUser user)
+        public IEnumerable<PayItem> GetCategoryPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, int categoryId, string userId)
         {
             try
             {
-                var items = _payingItemService.GetList(p => p.CategoryID == categoryId && p.UserId == user.Id && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))
+                var items = _payingItemService.GetList(p => p.CategoryID == categoryId && p.UserId == userId && (p.Date >= dateFrom.Date) && (p.Date <= dateTo.Date))
                     .Select(pItem => new PayItem()
                     {
                         AccountName = pItem.Account.AccountName,
@@ -159,12 +158,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public IEnumerable<PayItem> GetPayItemsInDatesByTypeOfFlowWeb(DateTime dateFrom, DateTime dateTo,
-            int typeOfFlowId, IWorkingUser user)
+        public IEnumerable<PayItem> GetPayItemsInDatesByTypeOfFlowWeb(DateTime dateFrom, DateTime dateTo, int typeOfFlowId, string userId)
         {
             try
             {
-                return _payingItemService.GetList(pItem => pItem.Category.TypeOfFlowID == typeOfFlowId && pItem.UserId == user.Id && pItem.Date >= dateFrom.Date && pItem.Date <= dateTo.Date)
+                return _payingItemService.GetList(pItem => pItem.Category.TypeOfFlowID == typeOfFlowId && pItem.UserId == userId && pItem.Date >= dateFrom.Date && pItem.Date <= dateTo.Date)
                         .Select(pItem => new PayItem()
                         {
                             AccountName = pItem.Account.AccountName,
@@ -185,11 +183,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public async Task<string> GetBudgetOverAllAsync(IWorkingUser user)
+        public async Task<string> GetBudgetOverAllAsync(string userId)
         {
             try
             {
-                var accounts = await _accountService.GetListAsync(i => i.UserId == user.Id);
+                var accounts = await _accountService.GetListAsync(i => i.UserId == userId);
 
                 return accounts.Sum(s => s.Cash).ToString("c");
             }
@@ -201,11 +199,11 @@ namespace WebUI.Core.Implementations.Helpers
             }
         }
 
-        public async Task<string> GetBudgetInFactAsync(IWorkingUser user)
+        public async Task<string> GetBudgetInFactAsync(string userId)
         {
             try
             {
-                var accounts = await _accountService.GetListAsync(b => b.Use && b.UserId == user.Id);
+                var accounts = await _accountService.GetListAsync(b => b.Use && b.UserId == userId);
 
                 return accounts.Sum(s => s.Cash).ToString("c");
             }

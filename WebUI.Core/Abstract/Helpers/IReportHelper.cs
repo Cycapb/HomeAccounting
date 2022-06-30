@@ -8,20 +8,20 @@ namespace WebUI.Core.Abstract.Helpers
 {
     public interface IReportHelper : IDisposable
     {
-        IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user);
-        IEnumerable<PayingItem> GetPayingItemsByDateWeb(DateTime date, IWorkingUser user);
-        IEnumerable<PayItem> GetPayItemsByDateWeb(DateTime date, IWorkingUser user);
-        IEnumerable<PayItem> GetPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, IWorkingUser user);
-        IEnumerable<PayItem> GetCategoryPayItemsByDateWeb(DateTime date, int categoryId, IWorkingUser user);
+        IEnumerable<PayingItem> GetPayingItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, string userId);
+        IEnumerable<PayingItem> GetPayingItemsByDateWeb(DateTime date, string userId);
+        IEnumerable<PayItem> GetPayItemsByDateWeb(DateTime date, string userId);
+        IEnumerable<PayItem> GetPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, string userId);
+        IEnumerable<PayItem> GetCategoryPayItemsByDateWeb(DateTime date, int categoryId, string userId);
 
         IEnumerable<PayItem> GetCategoryPayItemsInDatesWeb(DateTime dateFrom, DateTime dateTo, int categoryId,
-            IWorkingUser user);
+            string userId);
 
         IEnumerable<PayItem> GetPayItemsInDatesByTypeOfFlowWeb(DateTime dateFrom, DateTime dateTo,
-            int typeOfFlowId, IWorkingUser user);
+            int typeOfFlowId, string userId);
 
-        Task<string> GetBudgetOverAllAsync(IWorkingUser user);
-        Task<string> GetBudgetInFactAsync(IWorkingUser user);
+        Task<string> GetBudgetOverAllAsync(string userId);
+        Task<string> GetBudgetInFactAsync(string userId);
 
         decimal GetSummForMonth(List<PayingItem> collection);
         decimal GetSummForWeek(List<PayingItem> collection);

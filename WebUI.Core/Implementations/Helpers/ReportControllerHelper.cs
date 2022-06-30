@@ -85,7 +85,7 @@ namespace WebUI.Core.Implementations.Helpers
             IEnumerable<PayItem> pItemList = new List<PayItem>();
             try
             {
-                pItemList = _dbHelper.GetPayItemsInDatesByTypeOfFlowWeb(dateFrom, dateTo, flowId, user);
+                pItemList = _dbHelper.GetPayItemsInDatesByTypeOfFlowWeb(dateFrom, dateTo, flowId, user.Id);
             }
             catch (WebUiHelperException e)
             {
@@ -107,7 +107,7 @@ namespace WebUI.Core.Implementations.Helpers
         {
             try
             {
-                return _dbHelper.GetPayingItemsInDatesWeb(dtFrom, dtTo, user);
+                return _dbHelper.GetPayingItemsInDatesWeb(dtFrom, dtTo, user.Id);
             }
             catch (WebUiHelperException e)
             {

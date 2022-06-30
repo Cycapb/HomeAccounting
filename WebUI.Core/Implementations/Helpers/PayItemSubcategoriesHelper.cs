@@ -1,5 +1,4 @@
-﻿using DomainModels.Model;
-using Services;
+﻿using Services;
 using Services.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -23,11 +22,11 @@ namespace WebUI.Core.Implementations.Helpers
         }
 
         public async Task<List<PayItemSubcategories>> GetPayItemsWithSubcategoriesInDatesWeb(DateTime dateFrom, DateTime dateTo,
-            IWorkingUser user, int typeOfFlowId)
+            string userId, int typeOfFlowId)
         {
             try
             {
-                var pItems = _payingItemService.GetList(x => x.UserId == user.Id && x.Date >= dateFrom.Date && (x.Date <= dateTo.Date) && x.Category.TypeOfFlowID == typeOfFlowId)
+                var pItems = _payingItemService.GetList(x => x.UserId == userId && x.Date >= dateFrom.Date && (x.Date <= dateTo.Date) && x.Category.TypeOfFlowID == typeOfFlowId)
                     .ToList();
 
                 var payItemSubcategoriesList = new List<PayItemSubcategories>();
@@ -42,7 +41,7 @@ namespace WebUI.Core.Implementations.Helpers
                 }));
 
                 var catNameGrouping = pItems //Наполняем список View Model и заполняем у каждого итема свойство CategorySumm
-                    .Where(x => x.UserId == user.Id &&
+                    .Where(x => x.UserId == userId &&
                                 ((x.Date >= dateFrom.Date) && (x.Date <= dateTo.Date))
                                 && x.Category.TypeOfFlowID == typeOfFlowId)
                     .GroupBy(x => x.Category.Name)

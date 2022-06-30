@@ -1,7 +1,8 @@
 ﻿using Autofac;
-using BussinessLogic.Providers;
-using BussinessLogic.Services;
-using BussinessLogic.Services.Triggers;
+using BusinessLogic.Providers;
+using BusinessLogic.Services;
+using BussinnessLogic.Services;
+using BussinnessLogic.Services.Triggers;
 using DomainModels.EntityORM.Core.Infrastructure;
 using DomainModels.Model;
 using DomainModels.Repositories;

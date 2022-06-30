@@ -1,4 +1,4 @@
-﻿using Loggers.Models;
+﻿using Loggers.Extensions.Serilog.Models;
 using Microsoft.AspNetCore.Http;
 using Serilog.Core;
 using Serilog.Events;

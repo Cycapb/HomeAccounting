@@ -13,7 +13,7 @@ namespace Services
         ICreateCommandServiceAsync<PayingItem>,
         IDisposable
     {
-        IEnumerable<PayingItem> GetListByTypeOfFlow(IWorkingUser user, int typeOfFlow);
+        IEnumerable<PayingItem> GetListByTypeOfFlow(string userId, int typeOfFlow);
 
         Task<IEnumerable<PayingItem>> GetListByTypeOfFlowAsync(string userId, int typeOfFlow);
     }

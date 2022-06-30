@@ -41,7 +41,7 @@ namespace WebUI.Core.Components
 
                 if (user != null)
                 {
-                    budgetViewModel = await FillBudgetViewModel(user);
+                    budgetViewModel = await FillBudgetViewModel(user.Id);
                 }
 
                 return View("/Views/AccountingInformation/_Budgets.cshtml", budgetViewModel);
@@ -68,14 +68,14 @@ namespace WebUI.Core.Components
             }
         }
 
-        private async Task<OverViewBudgetViewModel> FillBudgetViewModel(IWorkingUser user)
+        private async Task<OverViewBudgetViewModel> FillBudgetViewModel(string userId)
         {
             try
             {
                 var budget = new OverViewBudgetViewModel
                 {
-                    BudgetInFact = await _reportHelper.GetBudgetInFactAsync(user),
-                    BudgetOverAll = await _reportHelper.GetBudgetOverAllAsync(user)
+                    BudgetInFact = await _reportHelper.GetBudgetInFactAsync(userId),
+                    BudgetOverAll = await _reportHelper.GetBudgetOverAllAsync(userId)
                 };
 
                 return budget;
