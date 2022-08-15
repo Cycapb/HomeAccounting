@@ -4,6 +4,7 @@ using DomainModels.EntityORM.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainModels.EntityORM.Core.Migrations
 {
     [DbContext(typeof(AccountingContextCore))]
-    partial class AccountingContextCoreModelSnapshot : ModelSnapshot
+    [Migration("20220815053854_AddCreateDateToAccount")]
+    partial class AddCreateDateToAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +50,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasKey("AccountID");
 
-                    b.ToTable("Account", (string)null);
+                    b.ToTable("Account");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Category", b =>
@@ -82,7 +84,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("TypeOfFlowID");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Debt", b =>
@@ -124,7 +126,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("TypeOfFlowId");
 
-                    b.ToTable("Debt", (string)null);
+                    b.ToTable("Debt");
                 });
 
             modelBuilder.Entity("DomainModels.Model.NotificationMailBox", b =>
@@ -168,7 +170,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationMailBox", (string)null);
+                    b.ToTable("NotificationMailBox");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Order", b =>
@@ -192,7 +194,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasKey("OrderID");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("DomainModels.Model.OrderDetail", b =>
@@ -223,7 +225,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetail", (string)null);
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PayingItem", b =>
@@ -261,7 +263,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("PayingItem", (string)null);
+                    b.ToTable("PayingItem");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PayingItemProduct", b =>
@@ -289,7 +291,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PayingItemProduct", (string)null);
+                    b.ToTable("PayingItemProduct");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PlanItem", b =>
@@ -339,7 +341,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("PlanItem", (string)null);
+                    b.ToTable("PlanItem");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Product", b =>
@@ -371,7 +373,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Product", (string)null);
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("DomainModels.Model.TypeOfFlow", b =>
@@ -389,7 +391,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasKey("TypeID");
 
-                    b.ToTable("TypeOfFlow", (string)null);
+                    b.ToTable("TypeOfFlow");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Category", b =>
