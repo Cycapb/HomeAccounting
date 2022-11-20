@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
-
 namespace DomainModels.EntityORM.Core.Migrations
 {
     [DbContext(typeof(AccountingContextCore))]
@@ -17,23 +15,21 @@ namespace DomainModels.EntityORM.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DomainModels.Model.Account", b =>
                 {
                     b.Property<int>("AccountID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Cash")
                         .HasColumnType("money");
@@ -43,37 +39,36 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("AccountID");
 
-                    b.ToTable("Account", (string)null);
+                    b.ToTable("Account");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Category", b =>
                 {
                     b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<int>("TypeOfFlowID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("ViewInPlan")
                         .HasColumnType("bit");
@@ -82,16 +77,15 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("TypeOfFlowID");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Debt", b =>
                 {
                     b.Property<int>("DebtID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DebtID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
@@ -104,8 +98,8 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.Property<string>("Person")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.Property<decimal>("Summ")
                         .HasColumnType("money");
@@ -115,8 +109,8 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("DebtID");
 
@@ -124,60 +118,58 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("TypeOfFlowId");
 
-                    b.ToTable("Debt", (string)null);
+                    b.ToTable("Debt");
                 });
 
             modelBuilder.Entity("DomainModels.Model.NotificationMailBox", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MailBoxName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("MailFrom")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("nvarchar(1024)");
+                        .HasColumnType("nvarchar(1024)")
+                        .HasMaxLength(1024);
 
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
                     b.Property<string>("Server")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("UseSsl")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationMailBox", (string)null);
+                    b.ToTable("NotificationMailBox");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -187,12 +179,12 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("OrderID");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("DomainModels.Model.OrderDetail", b =>
@@ -200,13 +192,10 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -223,16 +212,15 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetail", (string)null);
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PayingItem", b =>
                 {
                     b.Property<int>("ItemID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
@@ -241,8 +229,8 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Comment")
-                        .HasMaxLength(1024)
-                        .HasColumnType("nvarchar(1024)");
+                        .HasColumnType("nvarchar(1024)")
+                        .HasMaxLength(1024);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
@@ -252,8 +240,8 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("ItemID");
 
@@ -261,7 +249,7 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("PayingItem", (string)null);
+                    b.ToTable("PayingItem");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PayingItemProduct", b =>
@@ -269,13 +257,10 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("PayingItemId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -289,16 +274,15 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PayingItemProduct", (string)null);
+                    b.ToTable("PayingItemProduct");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PlanItem", b =>
                 {
                     b.Property<int>("PlanItemID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanItemID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("BalanceFact")
                         .HasColumnType("money");
@@ -332,64 +316,62 @@ namespace DomainModels.EntityORM.Core.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("PlanItemID");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("PlanItem", (string)null);
+                    b.ToTable("PlanItem");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("UserID")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("ProductID");
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Product", (string)null);
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("DomainModels.Model.TypeOfFlow", b =>
                 {
                     b.Property<int>("TypeID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeID"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("TypeID");
 
-                    b.ToTable("TypeOfFlow", (string)null);
+                    b.ToTable("TypeOfFlow");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Category", b =>
@@ -399,8 +381,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasForeignKey("TypeOfFlowID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("TypeOfFlow");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Debt", b =>
@@ -416,10 +396,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasForeignKey("TypeOfFlowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("TypeOfFlow");
                 });
 
             modelBuilder.Entity("DomainModels.Model.OrderDetail", b =>
@@ -435,10 +411,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PayingItem", b =>
@@ -454,10 +426,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PayingItemProduct", b =>
@@ -471,10 +439,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                     b.HasOne("DomainModels.Model.Product", "Product")
                         .WithMany("PayingItemProducts")
                         .HasForeignKey("ProductId");
-
-                    b.Navigation("PayingItem");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DomainModels.Model.PlanItem", b =>
@@ -484,8 +448,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DomainModels.Model.Product", b =>
@@ -495,48 +457,6 @@ namespace DomainModels.EntityORM.Core.Migrations
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DomainModels.Model.Account", b =>
-                {
-                    b.Navigation("Debts");
-
-                    b.Navigation("PayingItems");
-                });
-
-            modelBuilder.Entity("DomainModels.Model.Category", b =>
-                {
-                    b.Navigation("PayingItems");
-
-                    b.Navigation("PlanItems");
-
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("DomainModels.Model.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("DomainModels.Model.PayingItem", b =>
-                {
-                    b.Navigation("PayingItemProducts");
-                });
-
-            modelBuilder.Entity("DomainModels.Model.Product", b =>
-                {
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("PayingItemProducts");
-                });
-
-            modelBuilder.Entity("DomainModels.Model.TypeOfFlow", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Debts");
                 });
 #pragma warning restore 612, 618
         }
