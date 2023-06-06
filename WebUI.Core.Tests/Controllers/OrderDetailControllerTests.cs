@@ -14,17 +14,13 @@ namespace WebUI.Core.Tests.Controllers
     {
 
         private readonly OrderDetailController _target;
-        private readonly Mock<ICategoryService> _categoryServiceMock;
-        private readonly Mock<IMemoryCache> _cacheMock;
-        private readonly Mock<IProductService> _productServiceMock;
-        private readonly Mock<IOrderService> _orderServiceMock;
+        private readonly Mock<ICategoryService> _categoryServiceMock = new Mock<ICategoryService>();
+        private readonly Mock<IMemoryCache> _cacheMock = new Mock<IMemoryCache>();
+        private readonly Mock<IProductService> _productServiceMock = new Mock<IProductService>();
+        private readonly Mock<IOrderService> _orderServiceMock = new Mock<IOrderService>();
 
         public OrderDetailControllerTests()
         {
-            _categoryServiceMock = new Mock<ICategoryService>();
-            _cacheMock = new Mock<IMemoryCache>();
-            _productServiceMock = new Mock<IProductService>();
-            _orderServiceMock = new Mock<IOrderService>();
             _target = new OrderDetailController(_categoryServiceMock.Object, _cacheMock.Object, _orderServiceMock.Object, _productServiceMock.Object);
         }
 
@@ -48,7 +44,7 @@ namespace WebUI.Core.Tests.Controllers
 
             var result = await _target.Delete(It.IsAny<int>(), orderId);
 
-            Assert.AreEqual(orderId, ((RedirectToActionResult)result).RouteValues["id"]);
+            Assert.AreEqual(orderId, ((RedirectToActionResult)result).RouteValues?["id"]);
         }
     }
 }

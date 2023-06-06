@@ -129,8 +129,7 @@ namespace WebUI.Core.Tests.Controllers
         [TestCategory("MailboxControllerTests")]
         public async Task Edit_ReturnsRedirectToList_NullModel()
         {
-            NotificationMailBox mBox = null;
-            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(mBox);
+            _mailboxService.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync((NotificationMailBox)null);
 
             var result = await _controller.Edit(It.IsAny<int>());
             var redirectResult = ((RedirectToActionResult)result);

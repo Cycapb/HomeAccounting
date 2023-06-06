@@ -13,7 +13,6 @@ using WebUI.Core.Controllers;
 using WebUI.Core.Abstract;
 using WebUI.Core.Exceptions;
 using WebUI.Core.Models;
-using WebUI.Core.Models.CategoryModels;
 using WebUI.Core.Models.PayingItemModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,10 +53,10 @@ namespace WebUI.Core.Tests.Controllers
             var viewDataAccounts = ((PartialViewResult)result).ViewData["Accounts"] as IEnumerable<Account>;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));
-            Assert.AreEqual(model.Products.Count, 0);
+            Assert.AreEqual(0, model!.Products.Count);
             Assert.IsNotNull(model.PayingItem);
-            Assert.AreEqual(viewDataCategories.Count(), 0);
-            Assert.AreEqual(viewDataAccounts.Count(), 0);
+            Assert.AreEqual(0, viewDataCategories!.Count());
+            Assert.AreEqual(viewDataAccounts!.Count(), 0);
         }
 
         [TestCategory("PayingItemControllerTests")]
@@ -70,12 +69,10 @@ namespace WebUI.Core.Tests.Controllers
             target.ModelState.AddModelError("", "");
 
             var result = await target.Add(new WebUser(), new PayingItemModel() { PayingItem = new PayingItem(), Products = new List<Product>() }, 1);
-            var viewDataCategories = ((PartialViewResult)result).ViewData["Categories"] as IEnumerable<Category>;
-            var viewDataAccounts = ((PartialViewResult)result).ViewData["Accounts"] as IEnumerable<Account>;
             var model = ((PartialViewResult)result).ViewData.Model as PayingItemModel;
 
             Assert.IsInstanceOfType(result, typeof(PartialViewResult));            
-            Assert.IsNotNull(model.PayingItem);
+            Assert.IsNotNull(model!.PayingItem);
         }
 
         [TestMethod]
@@ -123,12 +120,11 @@ namespace WebUI.Core.Tests.Controllers
         [TestCategory("PayingItemControllerTests")]
         public async Task Edit_CannotGetPayingItemEditViewModel_ReturnsRedirectToListAjax()
         {
-            PayingItemEditModel viewModel = null;
-            _payingItemEditViewModelCreatorMock.Setup(x => x.CreateViewModel(It.IsAny<int>())).ReturnsAsync(viewModel);
+            _payingItemEditViewModelCreatorMock.Setup(x => x.CreateViewModel(It.IsAny<int>())).ReturnsAsync((PayingItemEditModel)null);
             var target = new PayingItemController(_payingItemServiceMock.Object, _categoryServiceMock.Object, _accountServiceMock.Object, null, _payingItemEditViewModelCreatorMock.Object, null);
 
             var result = await target.Edit(new WebUser() { Id = "1" }, 1, 5);
-            var routeActionName = (result as RedirectToActionResult).ActionName;
+            var routeActionName = ((RedirectToActionResult)result).ActionName;
 
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
             Assert.AreEqual("ListAjax", routeActionName);
@@ -204,7 +200,7 @@ namespace WebUI.Core.Tests.Controllers
             var result = await target.List(new WebUser() { Id = "1" });
             var viewModel = ((PartialViewResult)result).Model as PayingItemsListWithPaginationModel;
 
-            Assert.IsTrue(viewModel.PayingItems.Count() == 3);
+            Assert.IsTrue(viewModel!.PayingItems.Count() == 3);
         }
 
         [TestMethod]
@@ -214,7 +210,7 @@ namespace WebUI.Core.Tests.Controllers
             var dateMinusTwoDays = DateTime.Today - TimeSpan.FromDays(2);
             var dateMinusOneDay = DateTime.Today - TimeSpan.FromDays(1);
             var userId = "1";
-            var itemList = new PayingItem[]
+            var itemList = new []
             {
                     new PayingItem()
                     {
@@ -245,7 +241,7 @@ namespace WebUI.Core.Tests.Controllers
             var result = await target.List(new WebUser() { Id = "1" }, 2);
             var viewModel = ((PartialViewResult)result).Model as PayingItemsListWithPaginationModel;
 
-            Assert.AreEqual(2, viewModel.PayingItems.Count());
+            Assert.AreEqual(2, viewModel!.PayingItems.Count());
         }
 
         [TestMethod]
@@ -256,7 +252,7 @@ namespace WebUI.Core.Tests.Controllers
             _categoryServiceMock.Setup(x => x.GetList()).Returns(new List<Category>());
             _categoryServiceMock.Setup(x => x.GetItemAsync(It.IsAny<int>())).ReturnsAsync(new Category() { TypeOfFlowID = 1 });
             var target = new PayingItemController(null, _categoryServiceMock.Object, _accountServiceMock.Object, null, null, null);
-            var pItemEditModel = new PayingItemEditModel() { PayingItem = new PayingItem() { } };
+            var pItemEditModel = new PayingItemEditModel() { PayingItem = new PayingItem() };
             target.ModelState.AddModelError("error", "error");
 
             var result = await target.Edit(new WebUser() { Id = "1" }, pItemEditModel);
