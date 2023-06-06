@@ -1,0 +1,22 @@
+﻿<div class="well">
+    <form method="post" asp-action="GetByDatesReport" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody" 
+          ajax-url="@Url.Action("GetByDatesReport")" ajax-method="POST">
+        <div>
+            <div class="form-group">
+                <label>Начальная дата:</label>
+                <input name="DtFrom" id="DtFrom" value="@DateTime.Today.ToShortDateString()" onclick="clickDtFrom()" class="datepicker form-control" />
+            </div>
+            <div class="form-group">
+                <label>Конечная дата:</label>
+                <input name="DtTo" id="DtTo" value="@DateTime.Today.ToShortDateString()" onclick="clickDtTo()" class="datepicker form-control" />
+            </div>            
+        </div>
+        <p>
+            <input type="submit" value="Сформировать" class="btn btn-success btn-raised" />
+        </p>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(clickDtFrom);
+    $(document).ready(clickDtTo);
+</script>

@@ -8,8 +8,8 @@
         /// <summary>
         /// Получает список ip адресов из входной строки
         /// </summary>
-        /// <param name="ipAdresses">Список ip через запятую в виде строки</param>
+        /// <param name="ipAddresses">Список ip через запятую в виде строки</param>
         /// <returns>Список ip через запятую в виде строки</returns>
-        string GetIpAddresses(string ipAdresses);
+        string GetIpAddresses(string ipAddresses);
     }
 }

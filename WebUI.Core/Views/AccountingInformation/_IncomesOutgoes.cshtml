@@ -1,0 +1,18 @@
+﻿@model BudgetModel
+<div class="@(Model.TypeOfFlow == "Доход" ? "panel panel-success" : "panel panel-danger")">
+    <div class="panel-heading">@Model.TypeOfFlow</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Месяц</th>
+            <td>@Model.Month.ToString("c")</td>
+        </tr>
+        <tr>
+            <th>Неделя</th>
+            <td>@Model.Week.ToString("c")</td>
+        </tr>
+        <tr>
+            <th>День</th>
+            <td>@Model.Day.ToString("c")</td>
+        </tr>
+    </table>
+</div>

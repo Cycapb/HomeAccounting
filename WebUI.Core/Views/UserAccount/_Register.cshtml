@@ -1,0 +1,67 @@
+﻿@model RegisterModel
+@{
+    var errors = ViewContext.ViewData.ModelState.Values.Any(x => x.Errors.Any());
+}
+<script type="text/javascript">
+    var hasErrors = @errors.ToString().ToLower() === true ? true : false;
+</script>
+<div class="card card-signup">
+    <form asp-action="Register" method="post" data-ajax="true" data-ajax-update="#loginFormContainer"
+          data-ajax-mode="replace" data-ajax-url="@Url.Action("Register")"
+          data-ajax-success="checkForErrorsAndRedirect" data-ajax-begin="showPopupLogin" asp-antiforgery="true">
+        <div class="header header-primary text-center">
+            <h4>Регистрация</h4>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="content">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">face</i>
+                </span>
+                <div class="label-floating form-group">
+                    <label asp-for="Login" class="control-label"></label>
+                    <input asp-for="Login" class="form-control" />
+                    <div><span class="text-danger" asp-validation-for="Login"></span></div>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">email</i>
+                </span>
+                <div class="label-floating form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <div><span class="text-danger" asp-validation-for="Email"></span></div>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">lock_outline</i>
+                </span>
+                <div class="label-floating form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <div><span class="text-danger" asp-validation-for="Password"></span></div>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">lock_outline</i>
+                </span>
+                <div class="label-floating form-group">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <div><span class="text-danger" asp-validation-for="ConfirmPassword"></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer text-center">
+            <input type="submit" value="Зарегистрироваться" class="btn btn-simple btn-primary btn-lg" />
+            <a asp-action="Login" asp-action-returnUrl="@ViewBag.ReturnUrl" data-ajax="true" data-ajax-mode="replace"
+               data-ajax-update="#loginFormContainer" class="btn btn-simple btn-primary btn-lg" data-ajax-url="@Url.Action("Login", new { returnUrl = ViewBag.ReturnUrl })">Отмена</a>
+        </div>
+    </form>
+</div>
+
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+<script src="~/assets/js/material-kit.js" asp-append-version="true"></script>

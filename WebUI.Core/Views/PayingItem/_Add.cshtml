@@ -1,0 +1,70 @@
+﻿@model PayingItemModel
+@{
+    List<Category> catList = ViewBag.Categories;
+    List<Account> accList = ViewBag.Accounts;
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">Добавление транзакции</div>
+
+    <form method="POST" asp-action="Add" asp-antiforgery="true" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+          data-ajax-method="post" data-ajax-success="updateAfterAccountChange" data-ajax-url="@Url.Action("Add")">
+        <div class="panel-body">
+            <input asp-for="PayingItem.UserId" type="hidden" />
+            <div class="form-group">
+                <label>Категория:</label>
+                <select asp-for="PayingItem.CategoryID" asp-items="@catList.Select(x => new SelectListItem() { Text = x.Name, Value = x.CategoryID.ToString() })"
+                        class="selectpicker" onchange="changeCategoryAdd()">
+                </select>
+            </div>
+            <div id="subcategoriesDiv" hidden="hidden"></div>
+            <div class="form-group" id="divPayingItemSum">
+                <label>Сумма:</label>
+                <input asp-for="PayingItem.Summ" id="sumInput" class="form-control" />
+                <div><span asp-validation-for="PayingItem.Summ" class="text-danger"></span></div>
+            </div>
+            <div class="form-group">
+                <label>Счет:</label>
+                <select asp-for="PayingItem.AccountID" asp-items="@accList.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString()})"
+                        class="selectpicker">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Дата:</label>
+                <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
+                <div><span asp-validation-for="PayingItem.Date"></span></div>
+            </div>
+
+            <div class="form-group">
+                <label>Комментарий:</label>
+                <textarea asp-for="PayingItem.Comment" class="form-control"></textarea>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Добавить" class="btn btn-success btn-raised btn-sm" />
+            <a asp-action="List" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("List")" class="btn btn-default btn-raised btn-sm">
+                Назад
+            </a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function changeCategoryAdd() {
+        var id = $('#PayingItem_CategoryID').val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetSubCategories")/' + id,
+            success: function (data) {
+                $('#subcategoriesDiv').replaceWith(data);
+                $('#divProducts').attr('hidden', true);
+                $('#divPayingItemSum').removeAttr('hidden');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+        clickDate();
+    });
+</script>

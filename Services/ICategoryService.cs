@@ -18,13 +18,13 @@ namespace Services
         /// </summary>
         /// <param name="id">CategoryId</param>
         /// <returns>If there are any subcategories for current category</returns>
-        Task<bool> HasDependencies(int id);
+        Task<bool> HasDependenciesAsync(int id);
 
         /// <summary>
         /// Returns active user's categories
         /// </summary>
         /// <param name="userId">UserId</param>
         /// <returns>Task which returns enumeration of user's categories</returns>
-        Task<IEnumerable<Category>> GetActiveGategoriesByUser(string userId);
+        Task<IEnumerable<Category>> GetActiveGategoriesByUserAsync(string userId);
     }
 }

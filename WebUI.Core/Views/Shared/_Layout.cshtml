@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="~/assets/img/favicon.png">
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/css/material-kit.css" />
+    <link rel="stylesheet" href="~/content/error-styles.css" />
+    <link rel="stylesheet" href="~/content/site.css" />
+    <link rel="stylesheet" asp-href-include="~/lib/bootstrap-select/dist/**/*.min.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    <script asp-src-include="~/lib/jquery/dist/**/*.min.js" asp-src-exclude="**.slim.**"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script asp-src-include="~/lib/jquery-ajax-unobtrusive/*.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/material.min.js"></script>
+    <script src="~/assets/js/material-kit.js"></script>
+    <script src="~/assets/js/bootstrap-datepicker.js"></script>
+    <script src="~/lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script src="~/lib/jquery-blockui/jquery.blockUI.js"></script>
+    <script src="~/scripts/buttons.js"></script>
+    <script src="~/scripts/calendar.js"></script>
+    <script src="~/scripts/change-button-color.js"></script>
+    <script src="~/scripts/payingitem.js"></script>
+    <script src="~/scripts/update-main-page.js"></script>
+    <script src="~/scripts/loader.js"></script>
+    <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+</head>
+<body>
+<div id="payingItemMainBody">
+    @RenderBody()
+</div>
+</body>
+</html>

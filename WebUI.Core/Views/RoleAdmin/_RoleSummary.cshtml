@@ -1,0 +1,32 @@
+﻿@model RoleModel
+
+<tr>
+    <td>@Model.Name</td>
+    <td>
+        @if (Model.Users == null || Model.Users.Count == 0)
+        {
+            @: Нет пользователей
+        }
+        else
+        {
+            foreach (var user in Model.Users)
+            {
+                <p>
+                    @user.Name
+                </p>
+            }
+        }
+    </td>
+    <td>
+        <form asp-antiforgery="true" asp-action="Delete" method="post" asp-route-id="@Model.Id"
+              ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection"
+              ajax-url="@Url.Action("Delete", new { id = @Model.Id })"
+              ajax-method="post">
+            <a asp-action="Edit" class="btn btn-success btn-raised btn-xs" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#adminSection"
+               ajax-url="@Url.Action("Edit", new {id = Model.Id})">
+                Редактировать
+            </a>
+            <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+        </form>
+    </td>
+</tr>

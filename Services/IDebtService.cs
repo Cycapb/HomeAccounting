@@ -10,6 +10,8 @@ namespace Services
     {
         IEnumerable<Debt> GetOpenUserDebts(string userId);
 
+        Task<IEnumerable<Debt>> GetOpenUserDebtsAsync(string userId);
+
         Task DeleteAsync(int id);
     }
 }

@@ -9,7 +9,6 @@ namespace DomainModels.Model
     [Table("PayingItem")]
     public partial class PayingItem
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PayingItem()
         {
             PayingItemProducts = new HashSet<PayingItemProduct>();
@@ -22,12 +21,12 @@ namespace DomainModels.Model
         public int CategoryID { get; set; }
 
         [Column(TypeName = "money")]
-
         [Required(ErrorMessage = "Необходимо ввести сумму")]
         [Display(Name = "Сумма")]
         [DataType(DataType.Currency)]
         public decimal Summ { get; set; }
 
+        [UIHint("text")]
         [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Необходимо указать дату")]
@@ -40,7 +39,7 @@ namespace DomainModels.Model
         public string Comment { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(50)]        
         public string UserId { get; set; }
 
         public virtual Account Account { get; set; }

@@ -1,0 +1,21 @@
+﻿@model ReportMenu
+
+@foreach (var item in Model.Items)
+{
+    if (item.Id != 3)
+    {
+        <a asp-action="CreateByTypeOfFlowView" asp-controller="Report" asp-route-typeOfFlowId="@item.Id" class="btn btn-block btn-raised btn-default"
+           id="@item.Id.ToString()" , onclick="changeButtonColor(this.id)" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+           ajax-url="@Url.Action("CreateByTypeOfFlowView", "Report", new { typeOfFlowId = item.Id })">
+            @item.Name
+        </a>
+    }
+    else
+    {
+        <a asp-action="CreateByDatesView" asp-controller="Report" class="btn btn-block btn-raised btn-default"
+           id="@item.Id.ToString()" , onclick="changeButtonColor(this.id)" ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#reportPanelBody"
+           ajax-url="@Url.Action("CreateByDatesView", "Report")">
+            @item.Name
+        </a>
+    }
+}

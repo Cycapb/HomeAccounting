@@ -1,0 +1,24 @@
+﻿<cache expires-sliding="@TimeSpan.FromSeconds(120)" vary-by-user="true">
+    @await Component.InvokeAsync(typeof(MainBar))
+</cache>
+<div class="container">
+    <div class="col-xs-2">
+        @await Component.InvokeAsync(typeof(ReportNavigationMenu))
+    </div>
+    <div class="col-xs-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Отчеты</div>
+            <div id="reportPanelBody" class="panel-body"></div>
+        </div>
+        <div>
+            <a asp-controller="PayingItem" asp-action="MainPage" class="btn btn-default btn-raised btn-sm pull-right"
+               ajax-enable="true" ajax-mode="replace" ajax-update-element-id="#payingItemMainBody" ajax-success="hidePopup" ajax-begin="showPopupLogin"
+               ajax-url="@Url.Action("MainPage", "PayingItem")">
+                На главную
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        @await Component.InvokeAsync(typeof(ReportOverallLastYearByMonths))
+    </div>
+</div>

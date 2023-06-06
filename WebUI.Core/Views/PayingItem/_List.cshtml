@@ -1,0 +1,23 @@
+﻿@model PayingItemsListWithPaginationModel
+
+<div class="panel panel-primary" >
+    <div class="panel-heading">Список транзакций за последние 2 дня:</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Дата</th>
+            <th>Категория</th>
+            <th>Счет</th>
+            <th>Сумма</th>
+            <th class="hidden-xs">Описание</th>
+            <th class="hidden-xs">Действия</th>
+        </tr>
+        <tbody id="payingTable">
+            @await Html.PartialAsync("_PayingItems", Model.PayingItems)
+        </tbody>
+    </table>
+</div>
+
+<div class="pager">
+    @await Html.PartialAsync("_PageLinks", Model.PagingInfo)
+</div>
+

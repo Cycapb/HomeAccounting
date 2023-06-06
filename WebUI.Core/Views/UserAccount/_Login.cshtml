@@ -1,0 +1,52 @@
+﻿@model LoginModel
+@{
+    var errors = ViewContext.ViewData.ModelState.Values.Any(x => x.Errors.Any());
+}
+<script type="text/javascript">
+    var hasErrors = @errors.ToString().ToLower() === true ? true : false;
+</script>
+<div class="card card-signup">
+    <form method="post" asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" asp-antiforgery="true"
+          data-ajax="true" data-ajax-mode="replace" data-ajax-update="#loginFormContainer" data-ajax-url="@Url.Action("Login", new { returnUrl = ViewBag.ReturnUrl })"
+          data-ajax-success="checkForErrorsAndRedirect" data-ajax-begin="showPopupLogin">
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+        <div class="header header-primary text-center">
+            <h4>Авторизация</h4>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="content">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">face</i>
+                </span>
+                <div class="label-floating form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <div><span asp-validation-for="Name" class="text-danger"></span></div>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="material-icons">lock_outline</i>
+                </span>
+                <div class="label-floating form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <div><span asp-validation-for="Password" class="text-danger"></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer text-center">
+            <input type="submit" value="Войти" class="btn btn-simple btn-primary btn-lg" id="loginButton" />
+            <a asp-action="LoginDemo" data-ajax="true" data-ajax-mode="replace" data-ajax-begin="showPopupLogin" data-ajax-success="checkForErrorsAndRedirect"
+               data-ajax-method="POST" data-ajax-update="#loginFormContainer" data-ajax-url="@Url.Action("LoginDemo")" class="btn btn-simple btn-primary btn-lg">Демо-вход</a>
+            <div style="text-align: center">
+                <a asp-action="Register" asp-route-returnUrl="@ViewBag.ReturnUrl" data-ajax="true" data-ajax-mode="replace" 
+                   data-ajax-update="#loginFormContainer" data-ajax-url="@Url.Action("Register", new { returnUrl = ViewBag.ReturnUrl })" class="btn btn-simple btn-primary btn-lg">Зарегистрироваться</a>
+                </div>
+            </div>
+    </form>
+</div>
+
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+<script src="~/assets/js/material-kit.js" asp-append-version="true"></script>

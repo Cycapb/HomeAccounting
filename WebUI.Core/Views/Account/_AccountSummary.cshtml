@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Account>
+<tbody>
+@foreach (var acc in Model)
+{
+    <tr>
+        <td>
+            @acc.AccountName
+        </td>
+        <td>
+            @acc.Cash.ToString("C")
+        </td>
+        <td>
+            <form asp-action="Delete" asp-route-id="@acc.AccountID" asp-antiforgery="true" method="post"
+                  data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Delete", new { id = acc.AccountID })"
+                  data-ajax-success="updateAfterTransferMoneyOrAddAccount" data-ajax-method="post">
+                <a asp-action="Edit" asp-route-id="@acc.AccountID" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Edit", new { id = acc.AccountID })"
+                   class="btn btn-warning btn-raised btn-xs">Редактировать</a>
+                <input type="submit" value="Удалить" class="btn btn-danger btn-raised btn-xs" />
+            </form>
+        </td>
+    </tr>
+}
+</tbody>

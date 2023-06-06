@@ -1,0 +1,144 @@
+﻿@model PayingItemEditModel
+@{
+    List<Category> catList = ViewBag.Categories;
+    List<Account> accList = ViewBag.Accounts;
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">Редактирование транзакции</div>
+    <form method="post" asp-action="Edit" asp-antiforgery="true" data-ajax="true" data-ajax-method="post" data-ajax-update="#payingDiv" data-ajax-success="updateAfterAccountChange"
+          data-ajax-mode="replace" data-ajax-url="@Url.Action("Edit")">
+        <div class="panel-body">
+            <div class="form-group">
+                <input asp-for="PayingItem.ItemID" type="hidden" />
+                <input asp-for="PayingItem.UserId" type="hidden" />
+                <label>Категория:</label>
+                <select asp-for="PayingItem.CategoryID" asp-items="@catList.Select(x => new SelectListItem() { Text = x.Name, Value = x.CategoryID.ToString() })" class="selectpicker" , onchange="changeCategoryEdit()"></select>
+            </div>
+            @if ((Model.ProductsInItem?.Count ?? 0) > 0)
+            {
+                <div class="form-group" id="subcategoriesDiv">
+                    <table class="table table-striped" id="productsEditTable">
+                        <tr>
+                            <th></th>
+                            <th>Наименование</th>
+                            <th>Описание</th>
+                            <th>Цена</th>
+                        </tr>
+
+                        @for (int i = 0; i < Model.ProductsInItem?.Count; i++)
+                        {
+                            <input asp-for="ProductsInItem[i].UserID" type="hidden" />
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" checked="checked" name="ProductsInItem[@i].ProductID" value="@Model.ProductsInItem[i].ProductID" />
+                                            <span class="checkbox-material">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Model.ProductsInItem[i].ProductName
+                                    <input asp-for="ProductsInItem[i].ProductName" type="hidden" />
+                                </td>
+                                <td>
+                                    @Model.ProductsInItem[i].Description
+                                </td>
+                                <td>
+                                    <input asp-for="ProductsInItem[i].Price" class="form-control" />
+                                </td>
+                            </tr>
+                        }
+                        @for (int i = 0; i < Model.ProductsNotInItem?.Count; i++)
+                        {
+                            <input asp-for="ProductsNotInItem[i].UserID" type="hidden" />
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ProductsNotInItem[@i].ProductID" value="@Model.ProductsNotInItem[i].ProductID" />
+                                            <span class="checkbox-material">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Model.ProductsNotInItem[i].ProductName
+                                    <input asp-for="ProductsNotInItem[i].ProductName" type="hidden" />
+                                </td>
+                                <td>
+                                    @Model.ProductsNotInItem[i].Description
+                                </td>
+                                <td>
+                                    <input asp-for="ProductsNotInItem[i].Price" class="form-control" />
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div id="subcategoriesDiv" hidden="hidden"></div>
+            }
+
+            <div class="form-group" id="divPayingItemSum">
+                <label>Сумма:</label>
+                <input asp-for="PayingItem.Summ" id="sumInput" class="form-control" />
+                <div><span asp-validation-for="PayingItem.Summ" class="text-danger"></span></div>
+            </div>
+
+            <div class="form-group">
+                <label>Счет:</label>
+                <select asp-for="PayingItem.AccountID" asp-items="@accList.Select(x => new SelectListItem() { Text = x.AccountName, Value = x.AccountID.ToString() })" class="selectpicker"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Дата:</label>
+                <input asp-for="PayingItem.Date" onclick="clickDate()" class="datepicker form-control" />
+                <div><span asp-validation-for="PayingItem.Date"></span></div>
+            </div>
+
+            <div class="form-group">
+                <label>Комментарий:</label>
+                <textarea asp-for="PayingItem.Comment" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить изменения" class="btn btn-success btn-raised btn-sm" />
+            <a asp-action="List" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax="true" data-ajax-url="@Url.Action("List")"
+               class="btn btn-default btn-raised btn-sm">Назад</a>
+        </div>
+    </form>
+</div>
+
+@if ((Model.ProductsInItem?.Count ?? 0) > 0)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#divPayingItemSum').attr('hidden', true);
+        });
+    </script>
+}
+<script type="text/javascript">
+    function changeCategoryEdit() {
+        var id = $('#PayingItem_CategoryID').val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetSubCategoriesForEdit")/' + id,
+            success: function(data) {
+                $('#subcategoriesDiv').replaceWith(data);
+                $('#divProducts').attr('hidden', true);
+                $('#PayingItem_Comment').val('');
+            }
+        });
+    };
+
+    $(document).ready(function() {
+        $('.selectpicker').selectpicker();
+        clickDate();
+    });
+</script>

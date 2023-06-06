@@ -1,0 +1,43 @@
+﻿@model OrderDetailModel
+
+<div class="pull-right">
+    <form asp-action="Add" method="post" asp-antiforgery="true" ajax-enable="true" ajax-mode="replace" ajax-method="post"
+          ajax-update-element-id="#orderDetailDiv" ajax-url="@Url.Action("Add")" class="form-inline">
+        <input type="hidden" name="OrderDetail.OrderId" id="OrderDetail_OrderId" value="@Model.OrderId"/>
+        <div class="form-group">
+            <label>Категория</label>
+            @Html.DropDownListFor(x => x.Categories, Model.Categories.Select(x => new SelectListItem()
+              {
+                  Text = x.Name,
+                  Value = x.CategoryID.ToString()
+              }), new { @class = "selectpicker" })
+        </div>
+        <div class="form-group" id="OrderDetail">
+            <label>Подкатегории</label>
+            <select name="OrderDetail.ProductId" id="OrderDetail.ProductId" asp-items="@Model.Products.Select(x => new SelectListItem() { Text = x.ProductName, Value = x.ProductID.ToString() })"
+                    class="selectpicker"></select>
+        </div>
+        <input type="submit" value="Добавить" class="btn btn-raised btn-success btn-xs" />
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            $('.selectpicker').selectpicker();
+        });
+
+    $(function () {
+        $('#Categories')
+            .change(function () {
+                var id = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubCategories")/' + id,
+                    success: function (data) {
+                        $('#OrderDetail').replaceWith(data);
+                    }
+                });
+            });
+    });
+</script>

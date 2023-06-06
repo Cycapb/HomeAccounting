@@ -1,0 +1,10 @@
+﻿<div class="navbar navbar-info text-center">
+    <form method="post" asp-action="Logout" asp-controller="UserAccount" asp-antiforgery="true">
+        <h3>
+            Добро пожаловать, <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-url="@Url.Action("ViewCredentials", "UserAccount")" href="@Url.Action("ViewCredentials", "UserAccount")">@ViewContext.HttpContext.User.Identity.Name</a>
+            <span class="pull-right">
+                <input type="submit" value="Выход" class="btn btn-raised btn-danger btn-xs" />
+            </span>
+        </h3>
+    </form>
+</div>

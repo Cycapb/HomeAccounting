@@ -1,0 +1,43 @@
+﻿<div class="panel panel-info well">
+    <div style="text-align: center">
+        Добавить <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Add", "PayingItem", new { typeOfFlowId = 1 })"
+                    asp-action="Add" asp-controller="PayingItem" asp-route-typeOfFlowId="1">доходную</a>
+        или <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Add", "PayingItem", new { typeOfFlowId = 2 })"
+               asp-action="Add" asp-controller="PayingItem" asp-route-typeOfFlowId="2">расходную</a> транзакции
+    </div>
+    <ul class="list-inline text-center">
+        <li class="hidden-xs">
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-begin="showPopupLogin" data-ajax-success="hidePopup"
+               data-ajax-complete="hidePopup" data-ajax-update="#payingDiv" data-ajax-url="@Url.Action("Index", "Category")" asp-controller="Category">Категории</a>
+        </li>
+        <li>
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+               data-ajax-url="@Url.Action("Index", "Account")" asp-controller="Account">Счета</a>
+        </li>
+        <li>
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+               data-ajax-url="@Url.Action("TransferMoney", "Account")" asp-controller="Account" asp-action="TransferMoney">Перевод денег</a>
+        </li>
+        <li class="hidden-xs">
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-begin="showPopupLogin"
+               data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Index", "Report")" asp-controller="Report">Отчеты</a>
+        </li>
+        @*<li class="hidden-xs">
+                <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-begin="showPopupLogin"
+                   data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Prepare", "Planing")" asp-controller="Planing" asp-action="Prepare">Планирование</a>
+            </li>*@
+        @if (ViewContext.HttpContext.User.IsInRole("Administrators"))
+        {
+            <li class="hidden-xs">
+                <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingItemMainBody" data-ajax-begin="showPopupLogin"
+                   data-ajax-success="hidePopup" data-ajax-complete="hidePopup" data-ajax-url="@Url.Action("Index", "AdminSection")" asp-controller="AdminSection">
+                    Администрирование
+                </a>
+            </li>
+        }
+        <li>
+            <a class="btn btn-raised btn-info btn-round" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#payingDiv"
+               data-ajax-url="@Url.Action("Index", "Order")" asp-controller="Order">Список покупок</a>
+        </li>
+    </ul>
+</div>
