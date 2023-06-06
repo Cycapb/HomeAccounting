@@ -72,11 +72,12 @@ namespace WebUI.Core.Controllers
                     _cache.Set(cachedCategoriesKey, categories, TimeSpan.FromSeconds(60));
                 }
 
+                var categoriesList = categories.ToList();
                 var model = new OrderDetailModel()
                 {
                     OrderId = id,
-                    Categories = categories,
-                    Products = categories.FirstOrDefault()?.Products ?? new List<Product>()
+                    Categories = categoriesList,
+                    Products = categoriesList.FirstOrDefault()?.Products ?? new List<Product>()
                 };
 
                 return PartialView("_Add", model);

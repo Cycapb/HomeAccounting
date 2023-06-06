@@ -24,7 +24,8 @@ namespace WebUI.Core.Controllers
         private readonly IReportModelCreator _reportModelCreator;
         private readonly IPageCreator _pageCreator;
 
-        public ReportController(IPayItemSubcategoriesHelper payItemSubcategoriesHelper,
+        public ReportController(
+            IPayItemSubcategoriesHelper payItemSubcategoriesHelper,
             IReportControllerHelper reportControllerHelper,
             IReportModelCreator reportModelCreator,
             IPageCreator pageCreator)
@@ -83,8 +84,8 @@ namespace WebUI.Core.Controllers
             try
             {
                 var reportModel = _reportModelCreator.CreateByDatesReportModel(user, dtFrom, dtTo, page);
-                ViewBag.OutgoSum = GetSummOfItems(reportModel.AllItems, 2);
-                ViewBag.IncomingSum = GetSummOfItems(reportModel.AllItems, 1);
+                ViewBag.OutgoSum = GetSumOfItems(reportModel.AllItems, 2);
+                ViewBag.IncomingSum = GetSumOfItems(reportModel.AllItems, 1);
                 ViewBag.PageCreator = _pageCreator;
 
                 return PartialView("_GetByDatesReport", reportModel);
@@ -168,11 +169,11 @@ namespace WebUI.Core.Controllers
 
         private DateTime EndDateFromDate(DateTime date)
         {
-            var daysInmonth = DateTime.DaysInMonth(date.Year, date.Month);
-            return date + TimeSpan.FromDays(daysInmonth - 1);
+            var daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
+            return date + TimeSpan.FromDays(daysInMonth - 1);
         }
 
-        private decimal GetSummOfItems(List<PayItem> list, int typeOfFlowId)
+        private decimal GetSumOfItems(List<PayItem> list, int typeOfFlowId)
         {
             return list
                 .Where(x => x.TypeOfFlowId == typeOfFlowId)
