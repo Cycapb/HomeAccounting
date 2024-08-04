@@ -28,10 +28,10 @@ namespace WebUI.Core.Infrastructure.Migrators
             context.SaveChanges();
         }
 
-        public static async Task MigrateIdentityDatabaseAndSeed(IApplicationBuilder app)
+        public static async Task MigrateIdentityDatabaseAndSeedAsync(IApplicationBuilder app)
         {
             var context = app.ApplicationServices.GetRequiredService<AccountingIdentityDbContext>();
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
 
             await CreateUser(app, AdminRole, "Admin", "admin@local.com", "23we45rt");
             await CreateUser(app, UserRole, "Demo", "demo@mail.ru", "12qw34er");
