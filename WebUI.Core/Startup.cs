@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Threading.Tasks;
 using WebUI.Core.Configuration;
 using WebUI.Core.Infrastructure.Filters;
 using WebUI.Core.Infrastructure.Identity;
@@ -59,8 +60,8 @@ namespace WebUI.Core
             {
                 options.Filters.AddService<CustomErrorFilter>();
                 options.EnableEndpointRouting = false;
-                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => $"Необходимо ввести значение");
-                options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"{x} некорректное значения для этого поля");
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+                options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"{x} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
             });
 
             services.AddMemoryCache();
@@ -95,7 +96,7 @@ namespace WebUI.Core
                     diagnosticContext.Set("RequestMethod", httpContext.Request.Method);
                     diagnosticContext.Set("RequestPath", httpContext.Request.Path);
                     diagnosticContext.Set("SessionId", httpContext.Session.Id);
-                    diagnosticContext.Set("UserName", httpContext.User.Identity.Name);
+                    diagnosticContext.Set("UserName", httpContext.User.Identity?.Name);
                 };
             });
             app.UseAuthentication();
@@ -114,7 +115,9 @@ namespace WebUI.Core
             });
 
             DatabaseMigrator.MigrateDatabaseAndSeed(app);
-            DatabaseMigrator.MigrateIdentityDatabaseAndSeed(app).Wait();
+            Task.Run(async () => await DatabaseMigrator.MigrateIdentityDatabaseAndSeedAsync(app))
+                .GetAwaiter()
+                .GetResult();
         }
 
         private void InitializeSerilog(IServiceProvider serviceProvider)
