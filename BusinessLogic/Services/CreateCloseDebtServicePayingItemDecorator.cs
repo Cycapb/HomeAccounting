@@ -1,11 +1,11 @@
-﻿using DomainModels.Model;
-using DomainModels.Repositories;
-using Services;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModels.Model;
+using DomainModels.Repositories;
+using Services;
 
-namespace BussinnessLogic.Services
+namespace BusinessLogic.Services
 {
     public class CreateCloseDebtServicePayingItemDecorator : ICreateCloseDebtService
     {

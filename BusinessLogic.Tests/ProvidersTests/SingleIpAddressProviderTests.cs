@@ -1,5 +1,4 @@
-﻿using System;
-using BusinessLogic.Providers;
+﻿using BusinessLogic.Providers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Exceptions;
 

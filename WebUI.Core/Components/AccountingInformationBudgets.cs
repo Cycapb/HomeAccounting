@@ -1,5 +1,4 @@
-﻿using DomainModels.Model;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Exceptions;
 using System;
 using System.Threading.Tasks;

@@ -7,7 +7,7 @@ using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
 
-namespace BussinnessLogic.Services
+namespace BusinessLogic.Services
 {
     public class TypeOfFlowService:ITypeOfFlowService
     {

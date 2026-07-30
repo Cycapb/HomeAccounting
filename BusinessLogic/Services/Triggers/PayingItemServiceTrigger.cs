@@ -5,7 +5,7 @@ using Services;
 using Services.Exceptions;
 using Services.Triggers;
 
-namespace BussinnessLogic.Services.Triggers
+namespace BusinessLogic.Services.Triggers
 {
     public class PayingItemServiceTrigger :IServiceTrigger<PayingItem>
     {

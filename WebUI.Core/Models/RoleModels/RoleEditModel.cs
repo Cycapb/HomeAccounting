@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WebUI.Core.Models.UserModels;
 
 namespace WebUI.Core.Models.RoleModels

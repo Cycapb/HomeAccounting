@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using BussinnessLogic.Services.Triggers;
+﻿using BusinessLogic.Services.Triggers;
 using DomainModels.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

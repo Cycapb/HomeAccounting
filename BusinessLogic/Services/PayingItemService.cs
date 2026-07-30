@@ -1,16 +1,16 @@
-﻿using DomainModels.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using DomainModels.Exceptions;
 using DomainModels.Model;
 using DomainModels.Repositories;
 using Services;
 using Services.Exceptions;
 using Services.Triggers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace BussinnessLogic.Services
+namespace BusinessLogic.Services
 {
     public class PayingItemService : IPayingItemService
     {
